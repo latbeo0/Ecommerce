@@ -1,21 +1,43 @@
 import styled from 'styled-components';
+import { Button } from '../Button';
 
 const Nav = styled.nav`
     max-width: 128rem;
-    padding: 0 3.2rem 0 3.2rem;
+    padding: 0 3.2rem;
     margin-left: auto;
     margin-right: auto;
 `;
 
 const Container = styled.div`
-    border-bottom: 1px solid rgb(229 231 235 / 1);
+    border-bottom: 1px solid rgb(229 231 235);
 `;
 
 const Wrapper = styled.div`
     display: flex;
     align-items: center;
-
-    height: 7rem;
+    height: var(--height-navbar);
 `;
 
-export { Nav, Container, Wrapper };
+const Logo = styled(Button)`
+    & > img {
+        width: 5rem;
+        height: 5rem;
+    }
+
+    & > span {
+        font-size: 1.6rem;
+        font-weight: 700;
+    }
+
+    @media only screen and (max-width: 1024px) {
+        margin-left: 2.4rem;
+    }
+`;
+
+const ButtonToggle = styled(Button).attrs({ type: 'button' })`
+    @media only screen and (min-width: 1025px) {
+        display: none;
+    }
+`;
+
+export { Nav, Container, Wrapper, Logo, ButtonToggle };

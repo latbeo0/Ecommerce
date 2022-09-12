@@ -1,4 +1,3 @@
-import React from 'react';
 import { Announce } from './AnnouncementStyled';
 
 const Announcement = ({ announce }) => {
