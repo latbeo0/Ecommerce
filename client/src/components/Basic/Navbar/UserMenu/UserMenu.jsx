@@ -58,6 +58,7 @@ const UserMenu = () => {
                             width: '2.4rem',
                             height: '2.4rem',
                         }}
+                        git
                     >
                         <path
                             strokeLinecap='round'
