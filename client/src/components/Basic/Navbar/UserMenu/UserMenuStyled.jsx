@@ -27,6 +27,7 @@ const Separate = styled.span`
 
 const WrapperLanguage = styled.div`
     display: none;
+    height: 100%;
 
     @media only screen and (min-width: 1025px) {
         display: flex;
@@ -36,6 +37,7 @@ const WrapperLanguage = styled.div`
 
 const WrapperSearch = styled.div`
     display: flex;
+    height: 100%;
 
     @media only screen and (min-width: 1025px) {
         margin-left: 2.4rem;
@@ -44,6 +46,7 @@ const WrapperSearch = styled.div`
 
 const WrapperCart = styled.div`
     display: flex;
+    height: 100%;
     margin-left: 1.6rem;
 
     @media only screen and (min-width: 1025px) {

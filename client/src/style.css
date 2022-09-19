@@ -60,18 +60,6 @@
     --tw-backdrop-sepia: ;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    font-family: 'Roboto', sans-serif;
-    box-sizing: border-box;
-    font-size: 62.5%;
-    border-width: 0;
-    border-style: solid;
-    border-color: #e5e7eb;
-    line-height: inherit;
-}
-
 body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -208,6 +196,7 @@ div {
     transform: translateX(-100%);
     transition: transform 0.3s ease-out;
 }
+
 :root {
     --yellow: linear-gradient(180deg, #f8d49a -146.42%, #fad79d -46.42%);
     --orange: #fca61f;
@@ -219,4 +208,22 @@ div {
     --boxShadow: 0px 19px 60px rgb(0 0 0 / 8%);
     --smboxShadow: -79px 51px 60px rgba(0, 0, 0, 0.08);
     --activeItem: #f799a354;
+
+    /* ======================= Color ======================= */
+
+    /* ===== White ===== */
+    --white-color: rgb(255, 255, 255);
+    --white-color-click: rgba(255, 255, 255, 0.1);
+
+    /* ===== Primary ===== */
+    --primary-color: rgb(25, 118, 210);
+    --primary-color-dark: rgb(21, 101, 192);
+    --primary-color-border: rgba(25, 118, 210, 0.5);
+    --primary-color-click: rgba(25, 118, 210, 0.1);
+    --primary-color-light: rgba(25, 118, 210, 0.04);
+
+    /* ===== Disable ===== */
+    --gray-color: gray;
+    --gray-color-dark: rgba(0, 0, 0, 0.26);
+    --gray-color-light: rgba(0, 0, 0, 0.12);
 }

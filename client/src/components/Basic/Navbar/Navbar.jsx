@@ -9,7 +9,7 @@ const Navbar = (props) => {
         <Nav>
             <Container>
                 <Wrapper>
-                    <ButtonToggle button onClick={() => funcActive()}>
+                    <ButtonToggle onClick={() => funcActive()}>
                         <svg
                             xmlns='http://www.w3.org/2000/svg'
                             fill='none'
