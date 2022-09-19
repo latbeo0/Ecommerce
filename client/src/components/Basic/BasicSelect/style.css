@@ -1,0 +1,67 @@
+.select-container.show {
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25) !important;
+}
+.select-container{
+    cursor: pointer;
+    margin: 10px 0;
+}
+
+.value-container {
+    min-height: 27px;
+    background-color: rgb(245, 245, 245);
+}
+
+.dropdown-menu {
+    max-height: 300px;
+    overflow: auto;
+    padding-top: 0;
+}
+
+.input-container {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+}
+.input-container:focus{
+    background-color: red;
+}
+
+.select-input,
+.select-input:focus,
+.select-input:focus-visible {
+    /* visibility: hidden; */
+    /* width: 0; */
+    border: 0;
+    outline: none;
+    width: auto;
+    max-width: 100%;
+}
+
+
+.indicator {
+    -webkit-align-self: stretch;
+    -ms-flex-item-align: stretch;
+    align-self: stretch;
+    background-color: hsl(0, 0%, 80%);
+    margin-bottom: 8px;
+    margin-top: 8px;
+    width: 1px;
+    box-sizing: border-box;
+}
+
+.btn-remove {
+    z-index: 1;
+}
+
+.top-0 {
+    top: 0;
+}
+
+.form-icon {
+    display: flex;
+}
+.form-icon .btn {
+    color: black;
+}
