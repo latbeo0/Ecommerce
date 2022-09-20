@@ -26,32 +26,19 @@ const Separate = styled.span`
 `;
 
 const WrapperLanguage = styled.div`
-    display: none;
+    display: flex;
     height: 100%;
-
-    @media only screen and (min-width: 1025px) {
-        display: flex;
-        margin-left: 3.2rem;
-    }
 `;
 
 const WrapperSearch = styled.div`
     display: flex;
     height: 100%;
-
-    @media only screen and (min-width: 1025px) {
-        margin-left: 2.4rem;
-    }
 `;
 
 const WrapperCart = styled.div`
     display: flex;
     height: 100%;
-    margin-left: 1.6rem;
-
-    @media only screen and (min-width: 1025px) {
-        margin-left: 2.4rem;
-    }
+    margin-left: 0.8rem;
 `;
 
 export {

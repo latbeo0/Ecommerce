@@ -8,7 +8,6 @@ const Container = styled.a.attrs((props) => ({
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    /* gap: 8px; */
     border-radius: 4px;
 
     ${(props) => {
@@ -116,15 +115,6 @@ const Container = styled.a.attrs((props) => ({
         }
     }};
 
-    overflow: hidden;
-    cursor: ${(props) => (props.disable ? 'default' : 'pointer')};
-    pointer-events: ${(props) => props.disable && 'none'};
-    transition: ${(props) =>
-        props.disable
-            ? 'none'
-            : 'background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;'};
-    position: relative;
-
     ${(props) => {
         switch (props.color) {
             case 'black':
@@ -135,13 +125,19 @@ const Container = styled.a.attrs((props) => ({
                 return css``;
         }
     }}
-`;
 
-const Image = styled.img`
-    flex-shrink: 0;
-    display: block;
-    width: 2rem;
-    height: auto;
+    overflow: hidden;
+    cursor: ${(props) => (props.disable ? 'default' : 'pointer')};
+    pointer-events: ${(props) => props.disable && 'none'};
+    position: relative;
+    transition: ${(props) =>
+        props.disable
+            ? 'none'
+            : 'background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;'};
+
+    & > svg {
+        pointer-events: none;
+    }
 `;
 
 const Content = styled.span`
@@ -222,4 +218,4 @@ const Effect = styled.span`
     }};
 `;
 
-export { Container, Image, Content, Effect };
+export { Container, Content, Effect };

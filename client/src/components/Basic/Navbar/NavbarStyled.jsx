@@ -19,6 +19,8 @@ const Wrapper = styled.div`
 `;
 
 const Logo = styled(Button)`
+    gap: 8px;
+
     & > img {
         width: 5rem;
         height: 5rem;

@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import Icon from '../Icon';
-import { Container, Image, Content, Effect } from './ButtonStyled';
+import { Container, Content, Effect } from './ButtonStyled';
 
 const Button = ({
-    variant = 'text',
-    disable,
     href,
-    img,
-    effect = true,
+    disable,
+    variant = 'text',
     size = 'medium',
     thickness = 'light',
     color,
@@ -15,6 +13,7 @@ const Button = ({
     endIcon,
     content,
     children,
+    effect = false,
     onClick,
     ...other
 }) => {
@@ -58,12 +57,16 @@ const Button = ({
             onClick={handleClick}
             {...other}
         >
-            {img && <Image src={img} alt='' />}
             {startIcon?.img && <Icon img={startIcon.img} slot='start' />}
             {startIcon?.icon && <Icon icon={startIcon.icon} slot='start' />}
 
             {content && (
-                <Content variant={variant} color={color}>
+                <Content
+                    variant={variant}
+                    color={color}
+                    size={size}
+                    thickness={thickness}
+                >
                     {content}
                 </Content>
             )}
