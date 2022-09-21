@@ -13,34 +13,34 @@ const UserMenu = () => {
         <Container>
             <WrapperUser>
                 <Button
-                    href={'#'}
-                    content={'Sign in'}
-                    color='black'
-                    effect={false}
+                    href='#'
+                    content='Sign in'
+                    color='var(--black-color)'
+                    padding='0'
                 />
                 <Separate />
                 <Button
-                    href={'#'}
-                    content={'Create account'}
-                    color='black'
-                    effect={false}
+                    href='#'
+                    content='Create account'
+                    color='var(--black-color)'
+                    padding='0'
                 />
             </WrapperUser>
             <WrapperLanguage>
                 <Button
-                    href={'#'}
+                    href='#'
                     startIcon={{
                         img: 'https://tailwindui.com/img/flags/flag-canada.svg',
                     }}
-                    content={'CAD'}
-                    color='black'
-                    effect={false}
+                    content='CAD'
+                    color='var(--black-color)'
+                    padding='0'
                 />
             </WrapperLanguage>
             <WrapperSearch>
                 <Button
-                    href={'#'}
-                    color='black'
+                    href='#'
+                    color='var(--black-color)'
                     startIcon={{
                         icon: (
                             <svg
@@ -59,14 +59,15 @@ const UserMenu = () => {
                             </svg>
                         ),
                     }}
-                    effect={false}
-                ></Button>
+                    sizeIcon='2rem'
+                    padding='0'
+                />
             </WrapperSearch>
             <WrapperCart>
                 <Button
-                    href={'#'}
-                    content={'0'}
-                    color='black'
+                    href='#'
+                    content='0'
+                    color='var(--black-color)'
                     endIcon={{
                         icon: (
                             <svg
@@ -88,7 +89,8 @@ const UserMenu = () => {
                             </svg>
                         ),
                     }}
-                    effect={false}
+                    sizeIcon='2rem'
+                    padding='0'
                 />
             </WrapperCart>
         </Container>

@@ -23,7 +23,7 @@ const Content = styled.div`
     display: flex;
     transition: all 250ms linear;
     -ms-overflow-style: none; /* hide scrollbar in IE and Edge */
-    scrollbar-width: none; /* hide scrollbar in Firefox */
+    //scrollbar-width: none; /* hide scrollbar in Firefox */
 
     &::-webkit-scrollbar {
         display: none;
@@ -41,6 +41,9 @@ const Arrow = styled.button`
     z-index: 1;
     top: 50%;
     transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 48px;
     height: 48px;
     border-radius: 24px;
@@ -48,6 +51,11 @@ const Arrow = styled.button`
     border: 1px solid #ddd;
     left: ${(props) => props.direction === 'left' && '24px'};
     right: ${(props) => props.direction === 'right' && '24px'};
+
+    & > svg {
+        width: 20pc;
+        height: 20px;
+    }
 
     @media (hover: none) and (pointer: coarse) {
         display: none;

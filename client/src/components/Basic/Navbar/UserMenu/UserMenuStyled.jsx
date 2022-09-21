@@ -28,17 +28,19 @@ const Separate = styled.span`
 const WrapperLanguage = styled.div`
     display: flex;
     height: 100%;
+    margin-left: 3.2rem;
 `;
 
 const WrapperSearch = styled.div`
     display: flex;
     height: 100%;
+    margin-left: 3.2rem;
 `;
 
 const WrapperCart = styled.div`
     display: flex;
     height: 100%;
-    margin-left: 0.8rem;
+    margin-left: 2.4rem;
 `;
 
 export {

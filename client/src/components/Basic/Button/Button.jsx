@@ -7,10 +7,14 @@ const Button = ({
     disable,
     variant = 'text',
     size = 'medium',
-    thickness = 'light',
+    thickness,
+    fontSize,
     color,
+    padding,
     startIcon,
     endIcon,
+    sizeIcon,
+    title,
     content,
     children,
     effect = false,
@@ -54,17 +58,25 @@ const Button = ({
             size={size}
             thickness={thickness}
             color={color}
+            fontSize={fontSize}
+            padding={padding}
             onClick={handleClick}
             {...other}
+            aria-label='button'
         >
-            {startIcon?.img && <Icon img={startIcon.img} slot='start' />}
-            {startIcon?.icon && <Icon icon={startIcon.icon} slot='start' />}
+            {startIcon?.img && (
+                <Icon img={startIcon.img} sizeIcon={sizeIcon} slot='start' />
+            )}
+            {startIcon?.icon && (
+                <Icon icon={startIcon.icon} sizeIcon={sizeIcon} slot='start' />
+            )}
 
             {content && (
                 <Content
                     variant={variant}
                     color={color}
                     size={size}
+                    fontSize={fontSize}
                     thickness={thickness}
                 >
                     {content}
@@ -72,8 +84,12 @@ const Button = ({
             )}
             {children}
 
-            {endIcon?.img && <Icon img={endIcon.img} slot='end' />}
-            {endIcon?.icon && <Icon icon={endIcon.icon} slot='end' />}
+            {endIcon?.img && (
+                <Icon img={endIcon.img} sizeIcon={sizeIcon} slot='end' />
+            )}
+            {endIcon?.icon && (
+                <Icon icon={endIcon.icon} sizeIcon={sizeIcon} slot='end' />
+            )}
 
             {isEffect && (
                 <Effect

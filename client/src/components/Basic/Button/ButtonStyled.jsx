@@ -2,6 +2,7 @@ import styled, { css, keyframes } from 'styled-components';
 
 const Container = styled.a.attrs((props) => ({
     as: !props.href && 'button',
+    type: props.href ? 'link' : 'button',
 }))`
     outline: 0;
     user-select: none;
@@ -14,21 +15,21 @@ const Container = styled.a.attrs((props) => ({
         switch (props.size) {
             case 'small':
                 return css`
-                    font-size: 1.4rem;
-                    font-weight: 300;
-                    padding: 3px 9px;
+                    font-size: ${(props) => props.fontSize || '1.4rem'};
+                    font-weight: ${(props) => props.thickness || '400'};
+                    padding: ${(props) => props.padding || '3px 9px'};
                 `;
             case 'medium':
                 return css`
-                    font-size: 1.5rem;
-                    font-weight: 400;
-                    padding: 5px 15px;
+                    font-size: ${(props) => props.fontSize || '1.5rem'};
+                    font-weight: ${(props) => props.thickness || '500'};
+                    padding: ${(props) => props.padding || '5px 15px'};
                 `;
             case 'large':
                 return css`
-                    font-size: 1.6rem;
-                    font-weight: 500;
-                    padding: 7px 21px;
+                    font-size: ${(props) => props.fontSize || '1.6rem'};
+                    font-weight: ${(props) => props.thickness || '600'};
+                    padding: ${(props) => props.padding || '7px 21px'};
                 `;
             default:
                 return css``;
@@ -60,7 +61,8 @@ const Container = styled.a.attrs((props) => ({
             switch (props.variant) {
                 case 'text':
                     return css`
-                        color: var(--primary-color);
+                        color: ${(props) =>
+                            props.color || 'var(--primary-color)'};
                         background-color: transparent;
 
                         ${(props) =>
@@ -75,8 +77,9 @@ const Container = styled.a.attrs((props) => ({
                     `;
                 case 'contained':
                     return css`
-                        color: var(--white-color);
-                        background: var(--primary-color);
+                        color: ${(props) =>
+                            props.color || 'var(--white-color)'};
+                        background-color: var(--primary-color);
                         box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
                             0px 2px 2px 0px rgb(0 0 0 / 14%),
                             0px 1px 5px 0px rgb(0 0 0 / 12%);
@@ -94,7 +97,8 @@ const Container = styled.a.attrs((props) => ({
                     `;
                 case 'outlined':
                     return css`
-                        color: var(--primary-color);
+                        color: ${(props) =>
+                            props.color || 'var(--primary-color)'};
                         background-color: transparent;
                         border: 1px solid var(--primary-color-border);
 
@@ -115,21 +119,10 @@ const Container = styled.a.attrs((props) => ({
         }
     }};
 
-    ${(props) => {
-        switch (props.color) {
-            case 'black':
-                return css`
-                    color: black;
-                `;
-            default:
-                return css``;
-        }
-    }}
-
-    overflow: hidden;
     cursor: ${(props) => (props.disable ? 'default' : 'pointer')};
     pointer-events: ${(props) => props.disable && 'none'};
     position: relative;
+    overflow: hidden;
     transition: ${(props) =>
         props.disable
             ? 'none'
@@ -141,24 +134,24 @@ const Container = styled.a.attrs((props) => ({
 `;
 
 const Content = styled.span`
-    font-size: 1.4rem;
-    font-weight: 500;
-    /* color: rgb(31 41 55); */
     pointer-events: none;
 
     ${(props) => {
-        switch (props.variant) {
-            case 'text':
+        switch (props.size) {
+            case 'small':
                 return css`
-                    color: var(--primary-color);
+                    font-size: ${(props) => props.fontSize || '1.4rem'};
+                    font-weight: ${(props) => props.thickness || '400'};
                 `;
-            case 'contained':
+            case 'medium':
                 return css`
-                    color: var(--white-color);
+                    font-size: ${(props) => props.fontSize || '1.5rem'};
+                    font-weight: ${(props) => props.thickness || '500'};
                 `;
-            case 'outlined':
+            case 'large':
                 return css`
-                    color: var(--primary-color);
+                    font-size: ${(props) => props.fontSize || '1.6rem'};
+                    font-weight: ${(props) => props.thickness || '600'};
                 `;
             default:
                 return css``;
@@ -166,10 +159,19 @@ const Content = styled.span`
     }}
 
     ${(props) => {
-        switch (props.color) {
-            case 'black':
+        switch (props.variant) {
+            case 'text':
                 return css`
-                    color: black;
+                    color: ${(props) => props.color || 'var(--primary-color)'};
+                    background-color: transparent;
+                `;
+            case 'contained':
+                return css`
+                    color: ${(props) => props.color || 'var(--white-color)'};
+                `;
+            case 'outlined':
+                return css`
+                    color: ${(props) => props.color || 'var(--primary-color)'};
                 `;
             default:
                 return css``;
@@ -192,7 +194,6 @@ const effectClick = keyframes`
 
 const Effect = styled.span`
     position: absolute;
-    /* background: #fff; */
     transform: translate(-50%, -50%);
     pointer-events: none;
     border-radius: 50%;

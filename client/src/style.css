@@ -226,4 +226,9 @@ div {
     --gray-color: gray;
     --gray-color-dark: rgba(0, 0, 0, 0.26);
     --gray-color-light: rgba(0, 0, 0, 0.12);
+
+    /* ===== Black ===== */
+    --black-color: rgb(55 65 81);
+    --black-color-light: rgb(107 114 128);
+    --black-color-drank: rgb(31 41 55);
 }
