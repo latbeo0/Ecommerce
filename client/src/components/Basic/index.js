@@ -6,4 +6,5 @@ export { default as List } from './List';
 export { default as Banner } from './Banner';
 export { default as Carousel } from './Carousel';
 export { default as Card } from './Card';
+export { default as DataGrid } from './DataGrid';
 export { default as Icon } from './Icon';
