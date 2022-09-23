@@ -208,7 +208,8 @@ const Header = () => {
                             <WrapperCloseButton>
                                 <Button
                                     button
-                                    tool={'Close menu'}
+                                    color='var(--black-color)'
+                                    sizeIcon='2.4rem'
                                     onClick={() => setActiveToggle()}
                                 >
                                     <svg

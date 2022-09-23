@@ -7,6 +7,7 @@ import {
     Content,
     Arrow,
 } from './CarouselStyled';
+import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from 'react-icons/md';
 
 const Carousel = (props) => {
     const { children, show, infiniteLoop } = props;
@@ -120,7 +121,7 @@ const Carousel = (props) => {
                 {/* You can alwas change the content of the button to other things */}
                 {(isRepeating || currentIndex > 0) && (
                     <Arrow onClick={prev} direction='left'>
-                        &lt;
+                        <MdKeyboardArrowLeft />
                     </Arrow>
                 )}
                 <ContentWrapper
@@ -145,7 +146,7 @@ const Carousel = (props) => {
                 {/* You can alwas change the content of the button to other things */}
                 {(isRepeating || currentIndex < length - show) && (
                     <Arrow onClick={next} direction='right'>
-                        &gt;
+                        <MdKeyboardArrowRight />
                     </Arrow>
                 )}
             </Wrapper>

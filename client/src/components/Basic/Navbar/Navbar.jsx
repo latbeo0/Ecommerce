@@ -9,7 +9,11 @@ const Navbar = (props) => {
         <Nav>
             <Container>
                 <Wrapper>
-                    <ButtonToggle button onClick={() => funcActive()}>
+                    <ButtonToggle
+                        onClick={() => funcActive()}
+                        color='var(--black-color)'
+                        sizeIcon='2.4rem'
+                    >
                         <svg
                             xmlns='http://www.w3.org/2000/svg'
                             fill='none'
@@ -28,10 +32,13 @@ const Navbar = (props) => {
                     </ButtonToggle>
                     <Logo
                         href={'/'}
-                        img={
-                            'https://cdn-icons-png.flaticon.com/128/7844/7844708.png'
-                        }
+                        startIcon={{
+                            img: 'https://cdn-icons-png.flaticon.com/128/7844/7844708.png',
+                        }}
                         content={'Tika.'}
+                        color='var(--black-color)'
+                        sizeIcon='50px'
+                        padding='0'
                     />
                     <FlyoutMenu navigation={navigation} />
                     <UserMenu />

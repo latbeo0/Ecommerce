@@ -26,29 +26,21 @@ const Separate = styled.span`
 `;
 
 const WrapperLanguage = styled.div`
-    display: none;
-
-    @media only screen and (min-width: 1025px) {
-        display: flex;
-        margin-left: 3.2rem;
-    }
+    display: flex;
+    height: 100%;
+    margin-left: 3.2rem;
 `;
 
 const WrapperSearch = styled.div`
     display: flex;
-
-    @media only screen and (min-width: 1025px) {
-        margin-left: 2.4rem;
-    }
+    height: 100%;
+    margin-left: 3.2rem;
 `;
 
 const WrapperCart = styled.div`
     display: flex;
-    margin-left: 1.6rem;
-
-    @media only screen and (min-width: 1025px) {
-        margin-left: 2.4rem;
-    }
+    height: 100%;
+    margin-left: 2.4rem;
 `;
 
 export {

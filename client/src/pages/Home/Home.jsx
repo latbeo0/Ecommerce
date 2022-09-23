@@ -29,8 +29,6 @@ const Home = () => {
                     </Layout2>
                 </LayoutBanner>
             </Section>
-
-            <Section>section</Section>
         </>
     );
 };

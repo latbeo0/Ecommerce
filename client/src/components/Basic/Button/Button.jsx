@@ -1,32 +1,102 @@
-import React, { useEffect, useState } from 'react';
-import { Container, Image, Content, Tool } from './ButtonStyled';
+import React, { useState } from 'react';
+import Icon from '../Icon';
+import { Container, Content, Effect } from './ButtonStyled';
 
-const Button = (props) => {
-    const { href, img, content, tool, children, button, ...func } = props;
-    const [p, setP] = useState(false);
-    const [ml, setMl] = useState(false);
-    const [b, setB] = useState(false);
+const Button = ({
+    href,
+    disable,
+    variant = 'text',
+    size = 'medium',
+    thickness,
+    fontSize,
+    color,
+    padding,
+    startIcon,
+    endIcon,
+    sizeIcon,
+    title,
+    content,
+    children,
+    effect = false,
+    onClick,
+    ...other
+}) => {
+    const [isEffect, setIsEffect] = useState(false);
+    const [coordinatesX, setCoordinatesX] = useState(null);
+    const [coordinatesY, setCoordinatesY] = useState(null);
 
-    useEffect(() => {
-        if (children) {
-            setP(true);
+    const handleEffect = (e) => {
+        const x = e.clientX - e.target.offsetLeft;
+        const y = e.clientY - e.target.offsetTop;
+        setCoordinatesX(x);
+        setCoordinatesY(y);
+        setIsEffect(true);
+
+        const resetCoordinates = setTimeout(() => {
+            setCoordinatesX(null);
+            setCoordinatesY(null);
+            setIsEffect(false);
+        }, 350);
+
+        return () => clearTimeout(resetCoordinates);
+    };
+
+    const handleClick = (e) => {
+        if (!disable && !isEffect) {
+            onClick && onClick();
+            effect && handleEffect(e);
         }
-
-        if (children || img) {
-            setMl(true);
-        }
-
-        if (button) {
-            setB(true);
-        }
-    }, [children, img, button]);
+    };
 
     return (
-        <Container as={b && 'button'} href={href} padding={p} {...func}>
-            {img && <Image src={img} alt='' />}
+        <Container
+            as={!href && 'button'}
+            href={href}
+            variant={variant}
+            disable={disable}
+            effect={effect}
+            size={size}
+            thickness={thickness}
+            color={color}
+            fontSize={fontSize}
+            padding={padding}
+            onClick={handleClick}
+            {...other}
+            aria-label='button'
+        >
+            {startIcon?.img && (
+                <Icon img={startIcon.img} sizeIcon={sizeIcon} slot='start' />
+            )}
+            {startIcon?.icon && (
+                <Icon icon={startIcon.icon} sizeIcon={sizeIcon} slot='start' />
+            )}
+
+            {content && (
+                <Content
+                    variant={variant}
+                    color={color}
+                    size={size}
+                    fontSize={fontSize}
+                    thickness={thickness}
+                >
+                    {content}
+                </Content>
+            )}
             {children}
-            {content && <Content marginLeft={ml}>{content}</Content>}
-            {tool && <Tool>{tool}</Tool>}
+
+            {endIcon?.img && (
+                <Icon img={endIcon.img} sizeIcon={sizeIcon} slot='end' />
+            )}
+            {endIcon?.icon && (
+                <Icon icon={endIcon.icon} sizeIcon={sizeIcon} slot='end' />
+            )}
+
+            {isEffect && (
+                <Effect
+                    variant={variant}
+                    style={{ left: coordinatesX, top: coordinatesY }}
+                />
+            )}
         </Container>
     );
 };
