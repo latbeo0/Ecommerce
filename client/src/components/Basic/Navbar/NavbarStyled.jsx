@@ -3,12 +3,12 @@ import { Button } from '../Button';
 
 const Nav = styled.nav`
     max-width: 128rem;
-    padding: 0 3.2rem;
     margin-left: auto;
     margin-right: auto;
 `;
 
 const Container = styled.div`
+    padding: 0 3.2rem;
     border-bottom: 1px solid rgb(229 231 235);
 `;
 

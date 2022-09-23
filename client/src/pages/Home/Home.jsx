@@ -21,7 +21,10 @@ const Home = () => {
                     </Layout1>
                     <Layout2>
                         <Layout3>
-                            <Card />
+                            <Card
+                                title='Special Offer'
+                                description='Save 74%'
+                            />
                         </Layout3>
                         <Layout4>
                             <Card />
