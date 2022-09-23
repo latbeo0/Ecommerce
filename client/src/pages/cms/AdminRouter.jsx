@@ -2,50 +2,41 @@ import { Route, Routes } from "react-router-dom";
 import Dashboard from "./layout/Dashboard/Dashboard";
 import React, { useState } from "react";
 import "antd/dist/antd.css";
-import {
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-} from "@ant-design/icons";
+import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
+import Icon from "@ant-design/icons";
 import { Layout, Menu } from "antd";
+import { Link, useLocation } from "react-router-dom";
+import Product from "./layout/Product/Product";
 
+import "./cms.css";
+import { ListMenu } from "./data";
 const { Header, Sider, Content } = Layout;
+
 const AdminRouter = () => {
   const [collapsed, setCollapsed] = useState(false);
   return (
-    <Layout>
+    <Layout className="KBody">
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div className="logo" />
-        <Menu
-          theme="dark"
-          mode="inline"
-          defaultSelectedKeys={["1"]}
-          items={[
-            {
-              key: "1",
-              icon: <UserOutlined />,
-              label: "nav 1",
-            },
-            {
-              key: "2",
-              icon: <VideoCameraOutlined />,
-              label: "nav 2",
-            },
-            {
-              key: "3",
-              icon: <UploadOutlined />,
-              label: "nav 3",
-            },
-          ]}
-        />
+        <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
+          {ListMenu.map((item) => (
+            <Menu.Item id={item.key} key={item.key} onClick={() => {}}>
+              <Icon component={item.icon} />
+              <span>
+                <Link to={item.link} className="KLink">
+                  {item.label}
+                </Link>
+              </span>
+            </Menu.Item>
+          ))}
+        </Menu>
       </Sider>
       <Layout className="site-layout">
         <Header
           className="site-layout-background"
           style={{
             padding: 0,
+            color: "white",
           }}
         >
           {React.createElement(
@@ -60,12 +51,17 @@ const AdminRouter = () => {
           className="site-layout-background"
           style={{
             margin: "24px 16px",
-            padding: 24,
+            padding: 8,
             minHeight: 280,
           }}
         >
           <Routes>
-            <Route path="/admin" element={<Dashboard />} />
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/list-product" element={<Product />} />
+            <Route path="/list-user" element={<Product />} />
+            <Route path="/list-region" element={<Product />} />
+            <Route path="/list-role" element={<Product />} />
+            {/* </Route> */}
           </Routes>
         </Content>
       </Layout>
