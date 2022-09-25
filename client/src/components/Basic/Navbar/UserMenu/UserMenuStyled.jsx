@@ -20,27 +20,45 @@ const WrapperUser = styled.div`
 
 const Separate = styled.span`
     width: 1px;
-    height: 2.4rem;
-    margin: 0 3.2rem;
+    height: 1.5rem;
+    margin: 0 2rem;
     background-color: rgb(229 231 235);
 `;
 
 const WrapperLanguage = styled.div`
-    display: flex;
-    height: 100%;
-    margin-left: 3.2rem;
+    display: none;
+
+    @media only screen and (min-width: 1025px) {
+        display: flex;
+        height: 100%;
+        margin-left: 2rem;
+    }
 `;
 
 const WrapperSearch = styled.div`
     display: flex;
     height: 100%;
-    margin-left: 3.2rem;
+    padding: 0 0.5rem;
+
+    & > a > div {
+        margin-right: 0;
+    }
+
+    @media only screen and (min-width: 1025px) {
+        padding: 0;
+        margin-left: 2rem;
+    }
 `;
 
 const WrapperCart = styled.div`
     display: flex;
     height: 100%;
-    margin-left: 2.4rem;
+    padding: 0 0.5rem;
+
+    @media only screen and (min-width: 1025px) {
+        padding: 0;
+        margin-left: 1.5rem;
+    }
 `;
 
 export {

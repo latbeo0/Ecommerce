@@ -11,11 +11,11 @@ import {
 const Card = ({ title, description }) => {
     return (
         <Container>
-            <Background />
             <Content>
-                <Description>{description}</Description>
-                <Title>{title}</Title>
+                {description && <Description>{description}</Description>}
+                {title && <Title>{title}</Title>}
                 <Button variant='contained' content='SHOP NOW' />
+                <Background />
             </Content>
         </Container>
     );

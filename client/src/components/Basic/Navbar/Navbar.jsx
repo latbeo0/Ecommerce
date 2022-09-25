@@ -12,7 +12,7 @@ const Navbar = (props) => {
                     <ButtonToggle
                         onClick={() => funcActive()}
                         color='var(--black-color)'
-                        sizeIcon='2.4rem'
+                        sizeIcon='1.5rem'
                     >
                         <svg
                             xmlns='http://www.w3.org/2000/svg'
@@ -21,7 +21,7 @@ const Navbar = (props) => {
                             strokeWidth='2'
                             stroke='currentColor'
                             aria-hidden='true'
-                            style={{ width: '2.4rem', height: '2.4rem' }}
+                            style={{ width: '1.5rem', height: '1.5rem' }}
                         >
                             <path
                                 strokeLinecap='round'

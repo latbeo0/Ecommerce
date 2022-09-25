@@ -15,19 +15,19 @@ const Container = styled.a.attrs((props) => ({
         switch (props.size) {
             case 'small':
                 return css`
-                    font-size: ${(props) => props.fontSize || '1.4rem'};
+                    font-size: ${(props) => props.fontSize || '0.875rem'};
                     font-weight: ${(props) => props.thickness || '400'};
                     padding: ${(props) => props.padding || '3px 9px'};
                 `;
             case 'medium':
                 return css`
-                    font-size: ${(props) => props.fontSize || '1.5rem'};
+                    font-size: ${(props) => props.fontSize || '0.9375rem'};
                     font-weight: ${(props) => props.thickness || '500'};
                     padding: ${(props) => props.padding || '5px 15px'};
                 `;
             case 'large':
                 return css`
-                    font-size: ${(props) => props.fontSize || '1.6rem'};
+                    font-size: ${(props) => props.fontSize || '1rem'};
                     font-weight: ${(props) => props.thickness || '600'};
                     padding: ${(props) => props.padding || '7px 21px'};
                 `;
@@ -140,17 +140,17 @@ const Content = styled.span`
         switch (props.size) {
             case 'small':
                 return css`
-                    font-size: ${(props) => props.fontSize || '1.4rem'};
+                    font-size: ${(props) => props.fontSize || '0.875rem'};
                     font-weight: ${(props) => props.thickness || '400'};
                 `;
             case 'medium':
                 return css`
-                    font-size: ${(props) => props.fontSize || '1.5rem'};
+                    font-size: ${(props) => props.fontSize || '0.9375rem'};
                     font-weight: ${(props) => props.thickness || '500'};
                 `;
             case 'large':
                 return css`
-                    font-size: ${(props) => props.fontSize || '1.6rem'};
+                    font-size: ${(props) => props.fontSize || '1rem'};
                     font-weight: ${(props) => props.thickness || '600'};
                 `;
             default:

@@ -53,9 +53,13 @@ const Arrow = styled.button`
     right: ${(props) => props.direction === 'right' && '24px'};
 
     & > svg {
-        width: 20pc;
+        width: 20px;
         height: 20px;
     }
+
+    /* @media only screen and (max-width: 600px) {
+        display: none;
+    } */
 
     @media (hover: none) and (pointer: coarse) {
         display: none;

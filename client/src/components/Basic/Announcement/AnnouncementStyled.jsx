@@ -4,13 +4,12 @@ const Announce = styled.p`
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.4rem;
+    font-size: 0.875rem;
     font-weight: 500;
-    line-height: 2rem;
-    color: white;
+    line-height: 1.25rem;
+    color: var(--white-color);
     height: var(--height-announcement);
-    background-color: rgb(79 70 229);
-    /* background-color: #6ca12b; */
+    background-color: var(--primary-color);
 `;
 
 export { Announce };

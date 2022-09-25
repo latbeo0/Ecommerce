@@ -209,7 +209,7 @@ const Header = () => {
                                 <Button
                                     button
                                     color='var(--black-color)'
-                                    sizeIcon='2.4rem'
+                                    sizeIcon='1.5rem'
                                     onClick={() => setActiveToggle()}
                                 >
                                     <svg
@@ -220,8 +220,8 @@ const Header = () => {
                                         stroke='currentColor'
                                         aria-hidden='true'
                                         style={{
-                                            width: '2.4rem',
-                                            height: '2.4rem',
+                                            width: '1.5rem',
+                                            height: '1.5rem',
                                         }}
                                     >
                                         <path
@@ -295,28 +295,35 @@ const Header = () => {
                                         <Button
                                             href={page.href}
                                             content={page.name}
+                                            color='var(--black-color)'
                                         />
                                     </WrapperOther>
                                 ))}
                             </ContainerOthers>
                             <ContainerOthers>
                                 <WrapperOther>
-                                    <Button href={'#'} content={'Sign in'} />
+                                    <Button
+                                        href='#'
+                                        content='Sign in'
+                                        color='var(--black-color)'
+                                    />
                                 </WrapperOther>
                                 <WrapperOther>
                                     <Button
-                                        href={'#'}
-                                        content={'Create Account'}
+                                        href='#'
+                                        content='Create Account'
+                                        color='var(--black-color)'
                                     />
                                 </WrapperOther>
                             </ContainerOthers>
                             <ContainerOthers>
                                 <Button
-                                    href={'#'}
-                                    img={
-                                        'https://tailwindui.com/img/flags/flag-canada.svg'
-                                    }
-                                    content={'CAD'}
+                                    href='#'
+                                    startIcon={{
+                                        img: 'https://tailwindui.com/img/flags/flag-canada.svg',
+                                    }}
+                                    content='CAD'
+                                    color='var(--black-color)'
                                 />
                             </ContainerOthers>
                         </MenuMobile>

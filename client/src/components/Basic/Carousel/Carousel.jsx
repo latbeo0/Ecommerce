@@ -120,7 +120,12 @@ const Carousel = (props) => {
             <Wrapper>
                 {/* You can alwas change the content of the button to other things */}
                 {(isRepeating || currentIndex > 0) && (
-                    <Arrow onClick={prev} direction='left'>
+                    <Arrow
+                        type='button'
+                        onClick={prev}
+                        direction='left'
+                        aria-label='button'
+                    >
                         <MdKeyboardArrowLeft />
                     </Arrow>
                 )}
@@ -145,7 +150,12 @@ const Carousel = (props) => {
                 </ContentWrapper>
                 {/* You can alwas change the content of the button to other things */}
                 {(isRepeating || currentIndex < length - show) && (
-                    <Arrow onClick={next} direction='right'>
+                    <Arrow
+                        type='button'
+                        onClick={next}
+                        direction='right'
+                        aria-label='button'
+                    >
                         <MdKeyboardArrowRight />
                     </Arrow>
                 )}

@@ -1,15 +1,15 @@
 import styled from 'styled-components';
 
 const Container = styled.div`
-    font-size: 1.4rem;
-    line-height: 2rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
 
     position: relative;
 `;
 
 const ContainerImg = styled.div`
-    background-color: rgb(243 244 246 / 1);
-    border-radius: 0.8rem;
+    background-color: rgb(243 244 246);
+    border-radius: 0.5rem;
     overflow: hidden;
 `;
 
@@ -21,10 +21,10 @@ const Img = styled.img`
 
 const Text = styled.a`
     display: block;
-    font-size: 1.4rem;
+    font-size: 0.875rem;
     font-weight: 500;
-    color: rgb(17 24 39 / 1);
-    margin-top: 2.4rem;
+    color: rgb(17 24 39);
+    margin-top: 1.5rem;
 `;
 
 const TextAbs = styled.span`
@@ -37,9 +37,9 @@ const TextAbs = styled.span`
 `;
 
 const Sub = styled.p`
-    margin-top: 0.4rem;
-    font-size: 1.4rem;
-    color: rgb(107 114 128 / 1);
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+    color: rgb(107 114 128);
 `;
 
 export { Container, ContainerImg, Img, Text, TextAbs, Sub };

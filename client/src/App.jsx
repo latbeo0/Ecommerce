@@ -13,7 +13,11 @@ const App = () => {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path='/*' index element={<Home />} />
+                <Route
+                    path='/*'
+                    index
+                    element={<Home style={{ fontSize: '62.5%' }} />}
+                />
             </Routes>
         </BrowserRouter>
     );

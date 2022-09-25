@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const Container = styled.div`
-    margin-left: 3rem;
+    margin-left: 1.875rem;
     align-self: stretch;
     display: none;
 
@@ -18,11 +18,11 @@ const Wrapper = styled.div`
 const Page = styled.a`
     display: flex;
     align-items: center;
-    font-size: 1.4rem;
-    line-height: 2rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
     font-weight: 500;
     color: rgb(55 65 81);
-    margin-left: 3.2rem;
+    margin-left: 2rem;
 
     &:hover {
         color: rgb(31 41 55);

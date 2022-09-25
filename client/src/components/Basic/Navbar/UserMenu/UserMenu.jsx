@@ -50,7 +50,7 @@ const UserMenu = () => {
                                 strokeWidth='2'
                                 stroke='currentColor'
                                 aria-hidden='true'
-                                style={{ width: '2.4rem', height: '2.4rem' }}
+                                style={{ width: '1.5rem', height: '1.5rem' }}
                             >
                                 <path
                                     strokeLinejoin='round'
@@ -59,7 +59,7 @@ const UserMenu = () => {
                             </svg>
                         ),
                     }}
-                    sizeIcon='2rem'
+                    sizeIcon='1.25rem'
                     padding='0'
                 />
             </WrapperSearch>
@@ -78,8 +78,8 @@ const UserMenu = () => {
                                 stroke='currentColor'
                                 aria-hidden='true'
                                 style={{
-                                    width: '2.4rem',
-                                    height: '2.4rem',
+                                    width: '1.5rem',
+                                    height: '1.5rem',
                                 }}
                             >
                                 <path
@@ -89,7 +89,7 @@ const UserMenu = () => {
                             </svg>
                         ),
                     }}
-                    sizeIcon='2rem'
+                    sizeIcon='1.25rem'
                     padding='0'
                 />
             </WrapperCart>

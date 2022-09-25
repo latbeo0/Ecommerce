@@ -14,8 +14,8 @@ const Panel = styled.div`
 `;
 
 const Wrapper = styled.div`
-    max-width: 128rem;
-    padding: 0 3.2rem 0 3.2rem;
+    max-width: 80rem;
+    padding: 0 2rem;
     margin-left: auto;
     margin-right: auto;
 `;
@@ -23,10 +23,10 @@ const Wrapper = styled.div`
 const Layout = styled.div`
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    row-gap: 4rem;
-    column-gap: 3.2rem;
-    padding-top: 6.4rem;
-    padding-bottom: 6.4rem;
+    row-gap: 2.5rem;
+    column-gap: 2rem;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
 `;
 
 const SectionGroup = styled.div`
@@ -34,17 +34,17 @@ const SectionGroup = styled.div`
 
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    row-gap: 4rem;
-    column-gap: 3.2rem;
-    font-size: 1.4rem;
-    line-height: 2rem;
+    row-gap: 2.5rem;
+    column-gap: 2rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
 `;
 
 const FeaturedGroup = styled.div`
     grid-column-start: 2;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: 3.6rem;
+    column-gap: 2.25rem;
 `;
 
 const Shadow = styled.div`

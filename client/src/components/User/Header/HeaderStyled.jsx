@@ -42,10 +42,10 @@ const MenuMobile = styled.div`
     position: relative;
     display: flex;
     width: 100%;
-    max-width: 32rem;
+    max-width: 20rem;
     flex-direction: column;
     overflow-y: auto;
-    padding-bottom: 4.8rem;
+    padding-bottom: 3rem;
     background-color: rgb(255 255 255);
 
     --tw-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1),
@@ -58,14 +58,14 @@ const MenuMobile = styled.div`
 
 const WrapperCloseButton = styled.div`
     display: flex;
-    padding-left: 1.6rem;
-    padding-right: 1.6rem;
-    padding-top: 2rem;
-    padding-bottom: 0.8rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 1.25rem;
+    padding-bottom: 0.5rem;
 `;
 
 const ContainerPrimary = styled.div`
-    margin-top: 0.8rem;
+    margin-top: 0.5rem;
 `;
 
 const ContainerTags = styled.div`
@@ -76,59 +76,60 @@ const ContainerTags = styled.div`
 const WrapperTags = styled.div`
     margin-bottom: -1px;
     display: flex;
-    padding-left: 1.6rem;
-    padding-right: 1.6rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
 `;
 
 const ButtonTag = styled.button.attrs({ type: 'button' })`
     flex: 1 1;
-    font-size: 1.6rem;
-    line-height: 2.4rem;
+    font-size: 1rem;
+    line-height: 1.5rem;
     font-weight: 500;
-    color: ${(props) => (props.active ? 'rgb(79 70 229)' : 'rgb(17 24 39)')};
+    color: ${(props) =>
+        props.active ? 'var(--primary-color)' : 'rgb(17 24 39)'};
 
     white-space: nowrap;
     border-bottom-width: 2px;
     border-color: ${(props) =>
-        props.active ? 'rgb(79 70 229)' : 'transparent'};
+        props.active ? 'var(--primary-color)' : 'transparent'};
 
-    padding-top: 1.6rem;
-    padding-bottom: 1.6rem;
-    padding-left: 0.4rem;
-    padding-right: 0.4rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
 
     transition: color 0.2s cubic-bezier(0, 0, 0.2, 1),
         border 0.2s cubic-bezier(0, 0, 0.2, 1);
 
     & + & {
-        margin-left: 3.2rem;
+        margin-left: 2rem;
     }
 `;
 
 const ContainerMenu = styled.div`
-    padding-left: 1.6rem;
-    padding-right: 1.6rem;
-    padding-top: 4rem;
-    padding-bottom: 3.2rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 2.5rem;
+    padding-bottom: 2rem;
 `;
 
 const ContainerFeatured = styled.div`
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: 1.6rem;
+    column-gap: 1rem;
 `;
 
 const ContainerOthers = styled.div`
     border-top-width: 1px;
     border-color: rgb(229 231 235);
-    padding-left: 1.6rem;
-    padding-right: 1.6rem;
-    padding-top: 2.4rem;
-    padding-bottom: 2.4rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
 
     & span {
-        font-size: 1.6rem;
-        line-height: 2.4rem;
+        font-size: 1rem;
+        line-height: 1.5rem;
     }
 `;
 
@@ -136,7 +137,7 @@ const WrapperOther = styled.div`
     display: flow-root;
 
     & + & {
-        margin-top: 2.4rem;
+        margin-top: 1.5rem;
     }
 `;
 

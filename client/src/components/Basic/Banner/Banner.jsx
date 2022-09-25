@@ -7,9 +7,9 @@ import {
     Description,
 } from './BannerStyled';
 
-const Banner = ({ banner }) => {
+const Banner = ({ banner, ...others }) => {
     return (
-        <WrapperImage>
+        <WrapperImage {...others}>
             <LinkImage href={'#'}>
                 <Image src={banner.url} alt={banner.alt} />
             </LinkImage>
