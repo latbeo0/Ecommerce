@@ -183,7 +183,7 @@ const Product = styled.div`
     display: flex;
     flex-direction: column;
     border-radius: 5px;
-    /* overflow: hidden; */
+    overflow: hidden;
     position: relative;
 
     --tw-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1),
@@ -193,18 +193,34 @@ const Product = styled.div`
     box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
         var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 
-    &:hover {
-        top: -1rem;
-    }
-
-    &:hover > div:nth-child(2) > div:nth-child(3) {
-        display: block;
+    &:hover > div:nth-child(3) {
+        display: flex;
     }
 `;
 const ProductImage = styled.div`
     height: 300px;
     position: relative;
     overflow: hidden;
+`;
+const HeartContainer = styled.div`
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    padding: 0.5rem;
+    /* border: 1px solid #ff696a; */
+    border-radius: 12px;
+    /* background-color: #fff0f1; */
+
+    & > img {
+        /* color: #ff696a;
+        color: #fff0f1; */
+        width: 25px;
+        height: 25px;
+    }
 `;
 const Image = styled.img`
     position: absolute;
@@ -229,7 +245,7 @@ const ProductStars = styled.div`
     font-size: 0.875rem;
     font-weight: 500;
     color: gray;
-    padding: 1rem 0 2rem;
+    padding: 1rem 0;
 `;
 const ProductStar = styled.div`
     display: flex;
@@ -266,18 +282,29 @@ const PriceNew = styled.div`
     color: rgb(255, 122, 122);
 `;
 const ProductContentFooter = styled.div`
-    /* position: absolute;
-    bottom: -67px;
+    position: absolute;
+    top: 232px;
+    height: 60px;
     left: 0;
-    right: 0; */
-    margin-top: 1rem;
+    right: 0;
+    margin: 0 1rem;
     padding: 1rem;
-    border-radius: 1rem;
-    background-color: var(--primary-color);
+    border-radius: 0.5rem;
+    background-color: var(--primary-color-border);
     color: var(--white-color);
     display: none;
+    z-index: 1;
 `;
 const ProductButton = styled.span``;
+const Footer = styled.div`
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 2fr;
+`;
+const GetInTouch = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
+const TitleFooter = styled.h1``;
 
 export {
     Section,
@@ -296,6 +323,7 @@ export {
     BodySection,
     Product,
     ProductImage,
+    HeartContainer,
     Image,
     ProductContent,
     ProductContentHeader,
@@ -310,4 +338,7 @@ export {
     PriceNew,
     ProductContentFooter,
     ProductButton,
+    Footer,
+    GetInTouch,
+    TitleFooter,
 };

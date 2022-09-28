@@ -18,6 +18,7 @@ import {
     BodySection,
     Product,
     ProductImage,
+    HeartContainer,
     Image,
     ProductContent,
     ProductContentHeader,
@@ -32,11 +33,18 @@ import {
     PriceNew,
     ProductContentFooter,
     ProductButton,
+    Footer,
+    GetInTouch,
+    TitleFooter,
 } from './HomeStyled';
 import { HiCheck } from 'react-icons/hi';
 import { FaShippingFast, FaPhoneVolume } from 'react-icons/fa';
 import { AiOutlineSwap } from 'react-icons/ai';
-import { BsArrowRightShort, BsStarFill } from 'react-icons/bs';
+import { BsArrowRightShort, BsStarFill, BsHeart } from 'react-icons/bs';
+import heartIcon from '../../assets/img/heart.png';
+import heartIcon1 from '../../assets/img/heart (1).png';
+import heartIcon2 from '../../assets/img/heart (2).png';
+import ProductCard from './../../components/User/ProductCard';
 
 const Home = () => {
     return (
@@ -108,296 +116,19 @@ const Home = () => {
                     </ViewAll>
                 </HeaderSection>
                 <BodySection>
-                    <Product>
-                        <ProductImage>
-                            <Image
-                                alt='img'
-                                src='https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=1600'
-                            />
-                        </ProductImage>
-                        <ProductContent>
-                            <ProductContentHeader>
-                                <ProductTitle>Monstera DK Var (L)</ProductTitle>
-                                <ProductStars>
-                                    <ProductStar>
-                                        <BsStarFill color='#ffc554' />
-                                        <BsStarFill color='#ffc554' />
-                                        <BsStarFill color='#ffc554' />
-                                        <BsStarFill color='#ffc554' />
-                                        <BsStarFill color='#ffc554' />
-                                    </ProductStar>
-                                    (74)
-                                </ProductStars>
-                            </ProductContentHeader>
-                            <ProductContentBody>
-                                <ProductSale>
-                                    Price
-                                    <Sale>12.5%</Sale>
-                                </ProductSale>
-                                <ProductPrice>
-                                    <PriceNew>12.345.678 vnđ</PriceNew>
-                                    <PriceOld>98.765.432 vnđ</PriceOld>
-                                </ProductPrice>
-                            </ProductContentBody>
-                            <ProductContentFooter>
-                                <ProductButton>Add to cart</ProductButton>
-                            </ProductContentFooter>
-                        </ProductContent>
-                    </Product>
-                    <Product>
-                        <ProductImage>
-                            <Image
-                                alt='img'
-                                src='https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=1600'
-                            />
-                        </ProductImage>
-                        <ProductContent>
-                            <ProductContentHeader>
-                                <ProductTitle>Monstera DK Var (L)</ProductTitle>
-                                <ProductStars>
-                                    <ProductStar>
-                                        <BsStarFill color='#ffc554' />
-                                        <BsStarFill color='#ffc554' />
-                                        <BsStarFill color='#ffc554' />
-                                        <BsStarFill color='#ffc554' />
-                                        <BsStarFill color='#ffc554' />
-                                    </ProductStar>
-                                    (74)
-                                </ProductStars>
-                            </ProductContentHeader>
-                            <ProductContentBody>
-                                <ProductSale>
-                                    Price
-                                    <Sale>12.5%</Sale>
-                                </ProductSale>
-                                <ProductPrice>
-                                    <PriceNew>12.345.678 vnđ</PriceNew>
-                                    <PriceOld>98.765.432 vnđ</PriceOld>
-                                </ProductPrice>
-                            </ProductContentBody>
-                            <ProductContentFooter>
-                                <ProductButton>Add to cart</ProductButton>
-                            </ProductContentFooter>
-                        </ProductContent>
-                    </Product>
-                    <Product>
-                        <ProductImage>
-                            <Image
-                                alt='img'
-                                src='https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=1600'
-                            />
-                        </ProductImage>
-                        <ProductContent>
-                            <ProductContentHeader>
-                                <ProductTitle>Monstera DK Var (L)</ProductTitle>
-                                <ProductStars>
-                                    <ProductStar>
-                                        <BsStarFill color='#ffc554' />
-                                        <BsStarFill color='#ffc554' />
-                                        <BsStarFill color='#ffc554' />
-                                        <BsStarFill color='#ffc554' />
-                                        <BsStarFill color='#ffc554' />
-                                    </ProductStar>
-                                    (74)
-                                </ProductStars>
-                            </ProductContentHeader>
-                            <ProductContentBody>
-                                <ProductSale>
-                                    Price
-                                    <Sale>12.5%</Sale>
-                                </ProductSale>
-                                <ProductPrice>
-                                    <PriceNew>12.345.678 vnđ</PriceNew>
-                                    <PriceOld>98.765.432 vnđ</PriceOld>
-                                </ProductPrice>
-                            </ProductContentBody>
-                            <ProductContentFooter>
-                                <ProductButton>Add to cart</ProductButton>
-                            </ProductContentFooter>
-                        </ProductContent>
-                    </Product>
-                    <Product>
-                        <ProductImage>
-                            <Image
-                                alt='img'
-                                src='https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=1600'
-                            />
-                        </ProductImage>
-                        <ProductContent>
-                            <ProductContentHeader>
-                                <ProductTitle>Monstera DK Var (L)</ProductTitle>
-                                <ProductStars>
-                                    <ProductStar>
-                                        <BsStarFill color='#ffc554' />
-                                        <BsStarFill color='#ffc554' />
-                                        <BsStarFill color='#ffc554' />
-                                        <BsStarFill color='#ffc554' />
-                                        <BsStarFill color='#ffc554' />
-                                    </ProductStar>
-                                    (74)
-                                </ProductStars>
-                            </ProductContentHeader>
-                            <ProductContentBody>
-                                <ProductSale>
-                                    Price
-                                    <Sale>12.5%</Sale>
-                                </ProductSale>
-                                <ProductPrice>
-                                    <PriceNew>12.345.678 vnđ</PriceNew>
-                                    <PriceOld>98.765.432 vnđ</PriceOld>
-                                </ProductPrice>
-                            </ProductContentBody>
-                            <ProductContentFooter>
-                                <ProductButton>Add to cart</ProductButton>
-                            </ProductContentFooter>
-                        </ProductContent>
-                    </Product>
-                    <Product>
-                        <ProductImage>
-                            <Image
-                                alt='img'
-                                src='https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=1600'
-                            />
-                        </ProductImage>
-                        <ProductContent>
-                            <ProductContentHeader>
-                                <ProductTitle>Monstera DK Var (L)</ProductTitle>
-                                <ProductStars>
-                                    <ProductStar>
-                                        <BsStarFill color='#ffc554' />
-                                        <BsStarFill color='#ffc554' />
-                                        <BsStarFill color='#ffc554' />
-                                        <BsStarFill color='#ffc554' />
-                                        <BsStarFill color='#ffc554' />
-                                    </ProductStar>
-                                    (74)
-                                </ProductStars>
-                            </ProductContentHeader>
-                            <ProductContentBody>
-                                <ProductSale>
-                                    Price
-                                    <Sale>12.5%</Sale>
-                                </ProductSale>
-                                <ProductPrice>
-                                    <PriceNew>12.345.678 vnđ</PriceNew>
-                                    <PriceOld>98.765.432 vnđ</PriceOld>
-                                </ProductPrice>
-                            </ProductContentBody>
-                            <ProductContentFooter>
-                                <ProductButton>Add to cart</ProductButton>
-                            </ProductContentFooter>
-                        </ProductContent>
-                    </Product>
-                    <Product>
-                        <ProductImage>
-                            <Image
-                                alt='img'
-                                src='https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=1600'
-                            />
-                        </ProductImage>
-                        <ProductContent>
-                            <ProductContentHeader>
-                                <ProductTitle>Monstera DK Var (L)</ProductTitle>
-                                <ProductStars>
-                                    <ProductStar>
-                                        <BsStarFill color='#ffc554' />
-                                        <BsStarFill color='#ffc554' />
-                                        <BsStarFill color='#ffc554' />
-                                        <BsStarFill color='#ffc554' />
-                                        <BsStarFill color='#ffc554' />
-                                    </ProductStar>
-                                    (74)
-                                </ProductStars>
-                            </ProductContentHeader>
-                            <ProductContentBody>
-                                <ProductSale>
-                                    Price
-                                    <Sale>12.5%</Sale>
-                                </ProductSale>
-                                <ProductPrice>
-                                    <PriceNew>12.345.678 vnđ</PriceNew>
-                                    <PriceOld>98.765.432 vnđ</PriceOld>
-                                </ProductPrice>
-                            </ProductContentBody>
-                            <ProductContentFooter>
-                                <ProductButton>Add to cart</ProductButton>
-                            </ProductContentFooter>
-                        </ProductContent>
-                    </Product>
-                    <Product>
-                        <ProductImage>
-                            <Image
-                                alt='img'
-                                src='https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=1600'
-                            />
-                        </ProductImage>
-                        <ProductContent>
-                            <ProductContentHeader>
-                                <ProductTitle>Monstera DK Var (L)</ProductTitle>
-                                <ProductStars>
-                                    <ProductStar>
-                                        <BsStarFill color='#ffc554' />
-                                        <BsStarFill color='#ffc554' />
-                                        <BsStarFill color='#ffc554' />
-                                        <BsStarFill color='#ffc554' />
-                                        <BsStarFill color='#ffc554' />
-                                    </ProductStar>
-                                    (74)
-                                </ProductStars>
-                            </ProductContentHeader>
-                            <ProductContentBody>
-                                <ProductSale>
-                                    Price
-                                    <Sale>12.5%</Sale>
-                                </ProductSale>
-                                <ProductPrice>
-                                    <PriceNew>12.345.678 vnđ</PriceNew>
-                                    <PriceOld>98.765.432 vnđ</PriceOld>
-                                </ProductPrice>
-                            </ProductContentBody>
-                            <ProductContentFooter>
-                                <ProductButton>Add to cart</ProductButton>
-                            </ProductContentFooter>
-                        </ProductContent>
-                    </Product>
-                    <Product>
-                        <ProductImage>
-                            <Image
-                                alt='img'
-                                src='https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=1600'
-                            />
-                        </ProductImage>
-                        <ProductContent>
-                            <ProductContentHeader>
-                                <ProductTitle>Monstera DK Var (L)</ProductTitle>
-                                <ProductStars>
-                                    <ProductStar>
-                                        <BsStarFill color='#ffc554' />
-                                        <BsStarFill color='#ffc554' />
-                                        <BsStarFill color='#ffc554' />
-                                        <BsStarFill color='#ffc554' />
-                                        <BsStarFill color='#ffc554' />
-                                    </ProductStar>
-                                    (74)
-                                </ProductStars>
-                            </ProductContentHeader>
-                            <ProductContentBody>
-                                <ProductSale>
-                                    Price
-                                    <Sale>12.5%</Sale>
-                                </ProductSale>
-                                <ProductPrice>
-                                    <PriceNew>12.345.678 vnđ</PriceNew>
-                                    <PriceOld>98.765.432 vnđ</PriceOld>
-                                </ProductPrice>
-                            </ProductContentBody>
-                            <ProductContentFooter>
-                                <ProductButton>Add to cart</ProductButton>
-                            </ProductContentFooter>
-                        </ProductContent>
-                    </Product>
+                    <ProductCard />
+                    <ProductCard />
+                    <ProductCard />
+                    <ProductCard />
+                    <ProductCard />
+                    <ProductCard />
                 </BodySection>
             </Section>
+            <Footer>
+                <GetInTouch>
+                    <TitleFooter>Get in touch</TitleFooter>
+                </GetInTouch>
+            </Footer>
         </>
     );
 };
