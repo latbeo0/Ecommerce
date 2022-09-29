@@ -1,8 +1,11 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 // import { useSelector, useDispatch } from 'react-redux';
 // import { useEffect, useState } from 'react';
 
-import Home from './pages/Home';
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+
 const App = () => {
     // const dispatch = useDispatch();
     // const auth = useSelector((state) => state.auth);
@@ -13,10 +16,12 @@ const App = () => {
     return (
         <BrowserRouter>
             <Routes>
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
                 <Route
-                    path='/*'
+                    path="/*"
                     index
-                    element={<Home style={{ fontSize: '62.5%' }} />}
+                    element={<Home style={{ fontSize: "62.5%" }} />}
                 />
             </Routes>
         </BrowserRouter>
