@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const productCtrl = require('../controllers/productCtrl');
-const { verifyTokenAndAdmin } = require('../middleware/verifyToken');
+// const { verifyTokenAndAdmin } = require('../middleware/verifyToken');
 
 // CREATE
 router.post('/', productCtrl.createProduct);
@@ -12,7 +12,7 @@ router.put('/:id', productCtrl.updateProduct);
 router.delete('/:id', productCtrl.deleteProduct);
 
 // GET PRODUCT
-router.get('/find/:id', productCtrl.getProduct);
+router.get('/find/:id', productCtrl.getProductById);
 // GET ALL PRODUCT
 router.get('/', productCtrl.getAllProduct);
 // GET PRODUCT BY NAME

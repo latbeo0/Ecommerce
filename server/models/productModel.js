@@ -6,8 +6,8 @@ const ProductSchema = new mongoose.Schema(
         productDescription: { type: String, required: true },
         primaryImage: { type: String, required: true },
         secondaryImage: { type: String, required: true },
-        categoryID: { type: Array },
-        stateID: { type: Array, required: true },
+        categoryID: { type: String },
+        stateID: { type: String, required: true },
         price: { type: String, required: true },
         newPrice: { type: String },
         collectionID: { type: String },
@@ -19,4 +19,4 @@ const ProductSchema = new mongoose.Schema(
     }
 );
 
-module.exports = mongoose.model('Product', ProductSchema);
+module.exports = mongoose.model('products', ProductSchema);

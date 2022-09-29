@@ -7,7 +7,7 @@ const cookieParser = require('cookie-parser');
 
 const authRoute = require('./routes/auth');
 // const userRoute = require('./routes/user');
-// const productRoute = require('./routes/product');
+const productRoute = require('./routes/productRoute');
 // const orderRoute = require('./routes/order');
 
 const app = express();
@@ -30,7 +30,7 @@ connectDB();
 // Routes
 app.use('/api/auth', authRoute);
 // app.use('/api/user', userRoute);
-// app.use('/api/product', productRoute);
+app.use('/api/product', productRoute);
 // app.use('/api/order', orderRoute);
 
 // Listening
