@@ -12,6 +12,7 @@ import {
   IntegratedSorting,
   PagingState,
   SelectionState,
+  EditingState,
   SortingState,
   DataTypeProvider,
 } from "@devexpress/dx-react-grid";
@@ -26,10 +27,15 @@ import {
   TableHeaderRow,
   TableSelection,
   Toolbar,
+  TableEditColumn,
 } from "@devexpress/dx-react-grid-material-ui";
-import { generateRows, globalSalesValues } from "./data/generator";
-
-const sales = generateRows({ columnValues: globalSalesValues, length: 1000 });
+import {
+  Plugin,
+  Template,
+  TemplateConnector,
+  TemplatePlaceholder,
+} from "@devexpress/dx-react-core";
+import PopupEdit from "../PopupEdit";
 
 const availableFilterOperations = [
   "equal",
@@ -71,7 +77,92 @@ const getColor = (amount) => {
   }
   return "#009688";
 };
+const PopupEditing = React.memo(({ popupComponent: Popup }) => (
+  <Plugin>
+    <Template name="popupEditing">
+      <TemplateConnector>
+        {(
+          {
+            rows,
+            getRowId,
+            addedRows,
+            editingRowIds,
+            createRowChange,
+            rowChanges,
+          },
+          {
+            changeRow,
+            changeAddedRow,
+            commitChangedRows,
+            commitAddedRows,
+            stopEditRows,
+            cancelAddedRows,
+            cancelChangedRows,
+          }
+        ) => {
+          const isNew = addedRows.length > 0;
+          let editedRow;
+          let rowId;
+          if (isNew) {
+            rowId = 0;
+            editedRow = addedRows[rowId];
+          } else {
+            [rowId] = editingRowIds;
+            const targetRow = rows.filter((row) => getRowId(row) === rowId)[0];
+            editedRow = { ...targetRow, ...rowChanges[rowId] };
+          }
 
+          const processValueChange = ({ target: { name, value } }) => {
+            console.log(name, value)
+
+            const changeArgs = {
+              rowId,
+              change: createRowChange(editedRow, value, name),
+            };
+            if (isNew) {
+              changeAddedRow(changeArgs);
+            } else {
+              changeRow(changeArgs);
+            }
+          };
+          const rowIds = isNew ? [0] : editingRowIds;
+          
+          const applyChanges = () => {
+            if (isNew) {
+              commitAddedRows({ rowIds });
+            } else {
+              stopEditRows({ rowIds });
+              commitChangedRows({ rowIds });
+            }
+          };
+          const cancelChanges = () => {
+            if (isNew) {
+              cancelAddedRows({ rowIds });
+            } else {
+              stopEditRows({ rowIds });
+              cancelChangedRows({ rowIds });
+            }
+          };
+
+          const open = editingRowIds.length > 0 || isNew;
+          return (
+            <Popup
+              open={open}
+              row={editedRow}
+              onChange={processValueChange}
+              onApplyChanges={applyChanges}
+              onCancelChanges={cancelChanges}
+            />
+          );
+        }}
+      </TemplateConnector>
+    </Template>
+    <Template name="root">
+      <TemplatePlaceholder />
+      <TemplatePlaceholder name="popupEditing" />
+    </Template>
+  </Plugin>
+));
 const CurrencyEditor = ({ onValueChange, value }) => {
   const handleChange = (event) => {
     const { value: targetValue } = event.target;
@@ -112,39 +203,37 @@ const CurrencyTypeProvider = (props) => (
     {...props}
   />
 );
+const getRowId = (row) => row.id;
 
-const DataGrid =  () => {
-  const [columns] = React.useState([
-    { name: "product", title: "Product" },
-    { name: "region", title: "Region" },
-    { name: "amount", title: "Sale Amount" },
-    { name: "saleDate", title: "Sale Date" },
-    { name: "customer", title: "Customer" },
-  ]);
-  const [rows] = React.useState(sales);
+const DataGrid = ({
+  rows = [],
+  columns = [],
+  selection = [],
+  showFilter = false,
+  showEdit = false,
+  showSelect = false,
+  showGroup = false,
+  showSearchBar = false,
+  onSelectionChange = () => {},
+  onCommitChanges = () => {},
+
+}) => {
+
   const [pageSizes] = React.useState([5, 10, 15]);
   const [currencyColumns] = React.useState(["amount"]);
-  
 
   return (
     <Paper>
-      <Grid rows={rows} columns={columns}>
-        <FilteringState
-          defaultFilters={[{ columnName: "saleDate", value: "2016-02" }]}
+      <Grid rows={rows} columns={columns} getRowId={getRowId}>
+        <FilteringState />
+        <SortingState />
+        <EditingState onCommitChanges={onCommitChanges} />
+        <SelectionState
+          selection={selection}
+          onSelectionChange={onSelectionChange}
+          showSelectionColumn={true}
         />
-        <SortingState
-          defaultSorting={[
-            { columnName: "product", direction: "asc" },
-            { columnName: "saleDate", direction: "asc" },
-          ]}
-        />
-
-        <SelectionState />
-
-        <GroupingState
-          defaultGrouping={[{ columnName: "product" }]}
-          defaultExpandedGroups={["EnviroCare Max"]}
-        />
+        <GroupingState />
         <PagingState />
 
         <IntegratedGrouping />
@@ -155,18 +244,24 @@ const DataGrid =  () => {
 
         <CurrencyTypeProvider for={currencyColumns} />
 
-        <DragDropProvider />
+        {showGroup && <DragDropProvider />}
 
         <Table />
-        <TableSelection showSelectAll={true} />
+        <TableSelection
+          showSelectAll={showSelect}
+          highlightRow
+          selectByRowClick
+          showSelectionColumn={showSelect}
+        />
 
         <TableHeaderRow showSortingControls={true} />
-        <TableFilterRow showFilterSelector={true} />
-        <PagingPanel pageSizes={pageSizes} />
-
+        {showFilter && <TableFilterRow showFilterSelector={true} />}
+        {showEdit && <TableEditColumn showAddCommand showEditCommand />}
         <TableGroupRow />
-        <Toolbar />
-        <GroupingPanel showSortingControls={true} />
+        {(showGroup || showSearchBar) && <Toolbar />}
+        {showGroup && <GroupingPanel showSortingControls={true} />}
+        <PagingPanel pageSizes={pageSizes} />
+        <PopupEditing popupComponent={PopupEdit} />
       </Grid>
     </Paper>
   );

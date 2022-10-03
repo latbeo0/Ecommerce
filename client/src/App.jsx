@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 // import { useSelector, useDispatch } from 'react-redux';
 // import { useEffect, useState } from 'react';
-
+import AdminRouter from "./pages/cms/AdminRouter"
 import Home from './pages/Home';
 const App = () => {
     // const dispatch = useDispatch();
@@ -16,7 +16,7 @@ const App = () => {
                 <Route
                     path='/*'
                     index
-                    element={<Home style={{ fontSize: '62.5%' }} />}
+                    element={<AdminRouter />}
                 />
             </Routes>
         </BrowserRouter>

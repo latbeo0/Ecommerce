@@ -1,3 +1,4 @@
+import random from './random';
 import randomSeed from './random';
 
 const femaleFirstNames = ['Mary', 'Linda', 'Barbara', 'Maria', 'Lisa', 'Nancy', 'Betty', 'Sandra', 'Sharon'];
@@ -110,6 +111,7 @@ export const defaultNestedColumnValues = {
 };
 
 export const globalSalesValues = {
+  id: random(1000000),
   region: ['Asia', 'Europe', 'North America', 'South America', 'Australia', 'Africa'],
   sector: ['Energy', 'Health', 'Manufacturing', 'Insurance', 'Banking', 'Telecom'],
   channel: ['Resellers', 'Retail', 'VARs', 'Consultants', 'Direct', 'Telecom'],
