@@ -35,7 +35,7 @@ import {
   TemplateConnector,
   TemplatePlaceholder,
 } from "@devexpress/dx-react-core";
-import PopupEdit from "../PopupEdit";
+import PopupEdit from "../../CMS/Product/PopupEdit";
 
 const availableFilterOperations = [
   "equal",
@@ -111,10 +111,11 @@ const PopupEditing = React.memo(({ popupComponent: Popup }) => (
             const targetRow = rows.filter((row) => getRowId(row) === rowId)[0];
             editedRow = { ...targetRow, ...rowChanges[rowId] };
           }
-
-          const processValueChange = ({ target: { name, value } }) => {
+          const createNewColor = ({ target: { name, value } }) => {
             console.log(name, value)
-
+          };
+          const createNewSize = () => {};
+          const processValueChange = ({ target: { name, value } }) => {
             const changeArgs = {
               rowId,
               change: createRowChange(editedRow, value, name),
@@ -126,7 +127,7 @@ const PopupEditing = React.memo(({ popupComponent: Popup }) => (
             }
           };
           const rowIds = isNew ? [0] : editingRowIds;
-          
+
           const applyChanges = () => {
             if (isNew) {
               commitAddedRows({ rowIds });
@@ -152,6 +153,8 @@ const PopupEditing = React.memo(({ popupComponent: Popup }) => (
               onChange={processValueChange}
               onApplyChanges={applyChanges}
               onCancelChanges={cancelChanges}
+              onCreateNewColor={createNewColor}
+              onCreateNewSize={createNewSize}
             />
           );
         }}
@@ -216,12 +219,10 @@ const DataGrid = ({
   showSearchBar = false,
   onSelectionChange = () => {},
   onCommitChanges = () => {},
-
 }) => {
-
   const [pageSizes] = React.useState([5, 10, 15]);
   const [currencyColumns] = React.useState(["amount"]);
-
+  console.log("re-render")
   return (
     <Paper>
       <Grid rows={rows} columns={columns} getRowId={getRowId}>

@@ -19,8 +19,8 @@ export const color = {
   details: [],
 };
 export const detail = {
-  size: "Choose a size",
-  quantity: "Enter quantity",
+  size: 38,
+  quantity: 0,
 };
 export const categories = [
   {

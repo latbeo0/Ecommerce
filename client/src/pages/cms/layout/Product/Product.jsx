@@ -4,8 +4,10 @@ import Stack from "@mui/material/Stack";
 import IconButton from "@mui/material/IconButton";
 import { ProductHeader, ProductTitle } from "./ProductStyle";
 import * as data from "./data";
-import { generateRows, globalSalesValues } from "../../../../components/Basic/DataGrid/data/generator"
-
+import {
+  generateRows,
+  globalSalesValues,
+} from "../../../../components/Basic/DataGrid/data/generator";
 
 const sales = generateRows({ columnValues: globalSalesValues, length: 1000 });
 
@@ -18,7 +20,7 @@ const Product = () => {
     isShowSelect: false,
   });
   const [selection, setSelection] = React.useState([]);
-  const [rows, setRows] = useState(sales)
+  const [rows, setRows] = useState(sales);
   const handleClickOptionButton = (event, type) => {
     switch (type) {
       case data.types.SHOW_FILTER:
@@ -86,7 +88,7 @@ const Product = () => {
       </ProductHeader>
       <DataGrid
         rows={rows}
-        columns = {[
+        columns={[
           { name: "product", title: "Product" },
           { name: "region", title: "Region" },
           { name: "amount", title: "Sale Amount" },
