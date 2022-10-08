@@ -1,10 +1,13 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 // import { useSelector, useDispatch } from 'react-redux';
 // import { useEffect, useState } from 'react';
 
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import ForgotPassword from './pages/ForgotPassword';
+import ActiveEmail from './pages/ActiveEmail';
+import ResetPassword from './pages/ResetPassword';
 
 const App = () => {
     // const dispatch = useDispatch();
@@ -16,13 +19,18 @@ const App = () => {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
+                <Route path='/register' element={<Register />} />
                 <Route
-                    path="/*"
-                    index
-                    element={<Home style={{ fontSize: "62.5%" }} />}
+                    path='/activate_email/:activationToken'
+                    element={<ActiveEmail />}
                 />
+                <Route path='/login' element={<Login />} />
+                <Route path='/forgot_password' element={<ForgotPassword />} />
+                <Route
+                    path='/reset_password/:token'
+                    element={<ResetPassword />}
+                />
+                <Route path='/*' index element={<Home />} />
             </Routes>
         </BrowserRouter>
     );

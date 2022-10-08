@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import Icon from '../Icon';
-import { Container, Content, Effect } from './ButtonStyled';
+import { Container, Content, Effect, Loading } from './ButtonStyled';
 
 const Button = ({
     href,
     disable,
     variant = 'text',
     size = 'medium',
+    type,
     thickness,
     fontSize,
     color,
@@ -18,6 +19,7 @@ const Button = ({
     content,
     children,
     effect = false,
+    loading = false,
     onClick,
     ...other
 }) => {
@@ -42,8 +44,11 @@ const Button = ({
     };
 
     const handleClick = (e) => {
-        if (!disable && !isEffect) {
+        if (loading || disable) {
+        } else {
             onClick && onClick();
+        }
+        if (!loading && !disable && !isEffect) {
             effect && handleEffect(e);
         }
     };
@@ -60,6 +65,7 @@ const Button = ({
             color={color}
             fontSize={fontSize}
             padding={padding}
+            type={type}
             onClick={handleClick}
             {...other}
             aria-label='button'
@@ -70,6 +76,8 @@ const Button = ({
             {startIcon?.icon && (
                 <Icon icon={startIcon.icon} sizeIcon={sizeIcon} slot='start' />
             )}
+
+            {loading && <Loading />}
 
             {content && (
                 <Content

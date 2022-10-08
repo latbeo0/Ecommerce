@@ -65,7 +65,7 @@ const Separate = styled.div`
 const Form = styled.form`
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1rem;
 
     @media only screen and (max-width: 767px) {
         gap: 1.25rem;

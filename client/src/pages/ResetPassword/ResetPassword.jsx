@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Button from '../../components/Basic/Button';
 import {
     Container,
     Background,
@@ -9,50 +8,42 @@ import {
     Form,
     HelpContainer,
     BackHomeContainer,
-} from './RegisterStyled';
-import background from '../../assets/img/pexels-lisa-fotios-1909015.jpg';
-import { Link } from 'react-router-dom';
-import { AiOutlineUser } from 'react-icons/ai';
+} from './ResetPasswordStyled';
 import { HiLockClosed } from 'react-icons/hi';
 import { getErrorMessage } from '../../helpers/validation';
-import InputGroup from '../../components/Basic/InputGroup';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { fetchRegister } from '../../services/authFetch';
+import InputGroup from '../../components/Basic/InputGroup';
+import Button from '../../components/Basic/Button';
+import { Link, useParams } from 'react-router-dom';
+import background from '../../assets/img/pexels-pixabay-267202.jpg';
+import { fetchResetPassword } from '../../services/userFetch';
 
 const inputs = [
     {
         id: 1,
-        type: 'email',
-        placeholder: 'Example: example@gmail.com',
-        name: 'email',
-        patterns: ['required', 'email'],
-        label: 'Email *',
-        icon: <AiOutlineUser />,
-    },
-    {
-        id: 2,
         type: 'password',
         placeholder: 'Password',
         name: 'password',
         patterns: ['required', 'password'],
-        label: 'Password *',
+        label: 'New Password *',
         icon: <HiLockClosed />,
     },
     {
-        id: 3,
+        id: 2,
         type: 'password',
         placeholder: 'Confirm Password',
         name: 'confirmPassword',
         patterns: ['required'],
-        label: 'Confirm Password *',
+        label: 'Confirm New Password *',
         icon: <HiLockClosed />,
     },
 ];
 
-const Register = () => {
+const ResetPassword = () => {
+    const { token } = useParams();
+
     const [valuesForm, setValuesForm] = useState({
-        email: '',
         password: '',
         confirmPassword: '',
         loading: false,
@@ -125,9 +116,9 @@ const Register = () => {
         } else {
             const fetchData = async () => {
                 try {
-                    const res = await fetchRegister(
-                        valuesForm.email,
-                        valuesForm.password
+                    const res = await fetchResetPassword(
+                        valuesForm.password,
+                        token
                     );
                     toast.success(res.data.msg, {
                         position: 'top-right',
@@ -162,7 +153,7 @@ const Register = () => {
             <ToastContainer />
             <Container>
                 <Content>
-                    <Title>Register</Title>
+                    <Title>Reset Password</Title>
                     <Separate />
                     <Form onSubmit={(e) => handleSubmit(e)}>
                         {inputs.map((input) => (
@@ -177,7 +168,7 @@ const Register = () => {
                             />
                         ))}
                         <Button
-                            content={'Sign Up'}
+                            content={'Reset Password'}
                             variant='contained'
                             style={{ lineHeight: '2rem', marginTop: '1rem' }}
                             type='submit'
@@ -186,13 +177,9 @@ const Register = () => {
                         />
                     </Form>
                     <HelpContainer>
-                        Already have account ?{' '}
+                        {'- Login now -'}
                         <Link to='/login'>
-                            <button
-                                type='button'
-                                href='#'
-                                disabled={valuesForm.loading}
-                            >
+                            <button type='button' disabled={valuesForm.loading}>
                                 Sign in
                             </button>
                         </Link>
@@ -211,4 +198,4 @@ const Register = () => {
     );
 };
 
-export default Register;
+export default ResetPassword;

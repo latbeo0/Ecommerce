@@ -231,4 +231,8 @@ div {
     --black-color: rgb(55 65 81);
     --black-color-light: rgb(107 114 128);
     --black-color-drank: rgb(31 41 55);
+
+    /* ===== Color ===== */
+    --red-color: #ff4a4a;
+    --green-color: #38e54d;
 }

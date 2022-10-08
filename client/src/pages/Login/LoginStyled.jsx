@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const Container = styled.div`
     width: 100vw;
@@ -29,6 +29,7 @@ const Content = styled.div`
     align-items: stretch;
     justify-content: center;
     padding: 2rem;
+    margin: 1rem;
     border-radius: 5px;
 
     --tw-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1),
@@ -38,13 +39,19 @@ const Content = styled.div`
     box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
         var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 `;
-const Logo = styled.div``;
+
 const Title = styled.h1`
     font-size: 3.125rem;
-    color: var(--black-color);
+    color: var(--primary-color);
     text-align: center;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
+
+    @media only screen and (max-width: 767px) {
+        font-size: 3rem;
+        margin-bottom: 1.5rem;
+    }
 `;
+
 const ButtonsSocial = styled.div`
     display: flex;
     flex-direction: column;
@@ -58,15 +65,19 @@ const ButtonsSocial = styled.div`
         box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
             var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
     }
+
+    @media only screen and (max-width: 767px) {
+        gap: 0.75rem;
+    }
 `;
-const ButtonExample = styled.button``;
+
 const Separate = styled.div`
     position: relative;
     border-bottom: 1px solid var(--gray-color-light);
     margin: 2rem 0;
 
     &::before {
-        content: "Or";
+        content: 'Or';
         position: absolute;
         top: 50%;
         left: 50%;
@@ -77,64 +88,69 @@ const Separate = styled.div`
         font-size: 0.875rem;
         font-weight: 500;
     }
+
+    @media only screen and (max-width: 767px) {
+        margin: 1.75rem 0;
+    }
 `;
+
 const Form = styled.form`
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
-`;
-const ButtonGroup = styled.div``;
-const Input = styled.input`
-    width: 100%;
-    min-width: 200px;
-    font-size: 1rem;
-    font-weight: 500;
-    line-height: 2rem;
-    color: var(--gray-color-light);
-    padding: 0.5rem 1rem;
-    outline: none;
-    border: 1px solid var(--gray-color-light);
-    border-radius: 5px;
+    gap: 1rem;
 
-    &::placeholder {
-        color: var(--gray-color-light);
+    @media only screen and (max-width: 767px) {
+        gap: 1.25rem;
     }
 `;
+
 const HelpContainer = styled.div`
-    margin-top: 1.5rem;
+    margin-top: 2rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
 
-    & a {
+    & button[type='button'] {
         font-size: 0.875rem;
+        font-weight: 500;
         color: var(--primary-color);
     }
-`;
-const ForgotContainer = styled.div`
-    & > a {
-        color: var(--primary-color);
+
+    @media only screen and (max-width: 767px) {
+        margin-top: 1.5rem;
+        flex-direction: column;
+        gap: 0.5rem;
     }
 `;
+
 const RegisterContainer = styled.div`
     font-size: 0.8125rem;
     font-weight: 500;
     color: var(--gray-color-dark);
 `;
 
+const BackHomeContainer = styled.div`
+    position: absolute;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--white-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
+
 export {
     Container,
     Background,
     Content,
-    Logo,
     Title,
     ButtonsSocial,
-    ButtonExample,
     Separate,
     Form,
-    ButtonGroup,
-    Input,
     HelpContainer,
-    ForgotContainer,
     RegisterContainer,
+    BackHomeContainer,
 };

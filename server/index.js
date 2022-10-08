@@ -5,8 +5,8 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 
-const authRoute = require('./routes/auth');
-// const userRoute = require('./routes/user');
+const authRoute = require('./routes/authRoute');
+const userRoute = require('./routes/userRoute');
 const productRoute = require('./routes/productRoute');
 // const orderRoute = require('./routes/order');
 
@@ -29,7 +29,7 @@ connectDB();
 
 // Routes
 app.use('/api/auth', authRoute);
-// app.use('/api/user', userRoute);
+app.use('/api/user', userRoute);
 app.use('/api/product', productRoute);
 // app.use('/api/order', orderRoute);
 

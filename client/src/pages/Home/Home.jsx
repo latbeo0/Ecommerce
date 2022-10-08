@@ -9,30 +9,12 @@ import {
     Service,
     HeaderSection,
     Title,
-    Description,
     ViewAll,
     ContentSection,
     CategoryCard,
     ImageCategory,
     TitleCategory,
     BodySection,
-    Product,
-    ProductImage,
-    HeartContainer,
-    Image,
-    ProductContent,
-    ProductContentHeader,
-    ProductTitle,
-    ProductStars,
-    ProductStar,
-    ProductContentBody,
-    ProductSale,
-    Sale,
-    ProductPrice,
-    PriceOld,
-    PriceNew,
-    ProductContentFooter,
-    ProductButton,
     Footer,
     GetInTouch,
     TitleFooter,
@@ -40,10 +22,7 @@ import {
 import { HiCheck } from 'react-icons/hi';
 import { FaShippingFast, FaPhoneVolume } from 'react-icons/fa';
 import { AiOutlineSwap } from 'react-icons/ai';
-import { BsArrowRightShort, BsStarFill, BsHeart } from 'react-icons/bs';
-import heartIcon from '../../assets/img/heart.png';
-import heartIcon1 from '../../assets/img/heart (1).png';
-import heartIcon2 from '../../assets/img/heart (2).png';
+import { BsArrowRightShort } from 'react-icons/bs';
 import ProductCard from './../../components/User/ProductCard';
 
 const Home = () => {

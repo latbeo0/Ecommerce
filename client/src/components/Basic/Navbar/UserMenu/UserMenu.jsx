@@ -7,24 +7,29 @@ import {
     WrapperCart,
 } from './UserMenuStyled';
 import { Button } from '../../Button';
+import { Link } from 'react-router-dom';
 
 const UserMenu = () => {
     return (
         <Container>
             <WrapperUser>
-                <Button
-                    href='#'
-                    content='Sign in'
-                    color='var(--black-color)'
-                    padding='0'
-                />
+                <Link to='/login'>
+                    <Button
+                        href='#'
+                        content='Sign in'
+                        color='var(--black-color)'
+                        padding='0'
+                    />
+                </Link>
                 <Separate />
-                <Button
-                    href='#'
-                    content='Create account'
-                    color='var(--black-color)'
-                    padding='0'
-                />
+                <Link to='register'>
+                    <Button
+                        href='#'
+                        content='Create account'
+                        color='var(--black-color)'
+                        padding='0'
+                    />
+                </Link>
             </WrapperUser>
             <WrapperLanguage>
                 <Button

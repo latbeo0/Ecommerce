@@ -17,6 +17,7 @@ import {
     ContainerOthers,
     WrapperOther,
 } from './HeaderStyled';
+import { Link } from 'react-router-dom';
 
 const navigation = {
     categories: [
@@ -302,18 +303,22 @@ const Header = () => {
                             </ContainerOthers>
                             <ContainerOthers>
                                 <WrapperOther>
-                                    <Button
-                                        href='#'
-                                        content='Sign in'
-                                        color='var(--black-color)'
-                                    />
+                                    <Link to='/login'>
+                                        <Button
+                                            href='#'
+                                            content='Sign in'
+                                            color='var(--black-color)'
+                                        />
+                                    </Link>
                                 </WrapperOther>
                                 <WrapperOther>
-                                    <Button
-                                        href='#'
-                                        content='Create Account'
-                                        color='var(--black-color)'
-                                    />
+                                    <Link to='/register'>
+                                        <Button
+                                            href='#'
+                                            content='Create Account'
+                                            color='var(--black-color)'
+                                        />
+                                    </Link>
                                 </WrapperOther>
                             </ContainerOthers>
                             <ContainerOthers>

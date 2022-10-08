@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import Button from '../../components/Basic/Button';
+import { AiOutlineUser } from 'react-icons/ai';
+import InputGroup from '../../components/Basic/InputGroup';
+import { getErrorMessage } from '../../helpers/validation';
 import {
     Container,
     Background,
@@ -9,16 +11,13 @@ import {
     Form,
     HelpContainer,
     BackHomeContainer,
-} from './RegisterStyled';
-import background from '../../assets/img/pexels-lisa-fotios-1909015.jpg';
-import { Link } from 'react-router-dom';
-import { AiOutlineUser } from 'react-icons/ai';
-import { HiLockClosed } from 'react-icons/hi';
-import { getErrorMessage } from '../../helpers/validation';
-import InputGroup from '../../components/Basic/InputGroup';
+} from './ForgotPasswordStyled';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { fetchRegister } from '../../services/authFetch';
+import Button from '../../components/Basic/Button';
+import { Link } from 'react-router-dom';
+import background from '../../assets/img/pexels-lisa-fotios-1909015.jpg';
+import { fetchForgotPassword } from '../../services/userFetch';
 
 const inputs = [
     {
@@ -30,33 +29,13 @@ const inputs = [
         label: 'Email *',
         icon: <AiOutlineUser />,
     },
-    {
-        id: 2,
-        type: 'password',
-        placeholder: 'Password',
-        name: 'password',
-        patterns: ['required', 'password'],
-        label: 'Password *',
-        icon: <HiLockClosed />,
-    },
-    {
-        id: 3,
-        type: 'password',
-        placeholder: 'Confirm Password',
-        name: 'confirmPassword',
-        patterns: ['required'],
-        label: 'Confirm Password *',
-        icon: <HiLockClosed />,
-    },
 ];
 
-const Register = () => {
+const ForgotPassword = () => {
     const [valuesForm, setValuesForm] = useState({
         email: '',
-        password: '',
-        confirmPassword: '',
         loading: false,
-        showErr: false,
+        error: false,
     });
 
     const [errorsForm, setErrorsForm] = useState(() => {
@@ -82,15 +61,6 @@ const Register = () => {
             .patterns;
         const err = getErrorMessage(value, patterns);
         setErrorsForm({ ...errorsForm, [name]: err });
-
-        if (name === 'confirmPassword') {
-            if (value !== valuesForm.password) {
-                setErrorsForm({
-                    ...errorsForm,
-                    [name]: ['Confirm password not match with password'],
-                });
-            }
-        }
     };
 
     const handleChange = (e) => {
@@ -125,7 +95,7 @@ const Register = () => {
         } else {
             const fetchData = async () => {
                 try {
-                    const res = await fetchRegister(
+                    const res = await fetchForgotPassword(
                         valuesForm.email,
                         valuesForm.password
                     );
@@ -162,7 +132,7 @@ const Register = () => {
             <ToastContainer />
             <Container>
                 <Content>
-                    <Title>Register</Title>
+                    <Title>Forgot Password</Title>
                     <Separate />
                     <Form onSubmit={(e) => handleSubmit(e)}>
                         {inputs.map((input) => (
@@ -173,26 +143,21 @@ const Register = () => {
                                 errorMessage={errorsForm[input.name][0]}
                                 showErr={valuesForm.showErr}
                                 onChange={handleChange}
-                                readOnly={valuesForm.loading}
                             />
                         ))}
                         <Button
-                            content={'Sign Up'}
+                            content={'Forgot Password'}
                             variant='contained'
+                            effect
                             style={{ lineHeight: '2rem', marginTop: '1rem' }}
                             type='submit'
-                            effect
                             loading={valuesForm.loading}
                         />
                     </Form>
                     <HelpContainer>
-                        Already have account ?{' '}
+                        {'- Login now -'}
                         <Link to='/login'>
-                            <button
-                                type='button'
-                                href='#'
-                                disabled={valuesForm.loading}
-                            >
+                            <button type='button' disabled={valuesForm.loading}>
                                 Sign in
                             </button>
                         </Link>
@@ -211,4 +176,4 @@ const Register = () => {
     );
 };
 
-export default Register;
+export default ForgotPassword;
