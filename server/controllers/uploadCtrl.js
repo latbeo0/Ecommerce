@@ -15,7 +15,7 @@ const uploadCtrl = {
             cloudinary.v2.uploader.upload(
                 file.tempFilePath,
                 {
-                    folder: 'avatar',
+                    folder: '/ktln/avatar',
                     width: 150,
                     height: 150,
                     crop: 'fill',
@@ -38,7 +38,7 @@ const uploadCtrl = {
             cloudinary.v2.uploader.upload(
                 file.tempFilePath,
                 {
-                    folder: 'products',
+                    folder: '/kltn/products',
                     width: 500,
                     height: 500,
                     crop: 'fill',
