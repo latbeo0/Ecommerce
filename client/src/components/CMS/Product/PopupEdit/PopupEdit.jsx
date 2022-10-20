@@ -1,4 +1,5 @@
 import { useState } from "react";
+import * as React from "react";
 import TextField from "@mui/material/TextField";
 import FormGroup from "@mui/material/FormGroup";
 import Button from "@mui/material/Button";
@@ -20,44 +21,79 @@ import {
   ProductSecondaryImageInput,
 } from "./PopupEditStyle";
 import Plus from "../../../../assets/img/plus.png";
-import { fetchUploadImageProduct } from "../../../../services/productFetch";
+import {
+  fetchUploadImageProduct,
+  fetchAddNewProduct,
+  fetchUpdateProduct,
+} from "../../../../services/productFetch";
+import InputAdornment from "@mui/material/InputAdornment";
+
 import { checkFile } from "../../../../helpers/validate";
 import * as data from "./data";
+import Slide from "@mui/material/Slide";
 
-const itemData = [
+import Notification from "../../../Basic/Notification/Notification";
+import { NotificationType } from "../../../Basic/Notification/type";
+
+const primaryItems = [
   {
-    img: "https://images.unsplash.com/photo-1551963831-b3b1ca40c98e",
-    title: "Breakfast",
+    img: "https://i.ibb.co/pyvB7Qg/shoes-primary.jpg",
+    title: "Number 1",
   },
   {
-    img: "https://images.unsplash.com/photo-1551782450-a2132b4ba21d",
-    title: "Burger",
+    img: "https://i.ibb.co/X4zKYbn/shoes-1.jpg",
+    title: "Number 2",
   },
-  // {
-  //   img: "https://images.unsplash.com/photo-1522770179533-24471fcdba45",
-  //   title: "Camera",
-  // },
-  // {
-  //   img: "https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c",
-  //   title: "Coffee",
-  // },
 ];
-const PopupEdit = ({
-  row,
-  onChange,
-  onApplyChanges,
-  onCancelChanges,
-  open,
-}) => {
+const secondaryItems = [
+  {
+    img: "https://i.ibb.co/X4zKYbn/shoes-1.jpg",
+    title: "Number 1",
+  },
+  {
+    img: "https://i.ibb.co/rt551bt/shoes-2.jpg",
+    title: "Number 2",
+  },
+  {
+    img: "https://i.ibb.co/P6nQn94/shoes-3.jpg",
+    title: "Number 3",
+  },
+  {
+    img: "https://i.ibb.co/XkKRxWX/shoes-4.jpg",
+    title: "Number 4",
+  },
+];
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+const PopupEdit = ({ open, row, onClose, onSubmit }) => {
   const [product, setProductData] = useState(data.product);
   const [colors, setColors] = useState([]);
-  const [secondaryImages, setSecondaryImages] = useState(itemData);
+  const [primaryImages, setPrimaryImages] = useState(
+    row?.primaryImages ? row.primaryImages : primaryItems
+  );
+  const [secondaryImages, setSecondaryImages] = useState(
+    row?.secondaryImages ? row.secondaryImages : secondaryItems
+  );
+
+  React.useEffect(() => {
+    if (row) {
+      setProductData(row);
+      if (row.colors && row.colors.length > 0) {
+        setColors(row.colors);
+      } else setColors([]);
+    } else {
+      setProductData(data.product);
+      setColors([]);
+    }
+  }, [row]);
 
   const handleChangeInput = (e) => {
     const { name, value } = e.target;
-    setProductData({ ...product, [name]: value });
+    if (e.target.name === "isStock") {
+      setProductData({ ...product, isStock: e.target.checked });
+    } else setProductData({ ...product, [name]: value });
   };
-
   const handleCalColor = (e) => {
     e.preventDefault();
     const id = e.target.id;
@@ -71,39 +107,42 @@ const PopupEdit = ({
   };
 
   const handleChangeColor = (e, index) => {
-    const newColors = colors.map((o, i) => {
+    const { name, value } = e.target;
+    const newColors = colors.map((c, i) => {
       if (i === index) {
         return {
-          ...o,
-          valueColor: e.target.value,
+          ...c,
+          [name]: value,
         };
       }
-      return o;
+      return c;
     });
     setColors(newColors);
   };
 
   const handleCalColorDetail = (e, colorIndex) => {
-    e.preventDefault();
+    e.preventDefault(); 
+    console.log('colorIndex', colorIndex);
+    console.log('color', colors[colorIndex]);
     const idValue = e.target.id;
-
     if (idValue === "addItem") {
       colors[colorIndex].details.push(data.detail);
     } else {
-      const newArr = colors[colorIndex].details.filter(
-        (item) => item !== colors[colorIndex].details[Number(idValue)]
-      );
-      colors[colorIndex].details = newArr;
+      // const newArr = colors[colorIndex].details.filter(
+      //   (item) => item !== colors[colorIndex].details[Number(idValue)]
+      // );
+      // colors[colorIndex].details = newArr;
     }
-
     setColors([...colors]);
   };
+
+  console.log('colors',colors);
   const handleChangeColorDetail = (e, colorIndex, detailIndex) => {
     const { name, value } = e.target;
-    const newColors = colors.map((o, oi) => {
-      if (oi === colorIndex) {
+    const newColors = colors.map((c, ci) => {
+      if (ci === colorIndex) {
         return {
-          ...o,
+          ...c,
           details: colors[colorIndex].details.map((d, di) => {
             if (di === detailIndex) {
               return {
@@ -115,7 +154,7 @@ const PopupEdit = ({
           }),
         };
       }
-      return o;
+      return c;
     });
     setColors(newColors);
   };
@@ -163,20 +202,61 @@ const PopupEdit = ({
   };
   const handleChangeSecondaryImage = () => {};
 
+  const handleSubmit = async () => {
+    if (!row) {
+      await fetchAddNewProduct({
+        ...product,
+        primaryImages: primaryImages,
+        secondaryImages: secondaryImages,
+        colors: colors,
+      })
+        .then((response) => {
+          if (response.status === 200) {
+            Notification(NotificationType.success, response.data.msg);
+            setProductData(data.product);
+            setColors([]);
+            setPrimaryImages([]);
+            setSecondaryImages([]);
+          } else Notification(NotificationType.error, response.data.msg);
+        })
+        .catch((error) => Notification(NotificationType.error, error));
+    } else {
+      await fetchUpdateProduct(
+        {
+          ...product,
+          primaryImages: primaryImages,
+          secondaryImages: secondaryImages,
+          colors: colors,
+        },
+        row.id
+      )
+        .then((response) => {
+          if (response.status === 200) {
+            Notification(NotificationType.success, response.data.msg);
+          } else Notification(NotificationType.error, response.data.msg);
+        })
+        .catch((error) => Notification(NotificationType.error, error));
+    }
+  };
+
   return (
     <Dialog
       open={open}
-      onClose={onCancelChanges}
+      onClose={onClose}
       aria-labelledby="form-dialog-title"
-      maxWidth="md"
+      maxWidth="lg"
+      fullWidths={true}
+      TransitionComponent={Transition}
     >
       <DialogTitle id="form-dialog-title">Product Details</DialogTitle>
       <DialogContent>
         <FormControlLabel
-          control={<Switch defaultChecked={true} />}
-          label="Enable"
+          control={<Switch checked={product.isStock} />}
+          label={product.isStock ? "In Stock" : "Out Stock"}
+          name="isStock"
+          onChange={handleChangeInput}
         />
-        <MuiGrid container spacing={4}>
+        <MuiGrid container spacing={6}>
           <MuiGrid item xs={4}>
             <FormGroup>
               <TextField
@@ -185,83 +265,132 @@ const PopupEdit = ({
                 label="Name"
                 value={product.productName || ""}
                 onChange={handleChangeInput}
-                sx={{ width: 200 }}
+                sx={{ minWidth: 200 }}
               />
               <TextField
                 margin="normal"
-                name="price"
-                label="Price"
-                value={product.price || ""}
-                onChange={handleChangeInput}
-                sx={{ width: 200 }}
-              />
-            </FormGroup>
-          </MuiGrid>
-          <MuiGrid item xs={4}>
-            <FormGroup>
-              <TextField
-                margin="normal"
-                value={product.categoryID || ""}
+                value={product.cateCode || ""}
                 onChange={handleChangeInput}
                 select // tell TextField to render select
                 label="Category"
-                name="categoryID"
-                sx={{ width: 200 }}
+                name="cateCode"
+                sx={{ minWidth: 200 }}
               >
                 <MenuItem key="CATEGORY0" value="">
                   <em>None</em>
                 </MenuItem>
                 {data.categories.map((item) => (
-                  <MenuItem key={item.id} value={item.id}>
-                    {item.categoryName}
+                  <MenuItem key={item.cateCode} value={item.cateCode}>
+                    {item.cateName}
                   </MenuItem>
                 ))}
               </TextField>
               <TextField
                 margin="normal"
-                name="newPrice"
-                label="New Price"
-                value={product.newPrice || ""}
+                value={product.saleCode || ""}
                 onChange={handleChangeInput}
-                sx={{ width: 200 }}
-              />
+                select // tell TextField to render select
+                label="Sale Code"
+                name="saleCode"
+                sx={{ minWidth: 200 }}
+              >
+                <MenuItem key="SALE" value="">
+                  <em>None</em>
+                </MenuItem>
+                {data.sales.map((item) => (
+                  <MenuItem key={item.saleCode} value={item.saleCode}>
+                    {item.saleName}
+                  </MenuItem>
+                ))}
+              </TextField>
             </FormGroup>
           </MuiGrid>
           <MuiGrid item xs={4}>
             <FormGroup>
               <TextField
                 margin="normal"
-                value={product.collectionID || ""}
+                value={product.gender || ""}
                 onChange={handleChangeInput}
                 select // tell TextField to render select
-                label="Collection"
-                name="collectionID"
-                sx={{ width: 200 }}
+                label="Gender"
+                name="gender"
+                sx={{ minWidth: 200 }}
               >
-                <MenuItem key={0} value="">
+                <MenuItem key="GENDER" value="">
                   <em>None</em>
                 </MenuItem>
-                {data.collections.map((item) => (
-                  <MenuItem key={item.id} value={item.id}>
-                    {item.collectionName}
+                {data.gender.map((item) => (
+                  <MenuItem key={item.id} value={item.name}>
+                    {item.name}
                   </MenuItem>
                 ))}
               </TextField>
               <TextField
                 margin="normal"
-                name="saleID"
-                label="Sale"
-                value={product.saleID || ""}
-                select
+                value={product.collectCode || ""}
                 onChange={handleChangeInput}
-                sx={{ width: 200 }}
+                select // tell TextField to render select
+                label="Collection"
+                name="collectCode"
+                sx={{ minWidth: 200 }}
               >
-                <MenuItem key={0} value="">
+                <MenuItem key="COLLECTION" value="">
                   <em>None</em>
                 </MenuItem>
-                {data.sales.map((item) => (
-                  <MenuItem key={item.id} value={item.id}>
-                    {item.collectionName}
+                {data.collections.map((item) => (
+                  <MenuItem key={item.collectCode} value={item.collectCode}>
+                    {item.collectName}
+                  </MenuItem>
+                ))}
+              </TextField>
+
+              <TextField
+                margin="normal"
+                type="number"
+                name="newPrice"
+                label="New Price"
+                value={product.newPrice || 0}
+                onChange={handleChangeInput}
+                sx={{ minWidth: 200 }}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">VND</InputAdornment>
+                  ),
+                }}
+              />
+            </FormGroup>
+          </MuiGrid>
+          <MuiGrid item xs={4}>
+            <FormGroup>
+              <TextField
+                type="number"
+                margin="normal"
+                name="price"
+                label="Price"
+                value={product.price || 0}
+                onChange={handleChangeInput}
+                sx={{ minWidth: 200 }}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">VND</InputAdornment>
+                  ),
+                }}
+              />
+              <TextField
+                margin="normal"
+                name="stateCode"
+                label="State"
+                value={product.stateCode || ""}
+                select
+                onChange={handleChangeInput}
+                sx={{ minWidth: 200 }}
+              >
+                <MenuItem key="STATE" value="">
+                  <em>None</em>
+                </MenuItem>
+                {data.states.map((item) => (
+                  <MenuItem key={item.stateCode} value={item.stateCode}>
+                    {item.stateName}
                   </MenuItem>
                 ))}
               </TextField>
@@ -281,7 +410,42 @@ const PopupEdit = ({
             />
           </FormGroup>
         </MuiGrid>
-        <Link>List Image</Link>
+        <Link>List Primary Images</Link>
+        <MuiGrid>
+          <ImageList cols={2} rowHeight={328}>
+            {primaryImages.map((item) => (
+              <ImageListItem key={item.img}>
+                <ProductSecondaryImage
+                  src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
+                  srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                  alt={item.title}
+                  loading="lazy"
+                />
+              </ImageListItem>
+            ))}
+            {primaryImages.length < 2 && (
+              <ImageListItem>
+                <ProductSecondaryImageCard>
+                  <ProductSecondaryImageLabel for="file-input">
+                    <ProductSecondaryImage
+                      id="addImage"
+                      src={Plus}
+                      alt="New"
+                      loading="lazy"
+                      onClick={handleCalSecondaryImage}
+                    />
+                  </ProductSecondaryImageLabel>
+                  <ProductSecondaryImageInput
+                    id="file-input"
+                    type="file"
+                    onChange={handlePreviewImage}
+                  />
+                </ProductSecondaryImageCard>
+              </ImageListItem>
+            )}
+          </ImageList>
+        </MuiGrid>
+        <Link>List Extra Images</Link>
         <MuiGrid>
           <ImageList cols={4} rowHeight={164}>
             {secondaryImages.map((item) => (
@@ -321,16 +485,40 @@ const PopupEdit = ({
           {colors?.length > 0 &&
             colors.map((color, colorIndex) => (
               <MuiGrid container spacing={0} key={`COLOR_NO${colorIndex}`}>
-                <MuiGrid item xs={6}>
-                  <FormGroup>
-                    <TextField
-                      margin="normal"
-                      name="color"
-                      value={color.valueColor}
-                      onChange={(e) => handleChangeColor(e, colorIndex)}
-                      type="color"
-                    />
-                  </FormGroup>
+                <MuiGrid
+                  item
+                  xs={6}
+                  sx={{
+                    border: "1px solid black",
+                    borderRadius: "15px",
+                    padding: 1,
+                    marginTop: 2,
+                  }}
+                >
+                  <MuiGrid container spacing={1}>
+                    <MuiGrid item xs={6}>
+                      <FormGroup>
+                        <TextField
+                          margin="normal"
+                          name="nameColor"
+                          value={color.nameColor}
+                          onChange={(e) => handleChangeColor(e, colorIndex)}
+                          label="Color Name"
+                        />
+                      </FormGroup>
+                    </MuiGrid>
+                    <MuiGrid item xs={6}>
+                      <FormGroup>
+                        <TextField
+                          margin="normal"
+                          name="valueColor"
+                          value={color.valueColor}
+                          onChange={(e) => handleChangeColor(e, colorIndex)}
+                          type="color"
+                        />
+                      </FormGroup>
+                    </MuiGrid>
+                  </MuiGrid>
                   <Link
                     id="addItem"
                     onClick={(e) => handleCalColorDetail(e, colorIndex)}
@@ -355,9 +543,9 @@ const PopupEdit = ({
                               }
                               select // tell TextField to render select
                               type="text"
-                              label={detail.size}
+                              label="Size"
                             >
-                              <MenuItem key={0} value="">
+                              <MenuItem key="SIZE" value="">
                                 <em>None</em>
                               </MenuItem>
                               {data.sizes.map((item) => (
@@ -382,7 +570,7 @@ const PopupEdit = ({
                                 )
                               }
                               type="number"
-                              label={detail.quantity}
+                              label="Quantity"
                             />
                           </FormGroup>
                         </MuiGrid>
@@ -394,11 +582,11 @@ const PopupEdit = ({
         </MuiGrid>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onCancelChanges} color="secondary">
+        <Button onClick={onClose} color="secondary">
           Cancel
         </Button>
-        <Button onClick={onApplyChanges} color="primary">
-          Save
+        <Button onClick={handleSubmit} color="primary">
+          {row ? "Update" : "Create"}
         </Button>
       </DialogActions>
     </Dialog>

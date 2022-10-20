@@ -1,23 +1,51 @@
-const mongoose = require('mongoose');
-
+const mongoose = require("mongoose");
+const StateModel = require("./stateModel");
+const CollectionModel = require("./collectionModel");
+const CategoryModel = require("./categoryModel");
+const SaleModel = require("./saleModel");
 const ProductSchema = new mongoose.Schema(
-    {
-        productName: { type: String, required: true },
-        productDescription: { type: String, required: true },
-        primaryImage: { type: String, required: true },
-        secondaryImage: { type: Array, required: true },
-        categoryID: { type: String },
-        stateID: { type: String, required: true },
-        price: { type: String, required: true },
-        newPrice: { type: String },
-        collectionID: { type: String },
-        saleID: { type: String },
-        isStock: {type: Boolean, required: true},
-        color: { type: Array },
-    },
-    {
-        timestamps: true,
-    }
+  {
+    productName: { type: String, required: true },
+    productDescription: { type: String, required: true },
+    primaryImages: { type: Array, required: true },
+    secondaryImages: { type: Array, required: true },
+    gender: { type: String, required: true },
+    stateCode: { type: String },
+    cateCode: { type: String },
+    collectCode: { type: String },
+    saleCode: { type: String },
+    colors: { type: Array },
+    price: { type: Number, required: true },
+    newPrice: { type: Number },
+    isStock: { type: Boolean, required: true },
+  },
+  {
+    id: false,
+    timestamps: true,
+  }
 );
+ProductSchema.virtual("vState", {
+  ref: StateModel,
+  localField: "stateCode",
+  foreignField: "stateCode",
+});
+ProductSchema.virtual("vCollection", {
+  ref: CollectionModel,
+  localField: "collectCode",
+  foreignField: "collectCode",
+});
+ProductSchema.virtual("vCategory", {
+  ref: CategoryModel,
+  localField: "cateCode",
+  foreignField: "cateCode",
+});
+ProductSchema.virtual("vSale", {
+  ref: SaleModel,
+  localField: "saleCode",
+  foreignField: "saleCode",
+});
 
-module.exports = mongoose.model('products', ProductSchema);
+ProductSchema.set("toObject", { virtuals: true });
+ProductSchema.set("toJSON", { virtuals: true });
+
+module.exports = mongoose.model("products", ProductSchema);

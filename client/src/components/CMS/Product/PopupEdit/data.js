@@ -1,20 +1,22 @@
 export const product = {
   productName: "",
   productDescription: "",
-  primaryImage: "",
-  secondaryImage: [],
-  categoryID: "",
-  stateID: "",
+  primaryImages: [],
+  secondaryImages: [],
+  gender: "",
+  cateCode: "",
+  stateCode: "",
+  collectCode: "",
+  saleCode: "",
   price: 0,
   newPrice: 0,
-  collectionID: "",
-  saleID: "",
   colors: [],
+  isStock: true,
   err: "",
   success: "",
 };
 export const color = {
-  nameColor: "",
+  nameColor: "White",
   valueColor: "#ffffff",
   details: [],
 };
@@ -24,58 +26,72 @@ export const detail = {
 };
 export const categories = [
   {
-    id: "CATEGORY1",
-    categoryName: "Men's shoes",
+    cateCode: "CATEGORY1",
+    cateName: "Men's shoes",
   },
   {
-    id: "CATEGORY2",
-    categoryName: "Women's shoes",
+    cateCode: "CATEGORY2",
+    cateName: "Women's shoes",
+  },
+];
+export const gender = [
+  {
+    id: "MALE",
+    name: "Male",
+  },
+  {
+    id: "FEMALE",
+    name: "Female",
+  },
+  {
+    id: "UNISEX",
+    name: "Unisex",
   },
 ];
 export const collections = [
   {
-    id: "COLLECTION1",
-    collectionName: "Spring",
+    collectCode: "COLLECTION1",
+    collectName: "Spring",
   },
   {
-    id: "COLLECTION2",
-    collectionName: "Summer",
+    collectCode: "COLLECTION2",
+    collectName: "Summer",
   },
   {
-    id: "COLLECTION3",
-    collectionName: "Autumn",
+    collectCode: "COLLECTION3",
+    collectName: "Autumn",
   },
   {
-    id: "COLLECTION4",
-    collectionName: "Winter",
+    collectCode: "COLLECTION4",
+    collectName: "Winter",
   },
 ];
 export const states = [
   {
-    id: "STATE1",
+    stateCode: "STATE1",
     stateName: "New",
   },
   {
-    id: "STATE2",
+    stateCode: "STATE2",
     stateName: "Hot",
   },
   {
-    id: "STATE3",
+    stateCode: "STATE3",
     stateName: "Limited",
   },
 ];
 export const sales = [
   {
-    id: "SALE1",
-    collectionName: "ANNIVERSARY 2ND",
+    saleCode: "SALE1",
+    saleName: "ANNIVERSARY 2ND",
   },
   {
-    id: "SALE2",
-    collectionName: "NEW BRANCH",
+    saleCode: "SALE2",
+    saleName: "NEW BRANCH",
   },
   {
-    id: "SALE3",
-    collectionName: "SEPTEMBER",
+    saleCode: "SALE3",
+    saleName: "SEPTEMBER",
   },
 ];
 export const sizes = [

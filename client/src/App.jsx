@@ -14,7 +14,7 @@ const App = () => {
   // const auth = useSelector((state) => state.auth);
   // const { isLogged, isAdmin } = auth;
   // const [loading, setLoading] = useState(true);
-  const isAdmin = false;
+  const isAdmin = true;
 
   return (
     <BrowserRouter>

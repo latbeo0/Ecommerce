@@ -1,13 +1,21 @@
 const Product = require("../models/productModel");
+
 const jwt = require("jsonwebtoken");
 
 const productCtrl = {
   getAllProduct: async (req, res) => {
     try {
-      let Product;
-      Product = await Product.find();
+      // let product;
+      // product = await Product.find()
+      // res.status(200).json({ product });
+      let product;
+      product = await Product.find()
+        .populate({ path: "vState", select: "stateName -stateCode" })
+        .populate({ path: "vCollection", select: "collectName -collectCode" })
+        .populate({ path: "vCategory", select: "cateName -cateCode" })
+        .populate({ path: "vSale", select: "saleName -saleCode" })
 
-      res.status(200).json({ Product });
+      res.status(200).json({ product });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
@@ -57,7 +65,6 @@ const productCtrl = {
     }
   },
   deleteProduct: async (req, res) => {},
-  
 };
 
 module.exports = productCtrl;

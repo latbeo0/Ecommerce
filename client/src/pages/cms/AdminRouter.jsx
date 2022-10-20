@@ -10,6 +10,7 @@ import Product from "./layout/Product/Product";
 
 import "./cms.css";
 import { ListMenu } from "./data";
+import User from "./layout/User/User";
 const { Header, Sider, Content } = Layout;
 
 const AdminRouter = () => {
@@ -20,7 +21,11 @@ const AdminRouter = () => {
         <div className="logo" />
         <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
           {ListMenu.map((item) => (
-            <Menu.Item id={item.key} key={item.key} onClick={() => {}}>
+            <Menu.Item
+              id={item.key}
+              key={item.key}
+              style={{ display: "flex", alignItems: "center" }}
+            >
               <Icon component={item.icon} />
               <span>
                 <Link to={item.link} className="KLink">
@@ -58,7 +63,7 @@ const AdminRouter = () => {
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/list-product" element={<Product />} />
-            <Route path="/list-user" element={<Product />} />
+            <Route path="/list-user" element={<User />} />
             <Route path="/list-region" element={<Product />} />
             <Route path="/list-role" element={<Product />} />
             {/* </Route> */}
