@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const roleModel = require("./roleModel");
 
 const UserSchema = new mongoose.Schema(
     {
@@ -40,7 +41,7 @@ const UserSchema = new mongoose.Schema(
             type: Boolean,
             default: true,
         },
-        roleID: {
+        roleCode: {
             type: String,
         },
     },
@@ -48,5 +49,9 @@ const UserSchema = new mongoose.Schema(
         timestamps: true,
     }
 );
-
+UserSchema.virtual("vRole", {
+    ref: roleModel,
+    localField: "roleCode",
+    foreignField: "roleCode",
+  });
 module.exports = mongoose.model('User', UserSchema);

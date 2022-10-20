@@ -77,7 +77,10 @@ const userCtrl = {
   getAllUser: async (req, res) => {
     try {
       let user;
-      user = await Users.find();
+      user = await Users.find().populate({
+        path: "vRole",
+        select: "roleName -roleCode",
+      });
       res.status(200).json({ user });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
@@ -90,12 +93,12 @@ const userCtrl = {
       return res.status(400).json({ msg: "This email already exists." });
 
     const passwordHash = CryptoJS.AES.encrypt(
-      password,
+      newUser.password,
       process.env.PASS_SEC
     ).toString();
 
     try {
-      await {...newUser, password: passwordHash}.save();
+      await { ...newUser, password: passwordHash }.save();
       res.status(200).json({ msg: "User has been created" });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
