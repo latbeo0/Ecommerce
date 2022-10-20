@@ -6,13 +6,14 @@ const Container = styled.header`
     left: 0;
     width: 100%;
     background-color: #fff;
-    z-index: 2;
+    z-index: 998;
 `;
 
 const ContainerMobile = styled.div`
     position: relative;
     z-index: 40;
     display: block;
+    z-index: 999;
 
     @media only screen and (min-width: 1025px) {
         display: none;

@@ -1,7 +1,6 @@
 import styled, { css, keyframes } from 'styled-components';
 
-const Container = styled.a.attrs((props) => ({
-    as: !props.href && 'button',
+const Container = styled.button.attrs((props) => ({
     type: props.type,
 }))`
     outline: 0;

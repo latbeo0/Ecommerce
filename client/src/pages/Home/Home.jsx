@@ -1,4 +1,5 @@
 import Header from '../../components/User/Header';
+import Footer from '../../components/User/Footer';
 import Banners from '../../components/User/Banners';
 import { Card } from '../../components/Basic';
 import {
@@ -15,15 +16,13 @@ import {
     ImageCategory,
     TitleCategory,
     BodySection,
-    Footer,
-    GetInTouch,
-    TitleFooter,
 } from './HomeStyled';
 import { HiCheck } from 'react-icons/hi';
 import { FaShippingFast, FaPhoneVolume } from 'react-icons/fa';
 import { AiOutlineSwap } from 'react-icons/ai';
 import { BsArrowRightShort } from 'react-icons/bs';
 import ProductCard from './../../components/User/ProductCard';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
     return (
@@ -57,10 +56,12 @@ const Home = () => {
             <Section>
                 <HeaderSection type='categories'>
                     <Title>Categories</Title>
-                    <ViewAll>
-                        Browse all categories
-                        <BsArrowRightShort />
-                    </ViewAll>
+                    <Link to='#'>
+                        <ViewAll>
+                            Browse all categories
+                            <BsArrowRightShort />
+                        </ViewAll>
+                    </Link>
                 </HeaderSection>
                 <ContentSection>
                     <CategoryCard>
@@ -89,10 +90,12 @@ const Home = () => {
             <Section>
                 <HeaderSection type='categories'>
                     <Title>Best Seller</Title>
-                    <ViewAll>
-                        Browse all products
-                        <BsArrowRightShort />
-                    </ViewAll>
+                    <Link to='/products'>
+                        <ViewAll>
+                            Browse all products
+                            <BsArrowRightShort />
+                        </ViewAll>
+                    </Link>
                 </HeaderSection>
                 <BodySection>
                     <ProductCard />
@@ -103,11 +106,7 @@ const Home = () => {
                     <ProductCard />
                 </BodySection>
             </Section>
-            <Footer>
-                <GetInTouch>
-                    <TitleFooter>Get in touch</TitleFooter>
-                </GetInTouch>
-            </Footer>
+            <Footer />
         </>
     );
 };

@@ -221,6 +221,7 @@ div {
     --primary-color-border: rgba(25, 118, 210, 0.5);
     --primary-color-click: rgba(25, 118, 210, 0.1);
     --primary-color-light: rgba(25, 118, 210, 0.04);
+    --secondary-color: rgb(249, 250, 252);
 
     /* ===== Disable ===== */
     --gray-color: gray;

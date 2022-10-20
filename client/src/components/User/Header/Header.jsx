@@ -305,7 +305,7 @@ const Header = () => {
                                 <WrapperOther>
                                     <Link to='/login'>
                                         <Button
-                                            href='#'
+                                            type='button'
                                             content='Sign in'
                                             color='var(--black-color)'
                                         />
@@ -314,7 +314,6 @@ const Header = () => {
                                 <WrapperOther>
                                     <Link to='/register'>
                                         <Button
-                                            href='#'
                                             content='Create Account'
                                             color='var(--black-color)'
                                         />
@@ -323,7 +322,6 @@ const Header = () => {
                             </ContainerOthers>
                             <ContainerOthers>
                                 <Button
-                                    href='#'
                                     startIcon={{
                                         img: 'https://tailwindui.com/img/flags/flag-canada.svg',
                                     }}

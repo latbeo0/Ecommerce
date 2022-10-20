@@ -53,7 +53,7 @@ const authCtrl = {
             sendMail(email, url, 'Verify your email address');
 
             res.status(200).json({
-                msg: 'Register Success! Please activate your email to start.',
+                msg: 'Please activate your email to complete register.',
             });
         } catch (err) {
             return res.status(500).json({ msg: err.message });
@@ -62,6 +62,8 @@ const authCtrl = {
     activateEmail: async (req, res) => {
         try {
             const user = req.user;
+
+            console.log(user);
 
             const { email, password } = user;
 
@@ -102,7 +104,6 @@ const authCtrl = {
 
             const refresh_token = createRefreshToken({
                 id: user._id,
-                isAdmin: user.isAdmin,
             });
 
             res.cookie('refresh_token', refresh_token, {

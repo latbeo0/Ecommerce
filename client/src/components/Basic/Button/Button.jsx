@@ -55,7 +55,6 @@ const Button = ({
 
     return (
         <Container
-            as={!href && 'button'}
             href={href}
             variant={variant}
             disable={disable}

@@ -29,36 +29,28 @@ const ActiveEmail = () => {
     }, [state]);
 
     useEffect(() => {
-        if (activationToken) {
-            const fetchData = async () => {
-                try {
-                    await fetchActiveEmail(activationToken)
-                        .then((res) => {
-                            setState({
-                                loading: false,
-                                msg: res.data.msg,
-                                error: false,
-                            });
-                        })
-                        .catch((err) => {
-                            err.response.data.msg &&
-                                setState({
-                                    loading: false,
-                                    msg: err.response.data.msg,
-                                    error: true,
-                                });
-                        });
-                } catch (error) {}
-            };
-            fetchData();
-        } else {
-            setState({
-                loading: false,
-                msg: 'Something wrong',
-                error: true,
-            });
-        }
-    }, [activationToken]);
+        const fetchData = async () => {
+            try {
+                const res = await fetchActiveEmail(activationToken);
+                setState({
+                    loading: false,
+                    msg: res.data.msg,
+                    error: false,
+                });
+            } catch (error) {
+                error.response.data.msg &&
+                    setState({
+                        loading: false,
+                        msg: error.response.data.msg,
+                        error: true,
+                    });
+            }
+        };
+        fetchData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    console.log(activationToken);
 
     return (
         <>

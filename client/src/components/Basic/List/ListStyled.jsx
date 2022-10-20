@@ -1,6 +1,27 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const Container = styled.div`
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+
+    ${(props) => {
+        switch (props.slot) {
+            case 'start':
+                return css`
+                    align-items: flex-start;
+                `;
+            case 'end':
+                return css`
+                    align-items: flex-end;
+                `;
+            default:
+                return css`
+                    align-items: center;
+                `;
+        }
+    }}
+
     @media only screen and (max-width: 1024px) {
         margin-top: 2.5rem;
     }
@@ -10,6 +31,7 @@ const Header = styled.p`
     font-size: 0.875rem;
     font-weight: 500;
     color: rgb(17 24 39);
+    margin-bottom: 1rem;
 
     @media only screen and (max-width: 1024px) {
         font-size: 1rem;
@@ -17,7 +39,6 @@ const Header = styled.p`
 `;
 
 const Items = styled.ul`
-    margin-top: 1rem;
     color: rgb(107 114 128);
 
     @media only screen and (max-width: 1024px) {
