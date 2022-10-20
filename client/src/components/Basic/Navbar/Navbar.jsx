@@ -1,6 +1,7 @@
 import { Nav, Container, Wrapper, Logo, ButtonToggle } from './NavbarStyled';
 import FlyoutMenu from './FlyoutMenu';
 import UserMenu from './UserMenu';
+import { Link } from 'react-router-dom';
 
 const Navbar = (props) => {
     const { funcActive, navigation } = props;
@@ -30,16 +31,17 @@ const Navbar = (props) => {
                             ></path>
                         </svg>
                     </ButtonToggle>
-                    <Logo
-                        href={'/'}
-                        startIcon={{
-                            img: 'https://cdn-icons-png.flaticon.com/128/7844/7844708.png',
-                        }}
-                        content={'Tika.'}
-                        color='var(--black-color)'
-                        sizeIcon='50px'
-                        padding='0'
-                    />
+                    <Link to='/'>
+                        <Logo
+                            startIcon={{
+                                img: 'https://cdn-icons-png.flaticon.com/128/7844/7844708.png',
+                            }}
+                            content={'Tika.'}
+                            color='var(--black-color)'
+                            sizeIcon='50px'
+                            padding='0'
+                        />
+                    </Link>
                     <FlyoutMenu navigation={navigation} />
                     <UserMenu />
                 </Wrapper>
