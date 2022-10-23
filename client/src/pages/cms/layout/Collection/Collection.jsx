@@ -8,9 +8,9 @@ import * as data from "./data";
 import { fetchGetAllCollection } from "../../../../services/collectionFetch";
 
 const defaultColumnWidths = [
-  { columnName: "cateCode", width: 200 },
-  { columnName: "cateName", width: 300 },
-  { columnName: "cateDescription", width: 400 },
+  { columnName: "collectCode", width: 200 },
+  { columnName: "collectName", width: 300 },
+  { columnName: "collectDescription", width: 400 },
 ];
 
 const Collection = () => {
@@ -26,9 +26,9 @@ const Collection = () => {
   const [selection, setSelection] = React.useState([]);
   const [rows, setRows] = useState([]);
   const [columns, setColumns] = useState([
-    { name: "cateCode", title: "Code" },
-    { name: "cateName", title: "Collection" },
-    { name: "cateDescription", title: "Description" },
+    { name: "collectCode", title: "Code" },
+    { name: "collectName", title: "Collection" },
+    { name: "collectDescription", title: "Description" },
   ]);
 
   React.useEffect(() => {
@@ -39,11 +39,10 @@ const Collection = () => {
           response.data.collection.forEach((item) => {
             tempArr.push({
               id: item._id,
-              cateCode: item.cateCode,
-              cateName: item.cateName,
+              collectCode: item.collectCode,
+              collectName: item.collectName,
             });
           });
-          console.log(tempArr);
           setRows(tempArr);
         })
         .catch((err) => {

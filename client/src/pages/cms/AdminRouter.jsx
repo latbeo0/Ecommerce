@@ -12,6 +12,8 @@ import "./cms.css";
 import { ListMenu } from "./data";
 import User from "./layout/User/User";
 import Category from './layout/Category/Category';
+import Collection from "./layout/Collection/Collection";
+import Sale from "./layout/Sale/Sale";
 const { Header, Sider, Content } = Layout;
 
 const AdminRouter = () => {
@@ -66,7 +68,8 @@ const AdminRouter = () => {
             <Route path="/list-product" element={<Product />} />
             <Route path="/list-user" element={<User />} />
             <Route path="/list-category" element={<Category />} />
-            <Route path="/list-role" element={<Product />} />
+            <Route path="/list-collection" element={<Collection />} />
+            <Route path="/list-voucher" element={<Sale />} />
             {/* </Route> */}
           </Routes>
         </Content>

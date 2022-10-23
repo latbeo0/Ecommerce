@@ -12,6 +12,7 @@ const productRoute = require('./routes/productRoute');
 const uploadRoute = require('./routes/uploadRoute');
 const saleRoute = require('./routes/saleRoute');
 const categoryRoute = require('./routes/categoryRoute');
+const collectionRoute = require('./routes/collectionRoute');
 
 const app = express();
 
@@ -55,6 +56,7 @@ app.use('/api/user', userRoute);
 app.use('/api/product', productRoute);
 app.use('/api/sale', saleRoute);
 app.use('/api/category', categoryRoute);
+app.use('/api/collection', collectionRoute);
 
 // app.use('/api/order', orderRoute);
 app.use('/api/upload', uploadRoute);

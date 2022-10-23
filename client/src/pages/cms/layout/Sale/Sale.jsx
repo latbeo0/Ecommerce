@@ -2,18 +2,18 @@ import React, { useState } from "react";
 import DataGrid from "../../../../components/Basic/DataGrid";
 import Stack from "@mui/material/Stack";
 import IconButton from "@mui/material/IconButton";
-import { CategoryHeader, CategoryTitle } from "./CategoryStyle";
+import { SaleHeader, SaleTitle } from "./SaleStyle";
 import * as data from "./data";
-// import PopupEdit from "../../../../components/CMS/Category/PopupEdit";
-import { fetchGetAllCategory } from "../../../../services/categoryFetch";
+// import PopupEdit from "../../../../components/CMS/Sale/PopupEdit";
+import { fetchGetAllSale } from "../../../../services/saleFetch";
 
 const defaultColumnWidths = [
-  { columnName: "cateCode", width: 200 },
-  { columnName: "cateName", width: 300 },
-  { columnName: "cateDescription", width: 400 },
+  { columnName: "saleCode", width: 200 },
+  { columnName: "saleName", width: 300 },
+  { columnName: "saleDescription", width: 400 },
 ];
 
-const Category = () => {
+const Sale = () => {
   const [option, setOption] = useState({
     isshowSort: false,
     isShowGroup: false,
@@ -22,25 +22,25 @@ const Category = () => {
     isShowSelect: false,
   });
   const [isOpen, setOpen] = useState(false);
-  const [categoryDetail, setCategoryDetail] = useState();
+  const [saleDetail, setSaleDetail] = useState();
   const [selection, setSelection] = React.useState([]);
   const [rows, setRows] = useState([]);
   const [columns, setColumns] = useState([
-    { name: "cateCode", title: "Code" },
-    { name: "cateName", title: "Category" },
-    { name: "cateDescription", title: "Description" },
+    { name: "saleCode", title: "Code" },
+    { name: "saleName", title: "Sale" },
+    { name: "saleDescription", title: "Description" },
   ]);
 
   React.useEffect(() => {
     const fetchData = async () => {
-      await fetchGetAllCategory()
+      await fetchGetAllSale()
         .then((response) => {
           let tempArr = [];
-          response.data.category.forEach((item) => {
+          response.data.sale.forEach((item) => {
             tempArr.push({
               id: item._id,
-              cateCode: item.cateCode,
-              cateName: item.cateName,
+              saleCode: item.saleCode,
+              saleName: item.saleName,
             });
           });
           setRows(tempArr);
@@ -67,7 +67,7 @@ const Category = () => {
         setOption({ ...option, isShowSearchBar: !option.isShowSearchBar });
         break;
       case data.types.SHOW_EDIT:
-        setCategoryDetail(rows[selection[selection.length - 1]]);
+        setSaleDetail(rows[selection[selection.length - 1]]);
         setOpen(true);
         break;
       default:
@@ -87,15 +87,15 @@ const Category = () => {
       {/* {React.useMemo(() => {
         return (
           <PopupEdit
-            row={categoryDetail}
+            row={saleDetail}
             open={isOpen}
             onClose={() => setOpen(false)}
           />
         );
       }, [isOpen])} */}
 
-      <CategoryHeader>
-        <CategoryTitle>Category</CategoryTitle>
+      <SaleHeader>
+        <SaleTitle>Sale</SaleTitle>
         <Stack direction="row" alignItems="center" spacing={1}>
           {data.ListButton.map((item) => (
             <IconButton
@@ -108,7 +108,7 @@ const Category = () => {
             </IconButton>
           ))}
         </Stack>
-      </CategoryHeader>
+      </SaleHeader>
       {React.useMemo(() => {
         return (
           <DataGrid
@@ -129,4 +129,4 @@ const Category = () => {
   );
 };
 
-export default Category;
+export default Sale;
