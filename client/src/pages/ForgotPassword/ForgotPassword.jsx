@@ -12,7 +12,7 @@ import {
     HelpContainer,
     BackHomeContainer,
 } from './ForgotPasswordStyled';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Button from '../../components/Basic/Button';
 import { Link } from 'react-router-dom';
@@ -129,7 +129,6 @@ const ForgotPassword = () => {
 
     return (
         <>
-            <ToastContainer />
             <Container>
                 <Content>
                     <Title>Forgot Password</Title>

@@ -23,7 +23,6 @@ const verifyTokenActivation = (req, res, next) => {
 const verifyTokenRefreshToken = (req, res, next) => {
     try {
         const rf_token = req.cookies.refresh_token;
-        console.log(rf_token);
 
         if (!rf_token)
             return res.status(400).json({ msg: 'Please login now!' });

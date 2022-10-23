@@ -18,6 +18,10 @@ import {
     WrapperOther,
 } from './HeaderStyled';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectUser } from './../../../redux/userSlice';
+import avatar from '../../../assets/img/heart (1).png';
+import { fetchLogout } from '../../../services/userFetch';
 
 const navigation = {
     categories: [
@@ -150,12 +154,14 @@ const navigation = {
 };
 
 const Header = () => {
-    const [active, setActive] = useState(false);
-    const [gender, setGender] = useState('women');
-
     const ref = useRef(null);
     const modalRef = useRef(null);
     const dialogRef = useRef(null);
+    const user = useSelector(selectUser);
+    const dispatch = useDispatch();
+
+    const [active, setActive] = useState(false);
+    const [gender, setGender] = useState('women');
 
     const setActiveToggle = () => {
         setActive((active) => !active);
@@ -301,25 +307,58 @@ const Header = () => {
                                     </WrapperOther>
                                 ))}
                             </ContainerOthers>
-                            <ContainerOthers>
-                                <WrapperOther>
-                                    <Link to='/login'>
+                            {user.currentUser ? (
+                                <ContainerOthers>
+                                    <WrapperOther style={{ display: 'flex' }}>
+                                        <img
+                                            src={avatar}
+                                            alt='avatar'
+                                            style={{
+                                                width: '40px',
+                                                height: '40px',
+                                                padding: '8px',
+                                                borderRadius: '50%',
+                                                background: '#000',
+                                                marginRight: '8px',
+                                            }}
+                                        />
                                         <Button
                                             type='button'
-                                            content='Sign in'
+                                            content='Hihi'
                                             color='var(--black-color)'
                                         />
-                                    </Link>
-                                </WrapperOther>
-                                <WrapperOther>
-                                    <Link to='/register'>
+                                    </WrapperOther>
+                                    <WrapperOther>
                                         <Button
-                                            content='Create Account'
+                                            content='Log out'
                                             color='var(--black-color)'
+                                            onClick={async () => {
+                                                await dispatch(fetchLogout());
+                                            }}
                                         />
-                                    </Link>
-                                </WrapperOther>
-                            </ContainerOthers>
+                                    </WrapperOther>
+                                </ContainerOthers>
+                            ) : (
+                                <ContainerOthers>
+                                    <WrapperOther>
+                                        <Link to='/login'>
+                                            <Button
+                                                type='button'
+                                                content='Sign in'
+                                                color='var(--black-color)'
+                                            />
+                                        </Link>
+                                    </WrapperOther>
+                                    <WrapperOther>
+                                        <Link to='/register'>
+                                            <Button
+                                                content='Create Account'
+                                                color='var(--black-color)'
+                                            />
+                                        </Link>
+                                    </WrapperOther>
+                                </ContainerOthers>
+                            )}
                             <ContainerOthers>
                                 <Button
                                     startIcon={{

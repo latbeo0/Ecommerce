@@ -19,8 +19,9 @@ import { getErrorMessage } from '../../helpers/validation';
 import { AiOutlineUser } from 'react-icons/ai';
 import { HiLockClosed } from 'react-icons/hi';
 import { fetchLogin } from '../../services/authFetch';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useDispatch } from 'react-redux';
 
 const inputs = [
     {
@@ -44,6 +45,7 @@ const inputs = [
 ];
 
 const Login = () => {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const [valuesForm, setValuesForm] = useState({
@@ -110,19 +112,24 @@ const Login = () => {
         } else {
             const fetchData = async () => {
                 try {
-                    await fetchLogin(valuesForm.email, valuesForm.password);
-                    navigate('/home');
+                    // await fetchLogin(valuesForm.email, valuesForm.password);
+                    await dispatch(
+                        fetchLogin({
+                            email: valuesForm.email,
+                            password: valuesForm.password,
+                        })
+                    ).unwrap();
+                    navigate('/');
                 } catch (error) {
-                    error.response?.data.msg &&
-                        toast.error(error.response.data.msg, {
-                            position: 'top-right',
-                            autoClose: 3000,
-                            hideProgressBar: false,
-                            closeOnClick: true,
-                            pauseOnHover: true,
-                            draggable: true,
-                            progress: undefined,
-                        });
+                    toast.error(error.message, {
+                        position: 'top-right',
+                        autoClose: 3000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
                 } finally {
                     setValuesForm({ ...valuesForm, loading: false });
                 }
@@ -133,7 +140,6 @@ const Login = () => {
 
     return (
         <>
-            <ToastContainer />
             <Container>
                 <Content>
                     <Title>Login</Title>

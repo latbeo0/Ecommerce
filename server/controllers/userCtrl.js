@@ -28,7 +28,9 @@ const userCtrl = {
     forgotPassword: async (req, res) => {
         try {
             const { email } = req.body;
+
             const user = await Users.findOne({ email });
+
             if (!user)
                 return res
                     .status(400)

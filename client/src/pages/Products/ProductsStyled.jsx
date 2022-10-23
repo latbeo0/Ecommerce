@@ -56,16 +56,21 @@ const ButtonHide = styled.div`
 
 const FilterSectionBody = styled.div`
     padding-top: 2rem;
-
-    input {
-        margin-bottom: 1rem;
-    }
 `;
 
 const ProductsContainer = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 1rem;
+`;
+
+const SeeAll = styled.p`
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--primary-color);
+    text-decoration: underline;
+    cursor: pointer;
+    margin-top: 1rem;
 `;
 
 export {
@@ -78,4 +83,5 @@ export {
     FilterSectionHeader,
     ButtonHide,
     FilterSectionBody,
+    SeeAll,
 };
