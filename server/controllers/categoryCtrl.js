@@ -4,10 +4,10 @@ const jwt = require("jsonwebtoken");
 const CategoryCtrl = {
   getAllCategory: async (req, res) => {
     try {
-      let Category;
-      Category = await Category.find();
+      let category;
+      category = await Category.find();
 
-      res.status(200).json({ Category });
+      res.status(200).json({ category });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
@@ -16,7 +16,7 @@ const CategoryCtrl = {
     const newCategory = new Category(req.body);
     try {
       await newCategory.save();
-      res.status(200).json({ msg: "Voucher has been created" });
+      res.status(200).json({ msg: "Category has been created" });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
@@ -30,7 +30,7 @@ const CategoryCtrl = {
         },
         { new: true }
       );
-      res.status(200).json({ msg: "Update voucher successfully" });
+      res.status(200).json({ msg: "Update category successfully" });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }

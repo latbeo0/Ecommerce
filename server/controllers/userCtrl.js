@@ -88,17 +88,19 @@ const userCtrl = {
   },
   createUser: async (req, res) => {
     const newUser = new Users(req.body);
-    const user = await Users.findOne(newUser.email);
-    if (user)
-      return res.status(400).json({ msg: "This email already exists." });
+    // const user = await Users.findOne(newUser.email);
+    // if (user)
+    //   return res.status(400).json({ msg: "This email already exists." });
 
     const passwordHash = CryptoJS.AES.encrypt(
       newUser.password,
       process.env.PASS_SEC
     ).toString();
 
+    newUser.password = passwordHash;
+
     try {
-      await { ...newUser, password: passwordHash }.save();
+      await newUser.save();
       res.status(200).json({ msg: "User has been created" });
     } catch (err) {
       return res.status(500).json({ msg: err.message });

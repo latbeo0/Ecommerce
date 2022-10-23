@@ -21,7 +21,6 @@ const sendMail = async (to, url, txt) => {
         await oauth2Client.setCredentials({
             refresh_token: MAILING_SERVICE_REFRESH_TOKEN,
         });
-
         const accessToken = new Promise((resolve, reject) => {
             oauth2Client.getAccessToken((err, token) => {
                 if (err) reject(err);

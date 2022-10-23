@@ -1,9 +1,8 @@
 import {
-  EnvironmentOutlined,
+  QuestionCircleOutlined,
   UserOutlined,
   ShopOutlined,
   AreaChartOutlined,
-  ClusterOutlined,
 } from "@ant-design/icons";
 
 export const ListMenu = [
@@ -27,14 +26,21 @@ export const ListMenu = [
   },
   {
     key: "4",
-    icon: EnvironmentOutlined,
-    label: "Region",
-    link: "/list-region",
+    icon: QuestionCircleOutlined,
+    label: "Category",
+    link: "/list-category",
   },
   {
     key: "5",
-    icon: ClusterOutlined,
-    label: "Role",
-    link: "/list-role",
+    icon: QuestionCircleOutlined,
+    label: "Collection",
+    link: "/list-collection",
   },
+  {
+    key: "6",
+    icon: QuestionCircleOutlined,
+    label: "Sale Voucher",
+    link: "/list-voucher",
+  },
+
 ];

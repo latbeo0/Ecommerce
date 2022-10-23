@@ -53,7 +53,7 @@ const User = () => {
     fetchGetAllUser()
       .then((response) => {
         let tempArr = [];
-        response.data.user.forEach((item) => {
+        response.data.user.forEach((item, index) => {
           if (item.address) {
             fetchCityByCode(item.address?.city, 3).then((address) => {
               const adr = {
@@ -95,8 +95,8 @@ const User = () => {
                 address: item.address,
                 email: item.email,
                 phone: item.phone,
-                role: item.roleCode,
-                // roleName: item.vRole[0]?.name,
+                roleCode: item.roleCode,
+                roleName: item.vRole[0]?.roleName,
                 isActive: item.isActive,
                 isActiveString: item.isActive ? "Enable" : "Disable",
                 createdAt: item.createdAt,
@@ -104,7 +104,7 @@ const User = () => {
                   timeZone: "UTC",
                 }),
               });
-              setRows(tempArr);
+              setRows(tempArr.slice());
             });
           } else {
             tempArr.push({
@@ -122,8 +122,8 @@ const User = () => {
               address: item.address,
               email: item.email,
               phone: item.phone,
-              role: item.roleCode,
-              // roleName: item.vRole[0]?.name,
+              roleCode: item.roleCode,
+              roleName: item.vRole[0]?.roleName,
               isActive: item.isActive,
               isActiveString: item.isActive ? "Enable" : "Disable",
               createdAt: item.createdAt,
@@ -205,8 +205,6 @@ const User = () => {
     //       }),
     //   };
     // });
-
-    console.log(address);
     return address ? address.data.name : "Unknown";
   };
   const handleClickOptionButton = (event, type) => {
