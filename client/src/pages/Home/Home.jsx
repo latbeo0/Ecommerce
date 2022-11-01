@@ -1,5 +1,3 @@
-import Header from '../../components/User/Header';
-import Footer from '../../components/User/Footer';
 import Banners from '../../components/User/Banners';
 import { Card } from '../../components/Basic';
 import {
@@ -27,7 +25,6 @@ import { Link } from 'react-router-dom';
 const Home = () => {
     return (
         <>
-            <Header />
             <Section>
                 <LayoutBanner>
                     <Banners />
@@ -106,7 +103,6 @@ const Home = () => {
                     <ProductCard />
                 </BodySection>
             </Section>
-            <Footer />
         </>
     );
 };

@@ -56,6 +56,20 @@ const userCtrl = {
           password: passwordHash,
         }
       );
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+    forgotPassword: async (req, res) => {
+        try {
+            const { email } = req.body;
+
+            const user = await Users.findOne({ email });
+
+            if (!user)
+                return res
+                    .status(400)
+                    .json({ msg: 'This email does not exist.' });
 
       res.json({ msg: "Password successfully changed!" });
     } catch (err) {

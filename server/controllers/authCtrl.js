@@ -63,8 +63,6 @@ const authCtrl = {
         try {
             const user = req.user;
 
-            console.log(user);
-
             const { email, password } = user;
 
             const check = await Users.findOne({ email });

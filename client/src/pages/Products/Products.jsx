@@ -1,70 +1,58 @@
 import React from 'react';
-import Footer from '../../components/User/Footer';
-import Header from '../../components/User/Header';
 import ProductCard from '../../components/User/ProductCard';
 import {
-    Container,
-    FilterContainer,
-    ProductsContainer,
-    FilterSection,
-    FilterTitle,
-    ButtonReset,
-    FilterSectionHeader,
-    ButtonHide,
-    FilterSectionBody,
+    HeaderProductsWrapper,
+    SearchContainer,
+    InputSearch,
+    ResultSearch,
+    Result,
+    DisplayContainer,
+    SortContainer,
+    SortChooseContainer,
+    SortChooseButton,
+    CountProductsSelect,
+    CountProductsOption,
+    CountProductsContainer,
+    BodyProductsWrapper,
 } from './ProductsStyled';
-import { IoIosArrowDown } from 'react-icons/io';
 
 const Products = () => {
     return (
         <>
-            <Header />
-            <Container>
-                <FilterContainer>
-                    <FilterSection>
-                        <FilterSectionHeader>
-                            <FilterTitle>Filter</FilterTitle>
-                            <ButtonReset>Reset</ButtonReset>
-                        </FilterSectionHeader>
-                    </FilterSection>
-                    <FilterSection>
-                        <FilterSectionHeader>
-                            Price
-                            <ButtonHide>
-                                Hide
-                                <IoIosArrowDown />
-                            </ButtonHide>
-                        </FilterSectionHeader>
-                        <FilterSectionBody>
-                            <input type='range' />
-                            <p>Max value: 100.000.000 vnđ</p>
-                        </FilterSectionBody>
-                    </FilterSection>
-                    <FilterSection>
-                        <FilterSectionHeader>
-                            City
-                            <ButtonHide>
-                                Hide
-                                <IoIosArrowDown />
-                            </ButtonHide>
-                        </FilterSectionHeader>
-                        <FilterSectionBody>
-                            <input type='checkbox' />
-                            <input type='checkbox' />
-                            <input type='checkbox' />
-                            <input type='checkbox' />
-                            <p>See All</p>
-                        </FilterSectionBody>
-                    </FilterSection>
-                </FilterContainer>
-                <ProductsContainer>
-                    <ProductCard />
-                    <ProductCard />
-                    <ProductCard />
-                    <ProductCard />
-                </ProductsContainer>
-            </Container>
-            <Footer />
+            <HeaderProductsWrapper>
+                <SearchContainer>
+                    <InputSearch placeholder='Search here ...' />
+                </SearchContainer>
+                <ResultSearch>
+                    Search result for <Result>"Something"</Result>
+                </ResultSearch>
+                <DisplayContainer>
+                    <SortContainer>
+                        Sort:
+                        <SortChooseContainer>
+                            <SortChooseButton choose>
+                                Relevance
+                            </SortChooseButton>
+                            <SortChooseButton>Popular</SortChooseButton>
+                            <SortChooseButton>Most New</SortChooseButton>
+                        </SortChooseContainer>
+                    </SortContainer>
+                    <CountProductsContainer>
+                        Products per page:
+                        <CountProductsSelect>
+                            <CountProductsOption>15</CountProductsOption>
+                            <CountProductsOption>25</CountProductsOption>
+                            <CountProductsOption>50</CountProductsOption>
+                        </CountProductsSelect>
+                    </CountProductsContainer>
+                </DisplayContainer>
+            </HeaderProductsWrapper>
+            <BodyProductsWrapper>
+                <ProductCard />
+                <ProductCard />
+                <ProductCard />
+                <ProductCard />
+            </BodyProductsWrapper>
         </>
     );
 };

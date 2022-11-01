@@ -8,29 +8,70 @@ import {
 } from './UserMenuStyled';
 import { Button } from '../../Button';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectUser } from './../../../../redux/userSlice';
+import avatar from '../../../../assets/img/heart (1).png';
+import { fetchLogout } from '../../../../services/userFetch';
 
 const UserMenu = () => {
+    const user = useSelector(selectUser);
+    const dispatch = useDispatch();
+
     return (
         <Container>
-            <WrapperUser>
-                <Link to='/login'>
+            {user.currentUser ? (
+                <WrapperUser>
+                    <img
+                        src={avatar}
+                        alt='avatar'
+                        style={{
+                            width: '40px',
+                            height: '40px',
+                            padding: '8px',
+                            borderRadius: '50%',
+                            background: '#000',
+                            marginRight: '8px',
+                        }}
+                    />
                     <Button
                         href='#'
-                        content='Sign in'
+                        content='Hihi'
                         color='var(--black-color)'
                         padding='0'
                     />
-                </Link>
-                <Separate />
-                <Link to='register'>
+                    <Separate />
                     <Button
                         href='#'
-                        content='Create account'
+                        content='Log out'
                         color='var(--black-color)'
                         padding='0'
+                        onClick={async () => {
+                            await dispatch(fetchLogout());
+                        }}
                     />
-                </Link>
-            </WrapperUser>
+                </WrapperUser>
+            ) : (
+                <WrapperUser>
+                    <Link to='/login'>
+                        <Button
+                            href='#'
+                            content='Sign in'
+                            color='var(--black-color)'
+                            padding='0'
+                        />
+                    </Link>
+                    <Separate />
+                    <Link to='register'>
+                        <Button
+                            href='#'
+                            content='Create account'
+                            color='var(--black-color)'
+                            padding='0'
+                        />
+                    </Link>
+                </WrapperUser>
+            )}
+
             <WrapperLanguage>
                 <Button
                     href='#'

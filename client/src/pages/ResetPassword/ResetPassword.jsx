@@ -11,7 +11,7 @@ import {
 } from './ResetPasswordStyled';
 import { HiLockClosed } from 'react-icons/hi';
 import { getErrorMessage } from '../../helpers/validation';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import InputGroup from '../../components/Basic/InputGroup';
 import Button from '../../components/Basic/Button';
@@ -150,7 +150,6 @@ const ResetPassword = () => {
 
     return (
         <>
-            <ToastContainer />
             <Container>
                 <Content>
                     <Title>Reset Password</Title>

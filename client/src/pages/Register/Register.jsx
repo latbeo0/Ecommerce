@@ -16,7 +16,7 @@ import { AiOutlineUser } from 'react-icons/ai';
 import { HiLockClosed } from 'react-icons/hi';
 import { getErrorMessage } from '../../helpers/validation';
 import InputGroup from '../../components/Basic/InputGroup';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { fetchRegister } from '../../services/authFetch';
 
@@ -129,6 +129,7 @@ const Register = () => {
                         valuesForm.email,
                         valuesForm.password
                     );
+
                     toast.success(res.data.msg, {
                         position: 'top-right',
                         autoClose: 3000,
@@ -140,7 +141,7 @@ const Register = () => {
                     });
                 } catch (error) {
                     error.response?.data.msg &&
-                        toast.error(error.response.data.msg, {
+                        toast.error(error.response?.data.msg, {
                             position: 'top-right',
                             autoClose: 3000,
                             hideProgressBar: false,
@@ -159,7 +160,6 @@ const Register = () => {
 
     return (
         <>
-            <ToastContainer />
             <Container>
                 <Content>
                     <Title>Register</Title>
