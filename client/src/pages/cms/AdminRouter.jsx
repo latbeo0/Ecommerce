@@ -14,6 +14,7 @@ import User from "./layout/User/User";
 import Category from './layout/Category/Category';
 import Collection from "./layout/Collection/Collection";
 import Sale from "./layout/Sale/Sale";
+import Detail from "./layout/Product/Detail/Detail";
 const { Header, Sider, Content } = Layout;
 
 const AdminRouter = () => {
@@ -66,6 +67,7 @@ const AdminRouter = () => {
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/list-product" element={<Product />} />
+            <Route path="/list-product/detail:id" element={<Detail />} />
             <Route path="/list-user" element={<User />} />
             <Route path="/list-category" element={<Category />} />
             <Route path="/list-collection" element={<Collection />} />

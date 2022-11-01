@@ -9,15 +9,16 @@ const uploadCtrl = require('../controllers/uploadCtrl');
 router.post(
     '/upload_avatar',
     // verifyToken,
-    // uploadImage,
+    uploadImage,
     uploadCtrl.uploadAvatar
 );
 
 router.post(
     '/upload_product',
     // verifyTokenAndAdmin,
-    // uploadImage,
+    uploadImage,
     uploadCtrl.uploadProduct
 );
 
 module.exports = router;
+ 

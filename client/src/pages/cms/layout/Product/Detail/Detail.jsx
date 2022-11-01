@@ -1,33 +1,32 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import DataGrid from "../../../../components/Basic/DataGrid";
+import DataGrid from "../../../../../components/Basic/DataGrid";
 import Stack from "@mui/material/Stack";
 import IconButton from "@mui/material/IconButton";
-import { ProductHeader, ProductTitle } from "./ProductStyle";
-import * as data from "./data";
-import PopupEdit from "../../../../components/CMS/Product/PopupEdit";
-import { fetchGetAllProductMaster } from "../../../../services/productFetch";
+// import { ProductHeader, ProductTitle } from "./DetailStyle";
+import * as data from "../data";
+import PopupEdit from "../../../../../components/CMS/Product/Detail/PopupEdit";
+import { fetchGetProductByIdMaster } from "../../../../../services/productFetch";
+import { DetailHeader, DetailTitle } from "./DetailStyle";
+import { useParams } from "react-router-dom";
 
 const defaultColumnWidths = [
-  { columnName: "productName", width: 300 },
-  { columnName: "gender", width: 130 },
-  { columnName: "productDescription", width: 450 },
-  { columnName: "cateName", width: 200 },
-  { columnName: "collectName", width: 200 },
-  { columnName: "colors", width: 250 },
+  { columnName: "primaryImages", width: 250 },
+  { columnName: "color", width: 150 },
+  { columnName: "saleName", width: 150 },
+  { columnName: "stateName", width: 150 },
+  { columnName: "price", width: 150 },
   { columnName: "quantity", width: 150 },
   { columnName: "stock", width: 150 },
 ];
 const tableColumnExtensions = [
+  { columnName: "stateName", align: "center" },
   { columnName: "quantity", align: "right" },
-  { columnName: "cateName", align: "center" },
-  { columnName: "collectName", align: "center" },
-  { columnName: "colors", align: "center" },
+  { columnName: "price", align: "right" },
+  { columnName: "color", align: "center" },
   { columnName: "stock", align: "center" },
 ];
-const Product = () => {
-  const navigate = useNavigate();
-
+const Detail = () => {
+  const { id } = useParams();
   const [option, setOption] = useState({
     isshowSort: false,
     isShowGroup: false,
@@ -40,39 +39,43 @@ const Product = () => {
   const [selection, setSelection] = React.useState([]);
   const [rows, setRows] = useState([]);
   const [columns, setColumns] = useState([
-    { name: "productName", title: "Product" },
-    { name: "gender", title: "Gender" },
-    { name: "productDescription", title: "Description" },
-    { name: "cateName", title: "Category" },
-    { name: "collectName", title: "Collection" },
-    { name: "colors", title: "Colors" },
+    { name: "primaryImages", title: "Photo" },
+    { name: "color", title: "Color" },
+    { name: "saleName", title: "Sale" },
+    { name: "stateName", title: "State" },
+    { name: "price", title: "Price" },
     { name: "quantity", title: "Quantity" },
     { name: "stock", title: "Stock" },
   ]);
-  const getQuantity = (colors) => {
+
+  const getQuantity = (data) => {
     let quantity = 0;
-    colors.forEach((color) => {
-      color.details.forEach((detail) => {
-        quantity += detail.quantity;
+    if (data) {
+      data.forEach((item) => {
+        quantity += item.quantity;
       });
-    });
+    }
     return quantity;
   };
   React.useEffect(() => {
     const fetchData = async () => {
-      await fetchGetAllProductMaster()
+      await fetchGetProductByIdMaster(id)
         .then((response) => {
           let tempArr = [];
-          response.data?.productMaster?.forEach((item) => {
+          response.data.product.forEach((item) => {
             tempArr.push({
               id: item._id,
-              productName: item.productName,
-              productDescription: item.productDescription,
-              gender: item.gender,
-              cateCode: item.cateCode,
-              cateName: item.vCategory[0]?.cateName,
-              collectCode: item.collectCode,
-              collectName: item.vCollection[0]?.collectName,
+              productMasterId: item.productMasterId,
+              primaryImages: item.primaryImages,
+              color: item.color,
+              saleCode: item.saleCode,
+              saleName: item.vSale[0]?.saleName,
+              stateCode: item.stateCode,
+              stateName: item.vState[0]?.stateName,
+              price: item.price,
+              quantity: getQuantity(item?.color?.details).toString(),
+              isStock: item.isStock,
+              stock: item.isStock ? "In" : "Out",
             });
           });
           setRows(tempArr);
@@ -102,13 +105,6 @@ const Product = () => {
         setProductDetail(rows[selection[selection.length - 1]]);
         setOpen(true);
         break;
-      case data.types.SHOW_DETAIL:
-        if (selection) {
-          navigate(
-            `/list-product/detail${rows[selection[selection.length - 1]].id}`
-          );
-        }
-        break;
       default:
         break;
     }
@@ -126,6 +122,7 @@ const Product = () => {
       {React.useMemo(() => {
         return (
           <PopupEdit
+            master={id}
             row={productDetail}
             open={isOpen}
             onClose={() => setOpen(false)}
@@ -133,8 +130,8 @@ const Product = () => {
         );
       }, [isOpen])}
 
-      <ProductHeader>
-        <ProductTitle>Product</ProductTitle>
+      <DetailHeader>
+        <DetailTitle>Product Detail</DetailTitle>
         <Stack direction="row" alignItems="center" spacing={1}>
           {data.ListButton.map((item) => (
             <IconButton
@@ -147,7 +144,7 @@ const Product = () => {
             </IconButton>
           ))}
         </Stack>
-      </ProductHeader>
+      </DetailHeader>
       {React.useMemo(() => {
         return (
           <DataGrid
@@ -168,4 +165,4 @@ const Product = () => {
   );
 };
 
-export default Product;
+export default Detail;

@@ -1,19 +1,35 @@
-import axios from "axios";
 import { baseRequest } from "./apiFetch";
 
-export const fetchUploadImageProduct = async (formData, token) => {
+export const fetchAddNewProductMaster = async (product, token) => {
   try {
-    return await axios.post("/api/upload/upload_product", formData, {
-      headers: {
-        "content-type": "multipart/form-data",
-        // Authorization: token,
-      },
-    });
+    return await baseRequest.post("/api/product/master/", product);
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const fetchGetAllProductMaster = async () => {
+  try {
+    return await baseRequest.get("/api/product/master/", null);
   } catch (err) {
     console.log(err);
   }
 };
 
+export const fetchGetProductMaster = async (id) => {
+  try {
+    return await baseRequest.get(`/api/product/find-master/${id}`, null);
+  } catch (err) {
+    console.log(2);
+  }
+};
+export const fetchUpdateProductMaster = async (product, id, token) => {
+  try {
+    return await baseRequest.put(`/api/product/master/${id}`, product);
+  } catch (err) {
+    console.log(2);
+  }
+};
 export const fetchAddNewProduct = async (product, token) => {
   try {
     return await baseRequest.post("/api/product/", product);
@@ -22,7 +38,7 @@ export const fetchAddNewProduct = async (product, token) => {
   }
 };
 
-export const fetchGetAllProducts = async () => {
+export const fetchGetAllProduct = async () => {
   try {
     return await baseRequest.get("/api/product/", null);
   } catch (err) {
@@ -32,17 +48,21 @@ export const fetchGetAllProducts = async () => {
 
 export const fetchGetProduct = async (id) => {
   try {
-    return await axios.get(`/api/product/find/${id}`, null);
+    return await baseRequest.get(`/api/product/find/${id}`, null);
   } catch (err) {
     console.log(2);
   }
 };
-export const fetchGetProductByName = async (name) => {
-  return await axios.get(`/api/product/search/${name}`, null);
+export const fetchGetProductByIdMaster = async (idm) => {
+  try {
+    return await baseRequest.get(`/api/product/find-master/${idm}`, null);
+  } catch (err) {
+    console.log(2);
+  }
 };
 export const fetchUpdateProduct = async (product, id, token) => {
   try {
-    // return await axios.put(`/api/product/${id}`, product, {
+    // return await baseRequest.put(`/api/product/${id}`, product, {
     //     headers: {
     //         Authorization: token,
     //     },
@@ -50,5 +70,22 @@ export const fetchUpdateProduct = async (product, id, token) => {
     return await baseRequest.put(`/api/product/${id}`, product);
   } catch (err) {
     console.log(2);
+  }
+};
+export const fetchGetProductByName = async (name) => {
+  return await baseRequest.get(`/api/product/search/${name}`, null);
+};
+export const fetchUploadImageProduct = async (formData, token) => {
+  try {
+
+    return await baseRequest.post("/api/upload/upload_product", formData, {
+      headers: {
+        "content-type": "multipart/form-data",
+        // "accept": "application/json",
+        // Authorization: token,
+      },
+    });
+  } catch (err) {
+    console.log(err);
   }
 };

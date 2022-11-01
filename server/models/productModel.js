@@ -1,20 +1,14 @@
 const mongoose = require("mongoose");
 const StateModel = require("./stateModel");
-const CollectionModel = require("./collectionModel");
-const CategoryModel = require("./categoryModel");
 const SaleModel = require("./saleModel");
 const ProductSchema = new mongoose.Schema(
   {
-    productName: { type: String, required: true },
-    productDescription: { type: String, required: true },
+    productMasterId: { type: String, required: true },
     primaryImages: { type: Array, required: true },
     secondaryImages: { type: Array, required: true },
-    gender: { type: String, required: true },
     stateCode: { type: String },
-    cateCode: { type: String },
-    collectCode: { type: String },
     saleCode: { type: String },
-    colors: { type: Array },
+    color: { type: Object },
     price: { type: Number, required: true },
     newPrice: { type: Number },
     isStock: { type: Boolean, required: true },
@@ -29,16 +23,7 @@ ProductSchema.virtual("vState", {
   localField: "stateCode",
   foreignField: "stateCode",
 });
-ProductSchema.virtual("vCollection", {
-  ref: CollectionModel,
-  localField: "collectCode",
-  foreignField: "collectCode",
-});
-ProductSchema.virtual("vCategory", {
-  ref: CategoryModel,
-  localField: "cateCode",
-  foreignField: "cateCode",
-});
+
 ProductSchema.virtual("vSale", {
   ref: SaleModel,
   localField: "saleCode",

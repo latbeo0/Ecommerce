@@ -33,6 +33,7 @@ import {
   ColorsTypeProvider,
   ImagesTypeProvider,
   CurrencyTypeProvider,
+  ColorTypeProvider,
 } from "./DataGridProvider";
 
 const DataGrid = ({
@@ -49,18 +50,23 @@ const DataGrid = ({
   onSelectionChange = () => {},
   // onCommitChanges = () => {},
 }) => {
-  const [colorColumn] = React.useState(["colors"]);
+  const [colorColumn] = React.useState(["color"]);
+  const [colorsColumn] = React.useState(["colors"]);
+
   const [imageColumn] = React.useState(["primaryImages"]);
   const [currencyColumn] = React.useState(["price", "newPrice"]);
   const [pageSizes] = React.useState([5, 10, 15]);
-  const [defaultColumnWidths, setDefaultColumnWidths] = React.useState(defaultColumnWidth ? defaultColumnWidth : []);
- 
+  const [defaultColumnWidths, setDefaultColumnWidths] = React.useState(
+    defaultColumnWidth ? defaultColumnWidth : []
+  );
+
   return (
     <Paper>
       <Grid rows={rows} columns={columns}>
         <CurrencyTypeProvider for={currencyColumn} />
         <ImagesTypeProvider for={imageColumn} />
-        <ColorsTypeProvider for={colorColumn} />
+        <ColorsTypeProvider for={colorsColumn} />
+        <ColorTypeProvider for={colorColumn} />
 
         <FilteringState />
         <SortingState />
@@ -83,7 +89,9 @@ const DataGrid = ({
 
         {showGroup && <DragDropProvider />}
 
-        <Table columnExtensions={tableColumnExtensions ? tableColumnExtensions : []} />
+        <Table
+          columnExtensions={tableColumnExtensions ? tableColumnExtensions : []}
+        />
         <TableColumnResizing
           columnWidths={defaultColumnWidths}
           onColumnWidthsChange={setDefaultColumnWidths}

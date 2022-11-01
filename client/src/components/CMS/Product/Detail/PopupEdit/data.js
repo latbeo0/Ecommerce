@@ -8,18 +8,18 @@ export const productMaster = {
   success: "",
 };
 export const product = {
-  productName: "",
-  productDescription: "",
+  productMasterId: "",
   primaryImages: [],
   secondaryImages: [],
-  gender: "",
-  cateCode: "",
   stateCode: "",
-  collectCode: "",
   saleCode: "",
   price: 0,
   newPrice: 0,
-  colors: [],
+  color: {
+    nameColor: "",
+    valueColor: "",
+    details: []
+  },
   isStock: true,
   err: "",
   success: "",
