@@ -13,6 +13,9 @@ import AccessToken from './pages/AccessToken';
 import BlankPage from './layouts/BlankPage';
 import HeaderFooterPage from './layouts/HeaderFooterPage';
 import { ToastContainer } from 'react-toastify';
+import ScrollToTop from './helpers/ScrollToTop';
+import Product from './pages/Product';
+import HeaderFilterFooterPage from './layouts/HeaderFilterFooterPage';
 
 const App = () => {
     // const dispatch = useDispatch();
@@ -25,6 +28,7 @@ const App = () => {
         <>
             <ToastContainer />
             <BrowserRouter>
+                <ScrollToTop />
                 <Routes>
                     {isAdmin ? (
                         <Route path='/*' index />
@@ -53,25 +57,16 @@ const App = () => {
                             <Route path='/' element={<HeaderFooterPage />}>
                                 <Route path='/home' element={<Home />} />
                                 <Route
-                                    path='/products'
-                                    element={<Products />}
+                                    path='/products/:codeProduct'
+                                    element={<Product />}
                                 />
                             </Route>
-                            {/* <Route path='/register' element={<Register />} />
-                        <Route
-                            path='/activate_email/:activationToken'
-                            element={<ActiveEmail />}
-                        />
-                        <Route path='/login' element={<Login />} />
-                        <Route
-                            path='/forgot_password'
-                            element={<ForgotPassword />}
-                        />
-                        <Route
-                            path='/reset_password/:token'
-                            element={<ResetPassword />}
-                        /> */}
-                            {/* <Route path='/access_token' element={<AccessToken />} /> */}
+                            <Route
+                                path='/products'
+                                element={<HeaderFilterFooterPage />}
+                            >
+                                <Route index element={<Products />} />
+                            </Route>
                         </>
                     )}
                 </Routes>

@@ -1,67 +1,59 @@
 import React from 'react';
 import ProductCard from '../../components/User/ProductCard';
 import {
-    Container,
-    FilterContainer,
-    ProductsContainer,
-    FilterSection,
-    FilterTitle,
-    ButtonReset,
-    FilterSectionHeader,
-    ButtonHide,
-    FilterSectionBody,
-    SeeAll,
+    HeaderProductsWrapper,
+    SearchContainer,
+    InputSearch,
+    ResultSearch,
+    Result,
+    DisplayContainer,
+    SortContainer,
+    SortChooseContainer,
+    SortChooseButton,
+    CountProductsSelect,
+    CountProductsOption,
+    CountProductsContainer,
+    BodyProductsWrapper,
 } from './ProductsStyled';
-import { IoIosArrowDown } from 'react-icons/io';
-import CheckBox from '../../components/Basic/CheckBox';
 
 const Products = () => {
     return (
-        <Container>
-            <FilterContainer>
-                <FilterSection>
-                    <FilterSectionHeader>
-                        <FilterTitle>Filter</FilterTitle>
-                        <ButtonReset>Reset</ButtonReset>
-                    </FilterSectionHeader>
-                </FilterSection>
-                <FilterSection>
-                    <FilterSectionHeader>
-                        Price
-                        <ButtonHide>
-                            Hide
-                            <IoIosArrowDown />
-                        </ButtonHide>
-                    </FilterSectionHeader>
-                    <FilterSectionBody>
-                        <input type='range' />
-                        <p>Max value: 100.000.000 vnđ</p>
-                    </FilterSectionBody>
-                </FilterSection>
-                <FilterSection>
-                    <FilterSectionHeader>
-                        City
-                        <ButtonHide>
-                            Hide
-                            <IoIosArrowDown />
-                        </ButtonHide>
-                    </FilterSectionHeader>
-                    <FilterSectionBody>
-                        <CheckBox />
-                        <CheckBox />
-                        <CheckBox />
-                        <CheckBox />
-                    </FilterSectionBody>
-                    <SeeAll>See All</SeeAll>
-                </FilterSection>
-            </FilterContainer>
-            <ProductsContainer>
+        <>
+            <HeaderProductsWrapper>
+                <SearchContainer>
+                    <InputSearch placeholder='Search here ...' />
+                </SearchContainer>
+                <ResultSearch>
+                    Search result for <Result>"Something"</Result>
+                </ResultSearch>
+                <DisplayContainer>
+                    <SortContainer>
+                        Sort:
+                        <SortChooseContainer>
+                            <SortChooseButton choose>
+                                Relevance
+                            </SortChooseButton>
+                            <SortChooseButton>Popular</SortChooseButton>
+                            <SortChooseButton>Most New</SortChooseButton>
+                        </SortChooseContainer>
+                    </SortContainer>
+                    <CountProductsContainer>
+                        Products per page:
+                        <CountProductsSelect>
+                            <CountProductsOption>15</CountProductsOption>
+                            <CountProductsOption>25</CountProductsOption>
+                            <CountProductsOption>50</CountProductsOption>
+                        </CountProductsSelect>
+                    </CountProductsContainer>
+                </DisplayContainer>
+            </HeaderProductsWrapper>
+            <BodyProductsWrapper>
                 <ProductCard />
                 <ProductCard />
                 <ProductCard />
                 <ProductCard />
-            </ProductsContainer>
-        </Container>
+            </BodyProductsWrapper>
+        </>
     );
 };
 
