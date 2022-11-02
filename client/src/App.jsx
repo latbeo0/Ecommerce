@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 // import { useSelector, useDispatch } from 'react-redux';
-// import { useEffect, useState } from 'react';
+import { useEffect } from "react";
 import AdminRouter from "./pages/cms/AdminRouter";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -8,43 +8,41 @@ import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
 import ActiveEmail from "./pages/ActiveEmail";
 import ResetPassword from "./pages/ResetPassword";
-import Products from './pages/Products';
-import AccessToken from './pages/AccessToken';
-import BlankPage from './layouts/BlankPage';
-import HeaderFooterPage from './layouts/HeaderFooterPage';
-import { ToastContainer } from 'react-toastify';
-import ScrollToTop from './helpers/ScrollToTop';
-import Product from './pages/Product';
-import HeaderFilterFooterPage from './layouts/HeaderFilterFooterPage';
+import Products from "./pages/Products";
+import HeaderFooterPage from "./layouts/HeaderFooterPage";
+import { ToastContainer } from "react-toastify";
+import ScrollToTop from "./helpers/ScrollToTop";
+import Product from "./pages/Product";
+import { fetchGetAccessToken, fetchLogout } from "./services/userFetch";
+import { selectAuth } from "./redux/authSlice";
+import { selectUser } from "./redux/userSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const App = () => {
-  // const dispatch = useDispatch();
-  // const auth = useSelector((state) => state.auth);
-  // const { isLogged, isAdmin } = auth;
-  // const [loading, setLoading] = useState(true);
-  const isAdmin = true;
+    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
+    // const auth = useSelector((state) => state.auth);
+    // const { isLogged, isAdmin } = auth;
+    // const [loading, setLoading] = useState(true);
+    const isAdmin = false;
 
-  // return (
-  //   <BrowserRouter>
-  //     <Routes>
-  //       {isAdmin ? (
-  //         <Route path="/*" index element={<AdminRouter />} />
-  //       ) : (
-  //         <>
-  //           <Route path="/*" index element={<Home />} />
-  //           <Route path="/register" element={<Register />} />
-  //           <Route
-  //             path="/activate_email/:activationToken"
-  //             element={<ActiveEmail />}
-  //           />
-  //           <Route path="/login" element={<Login />} />
-  //           <Route path="/forgot_password" element={<ForgotPassword />} />
-  //           <Route path="/reset_password/:token" element={<ResetPassword />} />
-  //         </>
-  //       )}
-  //     </Routes>
-  //   </BrowserRouter>
-  // );
+    const auth = useSelector(selectAuth);
+    const user = useSelector(selectUser);
+
+    useEffect(() => {
+        const fetchAccessToken = async () => {
+            try {
+                if (auth.isLogged && !user.currentUser) {
+                    await dispatch(fetchGetAccessToken()).unwrap();
+                }
+            } catch (error) {
+                await dispatch(fetchLogout()).unwrap();
+            }
+        };
+        fetchAccessToken();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [auth.isLogged]);
+
     return (
         <>
             <ToastContainer />
@@ -52,41 +50,33 @@ const App = () => {
                 <ScrollToTop />
                 <Routes>
                     {isAdmin ? (
-                        <Route path='/*' index />
+                        <Route path="/*" index />
                     ) : (
                         <>
-                            <Route path='/' element={<BlankPage />}>
-                                <Route index element={<AccessToken />} />
+                            <Route path="/register" element={<Register />} />
+                            <Route
+                                path="/activate_email/:activationToken"
+                                element={<ActiveEmail />}
+                            />
+                            <Route path="/login" element={<Login />} />
+                            <Route
+                                path="/forgot_password"
+                                element={<ForgotPassword />}
+                            />
+                            <Route
+                                path="/reset_password/:token"
+                                element={<ResetPassword />}
+                            />
+                            <Route path="/" element={<HeaderFooterPage />}>
+                                <Route index element={<Home />} />
                                 <Route
-                                    path='/register'
-                                    element={<Register />}
-                                />
-                                <Route
-                                    path='/activate_email/:activationToken'
-                                    element={<ActiveEmail />}
-                                />
-                                <Route path='/login' element={<Login />} />
-                                <Route
-                                    path='/forgot_password'
-                                    element={<ForgotPassword />}
-                                />
-                                <Route
-                                    path='/reset_password/:token'
-                                    element={<ResetPassword />}
-                                />
-                            </Route>
-                            <Route path='/' element={<HeaderFooterPage />}>
-                                <Route path='/home' element={<Home />} />
-                                <Route
-                                    path='/products/:codeProduct'
+                                    path="/products/:codeProduct"
                                     element={<Product />}
                                 />
-                            </Route>
-                            <Route
-                                path='/products'
-                                element={<HeaderFilterFooterPage />}
-                            >
-                                <Route index element={<Products />} />
+                                <Route
+                                    path="/products"
+                                    element={<Products />}
+                                />
                             </Route>
                         </>
                     )}

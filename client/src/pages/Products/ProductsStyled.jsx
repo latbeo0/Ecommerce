@@ -1,70 +1,18 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const Container = styled.div`
     max-width: 80rem;
     margin: 1rem auto;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+`;
+
+const Content = styled.div`
     display: grid;
     grid-template-columns: 1fr 3fr;
-`;
-
-const FilterContainer = styled.div`
-    margin: 0 1rem;
-    border-radius: 5px;
-    height: fit-content;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-`;
-
-const FilterSection = styled.div`
-    padding: 1.5rem;
-
-    & + & {
-        border-top: 1px solid var(--gray-color-light);
-    }
-`;
-
-const FilterTitle = styled.div`
-    font-size: 1.125rem;
-    font-weight: 500;
-`;
-
-const ButtonReset = styled.div`
-    padding: 0.5rem 2rem;
-    border: 1px solid var(--gray-color-light);
-    border-radius: 2rem;
-    font-size: 1rem;
-    font-weight: 400;
-`;
-
-const FilterSectionHeader = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 1.0625rem;
-    font-weight: 500;
-`;
-
-const ButtonHide = styled.div`
-    padding: 0.5rem 1rem;
-    border: 1px solid var(--gray-color-light);
-    border-radius: 2rem;
-    font-size: 1rem;
-    font-weight: 400;
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-`;
-
-const SeeAll = styled.p`
-    font-size: 16px;
-    font-weight: 400;
-    color: var(--primary-color);
-    text-decoration: underline;
-    cursor: pointer;
-    margin-top: 2rem;
-`;
-
-const FilterSectionBody = styled.div`
-    padding-top: 2rem;
+    width: 100%;
 `;
 
 const ProductsContainer = styled.div`
@@ -90,7 +38,7 @@ const SearchContainer = styled.div`
 `;
 
 const InputSearch = styled.input.attrs({
-    type: 'text',
+    type: "text",
 })`
     position: absolute;
     top: 0;
@@ -142,10 +90,10 @@ const SortChooseContainer = styled.div`
 
 const SortChooseButton = styled.button`
     padding: 0.5rem 1rem;
-    border: ${(props) => !props.choose && '1px solid var(--gray-color-light)'};
+    border: ${(props) => !props.choose && "1px solid var(--gray-color-light)"};
     border-radius: 1rem;
-    background: ${(props) => props.choose && 'var(--primary-color)'};
-    color: ${(props) => props.choose && 'var(--white-color)'};
+    background: ${(props) => props.choose && "var(--primary-color)"};
+    color: ${(props) => props.choose && "var(--white-color)"};
 `;
 
 const CountProductsSelect = styled.select``;
@@ -166,15 +114,8 @@ const BodyProductsWrapper = styled.div`
 
 export {
     Container,
-    FilterContainer,
+    Content,
     ProductsContainer,
-    FilterSection,
-    FilterTitle,
-    ButtonReset,
-    FilterSectionHeader,
-    ButtonHide,
-    SeeAll,
-    FilterSectionBody,
     HeaderProductsWrapper,
     SearchContainer,
     InputSearch,
