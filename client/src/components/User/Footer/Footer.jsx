@@ -3,8 +3,16 @@ import React from "react";
 import {
     Container,
     Wrapper,
+    Content,
     SectionsContainer,
     SectionItem,
+    MobileSection,
+    MobileSectionItem,
+    Header,
+    Text,
+    IconContainer,
+    Body,
+    ItemSub,
     NewsletterContainer,
     NewsletterWrapper,
     Title,
@@ -23,6 +31,8 @@ import Section from "../../Basic/Section";
 import facebookIcon from "../../../assets/img/iconsSocial/facebook-app-symbol.png";
 import instagramIcon from "../../../assets/img/iconsSocial/instagram.png";
 import linkedinIcon from "../../../assets/img/iconsSocial/linkedin.png";
+import { MdKeyboardArrowUp } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 const sections = [
     {
@@ -67,14 +77,37 @@ const Footer = () => {
     return (
         <Container>
             <Wrapper>
-                <SectionsContainer>
-                    {sections.map((section) => (
-                        <SectionItem
-                            key={section.id}
-                            section={section}
-                            style={{ marginTop: "0" }}
-                        />
-                    ))}
+                <Content>
+                    <SectionsContainer>
+                        {sections.map((section) => (
+                            <SectionItem
+                                key={section.id}
+                                section={section}
+                                style={{ marginTop: "0" }}
+                            />
+                        ))}
+                    </SectionsContainer>
+                    <MobileSection>
+                        {sections.map((section) => (
+                            <MobileSectionItem key={section.id}>
+                                <Header>
+                                    <Text>{section.name}</Text>
+                                    <IconContainer>
+                                        <MdKeyboardArrowUp />
+                                    </IconContainer>
+                                </Header>
+                                <Body>
+                                    {section.items.map((item) => (
+                                        <ItemSub key={item.name}>
+                                            <Link to={item.href}>
+                                                {item.name}
+                                            </Link>
+                                        </ItemSub>
+                                    ))}
+                                </Body>
+                            </MobileSectionItem>
+                        ))}
+                    </MobileSection>
                     <NewsletterContainer>
                         <NewsletterWrapper>
                             <Title>Sign up for our newsletter</Title>
@@ -118,7 +151,7 @@ const Footer = () => {
                             </ButtonsSocialContainer>
                         </NewsletterWrapper>
                     </NewsletterContainer>
-                </SectionsContainer>
+                </Content>
                 <CopyRight>
                     Copyright © 2022 LV7. All rights reserved.
                 </CopyRight>
