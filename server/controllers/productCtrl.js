@@ -1,7 +1,7 @@
-const Product = require("../models/productModel");
-const ProductMaster = require("../models/productMasterModel");
+const Product = require('../models/productModel');
+const ProductMaster = require('../models/productMasterModel');
 
-const jwt = require("jsonwebtoken");
+const jwt = require('jsonwebtoken');
 
 const productCtrl = {
     //Product Master
@@ -11,10 +11,10 @@ const productCtrl = {
             // console.log(1);
             productMaster = await ProductMaster.find()
                 .populate({
-                    path: "vCollection",
-                    select: "collectName -collectCode",
+                    path: 'vCollection',
+                    select: 'collectName -collectCode',
                 })
-                .populate({ path: "vCategory", select: "cateName -cateCode" });
+                .populate({ path: 'vCategory', select: 'cateName -cateCode' });
             for (const pm of productMaster) {
                 const product = await Product.find({ productMasterId: pm._id });
                 pm.productDetails = [...pm.productDetails].concat(product);
@@ -37,7 +37,7 @@ const productCtrl = {
         const newProductMaster = new ProductMaster(req.body);
         try {
             await newProductMaster.save();
-            res.status(200).json({ msg: "Product has been created" });
+            res.status(200).json({ msg: 'Product has been created' });
         } catch (err) {
             return res.status(500).json({ msg: err.message });
         }
@@ -51,25 +51,50 @@ const productCtrl = {
                 },
                 { new: true }
             );
-            res.status(200).json({ msg: "Updated product success" });
+            res.status(200).json({ msg: 'Updated product success' });
         } catch (err) {
             return res.status(500).json({ msg: err.message });
         }
     },
-    //Product Detail
+    //Get All Product (Sửa)
     getAllProduct: async (req, res) => {
         try {
-            let product;
-            product = await Product.find()
-                .populate({ path: "vState", select: "stateName -stateCode" })
-                .populate({
-                    path: "vCollection",
-                    select: "collectName -collectCode",
-                })
-                .populate({ path: "vCategory", select: "cateName -cateCode" })
-                .populate({ path: "vSale", select: "saleName -saleCode" });
+            let result = [];
+            const temp = await Product.find().limit(3);
 
-            res.status(200).json({ product });
+            // for (const product of temp) {
+            //     const productMaster = await ProductMaster.findOne({
+            //         _id: product.productMasterId,
+            //     });
+            //     const { productName, productDescription, stateCode, saleCode } =
+            //         productMaster;
+            //     const handle = {
+            //         ...product._doc,
+            //         productName,
+            //         productDescription,
+            //         stateCode,
+            //         saleCode,
+            //     };
+            //     result.push(handle);
+            // }
+
+            const test = temp.map(async (product) => {
+                const productMaster = await ProductMaster.findOne({
+                    _id: product.productMasterId,
+                });
+                // const { productName, productDescription } = productMaster;
+                // const handle = {
+                //     ...product._doc,
+                //     productName,
+                //     productDescription,
+                // };
+
+                // console.log(handle);
+                // return handle;
+                return productMaster;
+            });
+
+            await res.status(200).json({ test });
         } catch (err) {
             return res.status(500).json({ msg: err.message });
         }
@@ -87,8 +112,8 @@ const productCtrl = {
             const product = await Product.find({
                 productMasterId: req.params.id,
             })
-                .populate({ path: "vSale", select: "saleName -saleCode" })
-                .populate({ path: "vState", select: "stateName -stateCode" });
+                .populate({ path: 'vSale', select: 'saleName -saleCode' })
+                .populate({ path: 'vState', select: 'stateName -stateCode' });
             res.status(200).json({ product });
         } catch (err) {
             return res.status(500).json({ msg: err.message });
@@ -96,7 +121,7 @@ const productCtrl = {
     },
     getProductByName: async (req, res) => {
         try {
-            var regex = new RegExp(req.params.name, "i");
+            var regex = new RegExp(req.params.name, 'i');
             Product.find({
                 name: regex,
                 inStock: true,
@@ -111,7 +136,7 @@ const productCtrl = {
         const newProduct = new Product(req.body);
         try {
             await newProduct.save();
-            res.status(200).json({ msg: "Product has been created" });
+            res.status(200).json({ msg: 'Product has been created' });
         } catch (err) {
             return res.status(500).json({ msg: err.message });
         }
@@ -125,7 +150,7 @@ const productCtrl = {
                 },
                 { new: true }
             );
-            res.status(200).json({ msg: "Updated product success" });
+            res.status(200).json({ msg: 'Updated product success' });
         } catch (err) {
             return res.status(500).json({ msg: err.message });
         }

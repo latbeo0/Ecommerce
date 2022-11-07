@@ -1,4 +1,4 @@
-import { baseRequest } from "./apiFetch";
+import { baseRequest } from './apiFetch';
 
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
@@ -19,39 +19,39 @@ export const fetchGetAccessToken = createAsyncThunk(
 );
 
 export const fetchForgotPassword = async (email) => {
-  return await baseRequest.post("/api/user/forgot", { email });
+    return await baseRequest.post('/api/user/forgot_password', { email });
 };
 
 export const fetchResetPassword = async (password, token) => {
-  return await baseRequest.post(
-    "/api/user/reset",
-    { password },
-    {
-      headers: { Authorization: token },
-    }
-  );
+    return await baseRequest.post(
+        '/api/user/reset_password',
+        { password },
+        {
+            headers: { Authorization: token },
+        }
+    );
 };
 
 export const fetchGetAllUser = async () => {
-  try {
-    return await baseRequest.get("/api/user/", null);
-  } catch (err) {
-    console.log(err);
-  }
+    try {
+        return await baseRequest.get('/api/user/', null);
+    } catch (err) {
+        console.log(err);
+    }
 };
 export const fetchAddNewUser = async (user, token) => {
-  try {
-    return await baseRequest.post("/api/user/", user);
-  } catch (err) {
-    throw err;
-  }
+    try {
+        return await baseRequest.post('/api/user/', user);
+    } catch (err) {
+        throw err;
+    }
 };
 export const fetchUpdateUser = async (user, id, token) => {
-  try {
-    return await baseRequest.put(`/api/user/${id}`, user);
-  } catch (err) {
-    throw err;
-  }
+    try {
+        return await baseRequest.put(`/api/user/${id}`, user);
+    } catch (err) {
+        throw err;
+    }
 };
 // export const fetchLogout = async () => {
 //     return await baseRequest.get('/api/user/logout', null);

@@ -4,10 +4,12 @@ import {
     LayoutCards,
     LayoutBanner,
     Section,
-    Services,
+    ServicesContainer,
+    ServicesWrapper,
     Service,
     HeaderSection,
     Title,
+    Decor,
     ViewAll,
     ContentSection,
     CategoryCard,
@@ -34,8 +36,8 @@ const Home = () => {
                     </LayoutCards>
                 </LayoutBanner>
             </Section>
-            <Section>
-                <Services>
+            <ServicesContainer>
+                <ServicesWrapper>
                     <Service>
                         <HiCheck /> Quality Product
                     </Service>
@@ -48,11 +50,14 @@ const Home = () => {
                     <Service>
                         <FaPhoneVolume /> 24/7 Support
                     </Service>
-                </Services>
-            </Section>
+                </ServicesWrapper>
+            </ServicesContainer>
             <Section>
                 <HeaderSection type='categories'>
-                    <Title>Categories</Title>
+                    <Title>
+                        <Decor />
+                        Categories
+                    </Title>
                     <Link to='#'>
                         <ViewAll>
                             Browse all categories
@@ -86,7 +91,10 @@ const Home = () => {
             </Section>
             <Section>
                 <HeaderSection type='categories'>
-                    <Title>Best Seller</Title>
+                    <Title>
+                        <Decor />
+                        Best Seller
+                    </Title>
                     <Link to='/products'>
                         <ViewAll>
                             Browse all products

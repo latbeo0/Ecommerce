@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {
     Container,
+    Wrapper,
     ImageContainer,
     Image,
     HeartContainer,
@@ -29,56 +30,55 @@ const ProductCard = () => {
     const [isHeart, setIsHeart] = useState(false);
 
     return (
-        <Link to='/products/1'>
-            <Container>
-                <ImageContainer>
-                    <Image
-                        alt='img'
-                        src='https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=1600'
-                    />
-                    <HeartContainer
-                        isHeart={isHeart}
-                        onClick={() => setIsHeart(!isHeart)}
-                    >
-                        <Heart
-                            src={isHeart ? heartIcon1 : heartIcon2}
+        <Container>
+            <Link to='/products/1'>
+                <Wrapper>
+                    <ImageContainer>
+                        <Image
                             alt='img'
+                            src='https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=1600'
                         />
-                    </HeartContainer>
-                    <Modal>
-                        <ButtonsContainer>
-                            <BiSearch />
-                            <BsCart />
-                        </ButtonsContainer>
-                    </Modal>
-                </ImageContainer>
-                <Content>
-                    <Header>
-                        <Title>Monstera DK Var (L)</Title>
-                        <StarsContainer>
-                            <StarsWrapper>
-                                <BsStarFill color='#ffc554' />
-                                <BsStarFill color='#ffc554' />
-                                <BsStarFill color='#ffc554' />
-                                <BsStarFill color='#ffc554' />
-                                <BsStarFill color='#ffc554' />
-                            </StarsWrapper>
-                            (74)
-                        </StarsContainer>
-                    </Header>
-                    <Body>
-                        <SaleContainer>
-                            Price
-                            <SaleTag>12.5%</SaleTag>
-                        </SaleContainer>
-                        <ProductPrice>
-                            <PriceNew>12.345.678 vnđ</PriceNew>
-                            <PriceOld>98.765.432 vnđ</PriceOld>
-                        </ProductPrice>
-                    </Body>
-                </Content>
-            </Container>
-        </Link>
+                        <Modal>
+                            <ButtonsContainer>
+                                <BiSearch />
+                                <BsCart />
+                            </ButtonsContainer>
+                        </Modal>
+                    </ImageContainer>
+                    <Content>
+                        <Header>
+                            <Title>Monstera DK Var (L)</Title>
+                            <StarsContainer>
+                                <StarsWrapper>
+                                    <BsStarFill color='#ffc554' />
+                                    <BsStarFill color='#ffc554' />
+                                    <BsStarFill color='#ffc554' />
+                                    <BsStarFill color='#ffc554' />
+                                    <BsStarFill color='#ffc554' />
+                                </StarsWrapper>
+                                (74)
+                            </StarsContainer>
+                        </Header>
+                        <Body>
+                            <SaleContainer>
+                                Price
+                                <SaleTag>12.5%</SaleTag>
+                            </SaleContainer>
+                            <ProductPrice>
+                                <PriceNew>12.345.678 vnđ</PriceNew>
+                                <PriceOld>98.765.432 vnđ</PriceOld>
+                            </ProductPrice>
+                        </Body>
+                    </Content>
+                </Wrapper>
+            </Link>
+            <HeartContainer
+                isHeart={isHeart}
+                onClick={() => setIsHeart(!isHeart)}
+            >
+                <Heart src={isHeart ? heartIcon1 : heartIcon2} alt='img' />
+            </HeartContainer>
+        </Container>
     );
 };
 

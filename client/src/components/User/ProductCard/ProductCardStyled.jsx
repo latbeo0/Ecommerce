@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 
 const Container = styled.div`
-    display: flex;
-    flex-direction: column;
     border-radius: 5px;
     overflow: hidden;
     position: relative;
@@ -13,13 +11,20 @@ const Container = styled.div`
         0 8px 10px -6px var(--tw-shadow-color);
     box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
         var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+`;
+
+const Wrapper = styled.div`
+    display: flex;
+    flex-direction: column;
 
     &:hover > div:first-child > div:last-child {
         display: block;
     }
 `;
+
 const ImageContainer = styled.div`
-    height: 300px;
+    height: 0;
+    padding-top: 100%;
     position: relative;
     overflow: hidden;
 `;
@@ -31,11 +36,13 @@ const Image = styled.img`
     transform: translate(-50%, -50%);
     object-fit: cover;
     object-position: center;
+    user-select: none;
 `;
+
 const HeartContainer = styled.div`
     position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
+    top: 1rem;
+    right: 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -43,14 +50,27 @@ const HeartContainer = styled.div`
     padding: 0.5rem;
     border-radius: 12px;
     cursor: pointer;
+    /* border: 1px solid rgba(255, 107, 108, 0.1); */
     background-color: ${(props) => props.isHeart && '#fff0f1'};
 
     & > img {
         width: 25px;
         height: 25px;
     }
+
+    &:hover {
+        background-color: #fff0f1;
+    }
 `;
-const Heart = styled.img``;
+
+const Heart = styled.img`
+    user-select: none;
+    /* position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; */
+`;
 const Content = styled.div`
     display: flex;
     flex-direction: column;
@@ -132,6 +152,7 @@ const ButtonsContainer = styled.div`
 
 export {
     Container,
+    Wrapper,
     ImageContainer,
     Image,
     HeartContainer,
