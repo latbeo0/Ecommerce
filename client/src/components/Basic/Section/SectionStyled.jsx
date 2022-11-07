@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled, { css } from "styled-components";
 
 const Container = styled.div`
     display: flex;
@@ -7,11 +7,11 @@ const Container = styled.div`
 
     ${(props) => {
         switch (props.slot) {
-            case 'start':
+            case "start":
                 return css`
                     align-items: flex-start;
                 `;
-            case 'end':
+            case "end":
                 return css`
                     align-items: flex-end;
                 `;

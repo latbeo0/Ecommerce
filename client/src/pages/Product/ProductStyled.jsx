@@ -1,17 +1,17 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const Container = styled.div`
     display: flex;
     justify-content: center;
     flex-direction: column;
+    max-width: 80rem;
+    margin: 1rem auto;
+    gap: 1rem;
 `;
 
 const ProductDetailContainer = styled.div`
-    max-width: 80rem;
-    margin: 1rem auto 0;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 2rem;
 `;
 
 const ImageContainer = styled.div`
@@ -21,7 +21,7 @@ const ImageContainer = styled.div`
     flex-direction: column;
     position: relative;
     gap: 2rem;
-    margin: 0 1rem 1rem;
+    margin: 0 1rem;
 `;
 
 const ImagePrimaryContainer = styled.div`
@@ -50,6 +50,7 @@ const InformationContainer = styled.div`
     justify-content: flex-start;
     flex-direction: column;
     gap: 1.5rem;
+    margin: 0 1rem;
 `;
 
 const Title = styled.h1`

@@ -1,9 +1,10 @@
 /* eslint-disable array-callback-return */
-import React from 'react';
+import React from "react";
 import {
     Container,
     Wrapper,
     SectionsContainer,
+    SectionItem,
     NewsletterContainer,
     NewsletterWrapper,
     Title,
@@ -17,47 +18,47 @@ import {
     ButtonIconSocial,
     ImageSocial,
     CopyRight,
-} from './FooterStyled';
-import Section from '../../Basic/List';
-import facebookIcon from '../../../assets/img/iconsSocial/facebook-app-symbol.png';
-import instagramIcon from '../../../assets/img/iconsSocial/instagram.png';
-import linkedinIcon from '../../../assets/img/iconsSocial/linkedin.png';
+} from "./FooterStyled";
+import Section from "../../Basic/Section";
+import facebookIcon from "../../../assets/img/iconsSocial/facebook-app-symbol.png";
+import instagramIcon from "../../../assets/img/iconsSocial/instagram.png";
+import linkedinIcon from "../../../assets/img/iconsSocial/linkedin.png";
 
 const sections = [
     {
-        id: 'products',
-        name: 'Products',
+        id: "products",
+        name: "Products",
         items: [
-            { name: 'Bags', href: '#' },
-            { name: 'Tees', href: '#' },
-            { name: 'Objects', href: '#' },
-            { name: 'Home Goods', href: '#' },
-            { name: 'Accessories', href: '#' },
+            { name: "Bags", href: "#" },
+            { name: "Tees", href: "#" },
+            { name: "Objects", href: "#" },
+            { name: "Home Goods", href: "#" },
+            { name: "Accessories", href: "#" },
         ],
     },
     {
-        id: 'supports',
-        name: 'Supports',
+        id: "supports",
+        name: "Supports",
         items: [
-            { name: 'Contact', href: '#' },
-            { name: 'Shipping', href: '#' },
-            { name: 'Returns', href: '#' },
-            { name: 'Warranty', href: '#' },
-            { name: 'Secure Payments', href: '#' },
-            { name: 'FAQ', href: '#' },
-            { name: 'Find a Store', href: '#' },
+            { name: "Contact", href: "#" },
+            { name: "Shipping", href: "#" },
+            { name: "Returns", href: "#" },
+            { name: "Warranty", href: "#" },
+            { name: "Secure Payments", href: "#" },
+            { name: "FAQ", href: "#" },
+            { name: "Find a Store", href: "#" },
         ],
     },
     {
-        id: 'company',
-        name: 'Company',
+        id: "company",
+        name: "Company",
         items: [
-            { name: 'Who we are', href: '#' },
-            { name: 'Sustainability', href: '#' },
-            { name: 'Press', href: '#' },
-            { name: 'Careers', href: '#' },
-            { name: 'Terms & Conditions', href: '#' },
-            { name: 'Privacy', href: '#' },
+            { name: "Who we are", href: "#" },
+            { name: "Sustainability", href: "#" },
+            { name: "Press", href: "#" },
+            { name: "Careers", href: "#" },
+            { name: "Terms & Conditions", href: "#" },
+            { name: "Privacy", href: "#" },
         ],
     },
 ];
@@ -68,7 +69,11 @@ const Footer = () => {
             <Wrapper>
                 <SectionsContainer>
                     {sections.map((section) => (
-                        <Section key={section.id} section={section} />
+                        <SectionItem
+                            key={section.id}
+                            section={section}
+                            style={{ marginTop: "0" }}
+                        />
                     ))}
                     <NewsletterContainer>
                         <NewsletterWrapper>
@@ -79,34 +84,34 @@ const Footer = () => {
                             </Description>
                             <InputButton>
                                 <Input
-                                    type='email'
-                                    placeholder='Your Email Address'
+                                    type="email"
+                                    placeholder="Your Email Address"
                                 />
                                 <Button>Sign up</Button>
                             </InputButton>
                             <TitleFollowUs>Follow Us</TitleFollowUs>
                             <ButtonsSocialContainer>
-                                <LinkButton href='https://www.facebook.com/'>
+                                <LinkButton href="https://www.facebook.com/">
                                     <ButtonIconSocial>
                                         <ImageSocial
                                             src={facebookIcon}
-                                            alt='iconSocial'
+                                            alt="iconSocial"
                                         />
                                     </ButtonIconSocial>
                                 </LinkButton>
-                                <LinkButton href='https://www.instagram.com/'>
+                                <LinkButton href="https://www.instagram.com/">
                                     <ButtonIconSocial>
                                         <ImageSocial
                                             src={instagramIcon}
-                                            alt='iconSocial'
+                                            alt="iconSocial"
                                         />
                                     </ButtonIconSocial>
                                 </LinkButton>
-                                <LinkButton href='https://www.linkedin.com/'>
+                                <LinkButton href="https://www.linkedin.com/">
                                     <ButtonIconSocial>
                                         <ImageSocial
                                             src={linkedinIcon}
-                                            alt='iconSocial'
+                                            alt="iconSocial"
                                         />
                                     </ButtonIconSocial>
                                 </LinkButton>

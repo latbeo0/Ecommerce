@@ -1,4 +1,6 @@
-import React from 'react';
+import React from "react";
+import BreadCrumb from "../../components/Basic/BreadCrumb";
+import ListProducts from "../../components/User/ListProducts";
 import {
     Container,
     ProductDetailContainer,
@@ -26,17 +28,18 @@ import {
     CommentContainer,
     RelatedProductsContainer,
     RecentlyViewedProducts,
-} from './ProductStyled';
+} from "./ProductStyled";
 
 const Product = () => {
     return (
         <Container>
+            <BreadCrumb />
             <ProductDetailContainer>
                 <ImageContainer>
                     <ImagePrimaryContainer>
                         <Image
-                            alt='img'
-                            src='https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=1600'
+                            alt="img"
+                            src="https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=1600"
                         />
                     </ImagePrimaryContainer>
                     <ImageSecondary></ImageSecondary>
@@ -45,14 +48,14 @@ const Product = () => {
                     <Title>Product Detail 1</Title>
                     <HeaderInformationContainer>
                         <CodeProduct>
-                            Mã sản phẩm:{' '}
-                            <strong style={{ fontWeight: 'bold' }}>
+                            Mã sản phẩm:{" "}
+                            <strong style={{ fontWeight: "bold" }}>
                                 A12345
                             </strong>
                         </CodeProduct>
                         <StateProduct>
-                            Tình trạng:{' '}
-                            <strong style={{ fontWeight: 'bold' }}>
+                            Tình trạng:{" "}
+                            <strong style={{ fontWeight: "bold" }}>
                                 Sale off
                             </strong>
                         </StateProduct>
@@ -81,8 +84,14 @@ const Product = () => {
                 </InformationContainer>
             </ProductDetailContainer>
             <CommentContainer></CommentContainer>
-            <RelatedProductsContainer></RelatedProductsContainer>
-            <RecentlyViewedProducts></RecentlyViewedProducts>
+            <RelatedProductsContainer style={{ margin: "0 1rem" }}>
+                <h1>Related Products</h1>
+                <ListProducts listProducts={[1, 1, 1, 1, 1, 1, 1, 1]} />
+            </RelatedProductsContainer>
+            <RecentlyViewedProducts>
+                <h1>Recently Viewed Products</h1>
+                <ListProducts listProducts={[1, 1, 1, 1, 1, 1, 1, 1]} />
+            </RecentlyViewedProducts>
         </Container>
     );
 };

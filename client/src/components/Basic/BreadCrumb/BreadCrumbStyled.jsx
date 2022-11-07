@@ -7,12 +7,13 @@ const Container = styled.div`
     padding: 1rem 2rem;
     border-radius: 0.5rem;
     box-shadow: rgb(100 100 111 / 20%) 0px 7px 29px 0px;
-    width: -webkit-fill-available;
 `;
 
 const BreadCrumbItem = styled.div`
     display: flex;
     align-items: center;
+    font-size: 0.9375rem;
+    font-weight: 400;
 `;
 
 export { Container, BreadCrumbItem };

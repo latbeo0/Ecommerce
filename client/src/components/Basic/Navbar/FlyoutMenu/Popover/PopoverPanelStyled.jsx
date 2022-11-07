@@ -1,4 +1,5 @@
-import styled from 'styled-components';
+import styled from "styled-components";
+import Section from "../../../Section";
 
 const Container = styled.div`
     position: absolute;
@@ -16,8 +17,7 @@ const Panel = styled.div`
 const Wrapper = styled.div`
     max-width: 80rem;
     padding: 0 2rem;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0 auto;
 `;
 
 const Layout = styled.div`
@@ -25,13 +25,11 @@ const Layout = styled.div`
     grid-template-columns: repeat(2, minmax(0, 1fr));
     row-gap: 2.5rem;
     column-gap: 2rem;
-    padding-top: 4rem;
-    padding-bottom: 4rem;
+    padding: 4rem 0;
 `;
 
 const SectionGroup = styled.div`
     grid-row-start: 1;
-
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     row-gap: 2.5rem;

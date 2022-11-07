@@ -4,7 +4,7 @@ const Container = styled.div`
     max-width: 80rem;
     margin: 1rem auto;
     display: flex;
-    align-items: flex-start;
+    align-items: stretch;
     justify-content: flex-start;
     flex-direction: column;
 `;
@@ -30,43 +30,6 @@ const HeaderProductsWrapper = styled.div`
     justify-content: flex-start;
     flex-direction: column;
     gap: 2rem;
-`;
-
-const SearchContainer = styled.div`
-    position: relative;
-    height: 4rem;
-`;
-
-const InputSearch = styled.input.attrs({
-    type: "text",
-})`
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    padding: 1rem 4rem;
-    font-size: 1rem;
-    font-weight: 300;
-    line-height: 2rem;
-    color: var(--gray-color);
-    background: rgba(221, 221, 221, 0.2);
-    outline: none;
-    border: none;
-    border-radius: 1rem;
-`;
-
-const ResultSearch = styled.div`
-    font-size: 16px;
-    font-weight: 400;
-    color: var(--gray-color);
-    display: flex;
-    gap: 0.5rem;
-`;
-
-const Result = styled.p`
-    font-weight: 500;
-    color: var(--black-color);
 `;
 
 const DisplayContainer = styled.div`
@@ -117,10 +80,6 @@ export {
     Content,
     ProductsContainer,
     HeaderProductsWrapper,
-    SearchContainer,
-    InputSearch,
-    ResultSearch,
-    Result,
     DisplayContainer,
     SortContainer,
     SortChooseContainer,

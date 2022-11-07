@@ -1,4 +1,5 @@
-import styled from 'styled-components';
+import styled from "styled-components";
+import Section from "../../Basic/Section";
 
 const Container = styled.footer`
     background-color: var(--secondary-color);
@@ -15,6 +16,16 @@ const SectionsContainer = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 2fr;
     border-bottom: 1px solid var(--gray-color-light);
+`;
+
+const SectionItem = styled(Section)`
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+
+    @media only screen and (max-width: 1024px) {
+        margin-top: 0;
+    }
 `;
 
 const NewsletterContainer = styled.div``;
@@ -49,7 +60,7 @@ const Input = styled.input`
     line-height: 1.5rem;
     border: 1px solid var(--gray-color-light);
     border-radius: 0.3rem;
-    min-width: 300px;
+    width: 265px;
     padding: 0.5rem;
 `;
 
@@ -108,6 +119,7 @@ export {
     Container,
     Wrapper,
     SectionsContainer,
+    SectionItem,
     NewsletterContainer,
     NewsletterWrapper,
     Title,

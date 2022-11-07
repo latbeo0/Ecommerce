@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useTransition } from "react";
 import ProductCard from "../../components/User/ProductCard";
 import Filter from "../../components/User/Filter";
 import {
@@ -6,10 +6,6 @@ import {
     Content,
     ProductsContainer,
     HeaderProductsWrapper,
-    SearchContainer,
-    InputSearch,
-    ResultSearch,
-    Result,
     DisplayContainer,
     SortContainer,
     SortChooseContainer,
@@ -20,8 +16,27 @@ import {
     BodyProductsWrapper,
 } from "./ProductsStyled";
 import BreadCrumb from "../../components/Basic/BreadCrumb";
+import Search from "../../components/Basic/Search";
+import { useDispatch, useSelector } from "react-redux";
+import { searchChange, selectSearch } from "../../redux/filterSlice";
 
 const Products = () => {
+    const [, startTransition] = useTransition();
+    const dispatch = useDispatch();
+
+    const search = useSelector(selectSearch);
+
+    const handleChangeSearch = (e) => {
+        startTransition(() => {
+            const value = e.target.value;
+            dispatch(searchChange({ value }));
+        });
+    };
+
+    const handleClearSearch = () => {
+        dispatch(searchChange({ value: "" }));
+    };
+
     return (
         <Container>
             <BreadCrumb />
@@ -29,12 +44,11 @@ const Products = () => {
                 <Filter />
                 <ProductsContainer>
                     <HeaderProductsWrapper>
-                        <SearchContainer>
-                            <InputSearch placeholder="Search here ..." />
-                        </SearchContainer>
-                        <ResultSearch>
-                            Search result for <Result>"Something"</Result>
-                        </ResultSearch>
+                        <Search
+                            result={search}
+                            onChange={handleChangeSearch}
+                            onClear={handleClearSearch}
+                        />
                         <DisplayContainer>
                             <SortContainer>
                                 Sort:
@@ -65,6 +79,14 @@ const Products = () => {
                         </DisplayContainer>
                     </HeaderProductsWrapper>
                     <BodyProductsWrapper>
+                        <ProductCard />
+                        <ProductCard />
+                        <ProductCard />
+                        <ProductCard />
+                        <ProductCard />
+                        <ProductCard />
+                        <ProductCard />
+                        <ProductCard />
                         <ProductCard />
                         <ProductCard />
                         <ProductCard />

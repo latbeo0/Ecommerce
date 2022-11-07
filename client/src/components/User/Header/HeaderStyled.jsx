@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const Container = styled.header`
     position: sticky;
@@ -6,6 +6,7 @@ const Container = styled.header`
     left: 0;
     width: 100%;
     background-color: #fff;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     z-index: 998;
 `;
 
@@ -81,18 +82,18 @@ const WrapperTags = styled.div`
     padding-right: 1rem;
 `;
 
-const ButtonTag = styled.button.attrs({ type: 'button' })`
+const ButtonTag = styled.button.attrs({ type: "button" })`
     flex: 1 1;
     font-size: 1rem;
     line-height: 1.5rem;
     font-weight: 500;
     color: ${(props) =>
-        props.active ? 'var(--primary-color)' : 'rgb(17 24 39)'};
+        props.active ? "var(--primary-color)" : "rgb(17 24 39)"};
 
     white-space: nowrap;
     border-bottom-width: 2px;
     border-color: ${(props) =>
-        props.active ? 'var(--primary-color)' : 'transparent'};
+        props.active ? "var(--primary-color)" : "transparent"};
 
     padding-top: 1rem;
     padding-bottom: 1rem;
