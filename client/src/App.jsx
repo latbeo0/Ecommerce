@@ -18,6 +18,7 @@ import { selectAuth } from './redux/authSlice';
 import { selectUser } from './redux/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import ButtonScrollToTop from './helpers/ButtonScrollToTop';
+import { fetchGetProducts } from './services/productFetch';
 
 const App = () => {
     const dispatch = useDispatch();
@@ -66,6 +67,24 @@ const App = () => {
     const handleScrollToTop = () => {
         window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
     };
+
+    // Fetch api
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const pageSize = 15;
+                const pageIndex = 1;
+
+                await dispatch(
+                    fetchGetProducts({ pageSize, pageIndex })
+                ).unwrap();
+            } catch (error) {
+                console.log('/App/fetchProducts');
+            }
+        };
+        fetchProducts();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <>

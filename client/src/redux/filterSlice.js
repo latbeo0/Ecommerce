@@ -1,15 +1,18 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { maxValueRange } from "../helpers/contain";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { maxValueRange } from '../helpers/contain';
 
 const initialState = {
-    search: "",
+    search: '',
     priceRange: [0, maxValueRange],
+    state: [],
+    collections: [],
+    sort: 'Relevance',
     isLoading: false,
     isError: false,
 };
 
 export const searchChange = createAsyncThunk(
-    "filter/searchChange",
+    'filter/searchChange',
     (valueSearch) => {
         const { value } = valueSearch;
         return value;
@@ -17,7 +20,7 @@ export const searchChange = createAsyncThunk(
 );
 
 export const filterSlice = createSlice({
-    name: "filter",
+    name: 'filter',
     initialState,
     reducers: {},
     extraReducers: (builder) => {

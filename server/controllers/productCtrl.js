@@ -59,42 +59,53 @@ const productCtrl = {
     //Get All Product (Sửa)
     getAllProduct: async (req, res) => {
         try {
-            let result = [];
-            const temp = await Product.find().limit(3);
+            const countProducts = await Product.find();
+            const totalProducts = countProducts.length;
 
-            // for (const product of temp) {
+            const { pageSize = 15, pageIndex = 1 } = req.query;
+            const countProductsSkipped = (pageIndex - 1) * pageSize;
+
+            const listProducts = [];
+            const listProductsTemp = await Product.find()
+                .skip(countProductsSkipped)
+                .limit(pageSize);
+
+            for (const product of listProductsTemp) {
+                const productMaster = await ProductMaster.findOne({
+                    _id: product.productMasterId,
+                });
+
+                const { productName, productDescription, stateCode, saleCode } =
+                    productMaster;
+
+                const handle = {
+                    ...product._doc,
+                    productName,
+                    productDescription,
+                    stateCode,
+                    saleCode,
+                };
+
+                listProducts.push(handle);
+            }
+
+            // const test = temp.map(async (product) => {
             //     const productMaster = await ProductMaster.findOne({
             //         _id: product.productMasterId,
             //     });
-            //     const { productName, productDescription, stateCode, saleCode } =
-            //         productMaster;
+            //     const { productName, productDescription } = productMaster;
             //     const handle = {
             //         ...product._doc,
             //         productName,
             //         productDescription,
-            //         stateCode,
-            //         saleCode,
             //     };
-            //     result.push(handle);
-            // }
 
-            const test = temp.map(async (product) => {
-                const productMaster = await ProductMaster.findOne({
-                    _id: product.productMasterId,
-                });
-                // const { productName, productDescription } = productMaster;
-                // const handle = {
-                //     ...product._doc,
-                //     productName,
-                //     productDescription,
-                // };
+            //     console.log(handle);
+            //     return handle;
+            //     return productMaster;
+            // });
 
-                // console.log(handle);
-                // return handle;
-                return productMaster;
-            });
-
-            await res.status(200).json({ test });
+            await res.status(200).json({ totalProducts, listProducts });
         } catch (err) {
             return res.status(500).json({ msg: err.message });
         }
