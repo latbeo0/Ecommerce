@@ -6,7 +6,17 @@ const ProductHeader = styled.div`
   align-items: center;
 `;
 const ProductTitle = styled.div`
-    font-size: 25px`
-const ProductIconContainer = styled.div`
-    `
-export { ProductHeader , ProductTitle, ProductIconContainer};
+  font-size: 25px;
+`;
+const ProductIconContainer = styled.div``;
+const ProductToolbar = styled.div`
+  padding: 5px 0px;
+`;
+const ProductToolbarButtonCard = styled.div``;
+export {
+  ProductHeader,
+  ProductTitle,
+  ProductIconContainer,
+  ProductToolbar,
+  ProductToolbarButtonCard,
+};

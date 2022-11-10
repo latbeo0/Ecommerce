@@ -4,6 +4,7 @@ const {
     verifyTokenRefreshToken,
     verifyToken,
 } = require('../middleware/verifyToken');
+
 router.get('/', userCtrl.getAllUser);
 
 router.post('/refresh_token', verifyTokenRefreshToken, userCtrl.getAccessToken);

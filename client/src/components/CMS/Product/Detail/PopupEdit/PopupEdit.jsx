@@ -70,15 +70,8 @@ const PopupEdit = ({ open, master, row, onClose, onSubmit }) => {
   const [product, setProductData] = useState({
     ...data.product,
   });
-  const [primaryImages, setPrimaryImages] = useState(
-    row?.primaryImages ? row.primaryImages : primaryItems
-  );
-  const [secondaryImages, setSecondaryImages] = useState(
-    row?.secondaryImages ? row.secondaryImages : secondaryItems
-  );
 
   React.useEffect(() => {
-    console.log(row)
     if (row) {
       setProductData(row);
     } else {
@@ -131,35 +124,79 @@ const PopupEdit = ({ open, master, row, onClose, onSubmit }) => {
       },
     });
   };
+  const handleCalPrimaryImage = (e) => {
+    // const id = e.target.id;
+    // if (id === "addImage") {
+    //   setSecondaryImages((prev) => {
+    //     return [...prev, ""];
+    //   });
+    // } else {
+    //   const arr1 = setSecondaryImages.slice(0, Number(id));
+    //   const arr2 = setSecondaryImages.slice(
+    //     Number(id) + 1,
+    //     setSecondaryImages.length
+    //   );
+    //   setSecondaryImages([...arr1, ...arr2]);
+    // }
+  };
   const handleCalSecondaryImage = (e) => {
-    const id = e.target.id;
-    if (id === "addImage") {
-      setSecondaryImages((prev) => {
-        return [...prev, ""];
-      });
-    } else {
-      const arr1 = setSecondaryImages.slice(0, Number(id));
-      const arr2 = setSecondaryImages.slice(
-        Number(id) + 1,
-        setSecondaryImages.length
-      );
-      setSecondaryImages([...arr1, ...arr2]);
-    }
+    // const id = e.target.id;
+    // if (id === "addImage") {
+    //   setSecondaryImages((prev) => {
+    //     return [...prev, ""];
+    //   });
+    // } else {
+    //   const arr1 = setSecondaryImages.slice(0, Number(id));
+    //   const arr2 = setSecondaryImages.slice(
+    //     Number(id) + 1,
+    //     setSecondaryImages.length
+    //   );
+    //   setSecondaryImages([...arr1, ...arr2]);
+    // }
   };
   const handlePreviewImage = (e) => {
     const name = e.target.name;
     const file = e.target.files[0];
     const check = checkFile(file);
-
     if (!check) {
       const formData = new FormData();
       formData.append("file", file);
       fetchUploadImageProduct(formData)
         .then((res) => {
-          console.log(res.data);
-          setProductData((prev) => {
-            return { ...prev, [name]: res.data.url };
-          });
+          if (res) {
+            switch (name.toUpperCase()) {
+              case "PRIMARYIMAGES":
+                setProductData((product) => {
+                  return {
+                    ...product,
+                    primaryImages: [
+                      ...product.primaryImages,
+                      {
+                        img: res.data.url,
+                        title: file.name,
+                      },
+                    ],
+                  };
+                });
+                break;
+              case "SECONDARYIMAGES":
+                setProductData((product) => {
+                  return {
+                    ...product,
+                    secondaryImages: [
+                      ...product.secondaryImages,
+                      {
+                        img: res.data.url,
+                        title: file.name,
+                      },
+                    ],
+                  };
+                });
+                break;
+              default:
+                break;
+            }
+          }
         })
         .catch((err) =>
           setProductData((prev) => {
@@ -179,15 +216,15 @@ const PopupEdit = ({ open, master, row, onClose, onSubmit }) => {
       await fetchAddNewProduct({
         ...product,
         productMasterId: master,
-        primaryImages: primaryImages,
-        secondaryImages: secondaryImages,
+        // primaryImages: primaryImages,
+        // secondaryImages: secondaryImages,
       })
         .then((response) => {
           if (response.status === 200) {
             Notification(NotificationType.success, response.data.msg);
             setProductData(data.product);
-            setPrimaryImages([]);
-            setSecondaryImages([]);
+            // setPrimaryImages([]);
+            // setSecondaryImages([]);
           } else Notification(NotificationType.error, response.data.msg);
         })
         .catch((error) => Notification(NotificationType.error, error));
@@ -195,8 +232,8 @@ const PopupEdit = ({ open, master, row, onClose, onSubmit }) => {
       await fetchUpdateProduct(
         {
           ...product,
-          primaryImages: primaryImages,
-          secondaryImages: secondaryImages,
+          // primaryImages: primaryImages,
+          // secondaryImages: secondaryImages,
         },
         row.id
       )
@@ -209,7 +246,6 @@ const PopupEdit = ({ open, master, row, onClose, onSubmit }) => {
         .catch((error) => Notification(NotificationType.error, error));
     }
     onClose();
-
   };
 
   return (
@@ -218,7 +254,7 @@ const PopupEdit = ({ open, master, row, onClose, onSubmit }) => {
       onClose={onClose}
       aria-labelledby="form-dialog-title"
       maxWidth="lg"
-      fullWidths
+      fullwidths={"true"}
       TransitionComponent={Transition}
     >
       <DialogTitle id="form-dialog-title">Product Details</DialogTitle>
@@ -410,7 +446,7 @@ const PopupEdit = ({ open, master, row, onClose, onSubmit }) => {
             <Link>List Primary Images</Link>
             <MuiGrid>
               <ImageList cols={2} rowHeight={228}>
-                {primaryImages.map((item) => (
+                {product.primaryImages?.map((item) => (
                   <ImageListItem key={item.img}>
                     <ProductSecondaryImage
                       src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
@@ -420,21 +456,20 @@ const PopupEdit = ({ open, master, row, onClose, onSubmit }) => {
                     />
                   </ImageListItem>
                 ))}
-                {primaryImages.length < 2 && (
+                {product.primaryImages.length < 2 && (
                   <ImageListItem>
                     <ProductSecondaryImageCard>
-                      <ProductSecondaryImageLabel htmlFor="file-input">
+                      <ProductSecondaryImageLabel htmlFor="file-input-1">
                         <ProductSecondaryImage
                           id="addImage"
                           src={Plus}
                           alt="New"
                           loading="lazy"
-                          onClick={handleCalSecondaryImage}
                         />
                       </ProductSecondaryImageLabel>
                       <ProductSecondaryImageInput
                         name="primaryImages"
-                        id="file-input"
+                        id="file-input-1"
                         accept="image/*"
                         type="file"
                         onChange={handlePreviewImage}
@@ -447,7 +482,7 @@ const PopupEdit = ({ open, master, row, onClose, onSubmit }) => {
             <Link>List Extra Images</Link>
             <MuiGrid>
               <ImageList cols={2} rowHeight={228}>
-                {secondaryImages.map((item) => (
+                {product.secondaryImages?.map((item) => (
                   <ImageListItem key={item.img}>
                     <ProductSecondaryImage
                       src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
@@ -457,20 +492,21 @@ const PopupEdit = ({ open, master, row, onClose, onSubmit }) => {
                     />
                   </ImageListItem>
                 ))}
-                {secondaryImages.length < 4 && (
+                {product.secondaryImages?.length < 4 && (
                   <ImageListItem>
                     <ProductSecondaryImageCard>
-                      <ProductSecondaryImageLabel for="file-input">
+                      <ProductSecondaryImageLabel htmlFor="file-input-2">
                         <ProductSecondaryImage
                           id="addImage"
                           src={Plus}
                           alt="New"
                           loading="lazy"
-                          onClick={handleCalSecondaryImage}
                         />
                       </ProductSecondaryImageLabel>
                       <ProductSecondaryImageInput
-                        id="file-input"
+                        name="secondaryImages"
+                        id="file-input-2"
+                        accept="image/*"
                         type="file"
                         onChange={handlePreviewImage}
                       />

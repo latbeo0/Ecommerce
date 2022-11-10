@@ -77,11 +77,9 @@ export const fetchGetProductByName = async (name) => {
 };
 export const fetchUploadImageProduct = async (formData, token) => {
   try {
-
     return await baseRequest.post("/api/upload/upload_product", formData, {
       headers: {
-        "content-type": "multipart/form-data",
-        // "accept": "application/json",
+        "accept": "application/json",
         // Authorization: token,
       },
     });

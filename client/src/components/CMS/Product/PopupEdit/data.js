@@ -37,11 +37,19 @@ export const detail = {
 export const categories = [
   {
     cateCode: "CATEGORY1",
-    cateName: "Men's shoes",
+    cateName: "Walking",
   },
   {
     cateCode: "CATEGORY2",
-    cateName: "Women's shoes",
+    cateName: "Climbing",
+  },
+  {
+    cateCode: "CATEGORY3",
+    cateName: "Travel",
+  },
+  {
+    cateCode: "CATEGORY4",
+    cateName: "Party",
   },
 ];
 export const gender = [

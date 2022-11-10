@@ -68,7 +68,7 @@ const PopupEdit = ({ open, row, onClose, onSubmit }) => {
       onClose={onClose}
       aria-labelledby="form-dialog-title"
       maxWidth="lg"
-      fullWidths
+      fullwidths
       TransitionComponent={Transition}
     >
       <DialogTitle id="form-dialog-title">Product</DialogTitle>

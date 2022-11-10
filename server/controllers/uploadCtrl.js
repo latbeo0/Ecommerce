@@ -34,7 +34,6 @@ const uploadCtrl = {
     },
     uploadProduct: (req, res) => {
         try {
-            console.log("req", req)
             const file = req.files.file;
             cloudinary.v2.uploader.upload(
                 file.tempFilePath,
