@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const Container = styled.div`
     display: flex;
@@ -12,6 +12,7 @@ const Container = styled.div`
 const ProductDetailContainer = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr;
+    margin-bottom: 5rem;
 `;
 
 const ImageContainer = styled.div`
@@ -26,9 +27,10 @@ const ImageContainer = styled.div`
 
 const ImagePrimaryContainer = styled.div`
     position: relative;
-    height: 33em;
+    /* height: 33em; */
     border-radius: 1rem;
     overflow: hidden;
+    padding-top: 100%;
 `;
 
 const Image = styled.img`
@@ -41,7 +43,8 @@ const Image = styled.img`
 `;
 
 const ImageSecondary = styled.div`
-    height: 15em;
+    border-radius: 1rem;
+    overflow: hidden;
     background: var(--gray-color-light);
 `;
 
@@ -53,7 +56,7 @@ const InformationContainer = styled.div`
     margin: 0 1rem;
 `;
 
-const Title = styled.h1`
+const Name = styled.h1`
     font-size: 1.875rem;
     line-height: 1.4em;
 `;
@@ -80,8 +83,37 @@ const ButtonCart = styled.button``;
 const ButtonCheckout = styled.button``;
 const SubInformationContainer = styled.div``;
 const CommentContainer = styled.div``;
-const RelatedProductsContainer = styled.div``;
+const RelatedProductsContainer = styled.div`
+    margin: 0 1rem 5rem;
+`;
 const RecentlyViewedProducts = styled.div``;
+
+const Title = styled.h1`
+    font-size: 2rem;
+    font-weight: 600;
+    padding: 0 2rem;
+    position: relative;
+    margin-bottom: 2rem;
+
+    @media only screen and (max-width: 1024px) and (min-width: 768px) {
+        font-size: 1.75rem;
+    }
+
+    @media only screen and (max-width: 767px) {
+        font-size: 1.5625rem;
+    }
+`;
+
+const Decor = styled.div`
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    width: 0.8rem;
+    height: 80%;
+    background: linear-gradient(var(--primary-color), var(--secondary-color));
+    border-radius: 4px;
+`;
 
 export {
     Container,
@@ -91,7 +123,7 @@ export {
     Image,
     ImageSecondary,
     InformationContainer,
-    Title,
+    Name,
     HeaderInformationContainer,
     CodeProduct,
     StateProduct,
@@ -110,4 +142,6 @@ export {
     CommentContainer,
     RelatedProductsContainer,
     RecentlyViewedProducts,
+    Title,
+    Decor,
 };

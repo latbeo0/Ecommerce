@@ -100,27 +100,33 @@ const SaleContainer = styled.div`
     font-weight: 500;
     color: gray;
 `;
+
 const SaleTag = styled.div`
     padding: 0.2rem 0.5rem;
     background-color: rgba(128, 128, 128, 0.3);
     border-radius: 3px;
 `;
+
 const ProductPrice = styled.div`
     margin-top: 0.5rem;
     display: flex;
     flex-direction: column;
 `;
+
 const PriceNew = styled.div`
     font-size: 1rem;
     font-weight: 500;
-    color: rgb(255, 122, 122);
+    color: ${(props) =>
+        props.color === 'gray' ? 'var(--black-color)' : 'rgb(255, 122, 122)'};
 `;
+
 const PriceOld = styled.div`
     font-size: 0.875rem;
     font-weight: 500;
     color: rgba(128, 128, 128, 0.5);
     text-decoration: line-through;
 `;
+
 const Modal = styled.div`
     position: absolute;
     left: 0;

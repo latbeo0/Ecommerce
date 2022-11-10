@@ -23,8 +23,13 @@ import { AiOutlineSwap } from 'react-icons/ai';
 import { BsArrowRightShort } from 'react-icons/bs';
 import ProductCard from './../../components/User/ProductCard';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { selectProducts } from '../../redux/productSlice';
+import Loading from '../../helpers/Loading';
 
 const Home = () => {
+    const { listProducts, isLoading, isError } = useSelector(selectProducts);
+
     return (
         <>
             <Section>
@@ -102,13 +107,16 @@ const Home = () => {
                         </ViewAll>
                     </Link>
                 </HeaderSection>
-                <BodySection>
-                    <ProductCard />
-                    <ProductCard />
-                    <ProductCard />
-                    <ProductCard />
-                    <ProductCard />
-                    <ProductCard />
+                <BodySection isLoading={isError || isLoading}>
+                    {isError ? (
+                        <span>Something wrong with api get products</span>
+                    ) : isLoading ? (
+                        <Loading />
+                    ) : (
+                        listProducts?.map((product) => (
+                            <ProductCard key={product._id} product={product} />
+                        ))
+                    )}
                 </BodySection>
             </Section>
         </>

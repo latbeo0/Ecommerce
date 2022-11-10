@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const Container = styled.div`
     width: 100%;
@@ -24,16 +24,16 @@ const Content = styled.div`
     transition: all 250ms linear;
     -ms-overflow-style: none; /* hide scrollbar in IE and Edge */
     scrollbar-width: none; /* hide scrollbar in Firefox */
+    gap: 1rem;
 
     &::-webkit-scrollbar {
         display: none;
     }
 
     & > * {
-        width: ${(props) => `calc(100% / ${props.show})`};
+        width: ${(props) => `calc(calc((100% / ${props.show})) - 1rem)`};
         flex-shrink: 0;
         flex-grow: 1;
-        padding: 0.5rem 0.5rem 2rem;
     }
 `;
 
@@ -50,8 +50,8 @@ const Arrow = styled.button`
     border-radius: 24px;
     background-color: white;
     border: 1px solid #ddd;
-    left: ${(props) => props.direction === "left" && "24px"};
-    right: ${(props) => props.direction === "right" && "24px"};
+    left: ${(props) => props.direction === 'left' && '24px'};
+    right: ${(props) => props.direction === 'right' && '24px'};
 
     & > svg {
         width: 20px;

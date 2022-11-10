@@ -195,7 +195,8 @@ const TitleCategory = styled.h1`
 
 const BodySection = styled.div`
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: ${(props) =>
+        props.isLoading ? '1fr' : '1fr 1fr 1fr 1fr'};
     gap: 1rem;
 
     @media only screen and (max-width: 1024px) and (min-width: 769px) {

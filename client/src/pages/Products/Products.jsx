@@ -1,6 +1,6 @@
-import React, { useState, useTransition } from "react";
-import ProductCard from "../../components/User/ProductCard";
-import Filter from "../../components/User/Filter";
+import React, { useState, useTransition } from 'react';
+import ProductCard from '../../components/User/ProductCard';
+import Filter from '../../components/User/Filter';
 import {
     Container,
     Content,
@@ -14,16 +14,21 @@ import {
     CountProductsOption,
     CountProductsContainer,
     BodyProductsWrapper,
-} from "./ProductsStyled";
-import BreadCrumb from "../../components/Basic/BreadCrumb";
-import Search from "../../components/Basic/Search";
-import { useDispatch, useSelector } from "react-redux";
-import { searchChange, selectSearch } from "../../redux/filterSlice";
+    FooterProductsWrapper,
+} from './ProductsStyled';
+import BreadCrumb from '../../components/Basic/BreadCrumb';
+import Search from '../../components/Basic/Search';
+import { useDispatch, useSelector } from 'react-redux';
+import { searchChange, selectSearch } from '../../redux/filterSlice';
+import { Pagination } from '../../components/Basic';
+import { selectProducts } from '../../redux/productSlice';
+import Loading from '../../helpers/Loading';
 
 const Products = () => {
-    const [, startTransition] = useTransition();
     const dispatch = useDispatch();
+    const [, startTransition] = useTransition();
 
+    const products = useSelector(selectProducts);
     const search = useSelector(selectSearch);
 
     const handleChangeSearch = (e) => {
@@ -34,8 +39,12 @@ const Products = () => {
     };
 
     const handleClearSearch = () => {
-        dispatch(searchChange({ value: "" }));
+        dispatch(searchChange({ value: '' }));
     };
+
+    // pagination
+    let PageSize = 10;
+    const [currentPage, setCurrentPage] = useState(1);
 
     return (
         <Container>
@@ -78,20 +87,30 @@ const Products = () => {
                             </CountProductsContainer>
                         </DisplayContainer>
                     </HeaderProductsWrapper>
-                    <BodyProductsWrapper>
-                        <ProductCard />
-                        <ProductCard />
-                        <ProductCard />
-                        <ProductCard />
-                        <ProductCard />
-                        <ProductCard />
-                        <ProductCard />
-                        <ProductCard />
-                        <ProductCard />
-                        <ProductCard />
-                        <ProductCard />
-                        <ProductCard />
+                    <BodyProductsWrapper
+                        isLoading={products?.isError || products?.isLoading}
+                    >
+                        {products.isError ? (
+                            <span>Something wrong with api get products</span>
+                        ) : products.isLoading ? (
+                            <Loading />
+                        ) : (
+                            products.listProducts?.map((product) => (
+                                <ProductCard
+                                    key={product._id}
+                                    product={product}
+                                />
+                            ))
+                        )}
                     </BodyProductsWrapper>
+                    <FooterProductsWrapper>
+                        <Pagination
+                            currentPage={currentPage}
+                            totalCount={products?.totalProducts}
+                            pageSize={PageSize}
+                            onPageChange={(page) => setCurrentPage(page)}
+                        />
+                    </FooterProductsWrapper>
                 </ProductsContainer>
             </Content>
         </Container>

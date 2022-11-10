@@ -26,18 +26,18 @@ import { BsStarFill, BsCart } from 'react-icons/bs';
 import { BiSearch } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
 
-const ProductCard = () => {
+const ProductCard = (props) => {
+    const { _id, primaryImages, price, newPrice, isStock, productName } =
+        props?.product;
+
     const [isHeart, setIsHeart] = useState(false);
 
     return (
         <Container>
-            <Link to='/products/1'>
+            <Link to={`/products/${_id}`}>
                 <Wrapper>
                     <ImageContainer>
-                        <Image
-                            alt='img'
-                            src='https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=1600'
-                        />
+                        <Image alt='img' src={primaryImages[0].img} />
                         <Modal>
                             <ButtonsContainer>
                                 <BiSearch />
@@ -47,7 +47,7 @@ const ProductCard = () => {
                     </ImageContainer>
                     <Content>
                         <Header>
-                            <Title>Monstera DK Var (L)</Title>
+                            <Title>{productName}</Title>
                             <StarsContainer>
                                 <StarsWrapper>
                                     <BsStarFill color='#ffc554' />
@@ -65,8 +65,16 @@ const ProductCard = () => {
                                 <SaleTag>12.5%</SaleTag>
                             </SaleContainer>
                             <ProductPrice>
-                                <PriceNew>12.345.678 vnđ</PriceNew>
-                                <PriceOld>98.765.432 vnđ</PriceOld>
+                                {newPrice ? (
+                                    <>
+                                        <PriceNew>{newPrice} vnđ</PriceNew>
+                                        <PriceOld>{price} vnđ</PriceOld>
+                                    </>
+                                ) : (
+                                    <PriceNew color='gray'>
+                                        {price} vnđ
+                                    </PriceNew>
+                                )}
                             </ProductPrice>
                         </Body>
                     </Content>

@@ -113,7 +113,72 @@ const productCtrl = {
     getProductById: async (req, res) => {
         try {
             const product = await Product.findById(req.params.id);
-            res.status(200).json({ product });
+
+            const { color, ...othersProduct } = product._doc;
+
+            const products = await Product.find({
+                productMasterId: product.productMasterId,
+            });
+
+            const productChildren = products
+                .filter((item) => item.color.valueColor !== color.valueColor)
+                .map((item) => {
+                    return { id: item._id, ...item.color };
+                });
+
+            const productMaster = await ProductMaster.findById(
+                product.productMasterId
+            );
+
+            const { productName, productDescription, collectCode } =
+                productMaster;
+
+            res.status(200).json({
+                ...othersProduct,
+                colors: [color, ...productChildren],
+                productName,
+                productDescription,
+                collectCode,
+            });
+        } catch (err) {
+            return res.status(500).json({ msg: err.message });
+        }
+    },
+    getRelatedProducts: async (req, res) => {
+        try {
+            const { id } = req.body;
+
+            const productsMaster = await ProductMaster.find({
+                collectCode: req.params.collectCode,
+            });
+
+            const idProductsMaster = productsMaster.map((item) => item._id);
+
+            const listRelatedProducts = [];
+            for (const idMaster of idProductsMaster) {
+                const products = await Product.find({
+                    productMasterId: idMaster,
+                });
+
+                for (const product of products) {
+                    if (product._id.toString() !== id)
+                        listRelatedProducts.push(product);
+                }
+
+                // listRelatedProducts.push(...products);
+
+                // products.map((item) => {
+                //     if (item._id !== id) listRelatedProducts.push(item);
+                // });
+            }
+
+            // const listRelatedProducts = products.filter(
+            //     (item) => item._id !== id
+            // );
+
+            res.status(200).json({
+                listRelatedProducts,
+            });
         } catch (err) {
             return res.status(500).json({ msg: err.message });
         }

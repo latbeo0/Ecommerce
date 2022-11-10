@@ -42,6 +42,6 @@ export const filterSlice = createSlice({
 
 // export const {} = authSlice.actions;
 
-export const selectSearch = (state) => state.filter.search;
+export const selectSearch = (state) => state.filters.search;
 
 export default filterSlice.reducer;

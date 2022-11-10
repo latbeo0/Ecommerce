@@ -104,3 +104,22 @@ export const fetchGetProducts = createAsyncThunk(
         }
     }
 );
+
+export const fetchGetProductById = async (id) => {
+    try {
+        return await baseRequest.get(`/api/product/find/${id}`);
+    } catch (err) {
+        throw err;
+    }
+};
+
+export const fetchGetRelatedProducts = async (productId, collectionCode) => {
+    try {
+        return await baseRequest.post(
+            `/api/product/find/collection/${collectionCode}`,
+            { id: productId }
+        );
+    } catch (err) {
+        throw err;
+    }
+};

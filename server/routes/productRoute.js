@@ -18,6 +18,7 @@ router.delete('/:id', productCtrl.deleteProduct);
 router.get('/find/:id', productCtrl.getProductById);
 router.get('/find-master/:id', productCtrl.getProductByIdMaster);
 router.get('/find/master/:id', productCtrl.getProductMasterById);
+router.post('/find/collection/:collectCode', productCtrl.getRelatedProducts);
 
 // GET ALL PRODUCT
 router.get('/', productCtrl.getAllProduct);

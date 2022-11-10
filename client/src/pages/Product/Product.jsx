@@ -1,6 +1,13 @@
-import React from "react";
-import BreadCrumb from "../../components/Basic/BreadCrumb";
-import ListProducts from "../../components/User/ListProducts";
+import React, { useEffect } from 'react';
+import { useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import BreadCrumb from '../../components/Basic/BreadCrumb';
+import ListProducts from '../../components/User/ListProducts';
+import {
+    fetchGetProductById,
+    fetchGetRelatedProducts,
+} from '../../services/productFetch';
+
 import {
     Container,
     ProductDetailContainer,
@@ -9,7 +16,7 @@ import {
     Image,
     ImageSecondary,
     InformationContainer,
-    Title,
+    Name,
     HeaderInformationContainer,
     CodeProduct,
     StateProduct,
@@ -28,50 +35,134 @@ import {
     CommentContainer,
     RelatedProductsContainer,
     RecentlyViewedProducts,
-} from "./ProductStyled";
+    Title,
+    Decor,
+} from './ProductStyled';
+import Loading from '../../helpers/Loading';
+import ListImage from '../../components/User/ListImage';
 
 const Product = () => {
-    return (
+    const { codeProduct } = useParams();
+
+    const [currentProduct, setCurrentProduct] = useState({
+        loading: true,
+        product: null,
+        error: false,
+    });
+    const [relatedProducts, setRelatedProducts] = useState([]);
+    // const {
+    //     _id,
+    //     stateCode,
+    //     productName,
+    //     productDescription,
+    //     price,
+    //     newPrice,
+    //     colors,
+    //     primaryImages,
+    //     secondaryImages,
+    // } = !!!currentProduct;
+
+    useEffect(() => {
+        const getProduct = async (codeProduct) => {
+            const res = await fetchGetProductById(codeProduct);
+            setCurrentProduct((prev) => {
+                return { ...prev, loading: false, product: res?.data };
+            });
+        };
+        getProduct(codeProduct);
+    }, [codeProduct]);
+
+    useEffect(() => {
+        if (currentProduct.product) {
+            const getRelatedProducts = async (idProduct, collectionCode) => {
+                const res = await fetchGetRelatedProducts(
+                    idProduct,
+                    collectionCode
+                );
+                setRelatedProducts(res?.data?.listRelatedProducts);
+            };
+            getRelatedProducts(
+                currentProduct.product?._id,
+                currentProduct.product?.collectCode
+            );
+        }
+    }, [currentProduct.product]);
+
+    console.log(currentProduct.product);
+
+    return currentProduct.loading ? (
+        <Loading />
+    ) : (
         <Container>
             <BreadCrumb />
             <ProductDetailContainer>
                 <ImageContainer>
                     <ImagePrimaryContainer>
                         <Image
-                            alt="img"
-                            src="https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=1600"
+                            alt='img'
+                            src={currentProduct.product?.primaryImages?.[0].img}
                         />
                     </ImagePrimaryContainer>
-                    <ImageSecondary></ImageSecondary>
+                    <ImageSecondary>
+                        <ListImage
+                            listImages={currentProduct.product?.secondaryImages}
+                        />
+                    </ImageSecondary>
                 </ImageContainer>
                 <InformationContainer>
-                    <Title>Product Detail 1</Title>
+                    <Name>{currentProduct.product?.productName}</Name>
                     <HeaderInformationContainer>
                         <CodeProduct>
-                            Mã sản phẩm:{" "}
-                            <strong style={{ fontWeight: "bold" }}>
-                                A12345
+                            Mã sản phẩm:{' '}
+                            <strong style={{ fontWeight: 'bold' }}>
+                                {currentProduct.product?._id}
                             </strong>
                         </CodeProduct>
                         <StateProduct>
-                            Tình trạng:{" "}
-                            <strong style={{ fontWeight: "bold" }}>
-                                Sale off
+                            Tình trạng:{' '}
+                            <strong style={{ fontWeight: 'bold' }}>
+                                {currentProduct.product?.stateCode}
                             </strong>
                         </StateProduct>
                     </HeaderInformationContainer>
                     <PriceContainer>
-                        <PriceNew>123.456.789 vnđ</PriceNew>
-                        <PriceOld>987.654.321 vnđ</PriceOld>
+                        {currentProduct.product?.newPrice ? (
+                            <>
+                                <PriceNew>
+                                    {currentProduct.product?.newPrice} vnđ
+                                </PriceNew>
+                                <PriceOld>
+                                    {currentProduct.product?.price} vnđ
+                                </PriceOld>
+                            </>
+                        ) : (
+                            <PriceNew color='gray'>
+                                {currentProduct.product?.price} vnđ
+                            </PriceNew>
+                        )}
                     </PriceContainer>
                     <DescriptionContainer>
-                        Lorem ipsum dolor sit, amet consectetur adipisicing
-                        elit. Nostrum voluptatibus vitae laudantium ullam ab
-                        omnis quaerat odit, repellat accusantium suscipit esse
-                        quod officiis nobis consectetur, magnam ipsa magni?
-                        Deleniti, velit.
+                        {currentProduct.product?.productDescription}
                     </DescriptionContainer>
-                    <ColorContainer>Color</ColorContainer>
+                    <ColorContainer>
+                        Color
+                        {currentProduct.product?.colors.map((color, index) => {
+                            if (color.id) {
+                                return (
+                                    <Link
+                                        to={`/products/${color.id}`}
+                                        key={index}
+                                    >
+                                        <div>{color.valueColor}</div>
+                                    </Link>
+                                );
+                            } else {
+                                return (
+                                    <div key={index}>{color.valueColor}</div>
+                                );
+                            }
+                        })}
+                    </ColorContainer>
                     <DetailContainer>
                         <SizeContainer>Size</SizeContainer>
                         <QuantityContainer>Quantity</QuantityContainer>
@@ -84,13 +175,18 @@ const Product = () => {
                 </InformationContainer>
             </ProductDetailContainer>
             <CommentContainer></CommentContainer>
-            <RelatedProductsContainer style={{ margin: "0 1rem" }}>
-                <h1>Related Products</h1>
-                <ListProducts listProducts={[1, 1, 1, 1, 1, 1, 1, 1]} />
-            </RelatedProductsContainer>
+            {relatedProducts.length >= 4 ? (
+                <RelatedProductsContainer>
+                    <Title>
+                        <Decor />
+                        Related Products
+                    </Title>
+                    <ListProducts listProducts={relatedProducts} />
+                </RelatedProductsContainer>
+            ) : undefined}
             <RecentlyViewedProducts>
-                <h1>Recently Viewed Products</h1>
-                <ListProducts listProducts={[1, 1, 1, 1, 1, 1, 1, 1]} />
+                {/* <h1>Recently Viewed Products</h1> */}
+                {/* <ListProducts listProducts={[1, 1, 1, 1, 1, 1, 1, 1]} /> */}
             </RecentlyViewedProducts>
         </Container>
     );

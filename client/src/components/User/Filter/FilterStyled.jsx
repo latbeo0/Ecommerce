@@ -70,7 +70,6 @@ const SeeAll = styled.p`
 
 const SectionBody = styled.div`
     transition: all 200ms linear;
-    overflow: hidden;
     padding-top: 2rem;
 `;
 
