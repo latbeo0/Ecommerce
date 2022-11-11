@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const Container = styled.div`
     width: 100%;
@@ -22,7 +22,7 @@ const Background = styled.div`
     position: absolute;
     width: 100%;
     height: 250%;
-    background: url('https://images.pexels.com/photos/2016145/pexels-photo-2016145.jpeg?auto=compress&cs=tinysrgb&w=1600');
+    background: url("https://images.pexels.com/photos/2016145/pexels-photo-2016145.jpeg?auto=compress&cs=tinysrgb&w=1600");
     background-position: center;
     background-size: cover;
     transition: all 250ms ease-in;
@@ -48,6 +48,7 @@ const Content = styled.div`
 const Title = styled.h1`
     font-size: 1.5rem;
     padding: 1rem 0;
+    color: var(--white-color);
 `;
 
 const Description = styled.span`

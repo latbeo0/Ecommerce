@@ -23,14 +23,15 @@ const Content = styled.div`
     display: flex;
     transition: all 250ms linear;
     -ms-overflow-style: none; /* hide scrollbar in IE and Edge */
-    //scrollbar-width: none; /* hide scrollbar in Firefox */
+    scrollbar-width: none; /* hide scrollbar in Firefox */
+    gap: 1rem;
 
     &::-webkit-scrollbar {
         display: none;
     }
 
     & > * {
-        width: ${(props) => `calc(100% / ${props.show})`};
+        width: ${(props) => `calc(calc((100% / ${props.show})) - 1rem)`};
         flex-shrink: 0;
         flex-grow: 1;
     }

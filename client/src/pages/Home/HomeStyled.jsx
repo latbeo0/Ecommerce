@@ -2,14 +2,14 @@ import styled, { css } from 'styled-components';
 
 const Section = styled.section`
     max-width: 80rem;
-    margin: 3.125rem auto;
+    margin: 3.125rem auto 6.25rem;
 
     @media only screen and (max-width: 1024px) and (min-width: 768px) {
-        margin: 2rem 1rem;
+        margin: 2.5rem 1rem 5rem;
     }
 
     @media only screen and (max-width: 767px) {
-        margin: 1rem 0.5rem;
+        margin: 1.875rem 0.5rem 3.75rem;
     }
 `;
 
@@ -34,8 +34,15 @@ const LayoutCards = styled.div`
     }
 `;
 
-const Services = styled.div`
-    margin: 6.25rem 0;
+const ServicesContainer = styled.div`
+    padding: 3rem 0;
+    margin-bottom: 6.25rem;
+    background: var(--secondary-color);
+`;
+
+const ServicesWrapper = styled.div`
+    max-width: 80rem;
+    margin: 0 auto;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 2rem;
@@ -86,6 +93,7 @@ const HeaderSection = styled.div`
             display: flex;
             align-items: baseline;
             justify-content: space-between;
+            flex-wrap: wrap;
 
             @media only screen and (max-width: 1280px) and (min-width: 1025px) {
                 padding: 0 1rem;
@@ -96,6 +104,8 @@ const HeaderSection = styled.div`
 const Title = styled.h1`
     font-size: 2rem;
     font-weight: 600;
+    padding: 0 2rem;
+    position: relative;
 
     @media only screen and (max-width: 1024px) and (min-width: 768px) {
         font-size: 1.75rem;
@@ -104,6 +114,17 @@ const Title = styled.h1`
     @media only screen and (max-width: 767px) {
         font-size: 1.5625rem;
     }
+`;
+
+const Decor = styled.div`
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    width: 0.8rem;
+    height: 80%;
+    background: linear-gradient(var(--primary-color), var(--secondary-color));
+    border-radius: 4px;
 `;
 
 const ViewAll = styled.div`
@@ -174,7 +195,8 @@ const TitleCategory = styled.h1`
 
 const BodySection = styled.div`
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: ${(props) =>
+        props.isLoading ? '1fr' : '1fr 1fr 1fr 1fr'};
     gap: 1rem;
 
     @media only screen and (max-width: 1024px) and (min-width: 769px) {
@@ -211,10 +233,12 @@ export {
     LayoutCards,
     LayoutBanner,
     Section,
-    Services,
+    ServicesContainer,
+    ServicesWrapper,
     Service,
     HeaderSection,
     Title,
+    Decor,
     ViewAll,
     ContentSection,
     CategoryCard,

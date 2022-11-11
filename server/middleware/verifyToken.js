@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
 const verifyTokenActivation = (req, res, next) => {
     try {
@@ -8,7 +8,7 @@ const verifyTokenActivation = (req, res, next) => {
             process.env.ACTIVATION_TOKEN_SECRET,
             (err, user) => {
                 if (err) {
-                    res.status(403).json({ msg: 'Token is not valid!' });
+                    res.status(403).json({ msg: "Token is not valid!" });
                 } else {
                     req.user = user;
                     next();
@@ -25,11 +25,11 @@ const verifyTokenRefreshToken = (req, res, next) => {
         const rf_token = req.cookies.refresh_token;
 
         if (!rf_token)
-            return res.status(400).json({ msg: 'Please login now!' });
+            return res.status(400).json({ msg: "Please login now!" });
 
         jwt.verify(rf_token, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
             if (err) {
-                res.status(403).json('Token is not valid!');
+                res.status(403).json("Token is not valid!");
             } else {
                 req.user = user;
                 next();
@@ -42,14 +42,14 @@ const verifyTokenRefreshToken = (req, res, next) => {
 
 const verifyToken = (req, res, next) => {
     try {
-        const token = req.header('Authorization');
+        const token = req.header("Authorization");
 
         if (!token)
-            return res.status(401).json({ msg: 'Invalid Authentication.' });
+            return res.status(401).json({ msg: "Invalid Authentication." });
 
         jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
             if (err)
-                return res.status(403).json({ msg: 'Token Is Not Valid!' });
+                return res.status(403).json({ msg: "Token Is Not Valid!" });
 
             req.user = user;
             next();
@@ -64,7 +64,7 @@ const verifyTokenAndAuthorization = (req, res, next) => {
         if (req.user.id === req.params.id || req.user.isAdmin) {
             next();
         } else {
-            res.status(403).json('You are not allowed to do that!');
+            res.status(403).json("You are not allowed to do that!");
         }
     });
 };
@@ -77,7 +77,7 @@ const verifyTokenAndAdmin = (req, res, next) => {
             } else {
                 return res
                     .status(403)
-                    .json({ msg: 'You are not allowed to do that!' });
+                    .json({ msg: "You are not allowed to do that!" });
             }
         });
     } catch (error) {

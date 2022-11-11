@@ -7,10 +7,10 @@ router.post('/', productCtrl.createProduct);
 
 router.post('/master', productCtrl.createProductMaster);
 
-
 // UPDATE
 router.put('/:id', productCtrl.updateProduct);
 router.put('/master/:id', productCtrl.updateProductMaster);
+
 // DELETE
 router.delete('/:id', productCtrl.deleteProduct);
 
@@ -18,6 +18,7 @@ router.delete('/:id', productCtrl.deleteProduct);
 router.get('/find/:id', productCtrl.getProductById);
 router.get('/find-master/:id', productCtrl.getProductByIdMaster);
 router.get('/find/master/:id', productCtrl.getProductMasterById);
+router.post('/find/collection/:collectCode', productCtrl.getRelatedProducts);
 
 // GET ALL PRODUCT
 router.get('/', productCtrl.getAllProduct);

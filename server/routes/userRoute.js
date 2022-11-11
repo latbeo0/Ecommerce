@@ -9,15 +9,13 @@ router.get('/', userCtrl.getAllUser);
 
 router.post('/refresh_token', verifyTokenRefreshToken, userCtrl.getAccessToken);
 
-router.post('/forgot', userCtrl.forgotPassword);
+router.post('/forgot_password', userCtrl.forgotPassword);
 
-router.post('/reset', verifyToken, userCtrl.resetPassword);
+router.post('/reset_password', verifyToken, userCtrl.resetPassword);
 
 router.get('/logout', userCtrl.logout);
 
 //Admin
-
 router.post('/', userCtrl.createUser);
-
 
 module.exports = router;

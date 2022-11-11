@@ -4,10 +4,12 @@ import {
     LayoutCards,
     LayoutBanner,
     Section,
-    Services,
+    ServicesContainer,
+    ServicesWrapper,
     Service,
     HeaderSection,
     Title,
+    Decor,
     ViewAll,
     ContentSection,
     CategoryCard,
@@ -21,8 +23,13 @@ import { AiOutlineSwap } from 'react-icons/ai';
 import { BsArrowRightShort } from 'react-icons/bs';
 import ProductCard from './../../components/User/ProductCard';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { selectProducts } from '../../redux/productSlice';
+import Loading from '../../helpers/Loading';
 
 const Home = () => {
+    const { listProducts, isLoading, isError } = useSelector(selectProducts);
+
     return (
         <>
             <Section>
@@ -34,8 +41,8 @@ const Home = () => {
                     </LayoutCards>
                 </LayoutBanner>
             </Section>
-            <Section>
-                <Services>
+            <ServicesContainer>
+                <ServicesWrapper>
                     <Service>
                         <HiCheck /> Quality Product
                     </Service>
@@ -48,11 +55,14 @@ const Home = () => {
                     <Service>
                         <FaPhoneVolume /> 24/7 Support
                     </Service>
-                </Services>
-            </Section>
+                </ServicesWrapper>
+            </ServicesContainer>
             <Section>
                 <HeaderSection type='categories'>
-                    <Title>Categories</Title>
+                    <Title>
+                        <Decor />
+                        Categories
+                    </Title>
                     <Link to='#'>
                         <ViewAll>
                             Browse all categories
@@ -86,7 +96,10 @@ const Home = () => {
             </Section>
             <Section>
                 <HeaderSection type='categories'>
-                    <Title>Best Seller</Title>
+                    <Title>
+                        <Decor />
+                        Best Seller
+                    </Title>
                     <Link to='/products'>
                         <ViewAll>
                             Browse all products
@@ -94,13 +107,16 @@ const Home = () => {
                         </ViewAll>
                     </Link>
                 </HeaderSection>
-                <BodySection>
-                    <ProductCard />
-                    <ProductCard />
-                    <ProductCard />
-                    <ProductCard />
-                    <ProductCard />
-                    <ProductCard />
+                <BodySection isLoading={isError || isLoading}>
+                    {isError ? (
+                        <span>Something wrong with api get products</span>
+                    ) : isLoading ? (
+                        <Loading />
+                    ) : (
+                        listProducts?.map((product) => (
+                            <ProductCard key={product._id} product={product} />
+                        ))
+                    )}
                 </BodySection>
             </Section>
         </>

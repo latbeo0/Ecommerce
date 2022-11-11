@@ -29,28 +29,27 @@ const ActiveEmail = () => {
     }, [state]);
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const res = await fetchActiveEmail(activationToken);
-                setState({
-                    loading: false,
-                    msg: res.data.msg,
-                    error: false,
-                });
-            } catch (error) {
-                error.response.data.msg &&
+        if (activationToken) {
+            const fetchData = async () => {
+                try {
+                    const res = await fetchActiveEmail(activationToken);
                     setState({
                         loading: false,
-                        msg: error.response.data.msg,
-                        error: true,
+                        msg: res.data.msg,
+                        error: false,
                     });
-            }
-        };
-        fetchData();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
-    console.log(activationToken);
+                } catch (error) {
+                    error.response.data.msg &&
+                        setState({
+                            loading: false,
+                            msg: error.response.data.msg,
+                            error: true,
+                        });
+                }
+            };
+            fetchData();
+        }
+    }, [activationToken]);
 
     return (
         <>
@@ -74,7 +73,7 @@ const ActiveEmail = () => {
                 <Background src={background} alt='background' />
             </Container>
             <BackHomeContainer>
-                <Link to='/home'>
+                <Link to='/'>
                     <button type='button'>{'< Back to Home'}</button>
                 </Link>
             </BackHomeContainer>
