@@ -9,7 +9,7 @@
 ::after {
     margin: 0;
     padding: 0;
-    font-family: 'Roboto', sans-serif;
+    font-family: "Roboto", sans-serif;
     box-sizing: border-box;
     /* font-size: 62.5%; */
     border-width: 0;
@@ -61,6 +61,7 @@
 }
 
 body {
+    overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -95,16 +96,16 @@ a {
 }
 
 button,
-[type='button'],
-[type='reset'],
-[type='submit'] {
+[type="button"],
+[type="reset"],
+[type="submit"] {
     -webkit-appearance: button;
     background-color: transparent;
     background-image: none;
 }
 
 button,
-[role='button'] {
+[role="button"] {
     cursor: pointer;
 }
 
@@ -197,6 +198,28 @@ div {
     transition: transform 0.3s ease-out;
 }
 
+/* width */
+::-webkit-scrollbar {
+    width: 0.5rem;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: var(--secondary-color);
+    box-shadow: inset rgba(50, 50, 93, 0.25) 0px 0px 8px 1px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: var(--gray-color-dark);
+    border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-color-light);
+}
+
 :root {
     --yellow: linear-gradient(180deg, #f8d49a -146.42%, #fad79d -46.42%);
     --orange: #fca61f;
@@ -221,7 +244,7 @@ div {
     --primary-color-border: rgba(25, 118, 210, 0.5);
     --primary-color-click: rgba(25, 118, 210, 0.1);
     --primary-color-light: rgba(25, 118, 210, 0.04);
-    --secondary-color: rgb(249, 250, 252);
+    --secondary-color: rgba(177, 191, 201, 0.2);
 
     /* ===== Disable ===== */
     --gray-color: gray;

@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { AiOutlineUser } from 'react-icons/ai';
-import InputGroup from '../../components/Basic/InputGroup';
-import { getErrorMessage } from '../../helpers/validation';
+import React, { useState } from "react";
+import { AiOutlineUser } from "react-icons/ai";
+import InputGroup from "../../components/Basic/InputGroup";
+import { getErrorMessage } from "../../helpers/validation";
 import {
     Container,
     Background,
@@ -11,29 +11,29 @@ import {
     Form,
     HelpContainer,
     BackHomeContainer,
-} from './ForgotPasswordStyled';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import Button from '../../components/Basic/Button';
-import { Link } from 'react-router-dom';
-import background from '../../assets/img/pexels-lisa-fotios-1909015.jpg';
-import { fetchForgotPassword } from '../../services/userFetch';
+} from "./ForgotPasswordStyled";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Button from "../../components/Basic/Button";
+import { Link } from "react-router-dom";
+import background from "../../assets/img/pexels-lisa-fotios-1909015.jpg";
+import { fetchForgotPassword } from "../../services/userFetch";
 
 const inputs = [
     {
         id: 1,
-        type: 'email',
-        placeholder: 'Example: example@gmail.com',
-        name: 'email',
-        patterns: ['required', 'email'],
-        label: 'Email *',
+        type: "email",
+        placeholder: "Example: example@gmail.com",
+        name: "email",
+        patterns: ["required", "email"],
+        label: "Email *",
         icon: <AiOutlineUser />,
     },
 ];
 
 const ForgotPassword = () => {
     const [valuesForm, setValuesForm] = useState({
-        email: '',
+        email: "",
         loading: false,
         error: false,
     });
@@ -42,7 +42,7 @@ const ForgotPassword = () => {
         const errorInit = {};
         // eslint-disable-next-line array-callback-return
         inputs.map((input) => {
-            const { name, value = '', patterns } = input;
+            const { name, value = "", patterns } = input;
             const errs = getErrorMessage(value, patterns);
             errorInit[name] = errs;
         });
@@ -81,9 +81,9 @@ const ForgotPassword = () => {
         if (check) {
             setValuesForm({ ...valuesForm, showErr: true, loading: false });
             toast.error(
-                'Error to Sign in. Please check all field in form again!',
+                "Error to Sign in. Please check all field in form again!",
                 {
-                    position: 'top-right',
+                    position: "top-right",
                     autoClose: 3000,
                     hideProgressBar: false,
                     closeOnClick: true,
@@ -100,7 +100,7 @@ const ForgotPassword = () => {
                         valuesForm.password
                     );
                     toast.success(res.data.msg, {
-                        position: 'top-right',
+                        position: "top-right",
                         autoClose: 3000,
                         hideProgressBar: false,
                         closeOnClick: true,
@@ -111,7 +111,7 @@ const ForgotPassword = () => {
                 } catch (error) {
                     error.response?.data.msg &&
                         toast.error(error.response.data.msg, {
-                            position: 'top-right',
+                            position: "top-right",
                             autoClose: 3000,
                             hideProgressBar: false,
                             closeOnClick: true,
@@ -145,29 +145,29 @@ const ForgotPassword = () => {
                             />
                         ))}
                         <Button
-                            content={'Forgot Password'}
-                            variant='contained'
+                            content={"Forgot Password"}
+                            variant="contained"
                             effect
-                            style={{ lineHeight: '2rem', marginTop: '1rem' }}
-                            type='submit'
+                            style={{ lineHeight: "2rem", marginTop: "1rem" }}
+                            type="submit"
                             loading={valuesForm.loading}
                         />
                     </Form>
                     <HelpContainer>
-                        {'- Login now -'}
-                        <Link to='/login'>
-                            <button type='button' disabled={valuesForm.loading}>
+                        {"- Login now -"}
+                        <Link to="/login">
+                            <button type="button" disabled={valuesForm.loading}>
                                 Sign in
                             </button>
                         </Link>
                     </HelpContainer>
                 </Content>
-                <Background src={background} alt='background' />
+                <Background src={background} alt="background" />
             </Container>
             <BackHomeContainer>
-                <Link to='/home'>
-                    <button type='button' disabled={valuesForm.loading}>
-                        {'< Back to Home'}
+                <Link to="/">
+                    <button type="button" disabled={valuesForm.loading}>
+                        {"< Back to Home"}
                     </button>
                 </Link>
             </BackHomeContainer>

@@ -1,6 +1,6 @@
-import { useEffect, useRef } from 'react';
-import Featured from '../../../Featured';
-import Section from '../../../List';
+import { useEffect, useRef } from "react";
+import Featured from "../../../Featured";
+import Section from "../../../Section";
 import {
     Container,
     Panel,
@@ -9,7 +9,7 @@ import {
     SectionGroup,
     FeaturedGroup,
     Shadow,
-} from './PopoverPanelStyled';
+} from "./PopoverPanelStyled";
 
 const PopoverPanel = (props) => {
     const ref = useRef(null);
@@ -26,10 +26,10 @@ const PopoverPanel = (props) => {
             }
         };
 
-        document.addEventListener('click', handleClickOutside, true);
+        document.addEventListener("click", handleClickOutside, true);
 
         return () => {
-            document.removeEventListener('click', handleClickOutside, true);
+            document.removeEventListener("click", handleClickOutside, true);
         };
     }, [onClickOutside, btnRef]);
 

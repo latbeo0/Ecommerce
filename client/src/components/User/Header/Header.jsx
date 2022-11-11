@@ -1,6 +1,13 @@
-import { useEffect, useState, useRef } from 'react';
-import { CSSTransition } from 'react-transition-group';
-import { Announcement, Navbar, Featured, List, Button } from '../../Basic';
+import { useEffect, useState, useRef } from "react";
+import { CSSTransition } from "react-transition-group";
+import {
+    Announcement,
+    Navbar,
+    Featured,
+    List,
+    Button,
+    Avatar,
+} from "../../Basic";
 import {
     Container,
     ContainerMobile,
@@ -16,140 +23,139 @@ import {
     ContainerFeatured,
     ContainerOthers,
     WrapperOther,
-} from './HeaderStyled';
-import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectUser } from './../../../redux/userSlice';
-import avatar from '../../../assets/img/heart (1).png';
-import { fetchLogout } from '../../../services/userFetch';
+} from "./HeaderStyled";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { selectUser } from "./../../../redux/userSlice";
+import { fetchLogout } from "../../../services/userFetch";
 
 const navigation = {
     categories: [
         {
-            id: 'women',
-            name: 'Women',
+            id: "women",
+            name: "Women",
             featured: [
                 {
-                    name: 'New Arrivals',
-                    href: '#',
+                    name: "New Arrivals",
+                    href: "#",
                     imageSrc:
-                        'https://tailwindui.com/img/ecommerce-images/mega-menu-category-01.jpg',
+                        "https://tailwindui.com/img/ecommerce-images/mega-menu-category-01.jpg",
                     imageAlt:
-                        'Models sitting back to back, wearing Basic Tee in black and bone.',
+                        "Models sitting back to back, wearing Basic Tee in black and bone.",
                 },
                 {
-                    name: 'Basic Tees',
-                    href: '#',
+                    name: "Basic Tees",
+                    href: "#",
                     imageSrc:
-                        'https://tailwindui.com/img/ecommerce-images/mega-menu-category-02.jpg',
+                        "https://tailwindui.com/img/ecommerce-images/mega-menu-category-02.jpg",
                     imageAlt:
-                        'Close up of Basic Tee fall bundle with off-white, ochre, olive, and black tees.',
+                        "Close up of Basic Tee fall bundle with off-white, ochre, olive, and black tees.",
                 },
             ],
             sections: [
                 {
-                    id: 'clothing',
-                    name: 'Clothing',
+                    id: "clothing",
+                    name: "Clothing",
                     items: [
-                        { name: 'Tops', href: '#' },
-                        { name: 'Dresses', href: '#' },
-                        { name: 'Pants', href: '#' },
-                        { name: 'Denim', href: '#' },
-                        { name: 'Sweaters', href: '#' },
-                        { name: 'T-Shirts', href: '#' },
-                        { name: 'Jackets', href: '#' },
-                        { name: 'Activewear', href: '#' },
-                        { name: 'Browse All', href: '#' },
+                        { name: "Tops", href: "#" },
+                        { name: "Dresses", href: "#" },
+                        { name: "Pants", href: "#" },
+                        { name: "Denim", href: "#" },
+                        { name: "Sweaters", href: "#" },
+                        { name: "T-Shirts", href: "#" },
+                        { name: "Jackets", href: "#" },
+                        { name: "Activewear", href: "#" },
+                        { name: "Browse All", href: "#" },
                     ],
                 },
                 {
-                    id: 'accessories',
-                    name: 'Accessories',
+                    id: "accessories",
+                    name: "Accessories",
                     items: [
-                        { name: 'Watches', href: '#' },
-                        { name: 'Wallets', href: '#' },
-                        { name: 'Bags', href: '#' },
-                        { name: 'Sunglasses', href: '#' },
-                        { name: 'Hats', href: '#' },
-                        { name: 'Belts', href: '#' },
+                        { name: "Watches", href: "#" },
+                        { name: "Wallets", href: "#" },
+                        { name: "Bags", href: "#" },
+                        { name: "Sunglasses", href: "#" },
+                        { name: "Hats", href: "#" },
+                        { name: "Belts", href: "#" },
                     ],
                 },
                 {
-                    id: 'brands',
-                    name: 'Brands',
+                    id: "brands",
+                    name: "Brands",
                     items: [
-                        { name: 'Full Nelson', href: '#' },
-                        { name: 'My Way', href: '#' },
-                        { name: 'Re-Arranged', href: '#' },
-                        { name: 'Counterfeit', href: '#' },
-                        { name: 'Significant Other', href: '#' },
+                        { name: "Full Nelson", href: "#" },
+                        { name: "My Way", href: "#" },
+                        { name: "Re-Arranged", href: "#" },
+                        { name: "Counterfeit", href: "#" },
+                        { name: "Significant Other", href: "#" },
                     ],
                 },
             ],
         },
         {
-            id: 'men',
-            name: 'Men',
+            id: "men",
+            name: "Men",
             featured: [
                 {
-                    name: 'New Arrivals',
-                    href: '#',
+                    name: "New Arrivals",
+                    href: "#",
                     imageSrc:
-                        'https://tailwindui.com/img/ecommerce-images/product-page-04-detail-product-shot-01.jpg',
+                        "https://tailwindui.com/img/ecommerce-images/product-page-04-detail-product-shot-01.jpg",
                     imageAlt:
-                        'Drawstring top with elastic loop closure and textured interior padding.',
+                        "Drawstring top with elastic loop closure and textured interior padding.",
                 },
                 {
-                    name: 'Artwork Tees',
-                    href: '#',
+                    name: "Artwork Tees",
+                    href: "#",
                     imageSrc:
-                        'https://tailwindui.com/img/ecommerce-images/category-page-02-image-card-06.jpg',
+                        "https://tailwindui.com/img/ecommerce-images/category-page-02-image-card-06.jpg",
                     imageAlt:
-                        'Three shirts in gray, white, and blue arranged on table with same line drawing of hands and shapes overlapping on front of shirt.',
+                        "Three shirts in gray, white, and blue arranged on table with same line drawing of hands and shapes overlapping on front of shirt.",
                 },
             ],
             sections: [
                 {
-                    id: 'clothing',
-                    name: 'Clothing',
+                    id: "clothing",
+                    name: "Clothing",
                     items: [
-                        { name: 'Tops', href: '#' },
-                        { name: 'Pants', href: '#' },
-                        { name: 'Sweaters', href: '#' },
-                        { name: 'T-Shirts', href: '#' },
-                        { name: 'Jackets', href: '#' },
-                        { name: 'Activewear', href: '#' },
-                        { name: 'Browse All', href: '#' },
+                        { name: "Tops", href: "#" },
+                        { name: "Pants", href: "#" },
+                        { name: "Sweaters", href: "#" },
+                        { name: "T-Shirts", href: "#" },
+                        { name: "Jackets", href: "#" },
+                        { name: "Activewear", href: "#" },
+                        { name: "Browse All", href: "#" },
                     ],
                 },
                 {
-                    id: 'accessories',
-                    name: 'Accessories',
+                    id: "accessories",
+                    name: "Accessories",
                     items: [
-                        { name: 'Watches', href: '#' },
-                        { name: 'Wallets', href: '#' },
-                        { name: 'Bags', href: '#' },
-                        { name: 'Sunglasses', href: '#' },
-                        { name: 'Hats', href: '#' },
-                        { name: 'Belts', href: '#' },
+                        { name: "Watches", href: "#" },
+                        { name: "Wallets", href: "#" },
+                        { name: "Bags", href: "#" },
+                        { name: "Sunglasses", href: "#" },
+                        { name: "Hats", href: "#" },
+                        { name: "Belts", href: "#" },
                     ],
                 },
                 {
-                    id: 'brands',
-                    name: 'Brands',
+                    id: "brands",
+                    name: "Brands",
                     items: [
-                        { name: 'Re-Arranged', href: '#' },
-                        { name: 'Counterfeit', href: '#' },
-                        { name: 'Full Nelson', href: '#' },
-                        { name: 'My Way', href: '#' },
+                        { name: "Re-Arranged", href: "#" },
+                        { name: "Counterfeit", href: "#" },
+                        { name: "Full Nelson", href: "#" },
+                        { name: "My Way", href: "#" },
                     ],
                 },
             ],
         },
     ],
     pages: [
-        { name: 'Company', href: '#' },
-        { name: 'Stores', href: '#' },
+        { name: "Company", href: "#" },
+        { name: "Stores", href: "#" },
     ],
 };
 
@@ -158,10 +164,11 @@ const Header = () => {
     const modalRef = useRef(null);
     const dialogRef = useRef(null);
     const user = useSelector(selectUser);
+    const { currentUser, isLoading, isError } = user;
     const dispatch = useDispatch();
 
     const [active, setActive] = useState(false);
-    const [gender, setGender] = useState('women');
+    const [gender, setGender] = useState("women");
 
     const setActiveToggle = () => {
         setActive((active) => !active);
@@ -174,10 +181,10 @@ const Header = () => {
             }
         };
 
-        document.addEventListener('click', handleClickOutside, true);
+        document.addEventListener("click", handleClickOutside, true);
 
         return () => {
-            document.removeEventListener('click', handleClickOutside, true);
+            document.removeEventListener("click", handleClickOutside, true);
         };
     }, []);
 
@@ -185,7 +192,7 @@ const Header = () => {
         <>
             <Container>
                 <Announcement
-                    announce={'Get free delivery on orders over $100'}
+                    announce={"Get free delivery on orders over $100"}
                 />
                 <Navbar
                     funcActive={() => setActiveToggle()}
@@ -197,7 +204,7 @@ const Header = () => {
                 <CSSTransition
                     in={active}
                     timeout={300}
-                    classNames='opacity-linear'
+                    classNames="opacity-linear"
                     unmountOnExit
                     nodeRef={modalRef}
                 >
@@ -206,7 +213,7 @@ const Header = () => {
                 <CSSTransition
                     in={active}
                     timeout={300}
-                    classNames='translate-x-ease'
+                    classNames="translate-x-ease"
                     unmountOnExit
                     nodeRef={dialogRef}
                 >
@@ -215,26 +222,26 @@ const Header = () => {
                             <WrapperCloseButton>
                                 <Button
                                     button
-                                    color='var(--black-color)'
-                                    sizeIcon='1.5rem'
+                                    color="var(--black-color)"
+                                    sizeIcon="1.5rem"
                                     onClick={() => setActiveToggle()}
                                 >
                                     <svg
-                                        xmlns='http://www.w3.org/2000/svg'
-                                        fill='none'
-                                        viewBox='0 0 24 24'
-                                        strokeWidth='2'
-                                        stroke='currentColor'
-                                        aria-hidden='true'
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        strokeWidth="2"
+                                        stroke="currentColor"
+                                        aria-hidden="true"
                                         style={{
-                                            width: '1.5rem',
-                                            height: '1.5rem',
+                                            width: "1.5rem",
+                                            height: "1.5rem",
                                         }}
                                     >
                                         <path
-                                            strokeLinecap='round'
-                                            strokeLinejoin='round'
-                                            d='M6 18L18 6M6 6l12 12'
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            d="M6 18L18 6M6 6l12 12"
                                         ></path>
                                     </svg>
                                 </Button>
@@ -302,36 +309,24 @@ const Header = () => {
                                         <Button
                                             href={page.href}
                                             content={page.name}
-                                            color='var(--black-color)'
+                                            color="var(--black-color)"
                                         />
                                     </WrapperOther>
                                 ))}
                             </ContainerOthers>
                             {user.currentUser ? (
                                 <ContainerOthers>
-                                    <WrapperOther style={{ display: 'flex' }}>
-                                        <img
-                                            src={avatar}
-                                            alt='avatar'
-                                            style={{
-                                                width: '40px',
-                                                height: '40px',
-                                                padding: '8px',
-                                                borderRadius: '50%',
-                                                background: '#000',
-                                                marginRight: '8px',
-                                            }}
-                                        />
-                                        <Button
-                                            type='button'
-                                            content='Hihi'
-                                            color='var(--black-color)'
+                                    <WrapperOther style={{ display: "flex" }}>
+                                        <Avatar
+                                            link="#"
+                                            src={currentUser?.avatar}
+                                            text={currentUser?.fullName}
                                         />
                                     </WrapperOther>
                                     <WrapperOther>
                                         <Button
-                                            content='Log out'
-                                            color='var(--black-color)'
+                                            content="Log out"
+                                            color="var(--black-color)"
                                             onClick={async () => {
                                                 await dispatch(fetchLogout());
                                             }}
@@ -341,19 +336,20 @@ const Header = () => {
                             ) : (
                                 <ContainerOthers>
                                     <WrapperOther>
-                                        <Link to='/login'>
+                                        <Link to="/login">
                                             <Button
-                                                type='button'
-                                                content='Sign in'
-                                                color='var(--black-color)'
+                                                type="button"
+                                                content="Sign in"
+                                                color="var(--black-color)"
+                                                size="medium"
                                             />
                                         </Link>
                                     </WrapperOther>
                                     <WrapperOther>
-                                        <Link to='/register'>
+                                        <Link to="/register">
                                             <Button
-                                                content='Create Account'
-                                                color='var(--black-color)'
+                                                content="Create Account"
+                                                color="var(--black-color)"
                                             />
                                         </Link>
                                     </WrapperOther>
@@ -362,10 +358,10 @@ const Header = () => {
                             <ContainerOthers>
                                 <Button
                                     startIcon={{
-                                        img: 'https://tailwindui.com/img/flags/flag-canada.svg',
+                                        img: "https://tailwindui.com/img/flags/flag-canada.svg",
                                     }}
-                                    content='CAD'
-                                    color='var(--black-color)'
+                                    content="CAD"
+                                    color="var(--black-color)"
                                 />
                             </ContainerOthers>
                         </MenuMobile>

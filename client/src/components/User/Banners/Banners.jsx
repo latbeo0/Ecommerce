@@ -1,7 +1,6 @@
-import React from 'react';
-import { Carousel } from '../../Basic';
-import { Banner } from '../../Basic';
-import { banners } from './data';
+import React from "react";
+import { Carousel, Banner } from "../../Basic";
+import { banners } from "./data";
 
 const Banners = () => {
     return (

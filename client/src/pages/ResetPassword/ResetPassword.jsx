@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
     Container,
     Background,
@@ -8,34 +8,34 @@ import {
     Form,
     HelpContainer,
     BackHomeContainer,
-} from './ResetPasswordStyled';
-import { HiLockClosed } from 'react-icons/hi';
-import { getErrorMessage } from '../../helpers/validation';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import InputGroup from '../../components/Basic/InputGroup';
-import Button from '../../components/Basic/Button';
-import { Link, useParams } from 'react-router-dom';
-import background from '../../assets/img/pexels-pixabay-267202.jpg';
-import { fetchResetPassword } from '../../services/userFetch';
+} from "./ResetPasswordStyled";
+import { HiLockClosed } from "react-icons/hi";
+import { getErrorMessage } from "../../helpers/validation";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import InputGroup from "../../components/Basic/InputGroup";
+import Button from "../../components/Basic/Button";
+import { Link, useParams } from "react-router-dom";
+import background from "../../assets/img/pexels-pixabay-267202.jpg";
+import { fetchResetPassword } from "../../services/userFetch";
 
 const inputs = [
     {
         id: 1,
-        type: 'password',
-        placeholder: 'Password',
-        name: 'password',
-        patterns: ['required', 'password'],
-        label: 'New Password *',
+        type: "password",
+        placeholder: "Password",
+        name: "password",
+        patterns: ["required", "password"],
+        label: "New Password *",
         icon: <HiLockClosed />,
     },
     {
         id: 2,
-        type: 'password',
-        placeholder: 'Confirm Password',
-        name: 'confirmPassword',
-        patterns: ['required'],
-        label: 'Confirm New Password *',
+        type: "password",
+        placeholder: "Confirm Password",
+        name: "confirmPassword",
+        patterns: ["required"],
+        label: "Confirm New Password *",
         icon: <HiLockClosed />,
     },
 ];
@@ -44,8 +44,8 @@ const ResetPassword = () => {
     const { token } = useParams();
 
     const [valuesForm, setValuesForm] = useState({
-        password: '',
-        confirmPassword: '',
+        password: "",
+        confirmPassword: "",
         loading: false,
         showErr: false,
     });
@@ -54,7 +54,7 @@ const ResetPassword = () => {
         const errorInit = {};
         // eslint-disable-next-line array-callback-return
         inputs.map((input) => {
-            const { name, value = '', patterns } = input;
+            const { name, value = "", patterns } = input;
             const errs = getErrorMessage(value, patterns);
             errorInit[name] = errs;
         });
@@ -74,11 +74,11 @@ const ResetPassword = () => {
         const err = getErrorMessage(value, patterns);
         setErrorsForm({ ...errorsForm, [name]: err });
 
-        if (name === 'confirmPassword') {
+        if (name === "confirmPassword") {
             if (value !== valuesForm.password) {
                 setErrorsForm({
                     ...errorsForm,
-                    [name]: ['Confirm password not match with password'],
+                    [name]: ["Confirm password not match with password"],
                 });
             }
         }
@@ -102,9 +102,9 @@ const ResetPassword = () => {
         if (check) {
             setValuesForm({ ...valuesForm, showErr: true, loading: false });
             toast.error(
-                'Error to Sign in. Please check all field in form again!',
+                "Error to Sign in. Please check all field in form again!",
                 {
-                    position: 'top-right',
+                    position: "top-right",
                     autoClose: 3000,
                     hideProgressBar: false,
                     closeOnClick: true,
@@ -121,7 +121,7 @@ const ResetPassword = () => {
                         token
                     );
                     toast.success(res.data.msg, {
-                        position: 'top-right',
+                        position: "top-right",
                         autoClose: 3000,
                         hideProgressBar: false,
                         closeOnClick: true,
@@ -132,7 +132,7 @@ const ResetPassword = () => {
                 } catch (error) {
                     error.response?.data.msg &&
                         toast.error(error.response.data.msg, {
-                            position: 'top-right',
+                            position: "top-right",
                             autoClose: 3000,
                             hideProgressBar: false,
                             closeOnClick: true,
@@ -167,29 +167,29 @@ const ResetPassword = () => {
                             />
                         ))}
                         <Button
-                            content={'Reset Password'}
-                            variant='contained'
-                            style={{ lineHeight: '2rem', marginTop: '1rem' }}
-                            type='submit'
+                            content={"Reset Password"}
+                            variant="contained"
+                            style={{ lineHeight: "2rem", marginTop: "1rem" }}
+                            type="submit"
                             effect
                             loading={valuesForm.loading}
                         />
                     </Form>
                     <HelpContainer>
-                        {'- Login now -'}
-                        <Link to='/login'>
-                            <button type='button' disabled={valuesForm.loading}>
+                        {"- Login now -"}
+                        <Link to="/login">
+                            <button type="button" disabled={valuesForm.loading}>
                                 Sign in
                             </button>
                         </Link>
                     </HelpContainer>
                 </Content>
-                <Background src={background} alt='background' />
+                <Background src={background} alt="background" />
             </Container>
             <BackHomeContainer>
-                <Link to='/home'>
-                    <button type='button' disabled={valuesForm.loading}>
-                        {'< Back to Home'}
+                <Link to="/">
+                    <button type="button" disabled={valuesForm.loading}>
+                        {"< Back to Home"}
                     </button>
                 </Link>
             </BackHomeContainer>

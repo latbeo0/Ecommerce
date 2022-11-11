@@ -1,6 +1,8 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import authReducer from './authSlice';
 import userReducer from './userSlice';
+import productReducer from './productSlice';
+import filterReducer from './filterSlice';
 import {
     persistStore,
     persistReducer,
@@ -20,7 +22,12 @@ const persistConfig = {
     whitelist: ['auth'],
 };
 
-const rootReducer = combineReducers({ auth: authReducer, user: userReducer });
+const rootReducer = combineReducers({
+    auth: authReducer,
+    user: userReducer,
+    products: productReducer,
+    filters: filterReducer,
+});
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

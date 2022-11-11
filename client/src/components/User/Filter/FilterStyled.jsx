@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const Container = styled.div`
     margin: 0 1rem;
@@ -26,6 +26,8 @@ const ButtonReset = styled.div`
     border-radius: 2rem;
     font-size: 1rem;
     font-weight: 400;
+    cursor: pointer;
+    user-select: none;
 `;
 
 const SectionHeader = styled.div`
@@ -37,7 +39,7 @@ const SectionHeader = styled.div`
 `;
 
 const ButtonHide = styled.div`
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 0.7rem 0.5rem 1rem;
     border: 1px solid var(--gray-color-light);
     border-radius: 2rem;
     font-size: 1rem;
@@ -45,6 +47,16 @@ const ButtonHide = styled.div`
     display: flex;
     align-items: center;
     gap: 0.25rem;
+    cursor: pointer;
+    user-select: none;
+`;
+
+const ArrowContainer = styled.div`
+    & > * {
+        transform: ${(props) =>
+            props.isOpen ? 'rotate(0deg)' : 'rotate(-180deg)'};
+        transition: transform 200ms linear;
+    }
 `;
 
 const SeeAll = styled.p`
@@ -57,8 +69,40 @@ const SeeAll = styled.p`
 `;
 
 const SectionBody = styled.div`
+    transition: all 200ms linear;
     padding-top: 2rem;
 `;
+
+const SectionWrapper = styled.div``;
+
+const Header = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 1.0625rem;
+    font-weight: 500;
+    position: relative;
+`;
+
+const Body = styled.div`
+    transition: all 200ms ease-out;
+    overflow: hidden;
+
+    ${(props) =>
+        props.isOpen
+            ? css`
+                  padding-top: 2rem;
+                  max-height: fit-content;
+                  opacity: 1;
+              `
+            : css`
+                  padding-top: 0rem;
+                  max-height: 0;
+                  opacity: 0.2;
+              `};
+`;
+
+const Content = styled.div``;
 
 export {
     Container,
@@ -67,6 +111,11 @@ export {
     ButtonReset,
     SectionHeader,
     ButtonHide,
+    ArrowContainer,
     SeeAll,
     SectionBody,
+    SectionWrapper,
+    Header,
+    Body,
+    Content,
 };

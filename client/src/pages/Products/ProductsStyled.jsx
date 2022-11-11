@@ -3,68 +3,16 @@ import styled from 'styled-components';
 const Container = styled.div`
     max-width: 80rem;
     margin: 1rem auto;
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-start;
+    flex-direction: column;
+`;
+
+const Content = styled.div`
     display: grid;
     grid-template-columns: 1fr 3fr;
-`;
-
-const FilterContainer = styled.div`
-    margin: 0 1rem;
-    border-radius: 5px;
-    height: fit-content;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-`;
-
-const FilterSection = styled.div`
-    padding: 1.5rem;
-
-    & + & {
-        border-top: 1px solid var(--gray-color-light);
-    }
-`;
-
-const FilterTitle = styled.div`
-    font-size: 1.125rem;
-    font-weight: 500;
-`;
-
-const ButtonReset = styled.div`
-    padding: 0.5rem 2rem;
-    border: 1px solid var(--gray-color-light);
-    border-radius: 2rem;
-    font-size: 1rem;
-    font-weight: 400;
-`;
-
-const FilterSectionHeader = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 1.0625rem;
-    font-weight: 500;
-`;
-
-const ButtonHide = styled.div`
-    padding: 0.5rem 1rem;
-    border: 1px solid var(--gray-color-light);
-    border-radius: 2rem;
-    font-size: 1rem;
-    font-weight: 400;
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-`;
-
-const SeeAll = styled.p`
-    font-size: 16px;
-    font-weight: 400;
-    color: var(--primary-color);
-    text-decoration: underline;
-    cursor: pointer;
-    margin-top: 2rem;
-`;
-
-const FilterSectionBody = styled.div`
-    padding-top: 2rem;
+    width: 100%;
 `;
 
 const ProductsContainer = styled.div`
@@ -82,43 +30,6 @@ const HeaderProductsWrapper = styled.div`
     justify-content: flex-start;
     flex-direction: column;
     gap: 2rem;
-`;
-
-const SearchContainer = styled.div`
-    position: relative;
-    height: 4rem;
-`;
-
-const InputSearch = styled.input.attrs({
-    type: 'text',
-})`
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    padding: 1rem 4rem;
-    font-size: 1rem;
-    font-weight: 300;
-    line-height: 2rem;
-    color: var(--gray-color);
-    background: rgba(221, 221, 221, 0.2);
-    outline: none;
-    border: none;
-    border-radius: 1rem;
-`;
-
-const ResultSearch = styled.div`
-    font-size: 16px;
-    font-weight: 400;
-    color: var(--gray-color);
-    display: flex;
-    gap: 0.5rem;
-`;
-
-const Result = styled.p`
-    font-weight: 500;
-    color: var(--black-color);
 `;
 
 const DisplayContainer = styled.div`
@@ -159,27 +70,24 @@ const CountProductsContainer = styled.div`
 
 const BodyProductsWrapper = styled.div`
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: ${(props) =>
+        props.isLoading ? '1fr' : '1fr 1fr 1fr'};
     gap: 1rem;
     height: fit-content;
 `;
 
+const FooterProductsWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 2rem 0;
+`;
+
 export {
     Container,
-    FilterContainer,
+    Content,
     ProductsContainer,
-    FilterSection,
-    FilterTitle,
-    ButtonReset,
-    FilterSectionHeader,
-    ButtonHide,
-    SeeAll,
-    FilterSectionBody,
     HeaderProductsWrapper,
-    SearchContainer,
-    InputSearch,
-    ResultSearch,
-    Result,
     DisplayContainer,
     SortContainer,
     SortChooseContainer,
@@ -188,4 +96,5 @@ export {
     CountProductsOption,
     CountProductsContainer,
     BodyProductsWrapper,
+    FooterProductsWrapper,
 };

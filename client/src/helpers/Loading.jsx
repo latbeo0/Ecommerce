@@ -1,7 +1,9 @@
+import React from 'react';
 import styled, { keyframes } from 'styled-components';
 
 const Container = styled.div`
-    min-height: 100vh;
+    width: 100%;
+    height: 20rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -16,9 +18,9 @@ const rotation = keyframes`
     }
 `;
 
-const Loading = styled.span`
-    width: 100px;
-    height: 100px;
+const Content = styled.span`
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     display: inline-block;
     border-top: 4px solid var(--primary-color);
@@ -32,8 +34,8 @@ const Loading = styled.span`
         position: absolute;
         left: 0;
         top: 0;
-        width: 100px;
-        height: 100px;
+        width: 48px;
+        height: 48px;
         border-radius: 50%;
         border-left: 4px solid var(--gray-color-light);
         border-bottom: 4px solid transparent;
@@ -41,4 +43,12 @@ const Loading = styled.span`
     }
 `;
 
-export { Container, Loading };
+const Loading = () => {
+    return (
+        <Container>
+            <Content />
+        </Container>
+    );
+};
+
+export default Loading;
