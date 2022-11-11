@@ -58,12 +58,14 @@ const Toolbar = ({
 }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   return (
     <ToolbarContainer>
       <Stack direction="row" alignItems="center" spacing={1}>
@@ -113,7 +115,14 @@ const Toolbar = ({
               onClose={handleClose}
             >
               {listButtonCustom.map((item) => (
-                <MenuItem key={item.key} onClick={onClickItem} disableRipple>
+                <MenuItem
+                  key={item.key}
+                  onClick={(event) => {
+                    onClickItem(event, item.type);
+                    handleClose();
+                  }}
+                  disableRipple
+                >
                   {item.ariaLabel}
                 </MenuItem>
               ))}
