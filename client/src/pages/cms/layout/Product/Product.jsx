@@ -86,7 +86,6 @@ const Product = () => {
   }, []);
 
   const handleClickOptionButton = (event, type) => {
-    console.log(type)
     switch (type) {
       case data.types.SHOW_SORT:
         setOption({ ...option, isshowSort: !option.isshowSort });
@@ -167,7 +166,7 @@ const Product = () => {
       }, [data.ListButton])} */}
         <Toolbar
           listButton={data.ListButton}
-          listButtonCustom={data.ListButton}
+          listButtonCustom={data.ListButtonCustomize}
           onClickItem={handleClickOptionButton}
         />;
       {/* <ProductToolbar>
