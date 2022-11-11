@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react';
-import { useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import BreadCrumb from '../../components/Basic/BreadCrumb';
-import ListProducts from '../../components/User/ListProducts';
+import React, { useEffect } from "react";
+import { useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import BreadCrumb from "../../components/Basic/BreadCrumb";
+import ListProducts from "../../components/User/ListProducts";
 import {
     fetchGetProductById,
     fetchGetRelatedProducts,
-} from '../../services/productFetch';
+} from "../../services/productFetch";
 
 import {
     Container,
@@ -37,9 +37,10 @@ import {
     RecentlyViewedProducts,
     Title,
     Decor,
-} from './ProductStyled';
-import Loading from '../../helpers/Loading';
-import ListImage from '../../components/User/ListImage';
+    Color,
+} from "./ProductStyled";
+import Loading from "../../helpers/Loading";
+import ListImage from "../../components/User/ListImage";
 
 const Product = () => {
     const { codeProduct } = useParams();
@@ -99,7 +100,7 @@ const Product = () => {
                 <ImageContainer>
                     <ImagePrimaryContainer>
                         <Image
-                            alt='img'
+                            alt="img"
                             src={currentProduct.product?.primaryImages?.[0].img}
                         />
                     </ImagePrimaryContainer>
@@ -113,14 +114,14 @@ const Product = () => {
                     <Name>{currentProduct.product?.productName}</Name>
                     <HeaderInformationContainer>
                         <CodeProduct>
-                            Mã sản phẩm:{' '}
-                            <strong style={{ fontWeight: 'bold' }}>
+                            Mã sản phẩm:{" "}
+                            <strong style={{ fontWeight: "bold" }}>
                                 {currentProduct.product?._id}
                             </strong>
                         </CodeProduct>
                         <StateProduct>
-                            Tình trạng:{' '}
-                            <strong style={{ fontWeight: 'bold' }}>
+                            Tình trạng:{" "}
+                            <strong style={{ fontWeight: "bold" }}>
                                 {currentProduct.product?.stateCode}
                             </strong>
                         </StateProduct>
@@ -136,7 +137,7 @@ const Product = () => {
                                 </PriceOld>
                             </>
                         ) : (
-                            <PriceNew color='gray'>
+                            <PriceNew color="gray">
                                 {currentProduct.product?.price} vnđ
                             </PriceNew>
                         )}
@@ -153,12 +154,18 @@ const Product = () => {
                                         to={`/products/${color.id}`}
                                         key={index}
                                     >
-                                        <div>{color.valueColor}</div>
+                                        <Color
+                                            background={color.valueColor}
+                                        ></Color>
                                     </Link>
                                 );
                             } else {
                                 return (
-                                    <div key={index}>{color.valueColor}</div>
+                                    <Color
+                                        key={index}
+                                        background={color.valueColor}
+                                        selected
+                                    ></Color>
                                 );
                             }
                         })}

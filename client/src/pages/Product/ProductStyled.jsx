@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const Container = styled.div`
     display: flex;
@@ -74,7 +74,11 @@ const PriceContainer = styled.div``;
 const PriceNew = styled.p``;
 const PriceOld = styled.p``;
 const DescriptionContainer = styled.div``;
-const ColorContainer = styled.div``;
+const ColorContainer = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+`;
 const DetailContainer = styled.div``;
 const SizeContainer = styled.div``;
 const QuantityContainer = styled.div``;
@@ -115,6 +119,15 @@ const Decor = styled.div`
     border-radius: 4px;
 `;
 
+const Color = styled.div`
+    width: 1rem;
+    height: 1rem;
+    background: ${(props) => props?.background};
+    outline: ${(props) => (props.selected ? "2px solid black" : undefined)};
+    padding: 0.5rem;
+    border-radius: 50%;
+`;
+
 export {
     Container,
     ProductDetailContainer,
@@ -144,4 +157,5 @@ export {
     RecentlyViewedProducts,
     Title,
     Decor,
+    Color,
 };
