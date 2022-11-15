@@ -6,6 +6,7 @@ import { CategoryHeader, CategoryTitle } from "./CategoryStyle";
 import * as data from "./data";
 // import PopupEdit from "../../../../components/CMS/Category/PopupEdit";
 import { fetchGetAllCategory } from "../../../../services/categoryFetch";
+import BasicPopup from "../../../../components/CMS/BasicPopup/BasicPopup";
 
 const defaultColumnWidths = [
   { columnName: "cateCode", width: 200 },
@@ -84,15 +85,16 @@ const Category = () => {
 
   return (
     <>
-      {/* {React.useMemo(() => {
+      {React.useMemo(() => {
         return (
-          <PopupEdit
+          <BasicPopup
+            collection="CATEGORY"
             row={categoryDetail}
             open={isOpen}
             onClose={() => setOpen(false)}
           />
         );
-      }, [isOpen])} */}
+      }, [isOpen])}
 
       <CategoryHeader>
         <CategoryTitle>Category</CategoryTitle>

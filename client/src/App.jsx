@@ -111,7 +111,7 @@ const App = () => {
                 <ScrollToTop />
                 <Routes>
                     {isAdmin ? (
-                        <Route path='/*' index />
+                        <Route path='/*' index element={<AdminRouter />}/>
                     ) : (
                         <>
                             <Route path='/register' element={<Register />} />

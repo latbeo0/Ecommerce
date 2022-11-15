@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import DataGrid from "../../../../components/Basic/DataGrid";
 import Stack from "@mui/material/Stack";
-import IconButton from "@mui/material/IconButton";
-import { ProductHeader, ProductTitle } from "./ProductStyle";
+import { ProductHeader, ProductTitle, ProductToolbar } from "./ProductStyle";
 import * as data from "./data";
 import PopupEdit from "../../../../components/CMS/Product/PopupEdit";
 import { fetchGetAllProductMaster } from "../../../../services/productFetch";
+import Button from "@mui/material/Button";
+import Toolbar from "../../../../components/CMS/Toolbar/Toolbar";
 
 const defaultColumnWidths = [
   { columnName: "productName", width: 300 },
@@ -109,7 +110,11 @@ const Product = () => {
           );
         }
         break;
+      case data.types.SHOW_CUSTOM:
+        setOption({ ...option, isShowSearchBar: !option.isShowSearchBar });
+        break;
       default:
+        navigate(-1);
         break;
     }
   };
@@ -135,19 +140,50 @@ const Product = () => {
 
       <ProductHeader>
         <ProductTitle>Product</ProductTitle>
+        {/* <Stack direction="row" alignItems="center" spacing={1}>
+          {data.ListButton.map((item) => (
+            <ProductToolbarButtonCard
+              key={item.key}
+            >
+              <Button
+                type="primary"
+                shape="round"
+                icon={item.icon}
+                size="medium"
+                onClick={(event) => handleClickOptionButton(event, item.type)}
+              >
+                Download
+              </Button>
+            </ProductToolbarButtonCard>
+          ))}
+        </Stack> */}
+      </ProductHeader>
+      {/* {React.useMemo(() => {
+        <Toolbar
+          listButton={data.ListButton}
+          onClickItem={handleClickOptionButton}
+        />;
+      }, [data.ListButton])} */}
+        <Toolbar
+          listButton={data.ListButton}
+          listButtonCustom={data.ListButtonCustomize}
+          onClickItem={handleClickOptionButton}
+        />;
+      {/* <ProductToolbar>
         <Stack direction="row" alignItems="center" spacing={1}>
           {data.ListButton.map((item) => (
-            <IconButton
+            <Button
               key={item.key}
-              aria-label={item.ariaLabel}
-              size={item.size}
+              variant="outlined"
+              startIcon={item.icon}
+              size="medium"
               onClick={(event) => handleClickOptionButton(event, item.type)}
             >
-              {item.icon}
-            </IconButton>
+              {item.ariaLabel}
+            </Button>
           ))}
         </Stack>
-      </ProductHeader>
+      </ProductToolbar> */}
       {React.useMemo(() => {
         return (
           <DataGrid

@@ -13,6 +13,7 @@ const uploadRoute = require('./routes/uploadRoute');
 const saleRoute = require('./routes/saleRoute');
 const categoryRoute = require('./routes/categoryRoute');
 const collectionRoute = require('./routes/collectionRoute');
+const fileUpload = require('express-fileupload');
 
 const app = express();
 
@@ -21,6 +22,9 @@ app.use(
     cors({
         credentials: true,
         origin: 'http://localhost:3000',
+    }),
+    fileUpload({
+        useTempFiles: true,
     })
 );
 app.use(cookieParser());
