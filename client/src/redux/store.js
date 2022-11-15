@@ -3,6 +3,8 @@ import authReducer from './authSlice';
 import userReducer from './userSlice';
 import productReducer from './productSlice';
 import filterReducer from './filterSlice';
+import cartReducer from './cartSlice';
+import locationReducer from './locationSlice';
 import {
     persistStore,
     persistReducer,
@@ -27,6 +29,8 @@ const rootReducer = combineReducers({
     user: userReducer,
     products: productReducer,
     filters: filterReducer,
+    cart: cartReducer,
+    location: locationReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
