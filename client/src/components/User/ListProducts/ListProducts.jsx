@@ -6,7 +6,7 @@ const ListProducts = (props) => {
     const { listProducts } = props;
 
     return (
-        <Carousel show={4} infiniteLoop>
+        <Carousel show={4} infiniteLoop hasGap>
             {listProducts.map((product, index) => (
                 <ProductCard key={index} product={product} />
             ))}

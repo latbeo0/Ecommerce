@@ -19,16 +19,35 @@ const ContentWrapper = styled.div`
     border-radius: 12px;
 `;
 
+const ContentWrapperGap = styled(ContentWrapper)`
+    border-radius: 5px;
+    margin-right: -0.5rem;
+    margin-left: -0.5rem;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+    padding-bottom: 3rem;
+`;
+
 const Content = styled.div`
     display: flex;
     transition: all 250ms linear;
     -ms-overflow-style: none; /* hide scrollbar in IE and Edge */
     scrollbar-width: none; /* hide scrollbar in Firefox */
-    gap: 1rem;
 
     &::-webkit-scrollbar {
         display: none;
     }
+
+    & > * {
+        width: ${(props) => `calc(100% / ${props.show})`};
+        flex-shrink: 0;
+        flex-grow: 1;
+    }
+`;
+
+const ContentGap = styled(Content)`
+    gap: 1rem;
+    margin-right: -1rem;
 
     & > * {
         width: ${(props) => `calc(calc((100% / ${props.show})) - 1rem)`};
@@ -67,4 +86,12 @@ const Arrow = styled.button`
     }
 `;
 
-export { Container, Wrapper, ContentWrapper, Content, Arrow };
+export {
+    Container,
+    Wrapper,
+    ContentWrapper,
+    ContentWrapperGap,
+    Content,
+    ContentGap,
+    Arrow,
+};

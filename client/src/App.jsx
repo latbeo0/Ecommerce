@@ -19,6 +19,12 @@ import { selectUser } from './redux/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import ButtonScrollToTop from './helpers/ButtonScrollToTop';
 import { fetchGetProducts } from './services/productFetch';
+import Cart from './pages/Cart';
+import {
+    fetchDistrict,
+    fetchProvince,
+    fetchWard,
+} from './services/locationFetch';
 
 const App = () => {
     const dispatch = useDispatch();
@@ -84,6 +90,18 @@ const App = () => {
             }
         };
         fetchProducts();
+
+        const fetchLocation = async () => {
+            try {
+                await dispatch(fetchProvince()).unwrap();
+                await dispatch(fetchDistrict()).unwrap();
+                await dispatch(fetchWard()).unwrap();
+            } catch (error) {
+                console.log('/App/fetchLocation');
+            }
+        };
+        fetchLocation();
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -121,6 +139,7 @@ const App = () => {
                                     path='/products'
                                     element={<Products />}
                                 />
+                                <Route path='/cart' element={<Cart />} />
                             </Route>
                         </>
                     )}
