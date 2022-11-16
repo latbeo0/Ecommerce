@@ -25,6 +25,7 @@ import {
   TableHeaderRow,
   TableSelection,
   Toolbar,
+  VirtualTable,
   SearchPanel,
   TableColumnResizing,
 } from "@devexpress/dx-react-grid-material-ui";
@@ -35,6 +36,7 @@ import {
   CurrencyTypeProvider,
   ColorTypeProvider,
 } from "./DataGridProvider";
+import "./DataGrid.css";
 
 const DataGrid = ({
   rows = [],
@@ -97,6 +99,7 @@ const DataGrid = ({
           onColumnWidthsChange={setDefaultColumnWidths}
           minColumnWidth={55}
         />
+        <VirtualTable columnExtensions={defaultColumnWidths} />
 
         <TableHeaderRow showSortingControls={showSort} />
         <TableSelection

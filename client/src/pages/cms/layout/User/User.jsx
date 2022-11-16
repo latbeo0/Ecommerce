@@ -131,7 +131,7 @@ const User = () => {
                 timeZone: "UTC",
               }),
             });
-            // setRows(tempArr);
+            setRows(tempArr);
           }
           // tempArr.push({
           //   id: item._id,
@@ -164,9 +164,7 @@ const User = () => {
           //     timeZone: "UTC",
           //   }),
           // });
-          
         });
-
       })
       .catch((err) => {
         throw err;

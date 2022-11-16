@@ -6,6 +6,7 @@ import { SaleHeader, SaleTitle } from "./SaleStyle";
 import * as data from "./data";
 // import PopupEdit from "../../../../components/CMS/Sale/PopupEdit";
 import { fetchGetAllSale } from "../../../../services/saleFetch";
+import BasicPopup from "./../../../../components/CMS/BasicPopup/BasicPopup";
 
 const defaultColumnWidths = [
   { columnName: "saleCode", width: 200 },
@@ -84,15 +85,16 @@ const Sale = () => {
 
   return (
     <>
-      {/* {React.useMemo(() => {
+      {React.useMemo(() => {
         return (
-          <PopupEdit
+          <BasicPopup
+            collection="SALE"
             row={saleDetail}
             open={isOpen}
             onClose={() => setOpen(false)}
           />
         );
-      }, [isOpen])} */}
+      }, [isOpen])}
 
       <SaleHeader>
         <SaleTitle>Sale</SaleTitle>

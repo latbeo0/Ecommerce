@@ -24,13 +24,14 @@ const App = () => {
     const dispatch = useDispatch();
     // const dispatch = useDispatch();
     // const auth = useSelector((state) => state.auth);
-    // const { isLogged, isAdmin } = auth;
+
     // const [loading, setLoading] = useState(true);
     const isAdmin = false;
 
     // Get access_token
     const auth = useSelector(selectAuth);
     const user = useSelector(selectUser);
+    // const { isLogged, isAdmin } = auth;
 
     useEffect(() => {
         const fetchAccessToken = async () => {

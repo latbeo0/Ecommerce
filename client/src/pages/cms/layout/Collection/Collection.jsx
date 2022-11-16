@@ -6,6 +6,7 @@ import { CollectionHeader, CollectionTitle } from "./CollectionStyle";
 import * as data from "./data";
 // import PopupEdit from "../../../../components/CMS/Collection/PopupEdit";
 import { fetchGetAllCollection } from "../../../../services/collectionFetch";
+import BasicPopup from './../../../../components/CMS/BasicPopup/BasicPopup';
 
 const defaultColumnWidths = [
   { columnName: "collectCode", width: 200 },
@@ -84,15 +85,16 @@ const Collection = () => {
 
   return (
     <>
-      {/* {React.useMemo(() => {
+      {React.useMemo(() => {
         return (
-          <PopupEdit
+          <BasicPopup
+            collection="COLLECTION"
             row={collectionDetail}
             open={isOpen}
             onClose={() => setOpen(false)}
           />
         );
-      }, [isOpen])} */}
+      }, [isOpen])}
 
       <CollectionHeader>
         <CollectionTitle>Collection</CollectionTitle>

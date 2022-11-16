@@ -2,6 +2,15 @@ const Sale = require("../models/saleModel");
 const jwt = require("jsonwebtoken");
 
 const saleCtrl = {
+  getSaleCode: async (req, res) => {
+    let newSale = new Sale();
+    const code = `SAL${new Date().getFullYear()}${newSale.seq}`;
+    try {
+      res.status(200).json({ code });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
   getAllSaleVoucher: async (req, res) => {
     try {
       let sale;

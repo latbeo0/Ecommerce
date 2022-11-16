@@ -23,6 +23,8 @@ import Slide from "@mui/material/Slide";
 
 import Notification from "../../Basic/Notification/Notification";
 import { NotificationType } from "../../Basic/Notification/type";
+import { getCategoryCode } from "./../../../services/categoryFetch";
+import { getSaleCode } from './../../../services/saleFetch';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -56,13 +58,17 @@ const BasicPopup = ({ open, row, onClose, onSubmit, collection }) => {
     } else {
       switch (collection.toUpperCase()) {
         case "CATEGORY":
-          setData(categoryState);
+          getCategoryCode().then((res) => {
+            setData({ ...categoryState, cateCode: res.data.code });
+          });
           break;
         case "COLLECTION":
           setData(collectionState);
           break;
         case "SALE":
-          setData(saleState);
+          getSaleCode().then((res) => {
+            setData({ ...saleState, saleCode: res.data.code });
+          });
           break;
         default:
           setData(initialState);
@@ -165,18 +171,19 @@ const BasicPopup = ({ open, row, onClose, onSubmit, collection }) => {
         <MuiGrid container spacing={6}>
           <MuiGrid item xs={12}>
             <FormGroup>
-              {data && Object.entries(data).map(([key, value]) => {
-                return (
-                  <TextField
-                    margin="normal"
-                    name={key}
-                    label={key.toUpperCase()}
-                    value={data[key] || ""}
-                    onChange={handleChangeInput}
-                    sx={{ minWidth: 200 }}
-                  />
-                );
-              })}
+              {data &&
+                Object.entries(data).map(([key, value]) => {
+                  return (
+                    <TextField
+                      margin="normal"
+                      name={key}
+                      label={key.toUpperCase()}
+                      value={data[key] || ""}
+                      onChange={handleChangeInput}
+                      sx={{ minWidth: 200 }}
+                    />
+                  );
+                })}
               {/* <TextField
                 margin="normal"
                 name="code"
