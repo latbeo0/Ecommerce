@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
     Container,
     Background,
@@ -18,6 +18,9 @@ import { fetchActiveEmail } from '../../services/authFetch';
 const ActiveEmail = () => {
     const { activationToken } = useParams();
 
+    // const [err, setErr] = useState('');
+    // const [success, setSuccess] = useState('');
+
     const [state, setState] = useState({
         loading: true,
         msg: 'Please wait to active email',
@@ -28,23 +31,28 @@ const ActiveEmail = () => {
         return state.loading ? 'loading' : state.error ? 'error' : 'success';
     }, [state]);
 
+    const didLogRef = useRef(false);
+
     useEffect(() => {
-        if (activationToken) {
+        if (activationToken && didLogRef.current === false) {
+            didLogRef.current = true;
+
             const fetchData = async () => {
                 try {
                     const res = await fetchActiveEmail(activationToken);
-                    setState({
+                    setState((prev) => ({
+                        ...prev,
                         loading: false,
                         msg: res.data.msg,
-                        error: false,
-                    });
+                    }));
                 } catch (error) {
                     error.response.data.msg &&
-                        setState({
+                        setState((prev) => ({
+                            ...prev,
                             loading: false,
                             msg: error.response.data.msg,
                             error: true,
-                        });
+                        }));
                 }
             };
             fetchData();
@@ -59,16 +67,18 @@ const ActiveEmail = () => {
                     {type === 'loading' ? (
                         <Loading />
                     ) : (
-                        <Image
-                            src={
-                                type === 'error'
-                                    ? imageFailure
-                                    : imageSuccessful
-                            }
-                            alt='imageType'
-                        />
+                        <>
+                            <Image
+                                src={
+                                    type === 'error'
+                                        ? imageFailure
+                                        : imageSuccessful
+                                }
+                                alt='imageType'
+                            />
+                            <Message>{state.msg}</Message>
+                        </>
                     )}
-                    <Message>{state.msg}</Message>
                 </Content>
                 <Background src={background} alt='background' />
             </Container>
