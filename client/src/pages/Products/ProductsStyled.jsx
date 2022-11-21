@@ -65,6 +65,7 @@ const CountProductsOption = styled.option``;
 
 const CountProductsContainer = styled.div`
     display: flex;
+    align-items: center;
     gap: 1rem;
 `;
 

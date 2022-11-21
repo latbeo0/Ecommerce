@@ -1,14 +1,14 @@
-import React, { useEffect } from 'react';
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import BreadCrumb from '../../components/Basic/BreadCrumb';
 import ListProducts from '../../components/User/ListProducts';
+import ListImage from '../../components/User/ListImage';
 import {
     fetchGetProductById,
     fetchGetRelatedProducts,
 } from '../../services/productFetch';
+import { fetchAddToCart } from '../../services/cartFetch';
 import { AiOutlinePlus, AiOutlineMinus } from 'react-icons/ai';
-
 import {
     Container,
     ProductDetailContainer,
@@ -45,14 +45,13 @@ import {
     Decor,
 } from './ProductStyled';
 import Loading from '../../helpers/Loading';
-import ListImage from '../../components/User/ListImage';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
-import { fetchAddToCart } from '../../services/cartFetch';
+import { formatCurrencyVND } from '../../utils/format';
 
 const Product = () => {
-    const { codeProduct } = useParams();
     const dispatch = useDispatch();
+    const { codeProduct } = useParams();
 
     const [currentProduct, setCurrentProduct] = useState({
         loading: true,
@@ -120,7 +119,7 @@ const Product = () => {
         if (selectSize === null) {
             toast.info('Please choose a size first', {
                 position: 'top-right',
-                autoClose: 3000,
+                autoClose: 1000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
@@ -146,7 +145,7 @@ const Product = () => {
         ) {
             toast.error('Please choose the right quantity', {
                 position: 'top-right',
-                autoClose: 3000,
+                autoClose: 1000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
@@ -199,7 +198,7 @@ const Product = () => {
 
                 toast.success('Add product to cart successful', {
                     position: 'top-right',
-                    autoClose: 3000,
+                    autoClose: 1000,
                     hideProgressBar: false,
                     closeOnClick: true,
                     pauseOnHover: true,
@@ -207,17 +206,19 @@ const Product = () => {
                     progress: undefined,
                 });
             } catch (err) {
-                console.log(err);
+                toast.error(`${err}`, {
+                    position: 'top-right',
+                    autoClose: 1000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
             }
         };
         addToCart();
-
-        // console.log(product);
-        // console.log(selectedSize);
-        // console.log(selectQuantity);
     };
-
-    // console.log(selectSize);
 
     return currentProduct.loading ? (
         <Loading />
@@ -258,15 +259,21 @@ const Product = () => {
                         {currentProduct.product?.newPrice ? (
                             <>
                                 <PriceNew>
-                                    {currentProduct.product?.newPrice} vnđ
+                                    {formatCurrencyVND(
+                                        currentProduct.product?.newPrice
+                                    )}
                                 </PriceNew>
                                 <PriceOld>
-                                    {currentProduct.product?.price} vnđ
+                                    {formatCurrencyVND(
+                                        currentProduct.product?.price
+                                    )}
                                 </PriceOld>
                             </>
                         ) : (
                             <PriceNew color='gray'>
-                                {currentProduct.product?.price} vnđ
+                                {formatCurrencyVND(
+                                    currentProduct.product?.price
+                                )}
                             </PriceNew>
                         )}
                     </PriceContainer>

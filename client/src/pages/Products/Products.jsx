@@ -1,4 +1,4 @@
-import React, { useState, useTransition } from 'react';
+import React, { useEffect, useState, useTransition } from 'react';
 import ProductCard from '../../components/User/ProductCard';
 import Filter from '../../components/User/Filter';
 import {
@@ -10,8 +10,6 @@ import {
     SortContainer,
     SortChooseContainer,
     SortChooseButton,
-    CountProductsSelect,
-    CountProductsOption,
     CountProductsContainer,
     BodyProductsWrapper,
     FooterProductsWrapper,
@@ -23,6 +21,14 @@ import { searchChange, selectSearch } from '../../redux/filterSlice';
 import { Pagination } from '../../components/Basic';
 import { selectProducts } from '../../redux/productSlice';
 import Loading from '../../helpers/Loading';
+import Select from 'react-select';
+import { fetchGetProducts } from '../../services/productFetch';
+
+const options = [
+    { value: 5, label: 5 },
+    { value: 10, label: 10 },
+    { value: 15, label: 15 },
+];
 
 const Products = () => {
     const dispatch = useDispatch();
@@ -43,8 +49,37 @@ const Products = () => {
     };
 
     // pagination
-    let PageSize = 10;
+    // let PageSize = 5;
+    const [pageSize, setPageSize] = useState(options[1]);
     const [currentPage, setCurrentPage] = useState(1);
+
+    const handleChangePageSize = (selectOption) => {
+        setCurrentPage(1);
+        setPageSize(selectOption);
+    };
+
+    const handleScrollToTop = () => {
+        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    };
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const pageSizeCurrent = pageSize.value;
+                const pageIndexCurrent = currentPage;
+
+                await dispatch(
+                    fetchGetProducts({
+                        pageSize: pageSizeCurrent,
+                        pageIndex: pageIndexCurrent,
+                    })
+                ).unwrap();
+            } catch (error) {
+                console.log('/Products/fetchProducts');
+            }
+        };
+        fetchProducts();
+    }, [pageSize, currentPage, dispatch]);
 
     return (
         <Container>
@@ -71,19 +106,13 @@ const Products = () => {
                                     </SortChooseButton>
                                 </SortChooseContainer>
                             </SortContainer>
-                            <CountProductsContainer>
+                            <CountProductsContainer style={{ zIndex: 990 }}>
                                 Products per page:
-                                <CountProductsSelect>
-                                    <CountProductsOption>
-                                        15
-                                    </CountProductsOption>
-                                    <CountProductsOption>
-                                        25
-                                    </CountProductsOption>
-                                    <CountProductsOption>
-                                        50
-                                    </CountProductsOption>
-                                </CountProductsSelect>
+                                <Select
+                                    options={options}
+                                    defaultValue={pageSize}
+                                    onChange={handleChangePageSize}
+                                />
                             </CountProductsContainer>
                         </DisplayContainer>
                     </HeaderProductsWrapper>
@@ -107,8 +136,11 @@ const Products = () => {
                         <Pagination
                             currentPage={currentPage}
                             totalCount={products?.totalProducts}
-                            pageSize={PageSize}
-                            onPageChange={(page) => setCurrentPage(page)}
+                            pageSize={pageSize.value}
+                            onPageChange={(page) => {
+                                handleScrollToTop();
+                                setCurrentPage(page);
+                            }}
                         />
                     </FooterProductsWrapper>
                 </ProductsContainer>

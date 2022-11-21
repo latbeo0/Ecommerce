@@ -6,6 +6,7 @@ import {
     StepsCart,
     FormCheckout,
     ContentForm,
+    SummaryContainer,
     ButtonsForm,
     Button,
 } from './CartStyled';
@@ -33,9 +34,9 @@ const INITIAL_DATA = {
 };
 
 const Cart = () => {
-    const [data, setData] = useState(INITIAL_DATA);
-
     const { listProducts } = useSelector(selectCart);
+
+    const [data, setData] = useState(INITIAL_DATA);
 
     const subtotal = listProducts.reduce((prev, cur) => {
         if (cur.product.newPrice) {
@@ -62,7 +63,7 @@ const Cart = () => {
         //   <UserForm {...data} updateFields={updateFields} />,
         //   <AddressForm {...data} updateFields={updateFields} />,
         //   <AccountForm {...data} updateFields={updateFields} />,
-        <CartForm listProducts={listProducts} subtotal={subtotal} />,
+        <CartForm listProducts={listProducts} />,
         <UserInfoForm {...data} handleChange={handleChange} />,
     ]);
 
@@ -99,7 +100,16 @@ const Cart = () => {
                     {currentStepIndex + 1} / {steps.length}
                 </StepsCart>
                 <FormCheckout onSubmit={onSubmit}>
-                    <ContentForm>{step}</ContentForm>
+                    <ContentForm>
+                        <div>{step}</div>
+                        <SummaryContainer>
+                            <h1 style={{ marginBottom: '2rem' }}>Summary</h1>
+                            <p>Subtotal: {subtotal}</p>
+                            <p>Deliver: </p>
+                            <p>Discounts: </p>
+                            <p>Total: {subtotal}</p>
+                        </SummaryContainer>
+                    </ContentForm>
                     <ButtonsForm>
                         {!isFirstStep && (
                             <Button type='button' onClick={back}>

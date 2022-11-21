@@ -100,7 +100,6 @@ const App = () => {
             }
         };
         fetchLocation();
-
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -111,7 +110,7 @@ const App = () => {
                 <ScrollToTop />
                 <Routes>
                     {isAdmin ? (
-                        <Route path='/*' index element={<AdminRouter />}/>
+                        <Route path='/*' index element={<AdminRouter />} />
                     ) : (
                         <>
                             <Route path='/register' element={<Register />} />

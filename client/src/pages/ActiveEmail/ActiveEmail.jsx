@@ -18,9 +18,6 @@ import { fetchActiveEmail } from '../../services/authFetch';
 const ActiveEmail = () => {
     const { activationToken } = useParams();
 
-    // const [err, setErr] = useState('');
-    // const [success, setSuccess] = useState('');
-
     const [state, setState] = useState({
         loading: true,
         msg: 'Please wait to active email',

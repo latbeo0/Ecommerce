@@ -25,6 +25,7 @@ import heartIcon2 from '../../../assets/img/heart (2).png';
 import { BsStarFill, BsCart } from 'react-icons/bs';
 import { BiSearch } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
+import { formatCurrencyVND } from '../../../utils/format';
 
 const ProductCard = (props) => {
     const { _id, primaryImages, price, newPrice, isStock, productName } =
@@ -67,12 +68,16 @@ const ProductCard = (props) => {
                             <ProductPrice>
                                 {newPrice ? (
                                     <>
-                                        <PriceNew>{newPrice} vnđ</PriceNew>
-                                        <PriceOld>{price} vnđ</PriceOld>
+                                        <PriceNew>
+                                            {formatCurrencyVND(newPrice)}
+                                        </PriceNew>
+                                        <PriceOld>
+                                            {formatCurrencyVND(price)}
+                                        </PriceOld>
                                     </>
                                 ) : (
                                     <PriceNew color='gray'>
-                                        {price} vnđ
+                                        {formatCurrencyVND(price)}
                                     </PriceNew>
                                 )}
                             </ProductPrice>
