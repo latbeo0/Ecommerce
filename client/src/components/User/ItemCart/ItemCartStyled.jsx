@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const Container = styled.div`
     /* display: grid;
@@ -9,9 +9,14 @@ const Container = styled.div`
     overflow: hidden;
     width: 100%; */
     display: flex;
-    border: 1px solid var(--gray-color-light);
+    /* border: 1px solid var(--gray-color-light); */
+    border: ${(props) =>
+        props.isSelect
+            ? '1px solid var(--primary-color-border)'
+            : '1px solid var(--gray-color-light)'};
     border-radius: 0.5rem;
     overflow: hidden;
+    position: relative;
     /* align-items: stretch;
     justify-content: stretch; */
 `;
@@ -31,6 +36,7 @@ const Image = styled.img`
     left: 0;
     width: 100%;
     height: 100%;
+    user-select: none;
 `;
 
 const HeartContainer = styled.div`
@@ -45,7 +51,7 @@ const HeartContainer = styled.div`
     border-radius: 12px;
     cursor: pointer;
     /* border: 1px solid rgba(255, 107, 108, 0.1); */
-    background-color: ${(props) => props.isHeart && "#fff0f1"};
+    background-color: ${(props) => props.isHeart && '#fff0f1'};
 
     & > img {
         width: 25px;
@@ -101,7 +107,7 @@ const Color = styled.div`
     background: transparent;
 
     &::before {
-        content: "";
+        content: '';
         position: absolute;
         top: 50%;
         left: 50%;
@@ -158,7 +164,7 @@ const Quantity = styled.div`
 `;
 
 const Input = styled.input.attrs({
-    type: "number",
+    type: 'number',
 })`
     padding: 0.25rem;
     min-width: 2rem;
@@ -167,9 +173,9 @@ const Input = styled.input.attrs({
     text-align: center;
     border-left: 1px solid var(--gray-color-light);
     border-right: 1px solid var(--gray-color-light);
-    cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
+    cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
     background: ${(props) =>
-        props.disabled ? "var(--gray-color-light)" : "transparent"};
+        props.disabled ? 'var(--gray-color-light)' : 'transparent'};
     transition: all 200ms linear;
 
     -webkit-appearance: textfield;
@@ -185,9 +191,9 @@ const Input = styled.input.attrs({
 const Arrow = styled.div`
     color: var(--black-color);
     padding: 0.5rem 1rem;
-    cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
+    cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
     background: ${(props) =>
-        props.disabled ? "var(--gray-color-light)" : "transparent"};
+        props.disabled ? 'var(--gray-color-light)' : 'transparent'};
     user-select: none;
     transition: all 200ms linear;
     align-self: center;
@@ -200,9 +206,88 @@ const ItemPrice = styled.p`
     margin-top: 0.5rem;
 `;
 
-const ToolContainer = styled.div``;
-const CheckContainer = styled.div``;
-const DeleteContainer = styled.div``;
+const ToolContainer = styled.div`
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    right: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    pointer-events: none;
+`;
+
+const CheckContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    padding: 0.5rem;
+    border: ${(props) =>
+        props.isSelect
+            ? '1px solid var(--primary-color-border)'
+            : '1px solid var(--gray-color-light)'};
+    border-radius: 50%;
+    cursor: pointer;
+    width: 2rem;
+    height: 2rem;
+    pointer-events: auto;
+
+    & > svg {
+        width: 1rem;
+        height: 1rem;
+        /* color: var(--gray-color-light); */
+        color: var(--primary-color-border);
+        user-select: none;
+    }
+`;
+
+const DeleteContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    padding: 0.5rem;
+    border-radius: 12px;
+    background-color: rgba(255, 0, 0, 0.05);
+    cursor: pointer;
+    pointer-events: auto;
+
+    & > svg {
+        width: 25px;
+        height: 25px;
+        color: var(--red-color);
+        user-select: none;
+    }
+
+    &:hover {
+        background-color: rgba(255, 0, 0, 0.1);
+    }
+`;
+
+const Background = styled.div`
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    /* width: 500px;
+    height: 500px; */
+    background: rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+`;
+
+const Modal = styled.div`
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 500px;
+    background: red;
+`;
+
+const Content = styled.div``;
 
 export {
     Container,
@@ -227,4 +312,6 @@ export {
     ToolContainer,
     CheckContainer,
     DeleteContainer,
+    Background,
+    Modal,
 };

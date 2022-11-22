@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
-import { FiCheck } from "react-icons/fi";
-import { IoClose } from "react-icons/io5";
-import { formatCurrencyVND } from "../../../utils/format";
+import React, { useState } from 'react';
+import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
+import { FiCheck } from 'react-icons/fi';
+import { IoClose, IoTrashOutline } from 'react-icons/io5';
+import { formatCurrencyVND } from '../../../utils/format';
 import {
     Container,
     ImageContainer,
@@ -26,11 +26,22 @@ import {
     ToolContainer,
     CheckContainer,
     DeleteContainer,
-} from "./ItemCartStyled";
-import heartIcon1 from "../../../assets/img/heart (1).png";
-import heartIcon2 from "../../../assets/img/heart (2).png";
+    Background,
+    Modal,
+} from './ItemCartStyled';
+import heartIcon1 from '../../../assets/img/heart (1).png';
+import heartIcon2 from '../../../assets/img/heart (2).png';
+import {
+    fetchDecreaseNumber,
+    fetchIncreaseNumber,
+    fetchRemoveItem,
+    fetchSelectItem,
+} from '../../../services/cartFetch';
+import { useDispatch } from 'react-redux';
 
 const ItemCart = (props) => {
+    const dispatch = useDispatch();
+
     const { product } = props;
 
     const selectQuantity = product?.count;
@@ -41,29 +52,58 @@ const ItemCart = (props) => {
 
     const [isHeart, setIsHeart] = useState(false);
 
-    const handlePlusQuantity = () => {
-        if (selectQuantity < quantityBySelectedSize) {
-            // setSelectQuantity((prev) => prev + 1);
-            console.log("plus");
+    const handlePlusQuantity = async () => {
+        try {
+            if (selectQuantity < quantityBySelectedSize) {
+                await dispatch(
+                    fetchIncreaseNumber({ product: product?.product })
+                );
+            }
+        } catch (error) {
+            console.log('error', error);
         }
     };
 
-    const handleMinusQuantity = () => {
-        if (selectQuantity > 1) {
-            // setSelectQuantity((prev) => prev - 1);
-            console.log("minus");
+    const handleMinusQuantity = async () => {
+        try {
+            if (selectQuantity > 1) {
+                await dispatch(
+                    fetchDecreaseNumber({ product: product?.product })
+                );
+            }
+        } catch (error) {
+            console.log('error', error);
+        }
+    };
+
+    const handleRemoveItem = async () => {
+        try {
+            await dispatch(fetchRemoveItem({ product: product?.product }));
+        } catch (error) {
+            console.log('error', error);
+        }
+    };
+
+    const handleSelect = async () => {
+        try {
+            await dispatch(fetchSelectItem({ product: product?.product }));
+        } catch (error) {
+            console.log('error', error);
         }
     };
 
     return (
-        <Container key={product.product._id + product.size}>
+        <Container
+            key={product.product._id + product.size}
+            isSelect={product?.isSelected}
+        >
             <ImageContainer>
-                <Image src={product?.product.primaryImages[0].img} alt="#" />
+                <Image src={product?.product.primaryImages[0].img} alt='#' />
                 <HeartContainer
                     isHeart={isHeart}
                     onClick={() => setIsHeart(!isHeart)}
                 >
-                    <Heart src={isHeart ? heartIcon1 : heartIcon2} alt="img" />
+                    <Heart src={isHeart ? heartIcon1 : heartIcon2} alt='img' />
                 </HeartContainer>
             </ImageContainer>
             <BodyContainer>
@@ -95,12 +135,12 @@ const ItemCart = (props) => {
                 </Detail>
             </BodyContainer>
             <FooterContainer>
-                have only{" "}
+                have only{' '}
                 {
                     product?.product.color.details.find(
                         (item) => item.size === product?.size
                     ).quantity
-                }{" "}
+                }{' '}
                 in stock
                 <QuantityContainer>
                     <Quantity>
@@ -134,13 +174,19 @@ const ItemCart = (props) => {
                 </ItemPrice>
             </FooterContainer>
             <ToolContainer>
-                <CheckContainer>
-                    <FiCheck style={{ fontSize: "1rem" }} />
+                <CheckContainer
+                    onClick={handleSelect}
+                    isSelect={product?.isSelected}
+                >
+                    {product?.isSelected ? <FiCheck /> : null}
                 </CheckContainer>
-                <DeleteContainer>
-                    <IoClose />
+                <DeleteContainer onClick={handleRemoveItem}>
+                    <IoTrashOutline />
                 </DeleteContainer>
             </ToolContainer>
+            <Background>
+                <Modal></Modal>
+            </Background>
         </Container>
     );
 };

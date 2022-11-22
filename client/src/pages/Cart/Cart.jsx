@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import BreadCrumb from '../../components/Basic/BreadCrumb';
 import {
     Container,
@@ -38,7 +38,15 @@ const Cart = () => {
 
     const [data, setData] = useState(INITIAL_DATA);
 
-    const subtotal = listProducts.reduce((prev, cur) => {
+    useEffect(() => {
+        const listOrderItemTemp = [];
+        listProducts.map(
+            (item) => item.isSelected && listOrderItemTemp.push(item)
+        );
+        setData((prev) => ({ ...prev, listOrderItem: listOrderItemTemp }));
+    }, [listProducts]);
+
+    const subtotal = data.listOrderItem?.reduce((prev, cur) => {
         if (cur.product.newPrice) {
             return cur.product.newPrice * cur.count + prev;
         } else {
