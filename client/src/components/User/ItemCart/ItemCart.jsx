@@ -26,8 +26,6 @@ import {
     ToolContainer,
     CheckContainer,
     DeleteContainer,
-    Background,
-    Modal,
 } from './ItemCartStyled';
 import heartIcon1 from '../../../assets/img/heart (1).png';
 import heartIcon2 from '../../../assets/img/heart (2).png';
@@ -38,6 +36,7 @@ import {
     fetchSelectItem,
 } from '../../../services/cartFetch';
 import { useDispatch } from 'react-redux';
+import Modal from '../Modal';
 
 const ItemCart = (props) => {
     const dispatch = useDispatch();
@@ -70,6 +69,8 @@ const ItemCart = (props) => {
                 await dispatch(
                     fetchDecreaseNumber({ product: product?.product })
                 );
+            } else {
+                setIsOpened((prev) => !prev);
             }
         } catch (error) {
             console.log('error', error);
@@ -90,6 +91,12 @@ const ItemCart = (props) => {
         } catch (error) {
             console.log('error', error);
         }
+    };
+
+    const [isOpened, setIsOpened] = useState(false);
+
+    const handleOpenModal = () => {
+        setIsOpened((prev) => !prev);
     };
 
     return (
@@ -146,7 +153,7 @@ const ItemCart = (props) => {
                     <Quantity>
                         <Arrow
                             onClick={handleMinusQuantity}
-                            disabled={selectQuantity <= 1}
+                            // disabled={selectQuantity <= 1}
                         >
                             <AiOutlineMinus />
                         </Arrow>
@@ -180,13 +187,17 @@ const ItemCart = (props) => {
                 >
                     {product?.isSelected ? <FiCheck /> : null}
                 </CheckContainer>
-                <DeleteContainer onClick={handleRemoveItem}>
+                <DeleteContainer onClick={handleOpenModal}>
                     <IoTrashOutline />
                 </DeleteContainer>
             </ToolContainer>
-            <Background>
-                <Modal></Modal>
-            </Background>
+            {isOpened ? (
+                <Modal
+                    product={props.product}
+                    onCancel={handleOpenModal}
+                    onConfirm={handleRemoveItem}
+                />
+            ) : null}
         </Container>
     );
 };

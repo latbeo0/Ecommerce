@@ -28,6 +28,7 @@ const ImageContainer = styled.div`
     position: relative;
     overflow: hidden;
 `;
+
 const Image = styled.img`
     position: absolute;
     width: 100%;

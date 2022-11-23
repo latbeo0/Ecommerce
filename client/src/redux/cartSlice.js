@@ -1,10 +1,13 @@
 import { createSlice, current } from '@reduxjs/toolkit';
 import {
     fetchAddToCart,
+    fetchClearCart,
     fetchDecreaseNumber,
     fetchIncreaseNumber,
     fetchRemoveItem,
+    fetchSelectAllItem,
     fetchSelectItem,
+    fetchUnSelectAllItem,
 } from '../services/cartFetch';
 
 const initialState = {
@@ -115,6 +118,56 @@ export const cartSlice = createSlice({
                     !state.listProducts[index].isSelected;
             })
             .addCase(fetchSelectItem.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+            });
+
+        // UnSelect all item
+        builder
+            .addCase(fetchUnSelectAllItem.pending, (state, action) => {
+                state.isLoading = true;
+            })
+            .addCase(fetchUnSelectAllItem.fulfilled, (state, action) => {
+                state.isLoading = false;
+                const newList = state.listProducts.map((item) => {
+                    if (!item.isError) return { ...item, isSelected: false };
+                    else return item;
+                });
+                state.listProducts = newList;
+            })
+            .addCase(fetchUnSelectAllItem.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+            });
+
+        // Select all item
+        builder
+            .addCase(fetchSelectAllItem.pending, (state, action) => {
+                state.isLoading = true;
+            })
+            .addCase(fetchSelectAllItem.fulfilled, (state, action) => {
+                state.isLoading = false;
+                const newList = state.listProducts.map((item) => {
+                    if (!item.isError) return { ...item, isSelected: true };
+                    else return item;
+                });
+                state.listProducts = newList;
+            })
+            .addCase(fetchSelectAllItem.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+            });
+
+        // Clear cart
+        builder
+            .addCase(fetchClearCart.pending, (state, action) => {
+                state.isLoading = true;
+            })
+            .addCase(fetchClearCart.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.listProducts = [];
+            })
+            .addCase(fetchClearCart.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
             });

@@ -63,3 +63,33 @@ export const fetchSelectItem = createAsyncThunk(
         }
     }
 );
+
+export const fetchUnSelectAllItem = createAsyncThunk(
+    'cart/fetchUnSelectAllItem',
+    async (args) => {
+        try {
+        } catch (error) {
+            throw new Error(error.response.data.msg);
+        }
+    }
+);
+
+export const fetchSelectAllItem = createAsyncThunk(
+    'cart/fetchSelectAllItem',
+    async (args) => {
+        try {
+        } catch (error) {
+            throw new Error(error.response.data.msg);
+        }
+    }
+);
+
+export const fetchClearCart = createAsyncThunk(
+    'cart/fetchClearCart',
+    async (args) => {
+        try {
+        } catch (error) {
+            throw new Error(error.response.data.msg);
+        }
+    }
+);
