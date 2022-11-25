@@ -15,8 +15,8 @@ const Container = styled.div`
             ? '1px solid var(--primary-color-border)'
             : '1px solid var(--gray-color-light)'};
     border-radius: 0.5rem;
-    overflow: hidden;
     position: relative;
+    margin-right: 0.5rem;
     /* align-items: stretch;
     justify-content: stretch; */
 `;

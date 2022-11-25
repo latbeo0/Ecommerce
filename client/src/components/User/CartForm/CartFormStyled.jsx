@@ -12,6 +12,8 @@ const ListProducts = styled.div`
     align-items: stretch;
     justify-content: flex-start;
     gap: 2rem;
+    max-height: 62.5rem;
+    overflow-y: scroll;
 `;
 
 const HeaderList = styled.div`

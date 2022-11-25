@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import BreadCrumb from "../../components/Basic/BreadCrumb";
+import React, { useEffect, useState } from 'react';
+import BreadCrumb from '../../components/Basic/BreadCrumb';
 import {
     Container,
     Wrapper,
@@ -9,30 +9,30 @@ import {
     SummaryContainer,
     ButtonsForm,
     Button,
-} from "./CartStyled";
-import { useMultiStepForm } from "./../../hooks/useMultiStepForm";
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { BsTruck } from "react-icons/bs";
-import UserInfoForm from "../../components/User/UserInfoForm";
-import CartForm from "../../components/User/CartForm";
-import { useSelector } from "react-redux";
-import { selectCart } from "../../redux/cartSlice";
-import { fetchPayment } from "../../services/orderFetch";
-import { getErrorMessage } from "../../helpers/validation";
-import PaymentForm from "../../components/User/PaymentForm/PaymentForm";
-import { toast } from "react-toastify";
+} from './CartStyled';
+import { useMultiStepForm } from './../../hooks/useMultiStepForm';
+import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
+import { BsTruck } from 'react-icons/bs';
+import UserInfoForm from '../../components/User/UserInfoForm';
+import CartForm from '../../components/User/CartForm';
+import { useSelector } from 'react-redux';
+import { selectCart } from '../../redux/cartSlice';
+import { fetchPayment } from '../../services/orderFetch';
+import { getErrorMessage } from '../../helpers/validation';
+import PaymentForm from '../../components/User/PaymentForm/PaymentForm';
+import { toast } from 'react-toastify';
 
 const INITIAL_DATA = {
     listOrderItem: [],
     userInfo: {
-        firstName: "",
-        lastName: "",
-        email: "",
-        phone: "",
-        province: "",
-        district: "",
-        ward: "",
-        address: "",
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        province: '',
+        district: '',
+        ward: '',
+        address: '',
     },
 };
 
@@ -40,55 +40,55 @@ const inputs = {
     userInfo: [
         {
             id: 1,
-            type: "text",
-            name: "firstName",
-            patterns: ["required"],
-            label: "First name *",
+            type: 'text',
+            name: 'firstName',
+            patterns: ['required'],
+            label: 'First name *',
         },
         {
             id: 2,
-            type: "text",
-            name: "lastName",
-            patterns: ["required"],
-            label: "Last name *",
+            type: 'text',
+            name: 'lastName',
+            patterns: ['required'],
+            label: 'Last name *',
         },
         {
             id: 3,
-            type: "email",
-            name: "email",
-            patterns: ["required", "email"],
-            label: "Email *",
+            type: 'email',
+            name: 'email',
+            patterns: ['required', 'email'],
+            label: 'Email *',
         },
     ],
     addressShipping: [
         {
             id: 4,
-            type: "phone",
-            name: "phone",
-            patterns: ["required"],
-            label: "Phone *",
+            type: 'phone',
+            name: 'phone',
+            patterns: ['required'],
+            label: 'Phone *',
         },
         {
             id: 5,
-            name: "province",
-            patterns: ["required"],
+            name: 'province',
+            patterns: ['required'],
         },
         {
             id: 6,
-            name: "district",
-            patterns: ["required"],
+            name: 'district',
+            patterns: ['required'],
         },
         {
             id: 7,
-            name: "ward",
-            patterns: ["required"],
+            name: 'ward',
+            patterns: ['required'],
         },
         {
             id: 8,
-            type: "text",
-            name: "address",
-            patterns: ["required"],
-            label: "Address *",
+            type: 'text',
+            name: 'address',
+            patterns: ['required'],
+            label: 'Address *',
         },
     ],
 };
@@ -106,7 +106,7 @@ const Cart = () => {
         const errorInit = {};
         // eslint-disable-next-line array-callback-return
         listInput?.map((input) => {
-            const { name, value = "", patterns } = input;
+            const { name, value = '', patterns } = input;
             const errs = getErrorMessage(value, patterns);
             errorInit[name] = errs;
         });
@@ -139,23 +139,23 @@ const Cart = () => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        if (name === "province") {
+        if (name === 'province') {
             setData({
                 ...data,
                 userInfo: {
                     ...data.userInfo,
                     [name]: value,
-                    district: "",
-                    ward: "",
+                    district: '',
+                    ward: '',
                 },
             });
-        } else if (name === "district") {
+        } else if (name === 'district') {
             setData({
                 ...data,
                 userInfo: {
                     ...data.userInfo,
                     [name]: value,
-                    ward: "",
+                    ward: '',
                 },
             });
         } else {
@@ -187,7 +187,7 @@ const Cart = () => {
     ]);
 
     const handleCheckOut = async () => {
-        const userId = "1";
+        const userId = '1';
         const addressShipping = data.userInfo;
         const listOderItems = data.listOrderItem;
         const itemsPrice = subtotal;
@@ -216,9 +216,9 @@ const Cart = () => {
             );
             if (check) {
                 return toast.error(
-                    "You need to complete form first to go next step.",
+                    'You need to complete form first to go next step.',
                     {
-                        position: "top-right",
+                        position: 'top-right',
                         autoClose: 3000,
                         hideProgressBar: false,
                         closeOnClick: true,
@@ -248,21 +248,21 @@ const Cart = () => {
                     <ContentForm>
                         <div>{step}</div>
                         <SummaryContainer>
-                            <h1 style={{ marginBottom: "2rem" }}>Summary</h1>
+                            <h1 style={{ marginBottom: '2rem' }}>Summary</h1>
                             <p>Subtotal: {subtotal}</p>
-                            <p>Deliver: </p>
-                            <p>Discounts: </p>
+                            <p>Deliver: 0</p>
+                            <p>Discounts: 0</p>
                             <p>Total: {subtotal}</p>
                         </SummaryContainer>
                     </ContentForm>
                     <ButtonsForm>
                         {!isFirstStep && (
-                            <Button type="button" onClick={back}>
+                            <Button type='button' onClick={back}>
                                 <IoIosArrowBack />
                                 Back
                             </Button>
                         )}
-                        <Button type="submit">
+                        <Button type='submit'>
                             {isLastStep ? (
                                 <>
                                     Finish
