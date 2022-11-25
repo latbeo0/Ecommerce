@@ -12,3 +12,5 @@ export { default as CheckBox } from "./CheckBox";
 export { default as Avatar } from "./Avatar";
 export { default as Pagination } from "./Pagination";
 export { default as StepsCart } from "./StepsCart";
+export { default as InputGroup } from "./InputGroup";
+export { default as SelectGroup } from "./SelectGroup";
