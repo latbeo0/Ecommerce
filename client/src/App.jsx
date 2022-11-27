@@ -25,6 +25,7 @@ import {
     fetchProvince,
     fetchWard,
 } from './services/locationFetch';
+import Profile from './pages/Profile';
 
 const App = () => {
     const dispatch = useDispatch();
@@ -137,6 +138,7 @@ const App = () => {
                                     path='/products'
                                     element={<Products />}
                                 />
+                                <Route path='/profile' element={<Profile />} />
                                 <Route path='/cart' element={<Cart />} />
                             </Route>
                         </>

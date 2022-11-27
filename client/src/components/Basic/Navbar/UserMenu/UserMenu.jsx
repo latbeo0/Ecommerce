@@ -27,7 +27,7 @@ const UserMenu = () => {
             {user.currentUser ? (
                 <WrapperUser>
                     <Avatar
-                        link='#'
+                        link='/profile'
                         src={currentUser?.avatar}
                         text={currentUser?.fullName}
                     />

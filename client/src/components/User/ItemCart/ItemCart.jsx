@@ -152,17 +152,10 @@ const ItemCart = (props) => {
                 in stock
                 <QuantityContainer>
                     <Quantity>
-                        <Arrow
-                            onClick={handleMinusQuantity}
-                            // disabled={selectQuantity <= 1}
-                        >
+                        <Arrow onClick={handleMinusQuantity}>
                             <AiOutlineMinus />
                         </Arrow>
-                        <Input
-                            value={selectQuantity}
-                            // value={product?.count}
-                            onChange={() => {}}
-                        />
+                        <Input value={selectQuantity} onChange={() => {}} />
                         <Arrow
                             onClick={handlePlusQuantity}
                             disabled={selectQuantity >= quantityBySelectedSize}

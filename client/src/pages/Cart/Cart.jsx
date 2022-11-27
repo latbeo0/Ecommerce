@@ -21,6 +21,7 @@ import { fetchPayment } from '../../services/orderFetch';
 import { getErrorMessage } from '../../helpers/validation';
 import PaymentForm from '../../components/User/PaymentForm/PaymentForm';
 import { toast } from 'react-toastify';
+import { formatCurrencyVND } from './../../utils/format';
 
 const INITIAL_DATA = {
     listOrderItem: [],
@@ -190,12 +191,12 @@ const Cart = () => {
         const userId = '1';
         const addressShipping = data.userInfo;
         const listOderItems = data.listOrderItem;
-        const itemsPrice = subtotal;
+        const subPrice = subtotal;
         const totalPrice = subtotal;
         await fetchPayment(
             listOderItems,
             addressShipping,
-            itemsPrice,
+            subPrice,
             totalPrice,
             userId
         )
@@ -208,7 +209,19 @@ const Cart = () => {
     function onSubmit(e) {
         e.preventDefault();
         if (currentStepIndex === 0) {
-            return next();
+            if (data.listOrderItem.length === 0) {
+                return toast.error('You need to select less 1 product.', {
+                    position: 'top-right',
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+            } else {
+                return next();
+            }
         }
         if (currentStepIndex === 1) {
             const check = listInput.find(
@@ -249,10 +262,10 @@ const Cart = () => {
                         <div>{step}</div>
                         <SummaryContainer>
                             <h1 style={{ marginBottom: '2rem' }}>Summary</h1>
-                            <p>Subtotal: {subtotal}</p>
+                            <p>Subtotal: {formatCurrencyVND(subtotal)}</p>
                             <p>Deliver: 0</p>
                             <p>Discounts: 0</p>
-                            <p>Total: {subtotal}</p>
+                            <p>Total: {formatCurrencyVND(subtotal)}</p>
                         </SummaryContainer>
                     </ContentForm>
                     <ButtonsForm>
