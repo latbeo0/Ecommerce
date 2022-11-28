@@ -9,12 +9,11 @@ const SaleSchema = new mongoose.Schema(
     startDate: { type: Date },
     endDate: { type: Date },
     numericalOrder: { type: Number },
-
   },
   {
     timestamps: true,
   }
 );
-SaleSchema.plugin(AutoIncrement, { inc_field: "numericalOrder" });
+SaleSchema.plugin(AutoIncrement, { inc_field: "numericalOrder", disable_hooks: true });
 
 module.exports = mongoose.model("sales", SaleSchema);
