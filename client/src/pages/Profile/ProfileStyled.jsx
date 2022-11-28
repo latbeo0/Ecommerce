@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const Container = styled.div`
     display: flex;
@@ -18,14 +18,14 @@ const Wrapper = styled.div`
 const LeftContainer = styled.div`
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
     box-shadow: rgb(100 100 111 / 20%) 0px 7px 29px 0px;
     border-radius: 1rem;
     padding: 1rem;
 `;
 
 const AvatarContainer = styled.div`
-    margin: 2rem 0 1rem;
+    margin: 2rem auto 1rem;
     width: 10rem;
     height: 10rem;
     border-radius: 50%;
@@ -48,11 +48,43 @@ const Avatar = styled.img`
 const Name = styled.p`
     font-size: 1.25rem;
     font-weight: 500;
+    align-self: center;
+    padding-bottom: 1rem; ;
 `;
 
-const ToolContainer = styled.div``;
+const ToolContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--gray-color);
 
-const Tool = styled.div``;
+    & > * {
+        width: 100%;
+    }
+`;
+
+const Tool = styled.div`
+    align-self: center;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.9125rem;
+    font-weight: 400;
+    background-color: var(--white-color);
+    border-radius: 0.5rem;
+    cursor: pointer;
+
+    & > svg {
+        font-size: 1rem;
+    }
+
+    &:hover {
+        background: var(--secondary-color);
+    }
+`;
 
 const RightContainer = styled.div`
     display: flex;
@@ -66,6 +98,18 @@ const RightWrapper = styled.div``;
 
 const Title = styled.h1``;
 
+const Content = styled.div``;
+
+const Row = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    & > * {
+        flex: 1;
+    }
+`;
+
 export {
     Container,
     Wrapper,
@@ -78,4 +122,6 @@ export {
     RightContainer,
     RightWrapper,
     Title,
+    Content,
+    Row,
 };
