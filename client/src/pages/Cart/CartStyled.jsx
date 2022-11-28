@@ -23,7 +23,18 @@ const FormCheckout = styled.form`
     gap: 2rem;
 `;
 
-const ContentForm = styled.div``;
+const ContentForm = styled.div`
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 2rem;
+`;
+
+const SummaryContainer = styled.div`
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: rgb(100 100 111 / 20%) 0px 7px 29px 0px;
+    height: fit-content;
+`;
 
 const ButtonsForm = styled.div`
     display: flex;
@@ -45,6 +56,7 @@ export {
     StepsCart,
     FormCheckout,
     ContentForm,
+    SummaryContainer,
     ButtonsForm,
     Button,
 };

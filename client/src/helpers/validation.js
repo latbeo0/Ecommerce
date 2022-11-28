@@ -13,16 +13,16 @@ const equalCheck = (value, equalValue) => {
 
 const typePatternError = {
     required: {
-        check: (string, emptyString = '') => !equalCheck(string, emptyString),
-        msg: 'This field need to fill.',
+        check: (string, emptyString = "") => !equalCheck(string, emptyString),
+        msg: "This field need to fill.",
     },
     email: {
         check: (email) => regexCheck(email, regexValidEmail),
-        msg: 'This email is not validate',
+        msg: "This email is not validate",
     },
     password: {
         check: (password) => regexCheck(password, regexPassword),
-        msg: 'Minimum eight characters, at least one letter and one number',
+        msg: "Minimum eight characters, at least one letter and one number",
     },
     // confirmPassword: {
     //     check: (confirmPassword, password) =>
@@ -33,7 +33,7 @@ const typePatternError = {
 
 export const getErrorMessage = (valueInput, patterns) => {
     const errors = [];
-    patterns.map(
+    patterns?.map(
         (pattern) =>
             !typePatternError[pattern].check(valueInput) &&
             errors.push(typePatternError[pattern].msg)
@@ -52,11 +52,11 @@ export const getErrorMessageForm = (valuesForm, inputs) => {
         const { name, patterns } = input;
         // eslint-disable-next-line array-callback-return
         patterns.map((pattern) => {
-            if (pattern === 'confirmPassword') {
+            if (pattern === "confirmPassword") {
                 if (
                     !typePatternError[pattern].check(
                         valuesForm[name],
-                        valuesForm['password']
+                        valuesForm["password"]
                     )
                 )
                     errors[name].push(typePatternError[pattern].msg);

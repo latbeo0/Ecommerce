@@ -2,14 +2,14 @@ const mongoose = require('mongoose');
 
 const OrderSchema = new mongoose.Schema(
     {
+        codeOrder: { type: String, required: true, unique: true },
         listOderItems: { type: Array, required: true },
         addressShipping: { type: Object, required: true },
-        itemsPrice: { type: Number, required: true },
-        shipPrice: { type: Number, default: 20000 },
-        taxPrice: { type: Number, default: 20000 },
+        subPrice: { type: Number, required: true },
+        shippingPrice: { type: Number, default: 0 },
         totalPrice: { type: Number, required: true },
         userId: { type: String, required: true },
-        isDelivered: { type: Boolean, default: false },
+        stateOrder: { type: String, default: 'Pending' },
         deliveredAt: { type: Date },
     },
     {

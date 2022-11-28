@@ -6,7 +6,7 @@ const orderCtrl = {
             const {
                 listOderItems,
                 addressShipping,
-                itemsPrice,
+                subPrice,
                 totalPrice,
                 userId,
             } = req.body;
@@ -14,7 +14,7 @@ const orderCtrl = {
             const newOrder = new Orders({
                 listOderItems,
                 addressShipping,
-                itemsPrice,
+                subPrice,
                 totalPrice,
                 userId,
             });

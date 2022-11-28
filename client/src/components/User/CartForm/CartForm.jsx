@@ -1,151 +1,98 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
 import {
-    Container,
     ListProductsContainer,
     ListProducts,
-    ItemCart,
-    ImageContainer,
-    Image,
-    BodyContainer,
-    Name,
-    Code,
-    Detail,
-    Color,
-    PriceContainer,
-    PriceOld,
-    PriceNew,
-    QuantityContainer,
-    Quantity,
-    Input,
-    Arrow,
-    ItemPrice,
-    SummaryContainer,
-} from './CartFormStyled';
-import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
+    HeaderList,
+    CheckAll,
+    ButtonClearAll,
+} from "./CartFormStyled";
+import ItemCart from "../ItemCart";
+import { FiCheck } from "react-icons/fi";
+import { useDispatch } from "react-redux";
+import {
+    fetchClearCart,
+    fetchSelectAllItem,
+    fetchUnSelectAllItem,
+} from "../../../services/cartFetch";
+import Modal from "../Modal";
 
 const CartForm = (props) => {
-    const { listProducts, subtotal } = props;
+    const dispatch = useDispatch();
 
-    return (
-        <>
-            <h2
-                style={{ textAlign: 'center', margin: 0, marginBottom: '2rem' }}
-            >
-                Check Form
-            </h2>
-            {listProducts?.length > 0 ? (
-                <Container>
-                    <ListProductsContainer>
-                        <h1 style={{ marginBottom: '2rem' }}>My Cart</h1>
-                        <ListProducts>
-                            {listProducts.map((product) => (
-                                <ItemCart
-                                    key={product.product._id + product.size}
-                                >
-                                    <ImageContainer>
-                                        <Image
-                                            src={
-                                                product?.product
-                                                    .primaryImages[0].img
-                                            }
-                                            alt='#'
-                                        />
-                                    </ImageContainer>
-                                    <BodyContainer>
-                                        <Name>
-                                            {product?.product.productName}
-                                        </Name>
-                                        <Code>
-                                            {`Code: ${product?.product._id}`}
-                                        </Code>
-                                        <Detail>
-                                            Color
-                                            <Color
-                                                background={
-                                                    product?.product.color
-                                                        .valueColor
-                                                }
-                                            ></Color>
-                                            Size: {product?.size}
-                                        </Detail>
-                                    </BodyContainer>
-                                    <PriceContainer>
-                                        {product?.product.newPrice ? (
-                                            <>
-                                                <PriceNew>
-                                                    {product?.product.newPrice}{' '}
-                                                    vnd
-                                                </PriceNew>
-                                                <PriceOld>
-                                                    {product?.product.price} vnd
-                                                </PriceOld>
-                                            </>
-                                        ) : (
-                                            <PriceNew>
-                                                {product?.product.price} vnd
-                                            </PriceNew>
-                                        )}
-                                        <QuantityContainer
-                                        // onClick={handleClick}
-                                        >
-                                            <Quantity>
-                                                <Arrow
-                                                // onClick={handleMinusQuantity}
-                                                // disabled={
-                                                //     selectSize === null ||
-                                                //     selectQuantity <= 1
-                                                // }
-                                                >
-                                                    <AiOutlineMinus />
-                                                </Arrow>
-                                                <Input
-                                                    value={product?.count}
-                                                    onChange={() => {}}
-                                                    // disabled={selectSize === null}
-                                                />
-                                                <Arrow
-                                                // onClick={handlePlusQuantity}
-                                                // disabled={
-                                                //     selectSize === null ||
-                                                //     selectQuantity >= quantityBySelectedSize
-                                                // }
-                                                >
-                                                    <AiOutlinePlus />
-                                                </Arrow>
-                                            </Quantity>
-                                        </QuantityContainer>
-                                        have only{' '}
-                                        {
-                                            product?.product.color.details.find(
-                                                (item) =>
-                                                    item.size === product?.size
-                                            ).quantity
-                                        }{' '}
-                                        in stock
-                                        <ItemPrice>
-                                            {product?.product.newPrice
-                                                ? product?.product.newPrice *
-                                                  product?.count
-                                                : product?.product.price *
-                                                  product?.count}
-                                        </ItemPrice>
-                                    </PriceContainer>
-                                </ItemCart>
-                            ))}
-                        </ListProducts>
-                    </ListProductsContainer>
-                    <SummaryContainer>
-                        <h1 style={{ marginBottom: '2rem' }}>Summary</h1>
-                        <p>Subtotal: {subtotal}</p>
-                        <p>Deliver: </p>
-                        <p>Discounts: </p>
-                        <p>Total: {subtotal}</p>
-                    </SummaryContainer>
-                </Container>
-            ) : (
-                <div>No thing in cart</div>
-            )}
-        </>
+    const { listProducts } = props;
+
+    const checkAll = listProducts.find(
+        (item) => !item.isError && !item.isSelected
+    );
+
+    const [isChecked, setIsChecked] = useState(checkAll ? false : true);
+    const [isOpened, setIsOpened] = useState(false);
+
+    useEffect(() => {
+        if (checkAll) {
+            setIsChecked(false);
+        } else {
+            setIsChecked(true);
+        }
+    }, [checkAll]);
+
+    const handleCheckAll = async () => {
+        if (checkAll) {
+            try {
+                await dispatch(fetchSelectAllItem());
+            } catch (error) {
+                console.log("error", error);
+            }
+        } else {
+            try {
+                await dispatch(fetchUnSelectAllItem());
+            } catch (error) {
+                console.log("error", error);
+            }
+        }
+    };
+
+    const handleClearCart = async () => {
+        try {
+            await dispatch(fetchClearCart());
+        } catch (error) {
+            console.log("error", error);
+        }
+    };
+
+    const handleOpenModal = () => {
+        setIsOpened((prev) => !prev);
+    };
+
+    return listProducts?.length > 0 ? (
+        <ListProductsContainer>
+            <h1 style={{ marginBottom: "2rem" }}>My Cart</h1>
+            <HeaderList>
+                <CheckAll onClick={handleCheckAll} checked={isChecked}>
+                    {isChecked ? <FiCheck /> : null}
+                </CheckAll>
+                <ButtonClearAll onClick={handleOpenModal}>
+                    Clear cart
+                </ButtonClearAll>
+            </HeaderList>
+            <ListProducts>
+                {listProducts.map((product) => (
+                    <ItemCart
+                        key={product.product._id + product.size}
+                        product={product}
+                    />
+                ))}
+            </ListProducts>
+            {isOpened ? (
+                <Modal
+                    allProduct
+                    onCancel={handleOpenModal}
+                    onConfirm={handleClearCart}
+                />
+            ) : null}
+        </ListProductsContainer>
+    ) : (
+        <div>No thing in cart</div>
     );
 };
 

@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const Container = styled.div`
     display: flex;
@@ -16,36 +16,36 @@ const Label = styled.label`
 
 const Wrapper = styled.div.withConfig({
     shouldForwardProp: (prop, defaultValidatorFn) =>
-        ['focused'].includes(prop) || defaultValidatorFn(prop),
+        ["focused"].includes(prop) || defaultValidatorFn(prop),
 })`
     display: flex;
     align-items: center;
     justify-content: stretch;
     position: relative;
 
-    &[focused='true'] ~ span {
+    &[focused="true"] ~ span {
         display: block;
     }
 
-    &[focused='true'] > input {
+    &[focused="true"] > input {
         border: 1px solid
             ${(props) =>
-                props.errorMessage ? 'var(--red-color)' : 'var(--green-color)'};
+                props.errorMessage ? "var(--red-color)" : "var(--green-color)"};
     }
 `;
 
 const IconContainer = styled.div`
     position: absolute;
     top: 0;
-    left: ${(props) => props.slot === 'start' && '0'};
-    right: ${(props) => props.slot === 'end' && '0'};
+    left: ${(props) => props.slot === "start" && "0"};
+    right: ${(props) => props.slot === "end" && "0"};
     width: 45px;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    pointer-events: ${(props) => (props.slot === 'end' ? 'auto' : 'none')};
-    cursor: ${(props) => props.slot === 'end' && 'pointer'};
+    pointer-events: ${(props) => (props.slot === "end" ? "auto" : "none")};
+    cursor: ${(props) => props.slot === "end" && "pointer"};
     color: gray;
 
     & > svg {
@@ -56,7 +56,7 @@ const IconContainer = styled.div`
 
 const Input = styled.input`
     width: 100%;
-    padding: 12px 45px;
+    padding: ${(props) => (props.icon ? "12px 45px" : "6px 12px")};
     outline: none;
     border: 1px solid var(--gray-color-dark);
     border-radius: 0.4rem;
