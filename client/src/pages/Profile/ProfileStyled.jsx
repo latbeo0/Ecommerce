@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const Container = styled.div`
     display: flex;
@@ -21,7 +21,8 @@ const LeftContainer = styled.div`
     align-items: stretch;
     box-shadow: rgb(100 100 111 / 20%) 0px 7px 29px 0px;
     border-radius: 1rem;
-    padding: 1rem;
+    padding: 2rem;
+    height: fit-content;
 `;
 
 const AvatarContainer = styled.div`
@@ -91,14 +92,27 @@ const RightContainer = styled.div`
     flex-direction: column;
     box-shadow: rgb(100 100 111 / 20%) 0px 7px 29px 0px;
     border-radius: 1rem;
-    padding: 1rem;
+    padding: 2rem;
+    gap: 4rem;
 `;
 
 const RightWrapper = styled.div``;
 
+const Header = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+`;
+
 const Title = styled.h1``;
 
-const Content = styled.div``;
+const Content = styled.div`
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+`;
 
 const Row = styled.div`
     display: flex;
@@ -108,6 +122,20 @@ const Row = styled.div`
     & > * {
         flex: 1;
     }
+`;
+
+const LocationImageContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+`;
+
+const LocationImage = styled.img`
+    width: 100%;
+    height: 16rem;
+    background: var(--black-color);
+    object-fit: cover;
 `;
 
 export {
@@ -121,7 +149,10 @@ export {
     Tool,
     RightContainer,
     RightWrapper,
+    Header,
     Title,
     Content,
     Row,
+    LocationImageContainer,
+    LocationImage,
 };
