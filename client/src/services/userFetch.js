@@ -64,3 +64,21 @@ export const fetchLogout = createAsyncThunk('user/logout', async () => {
         throw new Error(error.response.data.msg);
     }
 });
+
+export const fetchWishList = createAsyncThunk('user/logout', async (args) => {
+    try {
+        const { type, productId, token } = args;
+        await baseRequest.post(
+            '/api/user/wish_list',
+            {
+                type,
+                productId,
+            },
+            {
+                headers: { Authorization: token },
+            }
+        );
+    } catch (error) {
+        throw new Error(error.response.data.msg);
+    }
+});

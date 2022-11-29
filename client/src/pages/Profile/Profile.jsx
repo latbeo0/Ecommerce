@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import BreadCrumb from '../../components/Basic/BreadCrumb';
 import { selectUser } from '../../redux/userSlice';
@@ -26,6 +26,7 @@ import { BsFillHeartFill } from 'react-icons/bs';
 import { Button, InputGroup, SelectGroup } from '../../components/Basic';
 import imgNoLocation from '../../assets/img/noLocation.jpeg';
 import { Link } from 'react-router-dom';
+import Loading from '../../helpers/Loading';
 
 const inputs = [
     {
@@ -81,7 +82,29 @@ const inputs = [
 ];
 
 const Profile = () => {
-    const user = useSelector(selectUser);
+    const { currentUser } = useSelector(selectUser);
+
+    const [data, setData] = useState({
+        firstName: '',
+        lastName: '',
+        phone: '',
+    });
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setData({ ...data, [name]: value });
+    };
+
+    const getFullName = (firstName, lastName) => {
+        if (firstName && lastName) {
+            return `${firstName} ${lastName}`;
+        }
+
+        if (firstName) return firstName;
+        if (lastName) return lastName;
+
+        return 'New User';
+    };
 
     return (
         <Container>
@@ -89,9 +112,14 @@ const Profile = () => {
             <Wrapper>
                 <LeftContainer>
                     <AvatarContainer>
-                        <Avatar src={user.currentUser.avatar} alt='avatar' />
+                        <Avatar src={currentUser.avatar} alt='avatar' />
                     </AvatarContainer>
-                    <Name>{user.currentUser.fullName}</Name>
+                    <Name>
+                        {getFullName(
+                            currentUser.firstName,
+                            currentUser.lastName
+                        )}
+                    </Name>
                     <ToolContainer>
                         <Tool>
                             <RiUser3Fill />
@@ -120,9 +148,11 @@ const Profile = () => {
                                 {inputs.slice(0, 2).map((input) => (
                                     <InputGroup
                                         key={input.id}
-                                        // value={userInfo[input.name]}
-                                        // onChange={(e) => handleChange(e)}
-                                        // errorMessage={errorsForm[input.name][0]}
+                                        value={
+                                            currentUser?.[input.name] ||
+                                            data[input.name]
+                                        }
+                                        onChange={(e) => handleChange(e)}
                                         {...input}
                                     />
                                 ))}
@@ -131,8 +161,8 @@ const Profile = () => {
                                 {inputs.slice(2, 3).map((input) => (
                                     <InputGroup
                                         key={input.id}
-                                        // value={userInfo[input.name]}
-                                        // onChange={(e) => handleChange(e)}
+                                        value={currentUser?.[input.name]}
+                                        onChange={() => {}}
                                         // errorMessage={errorsForm[input.name][0]}
                                         {...input}
                                         disabled
@@ -143,9 +173,11 @@ const Profile = () => {
                                 {inputs.slice(3, 4).map((input) => (
                                     <InputGroup
                                         key={input.id}
-                                        // value={userInfo[input.name]}
-                                        // onChange={(e) => handleChange(e)}
-                                        // errorMessage={errorsForm[input.name][0]}
+                                        value={
+                                            currentUser?.[input.name] ||
+                                            data[input.name]
+                                        }
+                                        onChange={(e) => handleChange(e)}
                                         {...input}
                                     />
                                 ))}
