@@ -19,7 +19,9 @@ import {
 } from "./ProfileStyled";
 import { RiUser3Fill } from "react-icons/ri";
 import { MdLocationOn } from "react-icons/md";
+import { BsFillHeartFill } from "react-icons/bs";
 import { InputGroup, SelectGroup } from "../../components/Basic";
+import { Link } from "react-router-dom";
 
 const Profile = () => {
     const user = useSelector(selectUser);
@@ -42,6 +44,12 @@ const Profile = () => {
                             <MdLocationOn />
                             Address shipping
                         </Tool>
+                        <Link to="/wish_list">
+                            <Tool>
+                                <BsFillHeartFill />
+                                Wish list
+                            </Tool>
+                        </Link>
                     </ToolContainer>
                 </LeftContainer>
                 <RightContainer>

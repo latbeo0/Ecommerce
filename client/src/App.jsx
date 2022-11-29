@@ -1,31 +1,33 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 // import { useSelector, useDispatch } from 'react-redux';
-import { useEffect, useState } from 'react';
-import AdminRouter from './pages/cms/AdminRouter';
-import Home from './pages/Home';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import ForgotPassword from './pages/ForgotPassword';
-import ActiveEmail from './pages/ActiveEmail';
-import ResetPassword from './pages/ResetPassword';
-import Products from './pages/Products';
-import HeaderFooterPage from './layouts/HeaderFooterPage';
-import { ToastContainer } from 'react-toastify';
-import ScrollToTop from './helpers/ScrollToTop';
-import Product from './pages/Product';
-import { fetchGetAccessToken, fetchLogout } from './services/userFetch';
-import { selectAuth } from './redux/authSlice';
-import { selectUser } from './redux/userSlice';
-import { useDispatch, useSelector } from 'react-redux';
-import ButtonScrollToTop from './helpers/ButtonScrollToTop';
-import { fetchGetProducts } from './services/productFetch';
-import Cart from './pages/Cart';
+import { useEffect, useState } from "react";
+import AdminRouter from "./pages/cms/AdminRouter";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import ForgotPassword from "./pages/ForgotPassword";
+import ActiveEmail from "./pages/ActiveEmail";
+import ResetPassword from "./pages/ResetPassword";
+import Products from "./pages/Products";
+import HeaderFooterPage from "./layouts/HeaderFooterPage";
+import { ToastContainer } from "react-toastify";
+import ScrollToTop from "./helpers/ScrollToTop";
+import Product from "./pages/Product";
+import { fetchGetAccessToken, fetchLogout } from "./services/userFetch";
+import { selectAuth } from "./redux/authSlice";
+import { selectUser } from "./redux/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import ButtonScrollToTop from "./helpers/ButtonScrollToTop";
+import { fetchGetProducts } from "./services/productFetch";
+import Cart from "./pages/Cart";
 import {
     fetchDistrict,
     fetchProvince,
     fetchWard,
-} from './services/locationFetch';
-import Profile from './pages/Profile';
+} from "./services/locationFetch";
+import Profile from "./pages/Profile";
+import WishList from "./pages/WishList";
+import NotFound from "./pages/NotFound";
 
 const App = () => {
     const dispatch = useDispatch();
@@ -57,7 +59,7 @@ const App = () => {
     const [isScroll, setIsScroll] = useState(false);
 
     useEffect(() => {
-        window.addEventListener('scroll', () => {
+        window.addEventListener("scroll", () => {
             if (window.scrollY > 500) {
                 setIsScroll(true);
             } else {
@@ -66,13 +68,13 @@ const App = () => {
         });
 
         return () =>
-            window.removeEventListener('scroll', () => {
+            window.removeEventListener("scroll", () => {
                 return;
             });
     }, []);
 
     const handleScrollToTop = () => {
-        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     };
 
     // Fetch api
@@ -86,7 +88,7 @@ const App = () => {
                     fetchGetProducts({ pageSize, pageIndex })
                 ).unwrap();
             } catch (error) {
-                console.log('/App/fetchProducts');
+                console.log("/App/fetchProducts");
             }
         };
         fetchProducts();
@@ -97,7 +99,7 @@ const App = () => {
                 await dispatch(fetchDistrict()).unwrap();
                 await dispatch(fetchWard()).unwrap();
             } catch (error) {
-                console.log('/App/fetchLocation');
+                console.log("/App/fetchLocation");
             }
         };
         fetchLocation();
@@ -111,36 +113,48 @@ const App = () => {
                 <ScrollToTop />
                 <Routes>
                     {isAdmin ? (
-                        <Route path='/*' index element={<AdminRouter />} />
+                        <Route path="/*" index element={<AdminRouter />} />
                     ) : (
                         <>
-                            <Route path='/register' element={<Register />} />
+                            <Route path="/register" element={<Register />} />
                             <Route
-                                path='/activate_email/:activationToken'
+                                path="/activate_email/:activationToken"
                                 element={<ActiveEmail />}
                             />
-                            <Route path='/login' element={<Login />} />
+                            <Route path="/login" element={<Login />} />
                             <Route
-                                path='/forgot_password'
+                                path="/forgot_password"
                                 element={<ForgotPassword />}
                             />
                             <Route
-                                path='/reset_password/:token'
+                                path="/reset_password/:token"
                                 element={<ResetPassword />}
                             />
-                            <Route path='/' element={<HeaderFooterPage />}>
+                            <Route path="/" element={<HeaderFooterPage />}>
                                 <Route index element={<Home />} />
                                 <Route
-                                    path='/products/:codeProduct'
+                                    path="/products/:codeProduct"
                                     element={<Product />}
                                 />
                                 <Route
-                                    path='/products'
+                                    path="/products"
                                     element={<Products />}
                                 />
-                                <Route path='/profile' element={<Profile />} />
-                                <Route path='/cart' element={<Cart />} />
+                                <Route path="/cart" element={<Cart />} />
+                                {user.currentUser ? (
+                                    <>
+                                        <Route
+                                            path="/profile"
+                                            element={<Profile />}
+                                        />
+                                        <Route
+                                            path="/wish_list"
+                                            element={<WishList />}
+                                        />
+                                    </>
+                                ) : null}
                             </Route>
+                            <Route path="/*" element={<NotFound />} />
                         </>
                     )}
                 </Routes>
