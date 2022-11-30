@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const Container = styled.div`
     display: flex;
@@ -136,6 +136,8 @@ const LocationImage = styled.img`
     height: 16rem;
     background: var(--black-color);
     object-fit: cover;
+    border-radius: 1rem;
+    overflow: hidden;
 `;
 
 export {

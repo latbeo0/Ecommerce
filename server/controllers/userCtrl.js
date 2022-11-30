@@ -1,8 +1,8 @@
-const Users = require('../models/userModel');
-const Product = require('../models/productModel');
-const sendMail = require('./sendMail');
-const { createAccessToken } = require('./createToken');
-const CryptoJS = require('crypto-js');
+const Users = require("../models/userModel");
+const Product = require("../models/productModel");
+const sendMail = require("./sendMail");
+const { createAccessToken } = require("./createToken");
+const CryptoJS = require("crypto-js");
 
 const { CLIENT_URL } = process.env;
 
@@ -19,27 +19,8 @@ const userCtrl = {
                 id: user.id,
             });
 
-            // res.status(200).json({
-            //     id: _id,
-            //     access_token,
-            // });
-
-            const getFullName = (firstName, lastName) => {
-                if (firstName && lastName) {
-                    return `${firstName} ${lastName}`;
-                }
-
-                if (firstName) return firstName;
-                if (lastName) return lastName;
-
-                return 'New User';
-            };
-
-            const fullName = getFullName(docs.firstName, docs.lastName);
-
             res.status(200).json({
                 ...docs,
-                fullName,
                 access_token,
             });
         } catch (err) {
@@ -53,13 +34,13 @@ const userCtrl = {
             if (!user)
                 return res
                     .status(400)
-                    .json({ msg: 'This email does not exist.' });
+                    .json({ msg: "This email does not exist." });
 
             const access_token = createAccessToken({ id: user._id });
             const url = `${CLIENT_URL}/reset_password/${access_token}`;
 
-            sendMail(email, url, 'Reset your password');
-            res.json({ msg: 'Re-send the password, please check your email.' });
+            sendMail(email, url, "Reset your password");
+            res.json({ msg: "Re-send the password, please check your email." });
         } catch (err) {
             return res.status(500).json({ msg: err.message });
         }
@@ -92,20 +73,20 @@ const userCtrl = {
             if (!user)
                 return res
                     .status(400)
-                    .json({ msg: 'This email does not exist.' });
+                    .json({ msg: "This email does not exist." });
 
-            res.json({ msg: 'Password successfully changed!' });
+            res.json({ msg: "Password successfully changed!" });
         } catch (err) {
             return res.status(500).json({ msg: err.message });
         }
     },
     logout: async (req, res) => {
         try {
-            res.clearCookie('refresh_token', {
-                path: '/api/user/refresh_token',
+            res.clearCookie("refresh_token", {
+                path: "/api/user/refresh_token",
             });
 
-            return res.status(200).json({ msg: 'Logout Successful!' });
+            return res.status(200).json({ msg: "Logout Successful!" });
         } catch (err) {
             return res.status(500).json({ msg: err.message });
         }
@@ -118,12 +99,26 @@ const userCtrl = {
             return res.status(500).json({ msg: err.message });
         }
     },
+    updateUserInfoById: async (req, res) => {
+        try {
+            await Users.findOneAndUpdate(
+                { _id: req.user.id },
+                {
+                    $set: req.body,
+                }
+            );
+
+            res.status(200).json({ msg: "Update Successful!" });
+        } catch (err) {
+            return res.status(500).json({ msg: err.message });
+        }
+    },
     getAllWishList: async (req, res) => {
         try {
             const user = await Users.findOne({ _id: req.user.id });
             const listProducts = [];
             for (const productId of user.favoriteProductID) {
-                const product = await Product.find({ _id: productId });
+                const product = await Product.findOne({ _id: productId });
                 if (product) {
                     listProducts.push(product);
                 }
@@ -145,7 +140,7 @@ const userCtrl = {
                 );
                 return res
                     .status(200)
-                    .json({ msg: 'Add To Wishlist Successful!' });
+                    .json({ msg: "Add To Wishlist Successful!" });
             } else {
                 await Users.findOneAndUpdate(
                     { _id: req.user.id },
@@ -153,7 +148,7 @@ const userCtrl = {
                 );
                 return res
                     .status(200)
-                    .json({ msg: 'Remove To Wishlist Successful!' });
+                    .json({ msg: "Remove To Wishlist Successful!" });
             }
         } catch (err) {
             return res.status(500).json({ msg: err.message });
@@ -165,7 +160,7 @@ const userCtrl = {
                 { _id: req.user.id },
                 { $set: { favoriteProductID: [] } }
             );
-            return res.status(200).json({ msg: 'Clear Wishlist Successful!' });
+            return res.status(200).json({ msg: "Clear Wishlist Successful!" });
         } catch (err) {
             return res.status(500).json({ msg: err.message });
         }
@@ -175,8 +170,8 @@ const userCtrl = {
         try {
             let user;
             user = await Users.find().populate({
-                path: 'vRole',
-                select: 'roleName -roleCode',
+                path: "vRole",
+                select: "roleName -roleCode",
             });
             res.status(200).json({ user });
         } catch (err) {
@@ -198,7 +193,7 @@ const userCtrl = {
 
         try {
             await newUser.save();
-            res.status(200).json({ msg: 'User has been created' });
+            res.status(200).json({ msg: "User has been created" });
         } catch (err) {
             return res.status(500).json({ msg: err.message });
         }

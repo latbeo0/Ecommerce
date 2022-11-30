@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
     Container,
     Wrapper,
@@ -19,17 +19,17 @@ import {
     PriceOld,
     Modal,
     ButtonsContainer,
-} from './ProductCardStyled';
-import heartIcon1 from '../../../assets/img/heart (1).png';
-import heartIcon2 from '../../../assets/img/heart (2).png';
-import { BsStarFill, BsCart } from 'react-icons/bs';
-import { BiSearch } from 'react-icons/bi';
-import { Link } from 'react-router-dom';
-import { formatCurrencyVND } from '../../../utils/format';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectUser } from '../../../redux/userSlice';
-import { toast } from 'react-toastify';
-import { fetchWishList } from '../../../services/userFetch';
+} from "./ProductCardStyled";
+import heartIcon1 from "../../../assets/img/heart (1).png";
+import heartIcon2 from "../../../assets/img/heart (2).png";
+import { BsStarFill, BsCart } from "react-icons/bs";
+import { BiSearch } from "react-icons/bi";
+import { Link } from "react-router-dom";
+import { formatCurrencyVND } from "../../../utils/format";
+import { useDispatch, useSelector } from "react-redux";
+import { selectUser } from "../../../redux/userSlice";
+import { toast } from "react-toastify";
+import { fetchWishList } from "../../../services/userFetch";
 
 const ProductCard = (props) => {
     const dispatch = useDispatch();
@@ -37,13 +37,15 @@ const ProductCard = (props) => {
     const { _id, primaryImages, price, newPrice, isStock, productName } =
         props?.product;
 
-    console.log(props?.product);
-
     const { currentUser } = useSelector(selectUser);
 
     const [isHeart, setIsHeart] = useState(
         currentUser?.favoriteProductID?.includes(_id)
     );
+
+    useEffect(() => {
+        currentUser?.favoriteProductID?.includes(_id) && setIsHeart(true);
+    }, [currentUser]);
 
     const handleWishList = () => {
         if (currentUser) {
@@ -51,26 +53,40 @@ const ProductCard = (props) => {
             const type = isHeart ? 1 : 0;
             const access_token = currentUser.access_token;
             try {
-                const res = dispatch(
+                dispatch(
                     fetchWishList({
                         type,
                         productId: _id,
                         token: access_token,
                     })
                 ).unwrap();
-                // toast.error(error, {
-                //     position: 'top-right',
-                //     autoClose: 1000,
-                //     hideProgressBar: false,
-                //     closeOnClick: true,
-                //     pauseOnHover: true,
-                //     draggable: true,
-                //     progress: undefined,
-                // });
-                console.log(res);
+                if (type) {
+                    return toast.error("You just remove product to wishlist", {
+                        position: "top-right",
+                        autoClose: 1000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
+                } else {
+                    return toast.success(
+                        "You just add new product to wishlist",
+                        {
+                            position: "top-right",
+                            autoClose: 1000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                        }
+                    );
+                }
             } catch (error) {
                 toast.error(error, {
-                    position: 'top-right',
+                    position: "top-right",
                     autoClose: 1000,
                     hideProgressBar: false,
                     closeOnClick: true,
@@ -80,8 +96,8 @@ const ProductCard = (props) => {
                 });
             }
         } else {
-            toast.error('You need to login to use this feature.', {
-                position: 'top-right',
+            toast.error("You need to login to use this feature.", {
+                position: "top-right",
                 autoClose: 1000,
                 hideProgressBar: false,
                 closeOnClick: true,
@@ -97,7 +113,7 @@ const ProductCard = (props) => {
             <Link to={`/products/${_id}`}>
                 <Wrapper>
                     <ImageContainer>
-                        <Image alt='img' src={primaryImages[0].img} />
+                        <Image alt="img" src={primaryImages[0].img} />
                         <Modal>
                             <ButtonsContainer>
                                 <BiSearch />
@@ -110,11 +126,11 @@ const ProductCard = (props) => {
                             <Title>{productName}</Title>
                             <StarsContainer>
                                 <StarsWrapper>
-                                    <BsStarFill color='#ffc554' />
-                                    <BsStarFill color='#ffc554' />
-                                    <BsStarFill color='#ffc554' />
-                                    <BsStarFill color='#ffc554' />
-                                    <BsStarFill color='#ffc554' />
+                                    <BsStarFill color="#ffc554" />
+                                    <BsStarFill color="#ffc554" />
+                                    <BsStarFill color="#ffc554" />
+                                    <BsStarFill color="#ffc554" />
+                                    <BsStarFill color="#ffc554" />
                                 </StarsWrapper>
                                 (74)
                             </StarsContainer>
@@ -135,7 +151,7 @@ const ProductCard = (props) => {
                                         </PriceOld>
                                     </>
                                 ) : (
-                                    <PriceNew color='gray'>
+                                    <PriceNew color="gray">
                                         {formatCurrencyVND(price)}
                                     </PriceNew>
                                 )}
@@ -145,7 +161,7 @@ const ProductCard = (props) => {
                 </Wrapper>
             </Link>
             <HeartContainer isHeart={isHeart} onClick={handleWishList}>
-                <Heart src={isHeart ? heartIcon1 : heartIcon2} alt='img' />
+                <Heart src={isHeart ? heartIcon1 : heartIcon2} alt="img" />
             </HeartContainer>
         </Container>
     );

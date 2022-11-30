@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-import BreadCrumb from '../../components/Basic/BreadCrumb';
-import { selectUser } from '../../redux/userSlice';
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import BreadCrumb from "../../components/Basic/BreadCrumb";
+import { selectUser } from "../../redux/userSlice";
 import {
     Container,
     Wrapper,
@@ -19,80 +19,121 @@ import {
     Row,
     LocationImageContainer,
     LocationImage,
-} from './ProfileStyled';
-import { RiUser3Fill } from 'react-icons/ri';
-import { MdLocationOn } from 'react-icons/md';
-import { BsFillHeartFill } from 'react-icons/bs';
-import { Button, InputGroup, SelectGroup } from '../../components/Basic';
-import imgNoLocation from '../../assets/img/noLocation.jpeg';
-import { Link } from 'react-router-dom';
-import Loading from '../../helpers/Loading';
+} from "./ProfileStyled";
+import { RiUser3Fill } from "react-icons/ri";
+import { MdLocationOn } from "react-icons/md";
+import { BsFillHeartFill } from "react-icons/bs";
+import { Button, InputGroup, SelectGroup } from "../../components/Basic";
+import imgNoLocation from "../../assets/img/noLocation.jpeg";
+import { Link } from "react-router-dom";
+import Loading from "../../helpers/Loading";
+import { fetchChangeUserInfo } from "../../services/userFetch";
+import { toast } from "react-toastify";
+import { useEffect } from "react";
 
 const inputs = [
     {
         id: 1,
-        type: 'text',
-        name: 'firstName',
-        patterns: ['required'],
-        label: 'First name',
+        type: "text",
+        name: "firstName",
+        patterns: ["required"],
+        label: "First name",
     },
     {
         id: 2,
-        type: 'text',
-        name: 'lastName',
-        patterns: ['required'],
-        label: 'Last name',
+        type: "text",
+        name: "lastName",
+        patterns: ["required"],
+        label: "Last name",
     },
     {
         id: 3,
-        type: 'email',
-        name: 'email',
-        patterns: ['required', 'email'],
-        label: 'Email',
+        type: "email",
+        name: "email",
+        patterns: ["required", "email"],
+        label: "Email",
     },
     {
         id: 4,
-        type: 'phone',
-        name: 'phone',
-        patterns: ['required'],
-        label: 'Phone',
+        type: "phone",
+        name: "phone",
+        patterns: ["required"],
+        label: "Phone",
     },
     {
         id: 5,
-        name: 'province',
-        patterns: ['required'],
+        name: "province",
+        patterns: ["required"],
     },
     {
         id: 6,
-        name: 'district',
-        patterns: ['required'],
+        name: "district",
+        patterns: ["required"],
     },
     {
         id: 7,
-        name: 'ward',
-        patterns: ['required'],
+        name: "ward",
+        patterns: ["required"],
     },
     {
         id: 8,
-        type: 'text',
-        name: 'address',
-        patterns: ['required'],
-        label: 'Address',
+        type: "text",
+        name: "address",
+        patterns: ["required"],
+        label: "Address",
+    },
+];
+
+const inputsUserInfo = [
+    {
+        id: 1,
+        type: "text",
+        name: "firstName",
+        patterns: ["required"],
+        label: "First name",
+    },
+    {
+        id: 2,
+        type: "text",
+        name: "lastName",
+        patterns: ["required"],
+        label: "Last name",
+    },
+    {
+        id: 3,
+        type: "email",
+        name: "email",
+        patterns: ["required", "email"],
+        label: "Email",
+    },
+    {
+        id: 4,
+        type: "phone",
+        name: "phone",
+        patterns: ["required"],
+        label: "Phone",
     },
 ];
 
 const Profile = () => {
+    const dispatch = useDispatch();
+
     const { currentUser } = useSelector(selectUser);
 
-    const [data, setData] = useState({
-        firstName: '',
-        lastName: '',
-        phone: '',
+    const [dataTemp, setDataTemp] = useState({
+        firstName: "",
+        lastName: "",
+        phone: "",
     });
+
+    useEffect(() => {
+        const { firstName, lastName, phone } = currentUser;
+        setDataTemp({ firstName, lastName, phone });
+    }, [currentUser]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setData({ ...data, [name]: value });
+        setDataTemp({ ...dataTemp, [name]: value });
     };
 
     const getFullName = (firstName, lastName) => {
@@ -103,7 +144,32 @@ const Profile = () => {
         if (firstName) return firstName;
         if (lastName) return lastName;
 
-        return 'New User';
+        return "New User";
+    };
+
+    const handleChangeUserInfo = async () => {
+        try {
+            const id = currentUser._id;
+            const token = currentUser.access_token;
+            const data = {};
+            inputsUserInfo
+                .filter(
+                    (input) => input.id !== 3 && dataTemp[input.name] !== ""
+                )
+                .map((item) => (data[item.name] = dataTemp[item.name]));
+            await dispatch(fetchChangeUserInfo({ id, token, data })).unwrap();
+            return toast.success("Update user info successful", {
+                position: "top-right",
+                autoClose: 1000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        } catch (error) {
+            console.log("error", error);
+        }
     };
 
     return (
@@ -112,7 +178,7 @@ const Profile = () => {
             <Wrapper>
                 <LeftContainer>
                     <AvatarContainer>
-                        <Avatar src={currentUser.avatar} alt='avatar' />
+                        <Avatar src={currentUser.avatar} alt="avatar" />
                     </AvatarContainer>
                     <Name>
                         {getFullName(
@@ -129,7 +195,7 @@ const Profile = () => {
                             <MdLocationOn />
                             Address shipping
                         </Tool>
-                        <Link to='/wish_list'>
+                        <Link to="/wish_list">
                             <Tool>
                                 <BsFillHeartFill />
                                 Wish list
@@ -141,17 +207,19 @@ const Profile = () => {
                     <RightWrapper>
                         <Header>
                             <Title>User Information</Title>
-                            <Button variant='contained'>Update</Button>
+                            <Button
+                                variant="contained"
+                                onClick={handleChangeUserInfo}
+                            >
+                                Update
+                            </Button>
                         </Header>
                         <Content>
                             <Row>
                                 {inputs.slice(0, 2).map((input) => (
                                     <InputGroup
                                         key={input.id}
-                                        value={
-                                            currentUser?.[input.name] ||
-                                            data[input.name]
-                                        }
+                                        value={dataTemp[input.name]}
                                         onChange={(e) => handleChange(e)}
                                         {...input}
                                     />
@@ -169,14 +237,11 @@ const Profile = () => {
                                     />
                                 ))}
                             </Row>
-                            <Row style={{ width: 'calc(50% - 0.5rem)' }}>
+                            <Row style={{ width: "calc(50% - 0.5rem)" }}>
                                 {inputs.slice(3, 4).map((input) => (
                                     <InputGroup
                                         key={input.id}
-                                        value={
-                                            currentUser?.[input.name] ||
-                                            data[input.name]
-                                        }
+                                        value={dataTemp[input.name]}
                                         onChange={(e) => handleChange(e)}
                                         {...input}
                                     />
@@ -187,29 +252,29 @@ const Profile = () => {
                     <RightWrapper>
                         <Header>
                             <Title>Address Shipping</Title>
-                            <Button variant='contained'>Add</Button>
+                            <Button variant="contained">Add</Button>
                         </Header>
                         <Content>
                             <Row>
                                 <SelectGroup
-                                    label='Province'
-                                    placeholder='Select province ...'
+                                    label="Province"
+                                    placeholder="Select province ..."
                                     // options={provinces}
                                     // value={province}
                                     // onChange={handleChangeProvince}
                                     // errorMessage={errorsForm['province'][0]}
                                 />
                                 <SelectGroup
-                                    label='District'
-                                    placeholder='Select district ...'
+                                    label="District"
+                                    placeholder="Select district ..."
                                     // options={districts}
                                     // value={district}
                                     // onChange={handleChangeDistrict}
                                     // errorMessage={errorsForm['district'][0]}
                                 />
                                 <SelectGroup
-                                    label='Ward'
-                                    placeholder='Select ward ...'
+                                    label="Ward"
+                                    placeholder="Select ward ..."
                                     // options={wards}
                                     // defaultValue={ward}
                                     // value={ward}
@@ -232,7 +297,7 @@ const Profile = () => {
                                 You don't have any address shipping
                                 <LocationImage
                                     src={imgNoLocation}
-                                    alt='no-location'
+                                    alt="no-location"
                                 />
                             </LocationImageContainer>
                         </Content>

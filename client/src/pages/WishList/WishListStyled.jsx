@@ -58,7 +58,8 @@ const ButtonClearAll = styled.div`
 
 const Content = styled.div`
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: ${(props) =>
+        props.empty ? "1fr" : "1fr 1fr 1fr 1fr"};
     gap: 1rem;
 `;
 

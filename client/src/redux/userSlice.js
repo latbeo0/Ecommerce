@@ -1,5 +1,11 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { fetchGetAccessToken, fetchLogout } from '../services/userFetch';
+import { createSlice, current } from "@reduxjs/toolkit";
+import {
+    fetchChangeUserInfo,
+    fetchClearWishList,
+    fetchGetAccessToken,
+    fetchLogout,
+    fetchWishList,
+} from "../services/userFetch";
 
 const initialState = {
     currentUser: null,
@@ -8,7 +14,7 @@ const initialState = {
 };
 
 export const userSlice = createSlice({
-    name: 'user',
+    name: "user",
     initialState,
     reducers: {},
     extraReducers: (builder) => {
@@ -36,6 +42,55 @@ export const userSlice = createSlice({
                 state.currentUser = null;
             })
             .addCase(fetchLogout.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+            });
+
+        // Change wish list
+        builder
+            .addCase(fetchWishList.pending, (state, action) => {
+                state.isLoading = true;
+            })
+            .addCase(fetchWishList.fulfilled, (state, action) => {
+                const { type, productId } = action.payload;
+                state.isLoading = false;
+                if (type === 0) {
+                    state.currentUser.favoriteProductID.push(productId);
+                } else {
+                    const index =
+                        state.currentUser.favoriteProductID.indexOf(productId);
+                    state.currentUser.favoriteProductID.splice(index, 1);
+                }
+            })
+            .addCase(fetchWishList.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+            });
+
+        // Clear wish list
+        builder
+            .addCase(fetchClearWishList.pending, (state, action) => {
+                state.isLoading = true;
+            })
+            .addCase(fetchClearWishList.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.currentUser.favoriteProductID = [];
+            })
+            .addCase(fetchClearWishList.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+            });
+
+        // Edit user info
+        builder
+            .addCase(fetchChangeUserInfo.pending, (state, action) => {
+                state.isLoading = true;
+            })
+            .addCase(fetchChangeUserInfo.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.currentUser = { ...state.currentUser, ...action.payload };
+            })
+            .addCase(fetchChangeUserInfo.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
             });

@@ -18,6 +18,12 @@ router.get("/logout", userCtrl.logout);
 
 router.get("/find/:id", verifyTokenAndAuthorization, userCtrl.getUserById);
 
+router.put(
+    "/find/:id/userInfo",
+    verifyTokenAndAuthorization,
+    userCtrl.updateUserInfoById
+);
+
 router.get(
     "/wish_list/:id",
     verifyTokenAndAuthorization,

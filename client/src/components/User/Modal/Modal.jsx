@@ -14,9 +14,10 @@ import {
     ButtonConfirm,
 } from "./ModalStyled";
 import deleteImage from "../../../assets/img/recycling-bin.png";
+import clearImage from "../../../assets/img/broken-heart-png-clipart-2.png";
 
 const Modal = (props) => {
-    const { product, allProduct, onCancel, onConfirm } = props;
+    const { product, allProduct, wishList, onCancel, onConfirm } = props;
     const ref = useRef(null);
 
     useEffect(() => {
@@ -32,6 +33,32 @@ const Modal = (props) => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, [ref, onCancel]);
+
+    if (wishList)
+        return (
+            <Background>
+                <Container ref={ref}>
+                    <Header>Clear all item</Header>
+                    <Content>
+                        <ProductImageContainer style={{ marginTop: "2rem" }}>
+                            <ProductImage src={clearImage} alt="#" />
+                        </ProductImageContainer>
+                        <Ask>
+                            Are you sure to clear all products in your wishlist
+                            ?
+                        </Ask>
+                    </Content>
+                    <Footer>
+                        <ButtonCancel type="button" onClick={onCancel}>
+                            Cancel
+                        </ButtonCancel>
+                        <ButtonConfirm type="button" onClick={onConfirm}>
+                            Clear
+                        </ButtonConfirm>
+                    </Footer>
+                </Container>
+            </Background>
+        );
 
     if (allProduct)
         return (
