@@ -29,12 +29,37 @@ const AvatarContainer = styled.div`
     margin: 2rem auto 1rem;
     width: 10rem;
     height: 10rem;
-    border-radius: 50%;
     background: red;
     border: 1px solid var(--primary-color);
     background: linear-gradient(var(--primary-color), var(--secondary-color));
     position: relative;
-    overflow: hidden;
+    border-radius: 50%;
+    /* overflow: hidden; */
+`;
+
+const ButtonEditAvatar = styled.div`
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    z-index: 1;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--white-color);
+    cursor: pointer;
+
+    & > svg {
+        color: var(--primary-color);
+    }
+
+    &:hover {
+        background-color: #e6f1ff;
+    }
 `;
 
 const Avatar = styled.img`
@@ -44,6 +69,8 @@ const Avatar = styled.img`
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 50%;
+    padding: 0.5rem;
 `;
 
 const Name = styled.p`
@@ -145,6 +172,7 @@ export {
     Wrapper,
     LeftContainer,
     AvatarContainer,
+    ButtonEditAvatar,
     Avatar,
     Name,
     ToolContainer,

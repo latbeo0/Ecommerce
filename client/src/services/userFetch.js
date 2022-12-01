@@ -122,6 +122,7 @@ export const fetchChangeUserInfo = createAsyncThunk(
     async (args) => {
         try {
             const { id, token, data } = args;
+            // console.log(data);
             await baseRequest.put(
                 `/api/user/find/${id}/userInfo`,
                 {
@@ -132,6 +133,32 @@ export const fetchChangeUserInfo = createAsyncThunk(
                 }
             );
             return { ...data };
+        } catch (error) {
+            throw new Error(error.response.data.msg);
+        }
+    }
+);
+
+export const fetchChangeAvatar = createAsyncThunk(
+    "user/change_avatar",
+    async (args) => {
+        try {
+            const { formData, token, id, dispatch } = args;
+
+            const res = await baseRequest.post(
+                `/api/upload/upload_avatar`,
+                formData,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                        Authorization: token,
+                    },
+                }
+            );
+
+            const data = { avatar: res.data.url };
+
+            await dispatch(fetchChangeUserInfo({ id, token, data })).unwrap();
         } catch (error) {
             throw new Error(error.response.data.msg);
         }

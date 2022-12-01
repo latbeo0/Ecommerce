@@ -7,6 +7,7 @@ import {
     Wrapper,
     LeftContainer,
     AvatarContainer,
+    ButtonEditAvatar,
     Avatar,
     Name,
     ToolContainer,
@@ -21,15 +22,19 @@ import {
     LocationImage,
 } from "./ProfileStyled";
 import { RiUser3Fill } from "react-icons/ri";
-import { MdLocationOn } from "react-icons/md";
+import { MdLocationOn, MdEdit } from "react-icons/md";
 import { BsFillHeartFill } from "react-icons/bs";
 import { Button, InputGroup, SelectGroup } from "../../components/Basic";
 import imgNoLocation from "../../assets/img/noLocation.jpeg";
 import { Link } from "react-router-dom";
 import Loading from "../../helpers/Loading";
-import { fetchChangeUserInfo } from "../../services/userFetch";
+import {
+    fetchChangeAvatar,
+    fetchChangeUserInfo,
+} from "../../services/userFetch";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
+import Modal from "../../components/User/Modal";
 
 const inputs = [
     {
@@ -60,6 +65,31 @@ const inputs = [
         patterns: ["required"],
         label: "Phone",
     },
+    {
+        id: 5,
+        name: "province",
+        patterns: ["required"],
+    },
+    {
+        id: 6,
+        name: "district",
+        patterns: ["required"],
+    },
+    {
+        id: 7,
+        name: "ward",
+        patterns: ["required"],
+    },
+    {
+        id: 8,
+        type: "text",
+        name: "address",
+        patterns: ["required"],
+        label: "Address",
+    },
+];
+
+const inputsNewLocation = [
     {
         id: 5,
         name: "province",
@@ -126,6 +156,12 @@ const Profile = () => {
         phone: "",
     });
 
+    const [isOpened, setIsOpened] = useState(false);
+
+    const handleOpenModal = () => {
+        setIsOpened((prev) => !prev);
+    };
+
     useEffect(() => {
         const { firstName, lastName, phone } = currentUser;
         setDataTemp({ firstName, lastName, phone });
@@ -172,13 +208,217 @@ const Profile = () => {
         }
     };
 
+    // Change avatar
+    const [images, setImages] = React.useState([]);
+
+    const maxNumber = 69;
+
+    const checkFile = (file) => {
+        if (!file) return { msg: "No files were uploaded." };
+
+        if (file.size > 1024 * 1024) return { msg: "Size too large." };
+
+        if (file.type !== "image/jpeg" && file.type !== "image/png")
+            return { msg: "File format is incorrect." };
+    };
+
+    const onChange = (imageList, addUpdateIndex) => {
+        // data for submit
+
+        console.log(imageList, addUpdateIndex);
+        setImages(imageList);
+    };
+
+    const handleChangeAvatar = async () => {
+        const file = images[0]?.file;
+
+        const check = checkFile(file);
+
+        if (!check) {
+            const formData = new FormData();
+            formData.append("file", file);
+
+            const token = currentUser.access_token;
+            const id = currentUser._id;
+
+            try {
+                await dispatch(
+                    fetchChangeAvatar({ formData, token, id, dispatch })
+                ).unwrap();
+                setIsOpened(false);
+                setImages([]);
+                toast.success(`Update avatar successful`, {
+                    position: "top-right",
+                    autoClose: 1000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+            } catch (error) {}
+        } else {
+            toast.error(`${check.msg}`, {
+                position: "top-right",
+                autoClose: 1000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        }
+    };
+
+    //Location
+    const location = useSelector((state) => state.location);
+
+    const [newLocation, setNewLocation] = useState({
+        province: "",
+        district: "",
+        ward: "",
+        address: "",
+    });
+
+    const handleChangeLocation = (e) => {
+        const { name, value } = e.target;
+        if (name === "province") {
+            setNewLocation({
+                ...newLocation,
+                [name]: value,
+                district: "",
+                ward: "",
+            });
+        } else if (name === "district") {
+            setNewLocation({
+                ...newLocation,
+                [name]: value,
+                ward: "",
+            });
+        } else {
+            setNewLocation({
+                ...newLocation,
+                [name]: value,
+            });
+        }
+    };
+
+    const provinces = location?.province?.map((item) => ({
+        value: item.code,
+        label: item.name,
+        name: "province",
+    }));
+
+    const [province, setProvince] = useState(null);
+
+    const handleChangeProvince = (selectOption) => {
+        if (handleChangeLocation) {
+            setProvince(selectOption);
+            setDistrict("");
+            setWard("");
+            handleChangeLocation({
+                target: {
+                    name: selectOption.name,
+                    value: selectOption.label,
+                },
+            });
+        }
+    };
+
+    const districts = province
+        ? location?.district
+              ?.filter(
+                  (item) =>
+                      Number(item?.province_code) === Number(province.value)
+              )
+              ?.map((item) => ({
+                  value: item.code,
+                  label: item.name,
+                  name: "district",
+              }))
+        : [];
+
+    const [district, setDistrict] = useState(null);
+
+    const handleChangeDistrict = (selectOption) => {
+        if (handleChangeLocation) {
+            setDistrict(selectOption);
+            setWard("");
+            handleChangeLocation({
+                target: {
+                    name: selectOption.name,
+                    value: selectOption.label,
+                },
+            });
+        }
+    };
+
+    const wards = district
+        ? location?.ward
+              ?.filter(
+                  (item) =>
+                      Number(item?.district_code) === Number(district.value)
+              )
+              ?.map((item) => ({
+                  value: item.code,
+                  label: item.name,
+                  name: "ward",
+              }))
+        : [];
+
+    const [ward, setWard] = useState(null);
+
+    const handleChangeWard = (selectOption) => {
+        if (handleChangeLocation) {
+            setWard(selectOption);
+            handleChangeLocation({
+                target: {
+                    name: selectOption.name,
+                    value: selectOption.label,
+                },
+            });
+        }
+    };
+
+    const handleAddNewLocation = () => {
+        const check = inputsNewLocation.find(
+            (item) => newLocation[item.name] === ""
+        );
+
+        if (!check) {
+            console.log("request");
+        } else {
+            toast.error(`Please fill all required field`, {
+                position: "top-right",
+                autoClose: 1000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        }
+    };
+
     return (
         <Container>
             <BreadCrumb />
             <Wrapper>
                 <LeftContainer>
                     <AvatarContainer>
+                        <ButtonEditAvatar onClick={handleOpenModal}>
+                            <MdEdit />
+                        </ButtonEditAvatar>
                         <Avatar src={currentUser.avatar} alt="avatar" />
+                        {isOpened ? (
+                            <Modal
+                                avatar={images}
+                                maxNumber={maxNumber}
+                                onChange={onChange}
+                                onCancel={handleOpenModal}
+                                onConfirm={handleChangeAvatar}
+                            />
+                        ) : null}
                     </AvatarContainer>
                     <Name>
                         {getFullName(
@@ -252,33 +492,37 @@ const Profile = () => {
                     <RightWrapper>
                         <Header>
                             <Title>Address Shipping</Title>
-                            <Button variant="contained">Add</Button>
+                            <Button
+                                variant="contained"
+                                onClick={handleAddNewLocation}
+                            >
+                                Add
+                            </Button>
                         </Header>
                         <Content>
                             <Row>
                                 <SelectGroup
                                     label="Province"
                                     placeholder="Select province ..."
-                                    // options={provinces}
-                                    // value={province}
-                                    // onChange={handleChangeProvince}
+                                    options={provinces}
+                                    value={province}
+                                    onChange={handleChangeProvince}
                                     // errorMessage={errorsForm['province'][0]}
                                 />
                                 <SelectGroup
                                     label="District"
                                     placeholder="Select district ..."
-                                    // options={districts}
-                                    // value={district}
-                                    // onChange={handleChangeDistrict}
+                                    options={districts}
+                                    value={district}
+                                    onChange={handleChangeDistrict}
                                     // errorMessage={errorsForm['district'][0]}
                                 />
                                 <SelectGroup
                                     label="Ward"
                                     placeholder="Select ward ..."
-                                    // options={wards}
-                                    // defaultValue={ward}
-                                    // value={ward}
-                                    // onChange={handleChangeWard}
+                                    options={wards}
+                                    value={ward}
+                                    onChange={handleChangeWard}
                                     // errorMessage={errorsForm['ward'][0]}
                                 />
                             </Row>
@@ -286,8 +530,10 @@ const Profile = () => {
                                 {inputs.slice(7, 8).map((input) => (
                                     <InputGroup
                                         key={input.id}
-                                        // value={userInfo[input.name]}
-                                        // onChange={(e) => handleChange(e)}
+                                        value={newLocation[input.name]}
+                                        onChange={(e) =>
+                                            handleChangeLocation(e)
+                                        }
                                         // errorMessage={errorsForm[input.name][0]}
                                         {...input}
                                     />

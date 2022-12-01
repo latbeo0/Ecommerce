@@ -26,6 +26,8 @@ const AvatarImage = styled.img`
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 50%;
+    padding: 0.15rem;
 `;
 
 const Text = styled.p`

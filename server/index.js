@@ -1,19 +1,19 @@
-require('dotenv').config({ path: __dirname + '/configs/config.env' });
+require("dotenv").config({ path: __dirname + "/configs/config.env" });
 
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const cookieParser = require('cookie-parser');
-const fileUpload = require('express-fileupload');
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
+const cookieParser = require("cookie-parser");
+const fileUpload = require("express-fileupload");
 
-const authRoute = require('./routes/authRoute');
-const userRoute = require('./routes/userRoute');
-const productRoute = require('./routes/productRoute');
-const orderRoute = require('./routes/orderRoute');
-const uploadRoute = require('./routes/uploadRoute');
-const saleRoute = require('./routes/saleRoute');
-const categoryRoute = require('./routes/categoryRoute');
-const collectionRoute = require('./routes/collectionRoute');
+const authRoute = require("./routes/authRoute");
+const userRoute = require("./routes/userRoute");
+const productRoute = require("./routes/productRoute");
+const orderRoute = require("./routes/orderRoute");
+const uploadRoute = require("./routes/uploadRoute");
+const saleRoute = require("./routes/saleRoute");
+const categoryRoute = require("./routes/categoryRoute");
+const collectionRoute = require("./routes/collectionRoute");
 
 const app = express();
 
@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(
     cors({
         credentials: true,
-        origin: 'http://localhost:3000',
+        origin: "http://localhost:3000",
     })
 );
 app.use(
@@ -36,7 +36,7 @@ const URI = process.env.MONGODB_URL;
 const connectDB = async () => {
     await mongoose
         .connect(URI)
-        .then(() => console.log('Connected to mongodb'))
+        .then(() => console.log("Connected to mongodb"))
         .catch((err) => {
             console.log(err);
         });
@@ -62,16 +62,16 @@ connectDB();
 //     next();
 // });
 // Routes
-app.use('/api/auth', authRoute);
-app.use('/api/user', userRoute);
-app.use('/api/product', productRoute);
-app.use('/api/sale', saleRoute);
-app.use('/api/category', categoryRoute);
-app.use('/api/collection', collectionRoute);
-app.use('/api/order', orderRoute);
-app.use('/api/upload', uploadRoute);
+app.use("/api/auth", authRoute);
+app.use("/api/user", userRoute);
+app.use("/api/product", productRoute);
+app.use("/api/sale", saleRoute);
+app.use("/api/category", categoryRoute);
+app.use("/api/collection", collectionRoute);
+app.use("/api/order", orderRoute);
+app.use("/api/upload", uploadRoute);
 // Listening
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-    console.log('Server is running on port', PORT);
+    console.log("Server is running on port", PORT);
 });
