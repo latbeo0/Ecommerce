@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import {
     Container,
     Title,
@@ -7,8 +7,8 @@ import {
     UserInfoWrapper,
     Row,
     AddressShippingContainer,
-} from "./UserInfoFormStyled";
-import { InputGroup, SelectGroup } from "../../Basic";
+} from './UserInfoFormStyled';
+import { InputGroup, SelectGroup } from '../../Basic';
 
 const UserInfoForm = (props) => {
     const { inputs, userInfo, errorsForm, handleChange } = props;
@@ -17,7 +17,7 @@ const UserInfoForm = (props) => {
     const provinces = location?.province?.map((item) => ({
         value: item.code,
         label: item.name,
-        name: "province",
+        name: 'province',
     }));
 
     const [province, setProvince] = useState(
@@ -47,12 +47,12 @@ const UserInfoForm = (props) => {
               ?.map((item) => ({
                   value: item.code,
                   label: item.name,
-                  name: "district",
+                  name: 'district',
               }))
         : [];
 
     const [district, setDistrict] = useState(
-        userInfo.district !== ""
+        userInfo.district !== ''
             ? districts.find((item) => item.label === userInfo.district)
             : null
     );
@@ -78,7 +78,7 @@ const UserInfoForm = (props) => {
               ?.map((item) => ({
                   value: item.code,
                   label: item.name,
-                  name: "ward",
+                  name: 'ward',
               }))
         : [];
 
@@ -107,7 +107,7 @@ const UserInfoForm = (props) => {
                 : null
         );
         setDistrict(
-            userInfo.district !== ""
+            userInfo.district !== ''
                 ? districts.find((item) => item.label === userInfo.district)
                 : null
         );
@@ -116,6 +116,7 @@ const UserInfoForm = (props) => {
                 ? wards.find((item) => item.label === userInfo.ward)
                 : null
         );
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userInfo]);
 
     return (
@@ -150,7 +151,7 @@ const UserInfoForm = (props) => {
             <AddressShippingContainer>
                 <Title>Address Shipping</Title>
                 <UserInfoWrapper>
-                    <Row style={{ width: "calc(50% - 1rem)" }}>
+                    <Row style={{ width: 'calc(50% - 1rem)' }}>
                         {inputs.addressShipping.slice(0, 1).map((input) => (
                             <InputGroup
                                 key={input.id}
@@ -163,29 +164,29 @@ const UserInfoForm = (props) => {
                     </Row>
                     <Row>
                         <SelectGroup
-                            label="Province *"
-                            placeholder="Select province ..."
+                            label='Province *'
+                            placeholder='Select province ...'
                             options={provinces}
                             value={province}
                             onChange={handleChangeProvince}
-                            errorMessage={errorsForm["province"][0]}
+                            errorMessage={errorsForm['province'][0]}
                         />
                         <SelectGroup
-                            label="District *"
-                            placeholder="Select district ..."
+                            label='District *'
+                            placeholder='Select district ...'
                             options={districts}
                             value={district}
                             onChange={handleChangeDistrict}
-                            errorMessage={errorsForm["district"][0]}
+                            errorMessage={errorsForm['district'][0]}
                         />
                         <SelectGroup
-                            label="Ward *"
-                            placeholder="Select ward ..."
+                            label='Ward *'
+                            placeholder='Select ward ...'
                             options={wards}
                             defaultValue={ward}
                             value={ward}
                             onChange={handleChangeWard}
-                            errorMessage={errorsForm["ward"][0]}
+                            errorMessage={errorsForm['ward'][0]}
                         />
                     </Row>
                     <Row>

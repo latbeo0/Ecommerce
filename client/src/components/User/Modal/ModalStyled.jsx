@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const Background = styled.div`
     position: fixed;
@@ -27,7 +27,11 @@ const Header = styled.div`
     font-size: 1.5rem;
     font-weight: 700;
     padding-bottom: 1rem;
-    border-bottom: 1px solid var(--red-color);
+    border-bottom: 1px solid
+        ${(props) =>
+            props.variant === "change"
+                ? "var(--primary-color)"
+                : "var(--red-color)"};
 `;
 
 const Content = styled.div`
@@ -48,16 +52,22 @@ const ProductImageContainer = styled.div`
     position: relative;
     width: 10rem;
     height: 10rem;
-    border-radius: 0.5rem;
+    border-radius: ${(props) => (props.avatar ? "50%" : "0.5rem")};
     overflow: hidden;
+    border: ${(props) =>
+        props.avatar ? "1px dashed var(--primary-color)" : null};
+    cursor: pointer;
 `;
 
 const ProductImage = styled.img`
     position: absolute;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    padding: 0.5rem;
 `;
 
 const ProductName = styled.p`
@@ -122,7 +132,10 @@ const ButtonConfirm = styled.button`
     padding: 10px 40px;
 
     color: var(--white-color);
-    background-color: var(--red-color);
+    background-color: ${(props) =>
+        props.variant === "avatar"
+            ? "var(--primary-color)"
+            : "var(--red-color)"};
     box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
         0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
 

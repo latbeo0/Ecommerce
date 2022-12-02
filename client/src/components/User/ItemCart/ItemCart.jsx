@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
-import { FiCheck } from 'react-icons/fi';
-import { IoClose, IoTrashOutline } from 'react-icons/io5';
-import { formatCurrencyVND } from '../../../utils/format';
+import React, { useState } from "react";
+import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
+import { FiCheck } from "react-icons/fi";
+import { IoClose, IoTrashOutline } from "react-icons/io5";
+import { formatCurrencyVND } from "../../../utils/format";
 import {
     Container,
     ImageContainer,
@@ -26,20 +26,26 @@ import {
     ToolContainer,
     CheckContainer,
     DeleteContainer,
-} from './ItemCartStyled';
-import heartIcon1 from '../../../assets/img/heart (1).png';
-import heartIcon2 from '../../../assets/img/heart (2).png';
+} from "./ItemCartStyled";
+import heartIcon1 from "../../../assets/img/heart (1).png";
+import heartIcon2 from "../../../assets/img/heart (2).png";
 import {
     fetchDecreaseNumber,
     fetchIncreaseNumber,
     fetchRemoveItem,
     fetchSelectItem,
-} from '../../../services/cartFetch';
-import { useDispatch } from 'react-redux';
-import Modal from '../Modal';
+} from "../../../services/cartFetch";
+import { useDispatch, useSelector } from "react-redux";
+import Modal from "../Modal";
+import { selectUser } from "../../../redux/userSlice";
+import { useEffect } from "react";
+import { toast } from "react-toastify";
+import { fetchWishList } from "../../../services/userFetch";
 
 const ItemCart = (props) => {
     const dispatch = useDispatch();
+
+    const { currentUser } = useSelector(selectUser);
 
     const { product } = props;
 
@@ -49,7 +55,14 @@ const ItemCart = (props) => {
         (item) => item.size === product?.size
     ).quantity;
 
-    const [isHeart, setIsHeart] = useState(false);
+    const [isHeart, setIsHeart] = useState(
+        currentUser?.favoriteProductID?.includes(product?.product._id)
+    );
+
+    useEffect(() => {
+        currentUser?.favoriteProductID?.includes(product?.product._id) &&
+            setIsHeart(true);
+    }, [currentUser]);
 
     const handlePlusQuantity = async () => {
         try {
@@ -59,7 +72,7 @@ const ItemCart = (props) => {
                 );
             }
         } catch (error) {
-            console.log('error', error);
+            console.log("error", error);
         }
     };
 
@@ -73,7 +86,7 @@ const ItemCart = (props) => {
                 setIsOpened((prev) => !prev);
             }
         } catch (error) {
-            console.log('error', error);
+            console.log("error", error);
         }
     };
 
@@ -82,7 +95,7 @@ const ItemCart = (props) => {
             setIsOpened((prev) => !prev);
             await dispatch(fetchRemoveItem({ product: product?.product }));
         } catch (error) {
-            console.log('error', error);
+            console.log("error", error);
         }
     };
 
@@ -90,7 +103,68 @@ const ItemCart = (props) => {
         try {
             await dispatch(fetchSelectItem({ product: product?.product }));
         } catch (error) {
-            console.log('error', error);
+            console.log("error", error);
+        }
+    };
+
+    const handleWishList = () => {
+        if (currentUser) {
+            setIsHeart((prev) => !prev);
+            const type = isHeart ? 1 : 0;
+            const access_token = currentUser.access_token;
+            try {
+                dispatch(
+                    fetchWishList({
+                        type,
+                        productId: product?.product._id,
+                        token: access_token,
+                    })
+                ).unwrap();
+                if (type) {
+                    return toast.error("You just remove product to wishlist", {
+                        position: "top-right",
+                        autoClose: 1000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
+                } else {
+                    return toast.success(
+                        "You just add new product to wishlist",
+                        {
+                            position: "top-right",
+                            autoClose: 1000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                        }
+                    );
+                }
+            } catch (error) {
+                toast.error(error, {
+                    position: "top-right",
+                    autoClose: 1000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+            }
+        } else {
+            toast.error("You need to login to use this feature.", {
+                position: "top-right",
+                autoClose: 1000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
         }
     };
 
@@ -106,12 +180,9 @@ const ItemCart = (props) => {
             isSelect={product?.isSelected}
         >
             <ImageContainer>
-                <Image src={product?.product.primaryImages[0].img} alt='#' />
-                <HeartContainer
-                    isHeart={isHeart}
-                    onClick={() => setIsHeart(!isHeart)}
-                >
-                    <Heart src={isHeart ? heartIcon1 : heartIcon2} alt='img' />
+                <Image src={product?.product.primaryImages[0].img} alt="#" />
+                <HeartContainer isHeart={isHeart} onClick={handleWishList}>
+                    <Heart src={isHeart ? heartIcon1 : heartIcon2} alt="img" />
                 </HeartContainer>
             </ImageContainer>
             <BodyContainer>
@@ -143,12 +214,12 @@ const ItemCart = (props) => {
                 </Detail>
             </BodyContainer>
             <FooterContainer>
-                have only{' '}
+                have only{" "}
                 {
                     product?.product.color.details.find(
                         (item) => item.size === product?.size
                     ).quantity
-                }{' '}
+                }{" "}
                 in stock
                 <QuantityContainer>
                     <Quantity>

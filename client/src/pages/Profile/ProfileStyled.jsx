@@ -21,19 +21,45 @@ const LeftContainer = styled.div`
     align-items: stretch;
     box-shadow: rgb(100 100 111 / 20%) 0px 7px 29px 0px;
     border-radius: 1rem;
-    padding: 1rem;
+    padding: 2rem;
+    height: fit-content;
 `;
 
 const AvatarContainer = styled.div`
     margin: 2rem auto 1rem;
     width: 10rem;
     height: 10rem;
-    border-radius: 50%;
     background: red;
     border: 1px solid var(--primary-color);
     background: linear-gradient(var(--primary-color), var(--secondary-color));
     position: relative;
-    overflow: hidden;
+    border-radius: 50%;
+    /* overflow: hidden; */
+`;
+
+const ButtonEditAvatar = styled.div`
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    z-index: 1;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--white-color);
+    cursor: pointer;
+
+    & > svg {
+        color: var(--primary-color);
+    }
+
+    &:hover {
+        background-color: #e6f1ff;
+    }
 `;
 
 const Avatar = styled.img`
@@ -43,6 +69,8 @@ const Avatar = styled.img`
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 50%;
+    padding: 0.5rem;
 `;
 
 const Name = styled.p`
@@ -91,14 +119,27 @@ const RightContainer = styled.div`
     flex-direction: column;
     box-shadow: rgb(100 100 111 / 20%) 0px 7px 29px 0px;
     border-radius: 1rem;
-    padding: 1rem;
+    padding: 2rem;
+    gap: 4rem;
 `;
 
 const RightWrapper = styled.div``;
 
+const Header = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+`;
+
 const Title = styled.h1``;
 
-const Content = styled.div``;
+const Content = styled.div`
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+`;
 
 const Row = styled.div`
     display: flex;
@@ -110,18 +151,38 @@ const Row = styled.div`
     }
 `;
 
+const LocationImageContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+`;
+
+const LocationImage = styled.img`
+    width: 100%;
+    height: 16rem;
+    background: var(--black-color);
+    object-fit: cover;
+    border-radius: 1rem;
+    overflow: hidden;
+`;
+
 export {
     Container,
     Wrapper,
     LeftContainer,
     AvatarContainer,
+    ButtonEditAvatar,
     Avatar,
     Name,
     ToolContainer,
     Tool,
     RightContainer,
     RightWrapper,
+    Header,
     Title,
     Content,
     Row,
+    LocationImageContainer,
+    LocationImage,
 };
