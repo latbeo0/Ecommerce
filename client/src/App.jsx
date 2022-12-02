@@ -21,18 +21,11 @@ import ButtonScrollToTop from "./helpers/ButtonScrollToTop";
 import { fetchGetProducts } from "./services/productFetch";
 import Cart from "./pages/Cart";
 import {
-<<<<<<< HEAD
-  fetchDistrict,
-  fetchProvince,
-  fetchWard,
-} from "./services/locationFetch";
-=======
     fetchDistrict,
     fetchProvince,
     fetchWard,
 } from './services/locationFetch';
 import Profile from './pages/Profile';
->>>>>>> c3ef78cde5b8a917d32d9fd19ac8c4c3a9c008d2
 
 const App = () => {
   const dispatch = useDispatch();
@@ -73,7 +66,6 @@ const App = () => {
       }
     });
 
-<<<<<<< HEAD
     return () =>
       window.removeEventListener("scroll", () => {
         return;
@@ -118,7 +110,7 @@ const App = () => {
       <BrowserRouter>
         <ScrollToTop />
         <Routes>
-          {isAdmin ? (
+          {auth.isAdmin ? (
             <Route path="/*" index element={<AdminRouter />} />
           ) : (
             <>
@@ -148,67 +140,6 @@ const App = () => {
       ) : null}
     </>
   );
-=======
-        const fetchLocation = async () => {
-            try {
-                await dispatch(fetchProvince()).unwrap();
-                await dispatch(fetchDistrict()).unwrap();
-                await dispatch(fetchWard()).unwrap();
-            } catch (error) {
-                console.log('/App/fetchLocation');
-            }
-        };
-        fetchLocation();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
-    return (
-        <>
-            <ToastContainer />
-            <BrowserRouter>
-                <ScrollToTop />
-                <Routes>
-                    {isAdmin ? (
-                        <Route path='/*' index element={<AdminRouter />} />
-                    ) : (
-                        <>
-                            <Route path='/register' element={<Register />} />
-                            <Route
-                                path='/activate_email/:activationToken'
-                                element={<ActiveEmail />}
-                            />
-                            <Route path='/login' element={<Login />} />
-                            <Route
-                                path='/forgot_password'
-                                element={<ForgotPassword />}
-                            />
-                            <Route
-                                path='/reset_password/:token'
-                                element={<ResetPassword />}
-                            />
-                            <Route path='/' element={<HeaderFooterPage />}>
-                                <Route index element={<Home />} />
-                                <Route
-                                    path='/products/:codeProduct'
-                                    element={<Product />}
-                                />
-                                <Route
-                                    path='/products'
-                                    element={<Products />}
-                                />
-                                <Route path='/profile' element={<Profile />} />
-                                <Route path='/cart' element={<Cart />} />
-                            </Route>
-                        </>
-                    )}
-                </Routes>
-            </BrowserRouter>
-            {isScroll ? (
-                <ButtonScrollToTop onClick={() => handleScrollToTop()} />
-            ) : null}
-        </>
-    );
->>>>>>> c3ef78cde5b8a917d32d9fd19ac8c4c3a9c008d2
 };
 
 export default App;
