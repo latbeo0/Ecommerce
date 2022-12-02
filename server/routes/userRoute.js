@@ -38,6 +38,20 @@ router.delete(
     userCtrl.clearWishList
 );
 
+router.post("/address_shipping", verifyToken, userCtrl.addAddressShipping);
+
+router.put(
+    "/address_shipping/:id",
+    verifyToken,
+    userCtrl.changeDefaultAddressShipping
+);
+
+router.delete(
+    "/address_shipping/:id",
+    verifyToken,
+    userCtrl.deleteAddressShipping
+);
+
 //Admin
 router.post("/", userCtrl.createUser);
 

@@ -17,24 +17,44 @@ import {
     Header,
     Title,
     Content,
+    WrapperRow,
     Row,
     LocationImageContainer,
     LocationImage,
+    AddressShippingItem,
+    AddressShippingWrapper,
+    ButtonEdit,
+    ButtonDelete,
+    ImageLocationContainer,
+    ImageLocation,
+    ContentLocationContainer,
+    TitleLocation,
+    DescriptionLocation,
+    DefaultLocation,
 } from "./ProfileStyled";
 import { RiUser3Fill } from "react-icons/ri";
-import { MdLocationOn, MdEdit } from "react-icons/md";
+import {
+    MdLocationOn,
+    MdEdit,
+    MdOutlineEditLocationAlt,
+    MdOutlineWrongLocation,
+} from "react-icons/md";
 import { BsFillHeartFill } from "react-icons/bs";
 import { Button, InputGroup, SelectGroup } from "../../components/Basic";
 import imgNoLocation from "../../assets/img/noLocation.jpeg";
 import { Link } from "react-router-dom";
 import Loading from "../../helpers/Loading";
 import {
+    fetchAddAddressShipping,
     fetchChangeAvatar,
+    fetchChangeDefaultAddressShipping,
     fetchChangeUserInfo,
+    fetchDeleteAddressShipping,
 } from "../../services/userFetch";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 import Modal from "../../components/User/Modal";
+import imgLocation from "../../assets/img/pexels-photo-1051077.jpeg";
 
 const inputs = [
     {
@@ -380,15 +400,98 @@ const Profile = () => {
         }
     };
 
-    const handleAddNewLocation = () => {
+    const handleAddNewLocation = async () => {
         const check = inputsNewLocation.find(
             (item) => newLocation[item.name] === ""
         );
 
         if (!check) {
-            console.log("request");
+            const token = currentUser.access_token;
+            await dispatch(
+                fetchAddAddressShipping({ token, ...newLocation })
+            ).unwrap();
+            setProvince(null);
+            setDistrict(null);
+            setWard(null);
+            setIsOpenAddNew(false);
+            setNewLocation((prev) => ({ ...prev, address: "" }));
+            toast.success(`Add new address shipping successful`, {
+                position: "top-right",
+                autoClose: 1000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
         } else {
             toast.error(`Please fill all required field`, {
+                position: "top-right",
+                autoClose: 1000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        }
+    };
+
+    // Add new address shipping
+    const [isOpenAddNew, setIsOpenAddNew] = useState(false);
+
+    const handleOpenAddNew = () => {
+        setIsOpenAddNew((prev) => !prev);
+    };
+
+    const handleChangeDefault = async (id, isSelected) => {
+        if (!isSelected)
+            try {
+                const token = currentUser.access_token;
+
+                await dispatch(
+                    fetchChangeDefaultAddressShipping({
+                        token,
+                        id,
+                    })
+                ).unwrap();
+
+                toast.success(`Change default address shipping successful`, {
+                    position: "top-right",
+                    autoClose: 1000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+            } catch (error) {}
+    };
+
+    const handleDeleteAddress = async (id, isSelected) => {
+        if (!isSelected) {
+            try {
+                const token = currentUser.access_token;
+
+                await dispatch(
+                    fetchDeleteAddressShipping({
+                        token,
+                        id,
+                    })
+                ).unwrap();
+
+                toast.success(`Delete address shipping successful`, {
+                    position: "top-right",
+                    autoClose: 1000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+            } catch (error) {}
+        } else {
+            toast.error(`You need to change default address shipping first!`, {
                 position: "top-right",
                 autoClose: 1000,
                 hideProgressBar: false,
@@ -456,7 +559,7 @@ const Profile = () => {
                         </Header>
                         <Content>
                             <Row>
-                                {inputs.slice(0, 2).map((input) => (
+                                {inputsUserInfo.slice(0, 2).map((input) => (
                                     <InputGroup
                                         key={input.id}
                                         value={dataTemp[input.name]}
@@ -466,7 +569,7 @@ const Profile = () => {
                                 ))}
                             </Row>
                             <Row>
-                                {inputs.slice(2, 3).map((input) => (
+                                {inputsUserInfo.slice(2, 3).map((input) => (
                                     <InputGroup
                                         key={input.id}
                                         value={currentUser?.[input.name]}
@@ -478,14 +581,16 @@ const Profile = () => {
                                 ))}
                             </Row>
                             <Row style={{ width: "calc(50% - 0.5rem)" }}>
-                                {inputs.slice(3, 4).map((input) => (
-                                    <InputGroup
-                                        key={input.id}
-                                        value={dataTemp[input.name]}
-                                        onChange={(e) => handleChange(e)}
-                                        {...input}
-                                    />
-                                ))}
+                                {inputsUserInfo.slice(3, 4).map((input) => {
+                                    return (
+                                        <InputGroup
+                                            key={input.id}
+                                            value={dataTemp[input.name] || ""}
+                                            onChange={(e) => handleChange(e)}
+                                            {...input}
+                                        />
+                                    );
+                                })}
                             </Row>
                         </Content>
                     </RightWrapper>
@@ -494,58 +599,119 @@ const Profile = () => {
                             <Title>Address Shipping</Title>
                             <Button
                                 variant="contained"
-                                onClick={handleAddNewLocation}
+                                onClick={handleOpenAddNew}
                             >
-                                Add
+                                New
                             </Button>
                         </Header>
                         <Content>
-                            <Row>
-                                <SelectGroup
-                                    label="Province"
-                                    placeholder="Select province ..."
-                                    options={provinces}
-                                    value={province}
-                                    onChange={handleChangeProvince}
-                                    // errorMessage={errorsForm['province'][0]}
-                                />
-                                <SelectGroup
-                                    label="District"
-                                    placeholder="Select district ..."
-                                    options={districts}
-                                    value={district}
-                                    onChange={handleChangeDistrict}
-                                    // errorMessage={errorsForm['district'][0]}
-                                />
-                                <SelectGroup
-                                    label="Ward"
-                                    placeholder="Select ward ..."
-                                    options={wards}
-                                    value={ward}
-                                    onChange={handleChangeWard}
-                                    // errorMessage={errorsForm['ward'][0]}
-                                />
-                            </Row>
-                            <Row>
-                                {inputs.slice(7, 8).map((input) => (
-                                    <InputGroup
-                                        key={input.id}
-                                        value={newLocation[input.name]}
-                                        onChange={(e) =>
-                                            handleChangeLocation(e)
-                                        }
-                                        // errorMessage={errorsForm[input.name][0]}
-                                        {...input}
+                            {isOpenAddNew ? (
+                                <WrapperRow>
+                                    <Row>
+                                        <SelectGroup
+                                            label="Province"
+                                            placeholder="Select province ..."
+                                            options={provinces}
+                                            value={province}
+                                            onChange={handleChangeProvince}
+                                            // errorMessage={errorsForm['province'][0]}
+                                        />
+                                        <SelectGroup
+                                            label="District"
+                                            placeholder="Select district ..."
+                                            options={districts}
+                                            value={district}
+                                            onChange={handleChangeDistrict}
+                                            // errorMessage={errorsForm['district'][0]}
+                                        />
+                                        <SelectGroup
+                                            label="Ward"
+                                            placeholder="Select ward ..."
+                                            options={wards}
+                                            value={ward}
+                                            onChange={handleChangeWard}
+                                            // errorMessage={errorsForm['ward'][0]}
+                                        />
+                                    </Row>
+                                    <Row>
+                                        {inputs.slice(7, 8).map((input) => (
+                                            <InputGroup
+                                                key={input.id}
+                                                value={newLocation[input.name]}
+                                                onChange={(e) =>
+                                                    handleChangeLocation(e)
+                                                }
+                                                // errorMessage={errorsForm[input.name][0]}
+                                                {...input}
+                                            />
+                                        ))}
+                                    </Row>
+                                    <Button
+                                        variant="contained"
+                                        onClick={handleAddNewLocation}
+                                    >
+                                        Add
+                                    </Button>
+                                </WrapperRow>
+                            ) : null}
+                            {currentUser?.addressShipping.length > 0 ? (
+                                currentUser.addressShipping.map((item) => {
+                                    const location = `${item.address}, ${item.ward}, ${item.district}, ${item.province}`;
+                                    return (
+                                        <AddressShippingItem key={item.id}>
+                                            <AddressShippingWrapper
+                                                onClick={() =>
+                                                    handleChangeDefault(
+                                                        item.id,
+                                                        item.isSelected
+                                                    )
+                                                }
+                                            >
+                                                <ImageLocationContainer>
+                                                    <ImageLocation
+                                                        src={imgLocation}
+                                                        alt="imageLocation"
+                                                    />
+                                                </ImageLocationContainer>
+                                                <ContentLocationContainer>
+                                                    <TitleLocation>
+                                                        {item.province}
+                                                    </TitleLocation>
+                                                    <DescriptionLocation>
+                                                        {location}
+                                                    </DescriptionLocation>
+                                                </ContentLocationContainer>
+                                                {item.isSelected ? (
+                                                    <DefaultLocation>
+                                                        Default
+                                                    </DefaultLocation>
+                                                ) : null}
+                                            </AddressShippingWrapper>
+                                            <ButtonEdit>
+                                                <MdOutlineEditLocationAlt />
+                                            </ButtonEdit>
+                                            <ButtonDelete
+                                                onClick={() =>
+                                                    handleDeleteAddress(
+                                                        item.id,
+                                                        item.isSelected
+                                                    )
+                                                }
+                                            >
+                                                <MdOutlineWrongLocation />
+                                            </ButtonDelete>
+                                        </AddressShippingItem>
+                                    );
+                                })
+                            ) : (
+                                <LocationImageContainer>
+                                    You don't have any address shipping
+                                    <LocationImage
+                                        src={imgNoLocation}
+                                        alt="no-location"
                                     />
-                                ))}
-                            </Row>
-                            <LocationImageContainer>
-                                You don't have any address shipping
-                                <LocationImage
-                                    src={imgNoLocation}
-                                    alt="no-location"
-                                />
-                            </LocationImageContainer>
+                                </LocationImageContainer>
+                            )}
                         </Content>
                     </RightWrapper>
                 </RightContainer>

@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const Container = styled.div`
     max-width: 80rem;
@@ -47,7 +47,10 @@ const Button = styled.button`
     align-items: center;
     gap: 0.5rem;
     padding: 0.5rem 1.5rem;
-    border: 1px solid black;
+    border: 1px solid var(--gray-color);
+    border-radius: 1rem;
+    color: var(--gray-color);
+    box-shadow: rgb(100 100 111 / 20%) 0px 7px 29px 0px;
 `;
 
 export {
