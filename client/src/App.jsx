@@ -30,31 +30,29 @@ import WishList from "./pages/WishList";
 import NotFound from "./pages/NotFound";
 
 const App = () => {
-    const dispatch = useDispatch();
-    // const dispatch = useDispatch();
-    // const auth = useSelector((state) => state.auth);
-    // const { isLogged, isAdmin } = auth;
-    // const [loading, setLoading] = useState(true);
-    const isAdmin = false;
+  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
+  // const auth = useSelector((state) => state.auth);
 
-    // Get access_token
-    const auth = useSelector(selectAuth);
-    const user = useSelector(selectUser);
+  // const [loading, setLoading] = useState(true);
+  const isAdmin = false;
 
-    useEffect(() => {
-        const fetchAccessToken = async () => {
-            try {
-                if (auth.isLogged && !user.currentUser) {
-                    await dispatch(fetchGetAccessToken()).unwrap();
-                }
-            } catch (error) {
-                await dispatch(fetchLogout()).unwrap();
-            }
-        };
-        fetchAccessToken();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [auth.isLogged]);
+  // Get access_token
+  const auth = useSelector(selectAuth);
+  const user = useSelector(selectUser);
+  // const { isLogged, isAdmin } = auth;
 
+<<<<<<< HEAD
+  useEffect(() => {
+    const fetchAccessToken = async () => {
+      try {
+        if (auth.isLogged && !user.currentUser) {
+          await dispatch(fetchGetAccessToken()).unwrap();
+        }
+      } catch (error) {
+        await dispatch(fetchLogout()).unwrap();
+      }
+=======
     // Button Scroll To Top
     const [isScroll, setIsScroll] = useState(false);
 
@@ -75,15 +73,100 @@ const App = () => {
 
     const handleScrollToTop = () => {
         window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+>>>>>>> cdff5ed822df435d09fea101044e99b36e1bce52
     };
+    fetchAccessToken();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [auth.isLogged]);
 
-    // Fetch api
-    useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                const pageSize = 15;
-                const pageIndex = 1;
+  // Button Scroll To Top
+  const [isScroll, setIsScroll] = useState(false);
 
+<<<<<<< HEAD
+  useEffect(() => {
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 500) {
+        setIsScroll(true);
+      } else {
+        setIsScroll(false);
+      }
+    });
+
+    return () =>
+      window.removeEventListener("scroll", () => {
+        return;
+      });
+  }, []);
+
+  const handleScrollToTop = () => {
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+  };
+
+  // Fetch api
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const pageSize = 15;
+        const pageIndex = 1;
+
+        await dispatch(fetchGetProducts({ pageSize, pageIndex })).unwrap();
+      } catch (error) {
+        console.log("/App/fetchProducts");
+      }
+    };
+    fetchProducts();
+
+    const fetchLocation = async () => {
+      try {
+        await dispatch(fetchProvince()).unwrap();
+        await dispatch(fetchDistrict()).unwrap();
+        await dispatch(fetchWard()).unwrap();
+      } catch (error) {
+        console.log("/App/fetchLocation");
+      }
+    };
+    fetchLocation();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
+    <>
+      <ToastContainer />
+      <BrowserRouter>
+        <ScrollToTop />
+        <Routes>
+          {auth.isAdmin ? (
+            <Route path="/*" index element={<AdminRouter />} />
+          ) : (
+            <>
+              <Route path="/register" element={<Register />} />
+              <Route
+                path="/activate_email/:activationToken"
+                element={<ActiveEmail />}
+              />
+              <Route path="/login" element={<Login />} />
+              <Route path="/forgot_password" element={<ForgotPassword />} />
+              <Route
+                path="/reset_password/:token"
+                element={<ResetPassword />}
+              />
+              <Route path="/" element={<HeaderFooterPage />}>
+                <Route index element={<Home />} />
+                <Route path="/products/:codeProduct" element={<Product />} />
+                <Route path="/products" element={<Products />} />
+                <Route path="/cart" element={<Cart />} />
+              </Route>
+            </>
+          )}
+        </Routes>
+      </BrowserRouter>
+      {isScroll ? (
+        <ButtonScrollToTop onClick={() => handleScrollToTop()} />
+      ) : null}
+    </>
+  );
+=======
                 await dispatch(
                     fetchGetProducts({ pageSize, pageIndex })
                 ).unwrap();
@@ -164,6 +247,7 @@ const App = () => {
             ) : null}
         </>
     );
+>>>>>>> cdff5ed822df435d09fea101044e99b36e1bce52
 };
 
 export default App;

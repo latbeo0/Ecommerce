@@ -6,6 +6,7 @@ const initialState = {
     isLogged: false,
     isLoading: false,
     isError: false,
+    isAdmin: false,
 };
 
 export const authSlice = createSlice({
@@ -21,6 +22,7 @@ export const authSlice = createSlice({
             .addCase(fetchLogin.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isLogged = true;
+                // state.isAdmin = true;
             })
             .addCase(fetchLogin.rejected, (state, action) => {
                 state.isLoading = false;
@@ -35,6 +37,7 @@ export const authSlice = createSlice({
             .addCase(fetchLogout.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isLogged = false;
+                // state.isAdmin = false;
             })
             .addCase(fetchLogout.rejected, (state, action) => {
                 state.isLoading = false;

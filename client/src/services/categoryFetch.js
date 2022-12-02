@@ -1,5 +1,11 @@
 import { baseRequest } from "./apiFetch";
-
+export const getCategoryCode = async () => {
+  try {
+    return await baseRequest.get("/api/category/code", null);
+  } catch (err) {
+    console.log(err);
+  }
+};
 export const fetchGetAllCategory = async () => {
   try {
     return await baseRequest.get("/api/category/", null);
