@@ -141,6 +141,14 @@ const Content = styled.div`
     gap: 1rem;
 `;
 
+const WrapperRow = styled.div`
+    padding: 1rem;
+    border: 1px dashed var(--primary-color);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+`;
+
 const Row = styled.div`
     display: flex;
     align-items: center;
@@ -167,6 +175,96 @@ const LocationImage = styled.img`
     overflow: hidden;
 `;
 
+const AddressShippingItem = styled.div`
+    display: flex;
+    gap: 0.5rem;
+`;
+
+const AddressShippingWrapper = styled.div`
+    flex: 1;
+    display: flex;
+    border-radius: 0.5rem;
+    border: 1px solid var(--gray-color-light);
+    overflow: hidden;
+    cursor: pointer;
+`;
+
+const ImageLocationContainer = styled.div`
+    min-width: 4rem;
+    height: 100%;
+    position: relative;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    margin-right: 1rem;
+`;
+
+const ImageLocation = styled.img`
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+`;
+
+const ContentLocationContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0.5rem 0;
+`;
+
+const TitleLocation = styled.h1`
+    font-size: 1.5rem;
+    font-weight: 500;
+`;
+
+const DescriptionLocation = styled.span`
+    font-size: 0.875rem;
+    font-weight: 400;
+`;
+
+const DefaultLocation = styled.div`
+    align-self: center;
+    margin-left: auto;
+    padding: 1rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--primary-color);
+`;
+
+const ButtonEdit = styled.div`
+    color: var(--white-color);
+    background-color: var(--primary-color);
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: 1rem;
+
+    &:hover {
+        opacity: 0.8;
+    }
+`;
+
+const ButtonDelete = styled.div`
+    color: var(--white-color);
+    background-color: var(--red-color);
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: 1rem;
+
+    &:hover {
+        opacity: 0.8;
+    }
+`;
+
 export {
     Container,
     Wrapper,
@@ -182,7 +280,18 @@ export {
     Header,
     Title,
     Content,
+    WrapperRow,
     Row,
     LocationImageContainer,
     LocationImage,
+    AddressShippingItem,
+    AddressShippingWrapper,
+    ButtonEdit,
+    ButtonDelete,
+    ImageLocationContainer,
+    ImageLocation,
+    ContentLocationContainer,
+    TitleLocation,
+    DescriptionLocation,
+    DefaultLocation,
 };

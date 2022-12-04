@@ -1,8 +1,10 @@
 const Users = require("../models/userModel");
 const Product = require("../models/productModel");
+const AddressShipping = require("../models/addressShippingModel");
 const sendMail = require("./sendMail");
 const { createAccessToken } = require("./createToken");
 const CryptoJS = require("crypto-js");
+const productMasterModel = require("../models/productMasterModel");
 
 const { CLIENT_URL } = process.env;
 
@@ -116,12 +118,31 @@ const userCtrl = {
     getAllWishList: async (req, res) => {
         try {
             const user = await Users.findOne({ _id: req.user.id });
-            const listProducts = [];
+            const listProductsTemp = [];
             for (const productId of user.favoriteProductID) {
                 const product = await Product.findOne({ _id: productId });
                 if (product) {
-                    listProducts.push(product);
+                    listProductsTemp.push(product);
                 }
+            }
+            const listProducts = [];
+            for (const product of listProductsTemp) {
+                const productMaster = await productMasterModel.findOne({
+                    _id: product.productMasterId,
+                });
+
+                const { productName, productDescription, stateCode, saleCode } =
+                    productMaster;
+
+                const handle = {
+                    ...product._doc,
+                    productName,
+                    productDescription,
+                    stateCode,
+                    saleCode,
+                };
+
+                listProducts.push(handle);
             }
 
             return res.status(200).json({ listProducts });
@@ -161,6 +182,81 @@ const userCtrl = {
                 { $set: { favoriteProductID: [] } }
             );
             return res.status(200).json({ msg: "Clear Wishlist Successful!" });
+        } catch (err) {
+            return res.status(500).json({ msg: err.message });
+        }
+    },
+    // Add new address shipping
+    addAddressShipping: async (req, res) => {
+        try {
+            const { province, district, ward, address } = req.body;
+            const user = req.user;
+
+            const newAddress = new AddressShipping({
+                province,
+                district,
+                ward,
+                address,
+            });
+
+            const { _id, ...data } = newAddress._doc;
+
+            const userAddress = {
+                id: _id.toString(),
+                ...data,
+                isSelected: true,
+            };
+
+            await Users.updateMany(
+                { _id: user.id },
+                { $set: { "addressShipping.$[].isSelected": false } }
+            );
+
+            await Users.findOneAndUpdate(
+                { _id: user.id },
+                { $push: { addressShipping: userAddress } }
+            );
+
+            await res.status(200).json({ userAddress });
+        } catch (err) {
+            return res.status(500).json({ msg: err.message });
+        }
+    },
+    changeDefaultAddressShipping: async (req, res) => {
+        try {
+            const { id } = req.params;
+            const user = req.user;
+
+            await Users.updateMany(
+                { _id: user.id },
+                { $set: { "addressShipping.$[].isSelected": false } }
+            );
+
+            await Users.findOneAndUpdate(
+                { _id: user.id, "addressShipping.id": id },
+                { $set: { "addressShipping.$.isSelected": true } }
+            );
+
+            return res
+                .status(200)
+                .json({ msg: "Change Default Address Shipping Successful!" });
+        } catch (err) {
+            return res.status(500).json({ msg: err.message });
+        }
+    },
+    deleteAddressShipping: async (req, res) => {
+        try {
+            const { id } = req.params;
+            const user = req.user;
+
+            await Users.updateMany(
+                { _id: user.id },
+                { $pull: { addressShipping: { id: id } } }
+            );
+
+            return res
+                .status(200)
+                .json({ msg: "Delete Address Shipping Successful!" });
         } catch (err) {
             return res.status(500).json({ msg: err.message });
         }

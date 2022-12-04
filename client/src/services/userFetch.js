@@ -164,3 +164,66 @@ export const fetchChangeAvatar = createAsyncThunk(
         }
     }
 );
+
+export const fetchAddAddressShipping = createAsyncThunk(
+    "user/add_address_shipping",
+    async (args) => {
+        try {
+            const { token, province, district, ward, address } = args;
+
+            const res = await baseRequest.post(
+                `/api/user/address_shipping`,
+                {
+                    province,
+                    district,
+                    ward,
+                    address,
+                },
+                {
+                    headers: {
+                        Authorization: token,
+                    },
+                }
+            );
+
+            const data = res.data;
+            return { ...data.userAddress };
+        } catch (error) {
+            throw new Error(error.response.data.msg);
+        }
+    }
+);
+
+export const fetchChangeDefaultAddressShipping = createAsyncThunk(
+    "user/change_default_address_shipping",
+    async (args) => {
+        try {
+            const { token, id } = args;
+
+            await baseRequest.put(`/api/user/address_shipping/${id}`, null, {
+                headers: { Authorization: token },
+            });
+
+            return { id };
+        } catch (error) {
+            throw new Error(error.response.data.msg);
+        }
+    }
+);
+
+export const fetchDeleteAddressShipping = createAsyncThunk(
+    "user/delete_address_shipping",
+    async (args) => {
+        try {
+            const { token, id } = args;
+
+            await baseRequest.delete(`/api/user/address_shipping/${id}`, {
+                headers: { Authorization: token },
+            });
+
+            return { id };
+        } catch (error) {
+            throw new Error(error.response.data.msg);
+        }
+    }
+);
