@@ -22,6 +22,7 @@ import { getErrorMessage } from '../../helpers/validation';
 import PaymentForm from '../../components/User/PaymentForm/PaymentForm';
 import { toast } from 'react-toastify';
 import { formatCurrencyVND } from './../../utils/format';
+import { selectUser } from '../../redux/userSlice';
 
 const INITIAL_DATA = {
     listOrderItem: [],
@@ -34,6 +35,9 @@ const INITIAL_DATA = {
         district: '',
         ward: '',
         address: '',
+    },
+    payment: {
+        type: '',
     },
 };
 
@@ -95,11 +99,12 @@ const inputs = {
 };
 
 const Cart = () => {
+    const { currentUser } = useSelector(selectUser);
     const { listProducts } = useSelector(selectCart);
 
     const [data, setData] = useState(INITIAL_DATA);
 
-    // console.log(data);
+    console.log(data);
 
     const listInput = [...inputs.userInfo, ...inputs.addressShipping];
 
@@ -165,6 +170,58 @@ const Cart = () => {
         handleErrorForm({ name, value });
     };
 
+    //handle auto fill form
+    const handleAutoFill = () => {
+        if (currentUser) {
+            const { firstName, lastName, email, phone, addressShipping } =
+                currentUser;
+            const defaultAddress = addressShipping.find(
+                (item) => item.isSelected
+            );
+            const { province, district, ward, address } = defaultAddress;
+
+            setData((prev) => ({
+                ...prev,
+                userInfo: {
+                    firstName,
+                    lastName,
+                    email,
+                    phone,
+                    province,
+                    district,
+                    ward,
+                    address,
+                },
+            }));
+
+            setErrorsForm({
+                firstName: [],
+                lastName: [],
+                email: [],
+                phone: [],
+                province: [],
+                district: [],
+                ward: [],
+                address: [],
+            });
+        } else {
+            toast.error('You need login first.', {
+                position: 'top-right',
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+            });
+        }
+    };
+
+    // handle change payment
+    const handleChangePayment = (e) => {
+        const { name, id } = e.target;
+        setData({ ...data, payment: { ...data.payment, [name]: id } });
+    };
+
     const {
         steps,
         currentStepIndex,
@@ -183,22 +240,28 @@ const Cart = () => {
             inputs={inputs}
             errorsForm={errorsForm}
             handleChange={handleChange}
+            handleAutoFill={handleAutoFill}
+            setErrorsForm={setErrorsForm}
         />,
-        <PaymentForm {...data} />,
+        <PaymentForm {...data} handleChangePayment={handleChangePayment} />,
     ]);
 
     const handleCheckOut = async () => {
-        const userId = '1';
+        const orderCode = 'ORD_' + parseInt(Date.now()).toString();
+        const userId = currentUser ? currentUser._id : 'un_know';
         const addressShipping = data.userInfo;
         const listOderItems = data.listOrderItem;
+        const payment = data.payment;
         const subPrice = subtotal;
         const totalPrice = subtotal;
         await fetchPayment(
+            orderCode,
             listOderItems,
             addressShipping,
             subPrice,
             totalPrice,
-            userId
+            userId,
+            payment
         )
             .then((res) => {
                 console.log(res);
@@ -208,6 +271,7 @@ const Cart = () => {
 
     function onSubmit(e) {
         e.preventDefault();
+
         if (currentStepIndex === 0) {
             if (data.listOrderItem.length === 0) {
                 return toast.error('You need to select less 1 product.', {
@@ -222,8 +286,7 @@ const Cart = () => {
             } else {
                 return next();
             }
-        }
-        if (currentStepIndex === 1) {
+        } else if (currentStepIndex === 1) {
             const check = listInput.find(
                 (item) => errorsForm[item.name].length !== 0
             );
@@ -243,10 +306,20 @@ const Cart = () => {
             } else {
                 return next();
             }
+        } else if (currentStepIndex === 2) {
+            if (data.payment.type !== 'cash') {
+                return toast.error('This method is not support', {
+                    position: 'top-right',
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+            }
+        } else {
         }
-
-        // if(errorsForm)
-        // if (!isLastStep) return next();
         handleCheckOut();
     }
 

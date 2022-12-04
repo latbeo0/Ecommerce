@@ -49,10 +49,10 @@ const UserSchema = new mongoose.Schema(
             type: String,
             default: 'CUSTOMER',
         },
-        level: {
-            type: Number,
-            default: 5,
-        },
+        // level: {
+        //     type: Number,
+        //     default: 5,
+        // },
     },
     {
         timestamps: true,
