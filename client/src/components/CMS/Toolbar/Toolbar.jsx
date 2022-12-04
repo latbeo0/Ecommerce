@@ -69,7 +69,7 @@ const Toolbar = ({
   return (
     <ToolbarContainer>
       <Stack direction="row" alignItems="center" spacing={1}>
-        <Button
+        {/* <Button
           key="bstart"
           name="back"
           variant="outlined"
@@ -78,7 +78,7 @@ const Toolbar = ({
           onClick={(event) => onClickItem(event, "BACK")}
         >
           Back
-        </Button>
+        </Button> */}
         {listButton?.length > 0 &&
           listButton.map((item) => (
             <Button

@@ -3,6 +3,7 @@ const CollectionModel = require("./collectionModel");
 const CategoryModel = require("./categoryModel");
 const ProductMasterSchema = new mongoose.Schema(
   {
+    masterCode: {type: String},
     productName: { type: String, required: true },
     productDescription: { type: String, required: true },
     gender: { type: String, required: true },
@@ -29,4 +30,19 @@ ProductMasterSchema.virtual("vCategory", {
 ProductMasterSchema.set("toObject", { virtuals: true });
 ProductMasterSchema.set("toJSON", { virtuals: true });
 
+ProductMasterSchema.pre("save", function (next) {
+  var model = this;
+  counter.findByIdAndUpdate(
+    { _id: "MAS" },
+    { $inc: { seq: 1 } },
+    function (error, counter) {
+      if (error) return next(error);
+      var str = "" + counter.seq;
+      var pad = "0000";
+      var ans = pad.substring(0, pad.length - str.length) + str;
+      model.cateCode = `MAS${new Date().getMonth() + 1}${new Date().getFullYear()}${ans}`;
+      next();
+    }
+  );
+});
 module.exports = mongoose.model("productmasters", ProductMasterSchema);

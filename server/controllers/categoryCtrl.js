@@ -2,15 +2,6 @@ const Category = require("../models/categoryModel");
 const jwt = require("jsonwebtoken");
 
 const CategoryCtrl = {
-  getCategoryCode: async (req, res) => {
-    let newCategory = new Category();
-    const code = `CTG${new Date().getFullYear()}${newCategory.seq}`;
-    try {
-      res.status(200).json({ code });
-    } catch (err) {
-      return res.status(500).json({ msg: err.message });
-    }
-  },
   getAllCategory: async (req, res) => {
     try {
       let category;
@@ -22,6 +13,7 @@ const CategoryCtrl = {
     }
   },
   createCategory: async (req, res) => {
+    const newCategory = new Category(req.body);
     try {
       await newCategory.save();
       res.status(200).json({ msg: "Category has been created" });

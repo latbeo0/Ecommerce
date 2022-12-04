@@ -23,8 +23,6 @@ import Slide from "@mui/material/Slide";
 
 import Notification from "../../Basic/Notification/Notification";
 import { NotificationType } from "../../Basic/Notification/type";
-import { getCategoryCode } from "./../../../services/categoryFetch";
-import { getSaleCode } from './../../../services/saleFetch';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -58,17 +56,11 @@ const BasicPopup = ({ open, row, onClose, onSubmit, collection }) => {
     } else {
       switch (collection.toUpperCase()) {
         case "CATEGORY":
-          getCategoryCode().then((res) => {
-            setData({ ...categoryState, cateCode: res.data.code });
-          });
           break;
         case "COLLECTION":
           setData(collectionState);
           break;
         case "SALE":
-          getSaleCode().then((res) => {
-            setData({ ...saleState, saleCode: res.data.code });
-          });
           break;
         default:
           setData(initialState);
