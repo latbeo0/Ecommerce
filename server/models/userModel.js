@@ -1,25 +1,25 @@
-const mongoose = require('mongoose');
-const roleModel = require('./roleModel');
+const mongoose = require("mongoose");
+const roleModel = require("./roleModel");
 
 const UserSchema = new mongoose.Schema(
     {
         email: {
             type: String,
-            required: [true, 'Please enter email!'],
+            required: [true, "Please enter email!"],
             trim: true,
             unique: true,
         },
         password: {
             type: String,
-            required: [true, 'Please enter your password!'],
+            required: [true, "Please enter your password!"],
         },
         firstName: {
             type: String,
-            default: '',
+            default: "",
         },
         lastName: {
             type: String,
-            default: '',
+            default: "",
         },
         birthDate: {
             type: Date,
@@ -33,7 +33,7 @@ const UserSchema = new mongoose.Schema(
         avatar: {
             type: String,
             default:
-                'https://res.cloudinary.com/da3pohnlj/image/upload/v1637204419/user_1_kq1w6v.png',
+                "https://res.cloudinary.com/da3pohnlj/image/upload/v1637204419/user_1_kq1w6v.png",
         },
         phone: {
             type: String,
@@ -47,23 +47,23 @@ const UserSchema = new mongoose.Schema(
         },
         roleCode: {
             type: String,
-            default: 'CUSTOMER',
+            default: "CUSTOMER",
         },
-        // level: {
-        //     type: Number,
-        //     default: 5,
-        // },
+        cart: {
+            type: Array,
+            default: [],
+        },
     },
     {
         timestamps: true,
     }
 );
-UserSchema.virtual('vRole', {
+UserSchema.virtual("vRole", {
     ref: roleModel,
-    localField: 'roleCode',
-    foreignField: 'roleCode',
+    localField: "roleCode",
+    foreignField: "roleCode",
 });
 
-UserSchema.set('toObject', { virtuals: true });
-UserSchema.set('toJSON', { virtuals: true });
-module.exports = mongoose.model('User', UserSchema);
+UserSchema.set("toObject", { virtuals: true });
+UserSchema.set("toJSON", { virtuals: true });
+module.exports = mongoose.model("User", UserSchema);

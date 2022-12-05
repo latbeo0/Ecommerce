@@ -19,11 +19,18 @@ import Modal from "../Modal";
 const CartForm = (props) => {
     const dispatch = useDispatch();
 
-    const { listProducts } = props;
+    const { currentUser, listProducts } = props;
 
     const checkAll = listProducts.find(
-        (item) => !item.isError && !item.isSelected
+        // (item) => !item.isError && !item.isSelected
+        (item) => !item.isSelected
     );
+
+    // console.log(checkAll);
+
+    const checkError = listProducts.find((item) => item.isError);
+
+    // console.log(checkError);
 
     const [isChecked, setIsChecked] = useState(checkAll ? false : true);
     const [isOpened, setIsOpened] = useState(false);
@@ -36,16 +43,24 @@ const CartForm = (props) => {
         }
     }, [checkAll]);
 
+    const countErrorProductSelect = listProducts.filter(
+        (item) => item.isError && item.isSelected
+    ).length;
+
     const handleCheckAll = async () => {
         if (checkAll) {
             try {
-                await dispatch(fetchSelectAllItem());
+                await dispatch(
+                    fetchSelectAllItem({ user: currentUser })
+                ).unwrap();
             } catch (error) {
                 console.log("error", error);
             }
         } else {
             try {
-                await dispatch(fetchUnSelectAllItem());
+                await dispatch(
+                    fetchUnSelectAllItem({ user: currentUser })
+                ).unwrap();
             } catch (error) {
                 console.log("error", error);
             }
@@ -54,7 +69,7 @@ const CartForm = (props) => {
 
     const handleClearCart = async () => {
         try {
-            await dispatch(fetchClearCart());
+            await dispatch(fetchClearCart({ user: currentUser })).unwrap();
         } catch (error) {
             console.log("error", error);
         }
@@ -68,9 +83,21 @@ const CartForm = (props) => {
         <ListProductsContainer>
             <h1 style={{ marginBottom: "2rem" }}>My Cart</h1>
             <HeaderList>
-                <CheckAll onClick={handleCheckAll} checked={isChecked}>
-                    {isChecked ? <FiCheck /> : null}
-                </CheckAll>
+                <div
+                    style={{
+                        display: "flex",
+                        gap: "2.5rem",
+                    }}
+                >
+                    <CheckAll onClick={handleCheckAll} checked={isChecked}>
+                        {isChecked ? <FiCheck /> : null}
+                    </CheckAll>
+                    {countErrorProductSelect > 0 ? (
+                        <span style={{ fontStyle: "italic" }}>
+                            {`(have ${countErrorProductSelect} error product)`}
+                        </span>
+                    ) : null}
+                </div>
                 <ButtonClearAll onClick={handleOpenModal}>
                     Clear cart
                 </ButtonClearAll>

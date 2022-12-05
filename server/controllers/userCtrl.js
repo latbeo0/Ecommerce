@@ -1,10 +1,10 @@
-const Users = require('../models/userModel');
-const Product = require('../models/productModel');
-const AddressShipping = require('../models/addressShippingModel');
-const sendMail = require('./sendMail');
-const { createAccessToken } = require('./createToken');
-const CryptoJS = require('crypto-js');
-const productMasterModel = require('../models/productMasterModel');
+const Users = require("../models/userModel");
+const Product = require("../models/productModel");
+const AddressShipping = require("../models/addressShippingModel");
+const sendMail = require("./sendMail");
+const { createAccessToken } = require("./createToken");
+const CryptoJS = require("crypto-js");
+const productMasterModel = require("../models/productMasterModel");
 
 const { CLIENT_URL } = process.env;
 
@@ -14,8 +14,8 @@ const userCtrl = {
             const user = req.user;
 
             const info = await Users.findOne({ _id: user.id }).populate({
-                path: 'vRole',
-                select: 'roleName level -roleCode',
+                path: "vRole",
+                select: "roleName level -roleCode",
             });
 
             const { vRole } = info;
@@ -41,13 +41,13 @@ const userCtrl = {
             if (!user)
                 return res
                     .status(400)
-                    .json({ msg: 'This email does not exist.' });
+                    .json({ msg: "This email does not exist." });
 
             const access_token = createAccessToken({ id: user._id });
             const url = `${CLIENT_URL}/reset_password/${access_token}`;
 
-            sendMail(email, url, 'Reset your password');
-            res.json({ msg: 'Re-send the password, please check your email.' });
+            sendMail(email, url, "Reset your password");
+            res.json({ msg: "Re-send the password, please check your email." });
         } catch (err) {
             return res.status(500).json({ msg: err.message });
         }
@@ -80,20 +80,20 @@ const userCtrl = {
             if (!user)
                 return res
                     .status(400)
-                    .json({ msg: 'This email does not exist.' });
+                    .json({ msg: "This email does not exist." });
 
-            res.json({ msg: 'Password successfully changed!' });
+            res.json({ msg: "Password successfully changed!" });
         } catch (err) {
             return res.status(500).json({ msg: err.message });
         }
     },
     logout: async (req, res) => {
         try {
-            res.clearCookie('refresh_token', {
-                path: '/api/user/refresh_token',
+            res.clearCookie("refresh_token", {
+                path: "/api/user/refresh_token",
             });
 
-            return res.status(200).json({ msg: 'Logout Successful!' });
+            return res.status(200).json({ msg: "Logout Successful!" });
         } catch (err) {
             return res.status(500).json({ msg: err.message });
         }
@@ -115,7 +115,7 @@ const userCtrl = {
                 }
             );
 
-            res.status(200).json({ msg: 'Update Successful!' });
+            res.status(200).json({ msg: "Update Successful!" });
         } catch (err) {
             return res.status(500).json({ msg: err.message });
         }
@@ -166,7 +166,7 @@ const userCtrl = {
                 );
                 return res
                     .status(200)
-                    .json({ msg: 'Add To Wishlist Successful!' });
+                    .json({ msg: "Add To Wishlist Successful!" });
             } else {
                 await Users.findOneAndUpdate(
                     { _id: req.user.id },
@@ -174,7 +174,7 @@ const userCtrl = {
                 );
                 return res
                     .status(200)
-                    .json({ msg: 'Remove To Wishlist Successful!' });
+                    .json({ msg: "Remove To Wishlist Successful!" });
             }
         } catch (err) {
             return res.status(500).json({ msg: err.message });
@@ -186,7 +186,7 @@ const userCtrl = {
                 { _id: req.user.id },
                 { $set: { favoriteProductID: [] } }
             );
-            return res.status(200).json({ msg: 'Clear Wishlist Successful!' });
+            return res.status(200).json({ msg: "Clear Wishlist Successful!" });
         } catch (err) {
             return res.status(500).json({ msg: err.message });
         }
@@ -214,7 +214,7 @@ const userCtrl = {
 
             await Users.updateMany(
                 { _id: user.id },
-                { $set: { 'addressShipping.$[].isSelected': false } }
+                { $set: { "addressShipping.$[].isSelected": false } }
             );
 
             await Users.findOneAndUpdate(
@@ -234,17 +234,17 @@ const userCtrl = {
 
             await Users.updateMany(
                 { _id: user.id },
-                { $set: { 'addressShipping.$[].isSelected': false } }
+                { $set: { "addressShipping.$[].isSelected": false } }
             );
 
             await Users.findOneAndUpdate(
-                { _id: user.id, 'addressShipping.id': id },
-                { $set: { 'addressShipping.$.isSelected': true } }
+                { _id: user.id, "addressShipping.id": id },
+                { $set: { "addressShipping.$.isSelected": true } }
             );
 
             return res
                 .status(200)
-                .json({ msg: 'Change Default Address Shipping Successful!' });
+                .json({ msg: "Change Default Address Shipping Successful!" });
         } catch (err) {
             return res.status(500).json({ msg: err.message });
         }
@@ -261,7 +261,167 @@ const userCtrl = {
 
             return res
                 .status(200)
-                .json({ msg: 'Delete Address Shipping Successful!' });
+                .json({ msg: "Delete Address Shipping Successful!" });
+        } catch (err) {
+            return res.status(500).json({ msg: err.message });
+        }
+    },
+    // Add to cart
+    addToCart: async (req, res) => {
+        try {
+            const user = req.user;
+            const { productId, size, count, isSelected } = req.body;
+
+            await Users.findOneAndUpdate(
+                { _id: user.id },
+                { $push: { cart: { productId, size, count, isSelected } } }
+            );
+
+            return res
+                .status(200)
+                .json({ msg: "Add Product To Cart Successful!" });
+        } catch (err) {
+            return res.status(500).json({ msg: err.message });
+        }
+    },
+    // Get cart
+    getCart: async (req, res) => {
+        try {
+            const user = req.user;
+
+            const data = await Users.findById({ _id: user.id });
+
+            const cart = [];
+
+            for (const cartItem of data.cart) {
+                const { productId, size, count, isSelected } = cartItem;
+                const product = await Product.findById({ _id: productId });
+                cart.push({
+                    product,
+                    size,
+                    count,
+                    isSelected,
+                });
+            }
+
+            return res.status(200).json({ cart });
+        } catch (err) {
+            return res.status(500).json({ msg: err.message });
+        }
+    },
+    // Clear cart
+    clearCart: async (req, res) => {
+        try {
+            const user = req.user;
+
+            await Users.findByIdAndUpdate(
+                { _id: user.id },
+                { $set: { cart: [] } }
+            );
+
+            return res.status(200).json({ msg: "Clear Cart Successful" });
+        } catch (err) {
+            return res.status(500).json({ msg: err.message });
+        }
+    },
+    // Remove item cart
+    removeItemCart: async (req, res) => {
+        try {
+            const user = req.user;
+            const { productId } = req.body;
+
+            await Users.updateMany(
+                { _id: user.id },
+                { $pull: { cart: { productId: productId } } }
+            );
+
+            return res.status(200).json({ msg: "Remove Item Cart Successful" });
+        } catch (err) {
+            return res.status(500).json({ msg: err.message });
+        }
+    },
+    // Increase quantity cart
+    increaseQuantity: async (req, res) => {
+        try {
+            const user = req.user;
+            const { productId, quantity } = req.body;
+
+            await Users.findOneAndUpdate(
+                { _id: user.id, "cart.productId": productId },
+                { $set: { "cart.$.count": quantity } }
+            );
+
+            return res
+                .status(200)
+                .json({ msg: "Increase Quantity Successful" });
+        } catch (err) {
+            return res.status(500).json({ msg: err.message });
+        }
+    },
+    // Decrease quantity cart
+    decreaseQuantity: async (req, res) => {
+        try {
+            const user = req.user;
+            const { productId, quantity } = req.body;
+
+            await Users.findOneAndUpdate(
+                { _id: user.id, "cart.productId": productId },
+                { $set: { "cart.$.count": quantity } }
+            );
+
+            return res
+                .status(200)
+                .json({ msg: "Decrease Quantity Successful" });
+        } catch (err) {
+            return res.status(500).json({ msg: err.message });
+        }
+    },
+    // Select product cart
+    selectItemCart: async (req, res) => {
+        try {
+            const user = req.user;
+            const { productId, isSelected } = req.body;
+
+            await Users.findOneAndUpdate(
+                { _id: user.id, "cart.productId": productId },
+                { $set: { "cart.$.isSelected": isSelected } }
+            );
+
+            return res.status(200).json({ msg: "Select Item Cart Successful" });
+        } catch (err) {
+            return res.status(500).json({ msg: err.message });
+        }
+    },
+    // Select all product cart
+    selectAllItemCart: async (req, res) => {
+        try {
+            const user = req.user;
+
+            await Users.updateMany(
+                { _id: user.id },
+                { $set: { "cart.$[].isSelected": true } }
+            );
+
+            return res
+                .status(200)
+                .json({ msg: "Select All Item Cart Successful" });
+        } catch (err) {
+            return res.status(500).json({ msg: err.message });
+        }
+    },
+    // Unselect all product cart
+    unselectAllItemCart: async (req, res) => {
+        try {
+            const user = req.user;
+
+            await Users.updateMany(
+                { _id: user.id },
+                { $set: { "cart.$[].isSelected": false } }
+            );
+
+            return res
+                .status(200)
+                .json({ msg: "Unselect All Item Cart Successful" });
         } catch (err) {
             return res.status(500).json({ msg: err.message });
         }
@@ -271,8 +431,8 @@ const userCtrl = {
         try {
             let user;
             user = await Users.find().populate({
-                path: 'vRole',
-                select: 'roleName -roleCode',
+                path: "vRole",
+                select: "roleName -roleCode",
             });
             res.status(200).json({ user });
         } catch (err) {
@@ -294,7 +454,7 @@ const userCtrl = {
 
         try {
             await newUser.save();
-            res.status(200).json({ msg: 'User has been created' });
+            res.status(200).json({ msg: "User has been created" });
         } catch (err) {
             return res.status(500).json({ msg: err.message });
         }

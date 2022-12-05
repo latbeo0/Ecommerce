@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const Container = styled.div`
     /* display: grid;
@@ -12,8 +12,10 @@ const Container = styled.div`
     /* border: 1px solid var(--gray-color-light); */
     border: ${(props) =>
         props.isSelect
-            ? '1px solid var(--primary-color-border)'
-            : '1px solid var(--gray-color-light)'};
+            ? props.isError
+                ? "1px solid var(--red-color)"
+                : "1px solid var(--primary-color-border)"
+            : "1px solid var(--gray-color-light)"};
     border-radius: 0.5rem;
     position: relative;
     margin-right: 0.5rem;
@@ -51,7 +53,7 @@ const HeartContainer = styled.div`
     border-radius: 12px;
     cursor: pointer;
     /* border: 1px solid rgba(255, 107, 108, 0.1); */
-    background-color: ${(props) => props.isHeart && '#fff0f1'};
+    background-color: ${(props) => props.isHeart && "#fff0f1"};
 
     & > img {
         width: 25px;
@@ -107,7 +109,7 @@ const Color = styled.div`
     background: transparent;
 
     &::before {
-        content: '';
+        content: "";
         position: absolute;
         top: 50%;
         left: 50%;
@@ -164,7 +166,7 @@ const Quantity = styled.div`
 `;
 
 const Input = styled.input.attrs({
-    type: 'number',
+    type: "number",
 })`
     padding: 0.25rem;
     min-width: 2rem;
@@ -173,9 +175,9 @@ const Input = styled.input.attrs({
     text-align: center;
     border-left: 1px solid var(--gray-color-light);
     border-right: 1px solid var(--gray-color-light);
-    cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
+    cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
     background: ${(props) =>
-        props.disabled ? 'var(--gray-color-light)' : 'transparent'};
+        props.disabled ? "var(--gray-color-light)" : "transparent"};
     transition: all 200ms linear;
 
     -webkit-appearance: textfield;
@@ -191,9 +193,9 @@ const Input = styled.input.attrs({
 const Arrow = styled.div`
     color: var(--black-color);
     padding: 0.5rem 1rem;
-    cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
+    cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
     background: ${(props) =>
-        props.disabled ? 'var(--gray-color-light)' : 'transparent'};
+        props.disabled ? "var(--gray-color-light)" : "transparent"};
     user-select: none;
     transition: all 200ms linear;
     align-self: center;
@@ -225,8 +227,10 @@ const CheckContainer = styled.div`
     padding: 0.5rem;
     border: ${(props) =>
         props.isSelect
-            ? '1px solid var(--primary-color-border)'
-            : '1px solid var(--gray-color-light)'};
+            ? props.isError
+                ? "1px solid var(--red-color)"
+                : "1px solid var(--primary-color-border)"
+            : "1px solid var(--gray-color-light)"};
     border-radius: 50%;
     cursor: pointer;
     width: 2rem;
@@ -237,7 +241,8 @@ const CheckContainer = styled.div`
         width: 1rem;
         height: 1rem;
         /* color: var(--gray-color-light); */
-        color: var(--primary-color-border);
+        color: ${(props) =>
+            props.isError ? "var(--red-color)" : "var(--primary-color-border)"};
         user-select: none;
     }
 `;
