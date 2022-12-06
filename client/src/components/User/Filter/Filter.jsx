@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { IoIosArrowDown } from 'react-icons/io';
-import { CheckBox } from '../../Basic';
+import React, { useState } from "react";
+import { IoIosArrowDown } from "react-icons/io";
+import { CheckBox } from "../../Basic";
 import {
     Container,
     Section,
@@ -15,7 +15,8 @@ import {
     Header,
     Body,
     Content,
-} from './FilterStyled';
+} from "./FilterStyled";
+import FilterItem from "../../Basic/FilterItem";
 
 const Filter = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -33,6 +34,14 @@ const Filter = () => {
                 </SectionHeader>
             </Section>
             <Section>
+                <FilterItem title="Price range">
+                    <Content>
+                        <input type="range" />
+                        <p>Max value: 100.000.000 vnđ</p>
+                    </Content>
+                </FilterItem>
+            </Section>
+            <Section>
                 <SectionWrapper>
                     <Header>
                         Price range
@@ -45,7 +54,7 @@ const Filter = () => {
                     </Header>
                     <Body isOpen={isOpen}>
                         <Content>
-                            <input type='range' />
+                            <input type="range" />
                             <p>Max value: 100.000.000 vnđ</p>
                         </Content>
                         <SeeAll>See all</SeeAll>
@@ -61,7 +70,7 @@ const Filter = () => {
                     </ButtonHide>
                 </SectionHeader>
                 <SectionBody>
-                    <input type='range' />
+                    <input type="range" />
                     <p>Max value: 100.000.000 vnđ</p>
                 </SectionBody>
             </Section>
