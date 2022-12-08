@@ -55,7 +55,7 @@ router.delete(
 //Admin
 router.get(
   "/",
-  // verifyTokenAndSalePerson,
+  verifyTokenAndSalePerson,
   userCtrl.getAllUser
 );
 router.post("/create-new", verifyTokenAndAdmin, userCtrl.createUser);

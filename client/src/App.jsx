@@ -107,7 +107,7 @@ const App = () => {
             <BrowserRouter>
                 <ScrollToTop />
                 <Routes>
-                    {user.currentUser?.vRole[0]?.level < 3 ? (
+                    {user.currentUser && (user.currentUser?.vRole[0]?.level < 3 ? (
                         <Route path='/*' index element={<AdminRouter />} />
                     ) : (
                         <>
@@ -151,7 +151,7 @@ const App = () => {
                             </Route>
                             <Route path='/*' element={<NotFound />} />
                         </>
-                    )}
+                    ))}
                 </Routes>
             </BrowserRouter>
             {isScroll ? (

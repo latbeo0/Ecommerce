@@ -35,7 +35,7 @@ export const fetchResetPassword = async (password, token) => {
 
 export const fetchGetAllUser = async (token) => {
     try {
-        return await baseRequest.get("/api/user/", null, {
+        return await baseRequest.get("/api/user/", {
             headers: { Authorization: token },
         });
     } catch (err) {
