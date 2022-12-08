@@ -29,6 +29,9 @@ import Profile from "./pages/Profile";
 import WishList from "./pages/WishList";
 import NotFound from "./pages/NotFound";
 import { fetchGetCart } from "./services/cartFetch";
+import { fetchGetAllCategory } from "./services/categoryFetch";
+import { fetchGetAllState } from "./services/stateFetch";
+import { fetchGetAllCollection } from "./services/collectionFetch";
 
 const App = () => {
     const dispatch = useDispatch();
@@ -122,6 +125,35 @@ const App = () => {
             fetchCartOfUser();
         }
     }, [user.currentUser]);
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                await dispatch(fetchGetAllCategory()).unwrap();
+            } catch (error) {
+                console.log("/App/fetchCategories");
+            }
+        };
+        fetchCategories();
+
+        const fetchStates = async () => {
+            try {
+                await dispatch(fetchGetAllState()).unwrap();
+            } catch (error) {
+                console.log("/App/fetchStates");
+            }
+        };
+        fetchStates();
+
+        const fetchCollections = async () => {
+            try {
+                await dispatch(fetchGetAllCollection()).unwrap();
+            } catch (error) {
+                console.log("/App/fetchCollections");
+            }
+        };
+        fetchCollections();
+    }, []);
 
     return (
         <>

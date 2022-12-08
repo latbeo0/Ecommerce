@@ -14,7 +14,7 @@ import {
 const FilterItem = (props) => {
     const { title, children } = props;
 
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(true);
 
     const handleOpen = () => {
         setIsOpen((prev) => !prev);

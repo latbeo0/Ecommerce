@@ -17,13 +17,15 @@ import {
     Content,
 } from "./FilterStyled";
 import FilterItem from "../../Basic/FilterItem";
+import { useSelector } from "react-redux";
+import { selectCategories } from "../../../redux/categorySlice";
+import { selectStates } from "../../../redux/stateSlice";
+import { selectCollections } from "../../../redux/collectionSlice";
 
 const Filter = () => {
-    const [isOpen, setIsOpen] = useState(false);
-
-    const handleOpen = () => {
-        setIsOpen((prev) => !prev);
-    };
+    const { listCategories } = useSelector(selectCategories);
+    const { listStates } = useSelector(selectStates);
+    const { listCollections } = useSelector(selectCollections);
 
     return (
         <Container>
@@ -34,6 +36,27 @@ const Filter = () => {
                 </SectionHeader>
             </Section>
             <Section>
+                <FilterItem title="Categories">
+                    <Content>
+                        {listCategories.map((category) => (
+                            <CheckBox
+                                key={category._id}
+                                label={category.cateName}
+                            />
+                        ))}
+                    </Content>
+                </FilterItem>
+            </Section>
+            <Section>
+                <FilterItem title="States">
+                    <Content>
+                        {listStates.map((state) => (
+                            <CheckBox key={state._id} label={state.stateName} />
+                        ))}
+                    </Content>
+                </FilterItem>
+            </Section>
+            <Section>
                 <FilterItem title="Price range">
                     <Content>
                         <input type="range" />
@@ -42,73 +65,16 @@ const Filter = () => {
                 </FilterItem>
             </Section>
             <Section>
-                <SectionWrapper>
-                    <Header>
-                        Price range
-                        <ButtonHide onClick={handleOpen}>
-                            Hide
-                            <ArrowContainer isOpen={isOpen}>
-                                <IoIosArrowDown />
-                            </ArrowContainer>
-                        </ButtonHide>
-                    </Header>
-                    <Body isOpen={isOpen}>
-                        <Content>
-                            <input type="range" />
-                            <p>Max value: 100.000.000 vnđ</p>
-                        </Content>
-                        <SeeAll>See all</SeeAll>
-                    </Body>
-                </SectionWrapper>
-            </Section>
-            <Section>
-                <SectionHeader>
-                    Price range
-                    <ButtonHide>
-                        Hide
-                        <IoIosArrowDown />
-                    </ButtonHide>
-                </SectionHeader>
-                <SectionBody>
-                    <input type="range" />
-                    <p>Max value: 100.000.000 vnđ</p>
-                </SectionBody>
-            </Section>
-            <Section>
-                <SectionHeader>
-                    States
-                    <ButtonHide>
-                        Hide
-                        <IoIosArrowDown />
-                    </ButtonHide>
-                </SectionHeader>
-                <SectionBody>
-                    <CheckBox />
-                    <CheckBox />
-                    <CheckBox />
-                    <CheckBox />
-                </SectionBody>
-                <SeeAll>See All</SeeAll>
-            </Section>
-            <Section>
-                <SectionHeader>
-                    Collections
-                    <ButtonHide>
-                        Hide
-                        <IoIosArrowDown />
-                    </ButtonHide>
-                </SectionHeader>
-                <SectionBody>
-                    <CheckBox />
-                    <CheckBox />
-                    <CheckBox />
-                    <CheckBox />
-                    <CheckBox />
-                    <CheckBox />
-                    <CheckBox />
-                    <CheckBox />
-                </SectionBody>
-                <SeeAll>See All</SeeAll>
+                <FilterItem title="Collections">
+                    <Content>
+                        {listCollections.map((collection) => (
+                            <CheckBox
+                                key={collection._id}
+                                label={collection.collectName}
+                            />
+                        ))}
+                    </Content>
+                </FilterItem>
             </Section>
             <Section>
                 <SectionHeader>

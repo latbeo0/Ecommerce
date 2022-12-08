@@ -2,47 +2,47 @@ const Category = require("../models/categoryModel");
 const jwt = require("jsonwebtoken");
 
 const CategoryCtrl = {
-  getCategoryCode: async (req, res) => {
-    let newCategory = new Category();
-    const code = `CTG${new Date().getFullYear()}${newCategory.seq}`;
-    try {
-      res.status(200).json({ code });
-    } catch (err) {
-      return res.status(500).json({ msg: err.message });
-    }
-  },
-  getAllCategory: async (req, res) => {
-    try {
-      let category;
-      category = await Category.find();
+    getCategoryCode: async (req, res) => {
+        let newCategory = new Category();
+        const code = `CTG${new Date().getFullYear()}${newCategory.seq}`;
+        try {
+            res.status(200).json({ code });
+        } catch (err) {
+            return res.status(500).json({ msg: err.message });
+        }
+    },
+    getAllCategory: async (req, res) => {
+        try {
+            let category;
+            category = await Category.find();
 
-      res.status(200).json({ category });
-    } catch (err) {
-      return res.status(500).json({ msg: err.message });
-    }
-  },
-  createCategory: async (req, res) => {
-    try {
-      await newCategory.save();
-      res.status(200).json({ msg: "Category has been created" });
-    } catch (err) {
-      return res.status(500).json({ msg: err.message });
-    }
-  },
-  updateCategory: async (req, res) => {
-    try {
-      await Category.findByIdAndUpdate(
-        req.params.id,
-        {
-          $set: req.body,
-        },
-        { new: true }
-      );
-      res.status(200).json({ msg: "Update category successfully" });
-    } catch (err) {
-      return res.status(500).json({ msg: err.message });
-    }
-  },
+            res.status(200).json({ category });
+        } catch (err) {
+            return res.status(500).json({ msg: err.message });
+        }
+    },
+    createCategory: async (req, res) => {
+        try {
+            await newCategory.save();
+            res.status(200).json({ msg: "Category has been created" });
+        } catch (err) {
+            return res.status(500).json({ msg: err.message });
+        }
+    },
+    updateCategory: async (req, res) => {
+        try {
+            await Category.findByIdAndUpdate(
+                req.params.id,
+                {
+                    $set: req.body,
+                },
+                { new: true }
+            );
+            res.status(200).json({ msg: "Update category successfully" });
+        } catch (err) {
+            return res.status(500).json({ msg: err.message });
+        }
+    },
 };
 
 module.exports = CategoryCtrl;

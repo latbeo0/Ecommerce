@@ -14,6 +14,7 @@ const Header = styled.div`
 const Body = styled.div`
     transition: all 200ms ease-out;
     overflow: hidden;
+    padding: 0 0.5rem;
 
     ${(props) =>
         props.isOpen
