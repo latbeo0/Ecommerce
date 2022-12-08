@@ -6,7 +6,8 @@ const UserHeader = styled.div`
   align-items: center;
 `;
 const UserTitle = styled.div`
-    font-size: 25px`
-const UserIconContainer = styled.div`
-    `
-export { UserHeader , UserTitle, UserIconContainer};
+  font-size: 28px;
+  font-weight: bold;
+`;
+const UserIconContainer = styled.div``;
+export { UserHeader, UserTitle, UserIconContainer };

@@ -7,16 +7,20 @@ export const fetchGetAllCategory = async () => {
     console.log(err);
   }
 };
-export const fetchAddNewCategory = async (user, token) => {
+export const fetchAddNewCategory = async (category, token) => {
   try {
-    return await baseRequest.post("/api/category/", user);
+    return await baseRequest.post("/api/category/", category, {
+      headers: { Authorization: token },
+  });
   } catch (err) {
     throw err;
   }
 };
-export const fetchUpdateCategory = async (user, id, token) => {
+export const fetchUpdateCategory = async (category, id, token) => {
   try {
-    return await baseRequest.put(`/api/category/${id}`, user);
+    return await baseRequest.put(`/api/category/${id}`, category, {
+      headers: { Authorization: token },
+  });
   } catch (err) {
     throw err;
   }

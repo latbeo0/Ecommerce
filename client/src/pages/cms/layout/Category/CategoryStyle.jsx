@@ -6,7 +6,8 @@ const CategoryHeader = styled.div`
   align-items: center;
 `;
 const CategoryTitle = styled.div`
-    font-size: 25px`
+    font-size: 28px;
+    font-weight: bold;`
 const CategoryIconContainer = styled.div`
     `
 export { CategoryHeader , CategoryTitle, CategoryIconContainer};

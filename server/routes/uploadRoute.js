@@ -15,7 +15,7 @@ router.post(
 
 router.post(
     "/upload_product",
-    // verifyTokenAndAdmin,
+    verifyTokenAndAdmin,
     uploadImage,
     uploadCtrl.uploadProduct
 );

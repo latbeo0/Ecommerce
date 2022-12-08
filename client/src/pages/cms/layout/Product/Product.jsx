@@ -26,18 +26,39 @@ const tableColumnExtensions = [
   { columnName: "colors", align: "center" },
   { columnName: "stock", align: "center" },
 ];
+const actionReducer = (state, action) => {
+  switch (action.type) {
+    case "ADD":
+      return { ...state, type: "ADD", payload: "", open: true };
+    case "UPDATE":
+      return { ...state, type: "UPDATE", payload: action.payload, open: true };
+    case "DELETE":
+      return state;
+    case "FILTER":
+      return state;
+    case "OPTION":
+      return state;
+    case "DETAIL":
+      return state;
+    default:
+      return { ...state, type: "", payload: null, open: false };
+  }
+};
+
 const Product = () => {
   const navigate = useNavigate();
-
+  const [action, dispatchAction] = React.useReducer(actionReducer, {
+    type: "",
+    payload: null,
+    open: false,
+  });
   const [option, setOption] = useState({
-    isshowSort: false,
+    isShowSort: false,
     isShowGroup: false,
     isShowEdit: false,
     isShowSearchBar: false,
     isShowSelect: false,
   });
-  const [isOpen, setOpen] = useState(false);
-  const [productDetail, setProductDetail] = useState();
   const [selection, setSelection] = React.useState([]);
   const [rows, setRows] = useState([]);
   const [columns, setColumns] = useState([
@@ -85,39 +106,44 @@ const Product = () => {
     fetchData();
   }, []);
 
-  const handleClickOptionButton = (event, type) => {
-    switch (type) {
-      case data.types.SHOW_SORT:
-        setOption({ ...option, isshowSort: !option.isshowSort });
-        break;
-      case data.types.SHOW_GROUP:
-        setOption({ ...option, isShowGroup: !option.isShowGroup });
-        break;
-      case data.types.SHOW_SELECT:
+  const ListButtonCustomize = [
+    {
+      menuName: !option.isShowSelect ? "Show select box" : "Hide select box",
+      onClick: () => {
         setOption({ ...option, isShowSelect: !option.isShowSelect });
-        break;
-      case data.types.SHOW_SEARCH_BAR:
+      },
+      backgroundColor: option.isShowSelect && "#1890ffc9",
+      color: option.isShowSelect && "#FFF"
+    },
+    {
+      menuName: !option.isShowSearchBar ? "Show search bar" : "Hide search bar",
+      onClick: () => {
         setOption({ ...option, isShowSearchBar: !option.isShowSearchBar });
-        break;
-      case data.types.SHOW_EDIT:
-        setProductDetail(rows[selection[selection.length - 1]]);
-        setOpen(true);
-        break;
-      case data.types.SHOW_DETAIL:
-        if (selection) {
-          navigate(
-            `/list-product/detail${rows[selection[selection.length - 1]].id}`
-          );
-        }
-        break;
-      case data.types.SHOW_CUSTOM:
-        setOption({ ...option, isShowSearchBar: !option.isShowSearchBar });
-        break;
-      default:
-        navigate(-1);
-        break;
-    }
-  };
+      },
+      backgroundColor: option.isShowSearchBar && "#1890ffc9",
+      color: option.isShowSearchBar && "#FFF"
+
+    },
+    {
+      menuName: !option.isShowGroup ? "Show grouping" : "Hide grouping",
+      onClick: () => {
+        setOption({ ...option, isShowGroup: !option.isShowGroup });
+      },
+      backgroundColor: option.isShowGroup && "#1890ffc9",
+      color: option.isShowGroup && "#FFF"
+
+    },
+    {
+      menuName: !option.isShowSort ? "Show sorting" : "Hide sorting",
+      onClick: () => {
+        setOption({ ...option, isShowSort: !option.isShowSort });
+      },
+      backgroundColor: option.isShowSort && "#1890ffc9",
+      color: option.isShowSort && "#FFF"
+
+    },
+  ];
+
   const handleRowChange = (index) => {
     if (!option.isShowSelect) {
       let rowSelected = [];
@@ -131,59 +157,28 @@ const Product = () => {
       {React.useMemo(() => {
         return (
           <PopupEdit
-            row={productDetail}
-            open={isOpen}
-            onClose={() => setOpen(false)}
+            type={action.type}
+            row={action.payload}
+            open={action.open}
+            onClose={() => dispatchAction({ type: "" })}
           />
         );
-      }, [isOpen])}
+      }, [action.open])}
 
       <ProductHeader>
         <ProductTitle>Product</ProductTitle>
-        {/* <Stack direction="row" alignItems="center" spacing={1}>
-          {data.ListButton.map((item) => (
-            <ProductToolbarButtonCard
-              key={item.key}
-            >
-              <Button
-                type="primary"
-                shape="round"
-                icon={item.icon}
-                size="medium"
-                onClick={(event) => handleClickOptionButton(event, item.type)}
-              >
-                Download
-              </Button>
-            </ProductToolbarButtonCard>
-          ))}
-        </Stack> */}
       </ProductHeader>
-      {/* {React.useMemo(() => {
-        <Toolbar
-          listButton={data.ListButton}
-          onClickItem={handleClickOptionButton}
-        />;
-      }, [data.ListButton])} */}
-        <Toolbar
-          listButton={data.ListButton}
-          listButtonCustom={data.ListButtonCustomize}
-          onClickItem={handleClickOptionButton}
-        />
-      {/* <ProductToolbar>
-        <Stack direction="row" alignItems="center" spacing={1}>
-          {data.ListButton.map((item) => (
-            <Button
-              key={item.key}
-              variant="outlined"
-              startIcon={item.icon}
-              size="medium"
-              onClick={(event) => handleClickOptionButton(event, item.type)}
-            >
-              {item.ariaLabel}
-            </Button>
-          ))}
-        </Stack>
-      </ProductToolbar> */}
+      <Toolbar
+        activeItem={selection[0] >= 0 ? true : false}
+        listButton={data.ListButton}
+        listButtonCustom={ListButtonCustomize}
+        onClickItem={(button, buttonType) => {
+          dispatchAction({
+            type: buttonType,
+            payload: rows[selection[selection.length - 1]],
+          });
+        }}
+      />
       {React.useMemo(() => {
         return (
           <DataGrid

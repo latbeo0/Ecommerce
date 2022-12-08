@@ -11,6 +11,7 @@ export const fetchGetAccessToken = createAsyncThunk(
     async () => {
         try {
             const res = await baseRequest.post("/api/user/refresh_token", null);
+            console.log(res)
             return res.data;
         } catch (error) {
             throw new Error(error.response.data.msg);
@@ -32,23 +33,29 @@ export const fetchResetPassword = async (password, token) => {
     );
 };
 
-export const fetchGetAllUser = async () => {
+export const fetchGetAllUser = async (token) => {
     try {
-        return await baseRequest.get("/api/user/", null);
+        return await baseRequest.get("/api/user/", null, {
+            headers: { Authorization: token },
+        });
     } catch (err) {
-        console.log(err);
+        throw (err);
     }
 };
 export const fetchAddNewUser = async (user, token) => {
     try {
-        return await baseRequest.post("/api/user/", user);
+        return await baseRequest.post("/api/user/create-new", user,  {
+            headers: { Authorization: token },
+        });
     } catch (err) {
         throw err;
     }
 };
 export const fetchUpdateUser = async (user, id, token) => {
     try {
-        return await baseRequest.put(`/api/user/${id}`, user);
+        return await baseRequest.put(`/api/user/update/${id}`, user, {
+            headers: { Authorization: token },
+        });
     } catch (err) {
         throw err;
     }

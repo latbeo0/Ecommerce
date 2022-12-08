@@ -1,8 +1,12 @@
 import {
-  QuestionCircleOutlined,
+  PercentageOutlined,
   UserOutlined,
   ShopOutlined,
   AreaChartOutlined,
+  ShoppingCartOutlined,
+  CrownOutlined,
+  ReadOutlined,
+  LogoutOutlined,
 } from "@ant-design/icons";
 
 export const ListMenu = [
@@ -26,21 +30,26 @@ export const ListMenu = [
   },
   {
     key: "4",
-    icon: QuestionCircleOutlined,
+    icon: ShoppingCartOutlined,
+    label: "Order",
+    link: "/list-order",
+  },
+  {
+    key: "5",
+    icon: ReadOutlined,
     label: "Category",
     link: "/list-category",
   },
   {
-    key: "5",
-    icon: QuestionCircleOutlined,
+    key: "6",
+    icon: CrownOutlined,
     label: "Collection",
     link: "/list-collection",
   },
   {
-    key: "6",
-    icon: QuestionCircleOutlined,
+    key: "7",
+    icon: PercentageOutlined,
     label: "Sale Voucher",
     link: "/list-voucher",
   },
-
 ];

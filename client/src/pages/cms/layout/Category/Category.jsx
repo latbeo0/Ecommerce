@@ -7,13 +7,27 @@ import * as data from "./data";
 // import PopupEdit from "../../../../components/CMS/Category/PopupEdit";
 import { fetchGetAllCategory } from "../../../../services/categoryFetch";
 import BasicPopup from "../../../../components/CMS/BasicPopup/BasicPopup";
+import Toolbar from "./../../../../components/CMS/Toolbar/Toolbar";
 
 const defaultColumnWidths = [
   { columnName: "cateCode", width: 200 },
   { columnName: "cateName", width: 300 },
   { columnName: "cateDescription", width: 400 },
 ];
-
+const actionReducer = (state, action) => {
+  switch (action.type) {
+    case "ADD":
+      return { ...state, type: "ADD", payload: "", open: true };
+    case "UPDATE":
+      return { ...state, type: "UPDATE", payload: action.payload, open: true };
+    case "DELETE":
+      return state;
+    case "FILTER":
+      return state;;
+    default:
+      return { ...state, type: "", payload: null, open: false };
+  }
+};
 const Category = () => {
   const [option, setOption] = useState({
     isshowSort: false,
@@ -22,8 +36,12 @@ const Category = () => {
     isShowSearchBar: false,
     isShowSelect: false,
   });
-  const [isOpen, setOpen] = useState(false);
-  const [categoryDetail, setCategoryDetail] = useState();
+  const [action, dispatchAction] = React.useReducer(actionReducer, {
+    type: "",
+    payload: null,
+    open: false,
+  });
+  
   const [selection, setSelection] = React.useState([]);
   const [rows, setRows] = useState([]);
   const [columns, setColumns] = useState([
@@ -52,29 +70,44 @@ const Category = () => {
     };
     fetchData();
   }, []);
-
-  const handleClickOptionButton = (event, type) => {
-    switch (type) {
-      case data.types.SHOW_SORT:
-        setOption({ ...option, isshowSort: !option.isshowSort });
-        break;
-      case data.types.SHOW_GROUP:
-        setOption({ ...option, isShowGroup: !option.isShowGroup });
-        break;
-      case data.types.SHOW_SELECT:
+  const ListButtonCustomize = [
+    {
+      menuName: !option.isShowSelect ? "Show select box" : "Hide select box",
+      onClick: () => {
         setOption({ ...option, isShowSelect: !option.isShowSelect });
-        break;
-      case data.types.SHOW_SEARCH_BAR:
+      },
+      backgroundColor: option.isShowSelect && "#1890ffc9",
+      color: option.isShowSelect && "#FFF"
+    },
+    {
+      menuName: !option.isShowSearchBar ? "Show search bar" : "Hide search bar",
+      onClick: () => {
         setOption({ ...option, isShowSearchBar: !option.isShowSearchBar });
-        break;
-      case data.types.SHOW_EDIT:
-        setCategoryDetail(rows[selection[selection.length - 1]]);
-        setOpen(true);
-        break;
-      default:
-        break;
-    }
-  };
+      },
+      backgroundColor: option.isShowSearchBar && "#1890ffc9",
+      color: option.isShowSearchBar && "#FFF"
+
+    },
+    {
+      menuName: !option.isShowGroup ? "Show grouping" : "Hide grouping",
+      onClick: () => {
+        setOption({ ...option, isShowGroup: !option.isShowGroup });
+      },
+      backgroundColor: option.isShowGroup && "#1890ffc9",
+      color: option.isShowGroup && "#FFF"
+
+    },
+    {
+      menuName: !option.isShowSort ? "Show sorting" : "Hide sorting",
+      onClick: () => {
+        setOption({ ...option, isShowSort: !option.isShowSort });
+      },
+      backgroundColor: option.isShowSort && "#1890ffc9",
+      color: option.isShowSort && "#FFF"
+
+    },
+  ];
+  
   const handleRowChange = (index) => {
     if (!option.isShowSelect) {
       let rowSelected = [];
@@ -89,28 +122,28 @@ const Category = () => {
         return (
           <BasicPopup
             collection="CATEGORY"
-            row={categoryDetail}
-            open={isOpen}
-            onClose={() => setOpen(false)}
+            type={action.type}
+            row={action.payload}
+            open={action.open}
+            onClose={() => dispatchAction({ type: "" })}
           />
         );
-      }, [isOpen])}
+      }, [action.open])}
 
       <CategoryHeader>
         <CategoryTitle>Category</CategoryTitle>
-        <Stack direction="row" alignItems="center" spacing={1}>
-          {data.ListButton.map((item) => (
-            <IconButton
-              key={item.key}
-              aria-label={item.ariaLabel}
-              size={item.size}
-              onClick={(event) => handleClickOptionButton(event, item.type)}
-            >
-              {item.icon}
-            </IconButton>
-          ))}
-        </Stack>
       </CategoryHeader>
+      <Toolbar
+        activeItem={selection[0] >= 0 ? true : false}
+        listButton={data.ListButton}
+        listButtonCustom={ListButtonCustomize}
+        onClickItem={(button, buttonType) => {
+          dispatchAction({
+            type: buttonType,
+            payload: rows[selection[selection.length - 1]],
+          });
+        }}
+      />
       {React.useMemo(() => {
         return (
           <DataGrid

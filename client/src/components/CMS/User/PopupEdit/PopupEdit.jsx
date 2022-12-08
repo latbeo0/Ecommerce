@@ -27,10 +27,15 @@ import {
   fetchGetAllUser,
   fetchUpdateUser,
 } from "../../../../services/userFetch";
+import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectUser } from "./../../../../redux/userSlice";
+
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
-const PopupEdit = ({ open, row, onClose, onSubmit }) => {
+const PopupEdit = ({ type, open, row, onClose, onSubmit }) => {
+  const { currentUser } = useSelector(selectUser);
   const [listCity, setListCity] = useState([]);
   const [citySelected, setCitySelected] = useState([]);
 
@@ -44,12 +49,12 @@ const PopupEdit = ({ open, row, onClose, onSubmit }) => {
     fetchAllCity().then((response) => {
       setListCity(response.data);
     });
-    if (user.address.city) {
+    if (user.address?.city) {
       fetchCityByCode(user.address.city, 3).then((response) => {
         setCitySelected(response.data);
       });
     }
-  }, [user.address.city]);
+  }, [user?.address?.city]);
 
   React.useEffect(() => {
     if (row) {
@@ -58,7 +63,6 @@ const PopupEdit = ({ open, row, onClose, onSubmit }) => {
       setUserData(data.user);
     }
   }, [row]);
-
 
   const handleChangeInput = (e) => {
     const { name, value } = e.target;
@@ -71,23 +75,27 @@ const PopupEdit = ({ open, row, onClose, onSubmit }) => {
     setUserData({ ...user, address: { ...user.address, [name]: value } });
   };
   const handleSubmit = async () => {
-    if (!row) {
-      await fetchAddNewUser(user)
+    if (type === "ADD") {
+      await fetchAddNewUser(user, currentUser.access_token)
         .then((response) => {
           if (response.status === 200) {
             Notification(NotificationType.success, response.data.msg);
             setUserData(data.user);
           } else Notification(NotificationType.error, response.data.msg);
+          onClose();
         })
         .catch((error) => Notification(NotificationType.error, error));
-    } else {
-      await fetchUpdateUser(user, row.id)
+    } else if (type === "UPDATE" && row) {
+      await fetchUpdateUser(user, row.id, currentUser.access_token)
         .then((response) => {
           if (response.status === 200) {
             Notification(NotificationType.success, response.data.msg);
           } else Notification(NotificationType.error, response.data.msg);
+          onClose();
         })
-        .catch((error) => Notification(NotificationType.error, error));
+        .catch((error) => {
+          Notification(NotificationType.error, error);
+        });
     }
   };
   return (
@@ -308,7 +316,7 @@ const PopupEdit = ({ open, row, onClose, onSubmit }) => {
           Cancel
         </Button>
         <Button onClick={handleSubmit} color="primary">
-          {row ? "Update" : "Create"}
+          {type === "UPDATE" ? "Update" : "Create"}
         </Button>
       </DialogActions>
     </Dialog>

@@ -11,18 +11,46 @@ import Product from "./layout/Product/Product";
 import "./cms.css";
 import { ListMenu } from "./data";
 import User from "./layout/User/User";
-import Category from './layout/Category/Category';
+import Category from "./layout/Category/Category";
 import Collection from "./layout/Collection/Collection";
 import Sale from "./layout/Sale/Sale";
 import Detail from "./layout/Product/Detail/Detail";
+import ShoesLogo from "../../assets/img/shoes.png";
+import { LogoutOutlined } from "@ant-design/icons";
+import { fetchLogout } from "../../services/userFetch";
+import { useDispatch, useSelector } from "react-redux";
+import { selectUser } from "./../../redux/userSlice";
+
 const { Header, Sider, Content } = Layout;
 
 const AdminRouter = () => {
+  const user = useSelector(selectUser);
   const [collapsed, setCollapsed] = useState(false);
+  const dispatch = useDispatch();
+
   return (
     <Layout className="KBody">
       <Sider trigger={null} collapsible collapsed={collapsed}>
-        <div className="logo" />
+        <div className="logo">
+          <img
+            src={ShoesLogo}
+            alt="Web shoes"
+            style={{ height: "inherit" }}
+          ></img>
+          {!collapsed && (
+            <div
+              style={{
+                height: "inherit",
+                fontSize: "17px",
+                fontWeight: "bold",
+                color: "#FFF",
+                overflow: "hidden",
+              }}
+            >
+              UTE WEBSHOES
+            </div>
+          )}
+        </div>
         <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
           {ListMenu.map((item) => (
             <Menu.Item
@@ -38,6 +66,21 @@ const AdminRouter = () => {
               </span>
             </Menu.Item>
           ))}
+          <Menu.Item
+            id={0}
+            key={"0"}
+            style={{ display: "flex", alignItems: "center" }}
+            onClick={async () => {
+              await dispatch(fetchLogout());
+            }}
+          >
+            <Icon component={LogoutOutlined} />
+            <span>
+              <Link to={"/"} className="KLink">
+                Logout
+              </Link>
+            </span>
+          </Menu.Item>
         </Menu>
       </Sider>
       <Layout className="site-layout">
@@ -46,6 +89,10 @@ const AdminRouter = () => {
           style={{
             padding: 0,
             color: "white",
+            minHeight: "35px",
+            height: "7vh",
+            display: "flex",
+            alignItems: "center",
           }}
         >
           {React.createElement(
@@ -62,6 +109,8 @@ const AdminRouter = () => {
             margin: "24px 16px",
             padding: 8,
             minHeight: 280,
+            maxHeight: "93vh",
+            overflow: "auto",
           }}
         >
           <Routes>
@@ -69,6 +118,7 @@ const AdminRouter = () => {
             <Route path="/list-product" element={<Product />} />
             <Route path="/list-product/detail:id" element={<Detail />} />
             <Route path="/list-user" element={<User />} />
+            {/* <Route path="/list-order" element={<Order />} /> */}
             <Route path="/list-category" element={<Category />} />
             <Route path="/list-collection" element={<Collection />} />
             <Route path="/list-voucher" element={<Sale />} />

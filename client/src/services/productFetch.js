@@ -3,7 +3,9 @@ import { baseRequest } from './apiFetch';
 
 export const fetchAddNewProductMaster = async (product, token) => {
     try {
-        return await baseRequest.post('/api/product/master/', product);
+        return await baseRequest.post('/api/product/master/', product, {
+            headers: { Authorization: token },
+        });
     } catch (err) {
         throw err;
     }
@@ -26,14 +28,18 @@ export const fetchGetProductMaster = async (id) => {
 };
 export const fetchUpdateProductMaster = async (product, id, token) => {
     try {
-        return await baseRequest.put(`/api/product/master/${id}`, product);
+        return await baseRequest.put(`/api/product/master/${id}`, product, {
+            headers: { Authorization: token },
+        });
     } catch (err) {
         console.log(2);
     }
 };
 export const fetchAddNewProduct = async (product, token) => {
     try {
-        return await baseRequest.post('/api/product/', product);
+        return await baseRequest.post('/api/product/', product, {
+            headers: { Authorization: token },
+        });
     } catch (err) {
         throw err;
     }
@@ -63,12 +69,11 @@ export const fetchGetProductByIdMaster = async (idm) => {
 };
 export const fetchUpdateProduct = async (product, id, token) => {
     try {
-        // return await baseRequest.put(`/api/product/${id}`, product, {
-        //     headers: {
-        //         Authorization: token,
-        //     },
-        // });
-        return await baseRequest.put(`/api/product/${id}`, product);
+        return await baseRequest.put(`/api/product/${id}`, product, {
+            headers: {
+                Authorization: token,
+            },
+        });
     } catch (err) {
         console.log(2);
     }
@@ -82,7 +87,7 @@ export const fetchUploadImageProduct = async (formData, token) => {
             headers: {
                 'content-type': 'multipart/form-data',
                 // "accept": "application/json",
-                // Authorization: token,
+                Authorization: token,
             },
         });
     } catch (err) {

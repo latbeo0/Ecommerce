@@ -34,6 +34,8 @@ import Slide from "@mui/material/Slide";
 
 import Notification from "../../../../Basic/Notification/Notification";
 import { NotificationType } from "../../../../Basic/Notification/type";
+import { useSelector } from "react-redux";
+import { selectUser } from "./../../../../../redux/userSlice";
 
 const primaryItems = [
   // {
@@ -67,6 +69,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 const PopupEdit = ({ open, master, row, onClose, onSubmit }) => {
+  const { currentUser } = useSelector(selectUser);
   const [product, setProductData] = useState({
     ...data.product,
   });
@@ -124,36 +127,7 @@ const PopupEdit = ({ open, master, row, onClose, onSubmit }) => {
       },
     });
   };
-  const handleCalPrimaryImage = (e) => {
-    // const id = e.target.id;
-    // if (id === "addImage") {
-    //   setSecondaryImages((prev) => {
-    //     return [...prev, ""];
-    //   });
-    // } else {
-    //   const arr1 = setSecondaryImages.slice(0, Number(id));
-    //   const arr2 = setSecondaryImages.slice(
-    //     Number(id) + 1,
-    //     setSecondaryImages.length
-    //   );
-    //   setSecondaryImages([...arr1, ...arr2]);
-    // }
-  };
-  const handleCalSecondaryImage = (e) => {
-    // const id = e.target.id;
-    // if (id === "addImage") {
-    //   setSecondaryImages((prev) => {
-    //     return [...prev, ""];
-    //   });
-    // } else {
-    //   const arr1 = setSecondaryImages.slice(0, Number(id));
-    //   const arr2 = setSecondaryImages.slice(
-    //     Number(id) + 1,
-    //     setSecondaryImages.length
-    //   );
-    //   setSecondaryImages([...arr1, ...arr2]);
-    // }
-  };
+
   const handlePreviewImage = (e) => {
     const name = e.target.name;
     const file = e.target.files[0];
@@ -161,7 +135,7 @@ const PopupEdit = ({ open, master, row, onClose, onSubmit }) => {
     if (!check) {
       const formData = new FormData();
       formData.append("file", file);
-      fetchUploadImageProduct(formData)
+      fetchUploadImageProduct(formData, currentUser.access_token)
         .then((res) => {
           if (res) {
             switch (name.toUpperCase()) {
@@ -213,12 +187,15 @@ const PopupEdit = ({ open, master, row, onClose, onSubmit }) => {
 
   const handleSubmit = async () => {
     if (!row) {
-      await fetchAddNewProduct({
-        ...product,
-        productMasterId: master,
-        // primaryImages: primaryImages,
-        // secondaryImages: secondaryImages,
-      })
+      await fetchAddNewProduct(
+        {
+          ...product,
+          productMasterId: master,
+          // primaryImages: primaryImages,
+          // secondaryImages: secondaryImages,
+        },
+        currentUser.access_token
+      )
         .then((response) => {
           if (response.status === 200) {
             Notification(NotificationType.success, response.data.msg);
@@ -235,7 +212,8 @@ const PopupEdit = ({ open, master, row, onClose, onSubmit }) => {
           // primaryImages: primaryImages,
           // secondaryImages: secondaryImages,
         },
-        row.id
+        row.id,
+        currentUser.access_token
       )
         .then((response) => {
           if (response.status === 200) {

@@ -19,11 +19,14 @@ import Slide from "@mui/material/Slide";
 
 import Notification from "../../../Basic/Notification/Notification";
 import { NotificationType } from "../../../Basic/Notification/type";
+import { useSelector } from 'react-redux';
+import { selectUser } from './../../../../redux/userSlice';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
-const PopupEdit = ({ open, row, onClose, onSubmit }) => {
+const PopupEdit = ({ type, open, row, onClose, onSubmit }) => {
+  const { currentUser } = useSelector(selectUser);
   const [productMaster, setProductMaster] = useState(data.productMaster);
 
   React.useEffect(() => {
@@ -40,7 +43,7 @@ const PopupEdit = ({ open, row, onClose, onSubmit }) => {
   };
 
   const handleSubmit = async () => {
-    if (!row) {
+    if (type === "ADD") {
       await fetchAddNewProductMaster(productMaster)
         .then((response) => {
           if (response.status === 200) {
@@ -50,8 +53,8 @@ const PopupEdit = ({ open, row, onClose, onSubmit }) => {
           onClose();
         })
         .catch((error) => Notification(NotificationType.error, error));
-    } else {
-      await fetchUpdateProductMaster(productMaster, row.id)
+    } else if (type === "UPDATE" && row) {
+      await fetchUpdateProductMaster(productMaster, row.id, currentUser.access_token)
         .then((response) => {
           if (response.status === 200) {
             Notification(NotificationType.success, response.data.msg);
@@ -171,7 +174,7 @@ const PopupEdit = ({ open, row, onClose, onSubmit }) => {
           Cancel
         </Button>
         <Button onClick={handleSubmit} color="primary">
-          {row ? "Update" : "Create"}
+          {type === "UPDATE" ? "Update" : "Create"}
         </Button>
       </DialogActions>
     </Dialog>

@@ -7,20 +7,44 @@ import * as data from "./data";
 // import PopupEdit from "../../../../components/CMS/Sale/PopupEdit";
 import { fetchGetAllSale } from "../../../../services/saleFetch";
 import BasicPopup from "./../../../../components/CMS/BasicPopup/BasicPopup";
+import Toolbar from './../../../../components/CMS/Toolbar/Toolbar';
+import { selectUser } from './../../../../redux/userSlice';
+import { useSelector } from 'react-redux';
 
 const defaultColumnWidths = [
   { columnName: "saleCode", width: 200 },
   { columnName: "saleName", width: 300 },
   { columnName: "saleDescription", width: 400 },
 ];
-
+const actionReducer = (state, action) => {
+  switch (action.type) {
+    case "ADD":
+      return { ...state, type: "ADD", payload: "", open: true };
+    case "UPDATE":
+      return { ...state, type: "UPDATE", payload: action.payload, open: true };
+    case "DELETE":
+      return state;
+    case "FILTER":
+      return state;
+    case "OPTION":
+      return state;
+    default:
+      return { ...state, type: "", payload: null, open: false };
+  }
+};
 const Sale = () => {
+  const { currentUser } = useSelector(selectUser);
   const [option, setOption] = useState({
     isshowSort: false,
     isShowGroup: false,
     isShowEdit: false,
     isShowSearchBar: false,
     isShowSelect: false,
+  });
+  const [action, dispatchAction] = React.useReducer(actionReducer, {
+    type: "",
+    payload: null,
+    open: false,
   });
   const [isOpen, setOpen] = useState(false);
   const [saleDetail, setSaleDetail] = useState();
@@ -34,7 +58,7 @@ const Sale = () => {
 
   React.useEffect(() => {
     const fetchData = async () => {
-      await fetchGetAllSale()
+      await fetchGetAllSale(currentUser.access_token)
         .then((response) => {
           let tempArr = [];
           response.data.sale.forEach((item) => {
@@ -53,28 +77,43 @@ const Sale = () => {
     fetchData();
   }, []);
 
-  const handleClickOptionButton = (event, type) => {
-    switch (type) {
-      case data.types.SHOW_SORT:
-        setOption({ ...option, isshowSort: !option.isshowSort });
-        break;
-      case data.types.SHOW_GROUP:
-        setOption({ ...option, isShowGroup: !option.isShowGroup });
-        break;
-      case data.types.SHOW_SELECT:
+  const ListButtonCustomize = [
+    {
+      menuName: !option.isShowSelect ? "Show select box" : "Hide select box",
+      onClick: () => {
         setOption({ ...option, isShowSelect: !option.isShowSelect });
-        break;
-      case data.types.SHOW_SEARCH_BAR:
+      },
+      backgroundColor: option.isShowSelect && "#1890ffc9",
+      color: option.isShowSelect && "#FFF"
+    },
+    {
+      menuName: !option.isShowSearchBar ? "Show search bar" : "Hide search bar",
+      onClick: () => {
         setOption({ ...option, isShowSearchBar: !option.isShowSearchBar });
-        break;
-      case data.types.SHOW_EDIT:
-        setSaleDetail(rows[selection[selection.length - 1]]);
-        setOpen(true);
-        break;
-      default:
-        break;
-    }
-  };
+      },
+      backgroundColor: option.isShowSearchBar && "#1890ffc9",
+      color: option.isShowSearchBar && "#FFF"
+
+    },
+    {
+      menuName: !option.isShowGroup ? "Show grouping" : "Hide grouping",
+      onClick: () => {
+        setOption({ ...option, isShowGroup: !option.isShowGroup });
+      },
+      backgroundColor: option.isShowGroup && "#1890ffc9",
+      color: option.isShowGroup && "#FFF"
+
+    },
+    {
+      menuName: !option.isShowSort ? "Show sorting" : "Hide sorting",
+      onClick: () => {
+        setOption({ ...option, isShowSort: !option.isShowSort });
+      },
+      backgroundColor: option.isShowSort && "#1890ffc9",
+      color: option.isShowSort && "#FFF"
+
+    },
+  ];
   const handleRowChange = (index) => {
     if (!option.isShowSelect) {
       let rowSelected = [];
@@ -89,28 +128,28 @@ const Sale = () => {
         return (
           <BasicPopup
             collection="SALE"
-            row={saleDetail}
-            open={isOpen}
-            onClose={() => setOpen(false)}
+            type={action.type}
+            row={action.payload}
+            open={action.open}
+            onClose={() => dispatchAction({ type: "" })}
           />
         );
-      }, [isOpen])}
+      }, [action.open])}
 
-      <SaleHeader>
+     <SaleHeader>
         <SaleTitle>Sale</SaleTitle>
-        <Stack direction="row" alignItems="center" spacing={1}>
-          {data.ListButton.map((item) => (
-            <IconButton
-              key={item.key}
-              aria-label={item.ariaLabel}
-              size={item.size}
-              onClick={(event) => handleClickOptionButton(event, item.type)}
-            >
-              {item.icon}
-            </IconButton>
-          ))}
-        </Stack>
       </SaleHeader>
+      <Toolbar
+        activeItem={selection[0] >= 0 ? true : false}
+        listButton={data.ListButton}
+        listButtonCustom={ListButtonCustomize}
+        onClickItem={(button, buttonType) => {
+          dispatchAction({
+            type: buttonType,
+            payload: rows[selection[selection.length - 1]],
+          });
+        }}
+      />
       {React.useMemo(() => {
         return (
           <DataGrid

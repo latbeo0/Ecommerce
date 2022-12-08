@@ -1,10 +1,10 @@
 const router = require('express').Router();
 const stateCtrl = require('../controllers/stateCtrl');
-// const { verifyTokenAndAdmin } = require('../middleware/verifyToken');
+const { verifyTokenAndAdmin,  verifyTokenAndSalePerson} = require('../middleware/verifyToken');
 
-router.post('/', stateCtrl.createstate);
+router.post('/', verifyTokenAndSalePerson, stateCtrl.createstate);
 
-router.put('/:id', stateCtrl.updatestate);
+router.put('/:id', verifyTokenAndAdmin, stateCtrl.updatestate);
 
 router.get('/', stateCtrl.getAllstate);
 

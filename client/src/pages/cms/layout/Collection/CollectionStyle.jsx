@@ -6,7 +6,8 @@ const CollectionHeader = styled.div`
   align-items: center;
 `;
 const CollectionTitle = styled.div`
-    font-size: 25px`
-const CollectionIconContainer = styled.div`
-    `
-export { CollectionHeader , CollectionTitle, CollectionIconContainer};
+  font-size: 28px;
+  font-weight: bold;
+`;
+const CollectionIconContainer = styled.div``;
+export { CollectionHeader, CollectionTitle, CollectionIconContainer };

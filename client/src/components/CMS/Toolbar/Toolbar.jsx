@@ -6,8 +6,10 @@ import { styled, alpha } from "@mui/material/styles";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import MuiGrid from "@mui/material/Grid";
 
 import { ToolbarContainer } from "./ToolbarStyled";
+import Paper from "@mui/material/Paper";
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -51,7 +53,17 @@ const StyledMenu = styled((props) => (
     },
   },
 }));
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: "center",
+  color: theme.palette.text.secondary,
+  boxShadow:
+    "rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px",
+}));
 const Toolbar = ({
+  activeItem = false,
   listButton = [],
   listButtonCustom = [],
   onClickItem = () => {},
@@ -65,71 +77,69 @@ const Toolbar = ({
   const handleClose = () => {
     setAnchorEl(null);
   };
-
   return (
     <ToolbarContainer>
-      <Stack direction="row" alignItems="center" spacing={1}>
-        {/* <Button
-          key="bstart"
-          name="back"
-          variant="outlined"
-          startIcon={<ArrowBackIcon />}
-          size="medium"
-          onClick={(event) => onClickItem(event, "BACK")}
-        >
-          Back
-        </Button> */}
-        {listButton?.length > 0 &&
-          listButton.map((item) => (
-            <Button
-              key={item.key}
-              variant="outlined"
-              startIcon={item.icon}
-              size="medium"
-              onClick={(event) => onClickItem(event, item.type)}
-            >
-              {item.ariaLabel}
-            </Button>
-          ))}
-        {listButtonCustom.length > 0 && (
-          <>
-            <Button
-              id="demo-customized-button"
-              aria-controls={open ? "demo-customized-menu" : undefined}
-              aria-haspopup="true"
-              aria-expanded={open ? "true" : undefined}
-              variant="contained"
-              disableElevation
-              onClick={handleClick}
-              endIcon={<KeyboardArrowDownIcon />}
-            >
-              Custom
-            </Button>
-            <StyledMenu
-              id="demo-customized-menu"
-              MenuListProps={{
-                "aria-labelledby": "demo-customized-button",
-              }}
-              anchorEl={anchorEl}
-              open={open}
-              onClose={handleClose}
-            >
-              {listButtonCustom.map((item) => (
-                <MenuItem
-                  key={item.key}
-                  onClick={(event) => {
-                    onClickItem(event, item.type);
-                    handleClose();
-                  }}
-                  disableRipple
-                >
-                  {item.ariaLabel}
-                </MenuItem>
-              ))}
-            </StyledMenu>
-          </>
-        )}
-      </Stack>
+      <MuiGrid container spacing={0}>
+        <MuiGrid item xs={12}>
+          <Item>
+            <Stack direction="row" alignItems="center" spacing={1}>
+              {listButton?.length > 0 &&
+                listButton.map((item) => (
+                  <Button
+                    key={item.key}
+                    variant="outlined"
+                    startIcon={item.icon}
+                    size="medium"
+                    onClick={(event) => onClickItem(event, item.type)}
+                    disabled={activeItem ? false : item.disabled}
+                  >
+                    {item.ariaLabel}
+                  </Button>
+                ))}
+              {listButtonCustom.length > 0 && (
+                <>
+                  <Button
+                    id="demo-customized-button"
+                    aria-controls={open ? "demo-customized-menu" : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? "true" : undefined}
+                    variant="contained"
+                    disableElevation
+                    onClick={handleClick}
+                    endIcon={<KeyboardArrowDownIcon />}
+                  >
+                    Option
+                  </Button>
+                  <StyledMenu
+                    id="demo-customized-menu"
+                    MenuListProps={{
+                      "aria-labelledby": "demo-customized-button",
+                    }}
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                  >
+                    {listButtonCustom.map((item, index) => (
+                      <MenuItem
+                        key={index}
+                        onClick={item.onClick}
+                        disableRipple
+                        style={{
+                          backgroundColor:
+                            item?.backgroundColor && item.backgroundColor,
+                          color: item?.color && item.color,
+                        }}
+                      >
+                        {item.menuName}
+                      </MenuItem>
+                    ))}
+                  </StyledMenu>
+                </>
+              )}
+            </Stack>
+          </Item>
+        </MuiGrid>
+      </MuiGrid>
     </ToolbarContainer>
   );
 };

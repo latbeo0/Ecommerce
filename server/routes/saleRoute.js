@@ -1,12 +1,12 @@
 const router = require('express').Router();
 const saleCtrl = require('../controllers/saleCtrl');
-// const { verifyTokenAndAdmin } = require('../middleware/verifyToken');
+const { verifyTokenAndAdmin, verifyTokenAndSalePerson } = require('../middleware/verifyToken');
 
 // CREATE
-router.post('/', saleCtrl.createSaleVoucher);
+router.post('/', verifyTokenAndAdmin, saleCtrl.createSaleVoucher);
 
 // UPDATE
-router.put('/:id', saleCtrl.updateSaleVoucher);
+router.put('/:id', verifyTokenAndAdmin, saleCtrl.updateSaleVoucher);
 
 // GET ALL VOUCHER
 router.get('/', saleCtrl.getAllSaleVoucher);

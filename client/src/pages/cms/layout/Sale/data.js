@@ -1,8 +1,8 @@
-import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import SearchIcon from '@mui/icons-material/Search';
-import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
-import WorkspacesIcon from '@mui/icons-material/Workspaces';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 export const types = {
     SHOW_SORT: "SHOW_SORT",
@@ -13,44 +13,45 @@ export const types = {
 }
 export const ListButton = [
     { 
-        key: "E1",
-        ariaLabel: "Edit",
+        key: "B1",
+        ariaLabel: "Add",
         size: "medium",
-        type: types.SHOW_EDIT,
+        type: "ADD",
         fontSize: "inherit",
-        icon: <ModeEditIcon/>
+        icon: <AddCircleOutlineIcon/>,
+        disabled: false,
+        level: 2
+    },
+    { 
+        key: "B2",
+        ariaLabel: "Update",
+        size: "medium",
+        type: "UPDATE",
+        fontSize: "inherit",
+        icon: <EditIcon/>,
+        disabled: true,
+        level: 2
+    },
+    { 
+        key: "B3",
+        ariaLabel: "Delete",
+        size: "medium",
+        type: "DELETE",
+        fontSize: "inherit",
+        icon: <DeleteIcon/>,
+        disabled: true,
+        level: 1,
     },
     {
-        key: "F1",
+        key: "B4",
         ariaLabel: "Filter",
         size: "medium",
-        type: types.SHOW_SORT,
+        type: "FILTER",
         fontSize: "inherit",
-        icon: <FilterAltIcon/>
+        icon : <FilterAltIcon/>,
+        disabled: false,
+        level: 3
     },
-    { 
-        key: "S3",
-        ariaLabel: "Searchbar",
-        size: "medium",
-        type: types.SHOW_SEARCH_BAR,
-        fontSize: "inherit",
-        icon: <SearchIcon/>
-    },
-    { 
-        key: "S4",
-        ariaLabel: "Select",
-        size: "medium",
-        type: types.SHOW_SELECT,
-        fontSize: "inherit",
-        icon : <CheckBoxOutlineBlankIcon/>
-    },
-    { 
-        key:"G5",
-        ariaLabel: "Group",
-        size: "medium",
-        type: types.SHOW_GROUP,
-        fontSize: "inherit",
-        icon: <WorkspacesIcon/>
-    }
 ]
+export const ListButtonCustomize = [];
 

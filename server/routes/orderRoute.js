@@ -1,17 +1,24 @@
-const router = require('express').Router();
-const orderCtrl = require('../controllers/orderCtrl');
-const { verifyTokenAndAuthorization } = require('../middleware/verifyToken');
+const router = require("express").Router();
+const orderCtrl = require("../controllers/orderCtrl");
+const {
+  verifyTokenAndAuthorization,
+  verifyTokenAndSalePerson,
+} = require("../middleware/verifyToken");
 
-router.post('/payment', orderCtrl.payment);
+router.post("/payment", orderCtrl.payment);
 
-router.get('/find/:id', verifyTokenAndAuthorization, orderCtrl.getUserOrders);
+router.get("/find/:id", verifyTokenAndAuthorization, orderCtrl.getUserOrders);
 
-router.post('/search', orderCtrl.getOrder);
+router.post("/search", orderCtrl.getOrder);
 
-router.get('/find-all', orderCtrl.getAllOrder);
+//Admin
 
-router.get('/find-by-date', orderCtrl.getOrderByDate);
+router.get("/find-all", verifyTokenAndSalePerson, orderCtrl.getAllOrder);
 
-
+router.post(
+  "/find-by-date",
+  verifyTokenAndSalePerson,
+  orderCtrl.getOrderByDate
+);
 
 module.exports = router;

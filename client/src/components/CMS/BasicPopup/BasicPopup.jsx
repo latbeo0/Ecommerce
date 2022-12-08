@@ -23,6 +23,8 @@ import Slide from "@mui/material/Slide";
 
 import Notification from "../../Basic/Notification/Notification";
 import { NotificationType } from "../../Basic/Notification/type";
+import { useSelector } from 'react-redux';
+import { selectUser } from './../../../redux/userSlice';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -47,7 +49,9 @@ const saleState = {
   saleName: "",
   saleDescription: "",
 };
-const BasicPopup = ({ open, row, onClose, onSubmit, collection }) => {
+const BasicPopup = ({ type, open, row, onClose, onSubmit, collection }) => {
+  const { currentUser } = useSelector(selectUser);
+
   const [data, setData] = useState();
 
   React.useEffect(() => {
@@ -56,11 +60,13 @@ const BasicPopup = ({ open, row, onClose, onSubmit, collection }) => {
     } else {
       switch (collection.toUpperCase()) {
         case "CATEGORY":
+          setData(categoryState);
           break;
         case "COLLECTION":
           setData(collectionState);
           break;
         case "SALE":
+          setData(saleState);
           break;
         default:
           setData(initialState);
@@ -77,16 +83,16 @@ const BasicPopup = ({ open, row, onClose, onSubmit, collection }) => {
   const handleSubmit = async () => {
     switch (collection?.toUpperCase()) {
       case "CATEGORY":
-        if (!row) {
-          await fetchAddNewCategory(data).then((response) => {
+        if (type === "ADD") {
+          await fetchAddNewCategory(data, currentUser.access_token).then((response) => {
             if (response.status === 200) {
               Notification(NotificationType.success, response.data.msg);
               setData(categoryState);
             } else Notification(NotificationType.error, response.data.msg);
             onClose();
           });
-        } else {
-          await fetchUpdateCategory(data, row.id)
+        } else if (type === "UPDATE" && row) {
+          await fetchUpdateCategory(data, row.id, currentUser.access_token)
             .then((response) => {
               if (response.status === 200) {
                 Notification(NotificationType.success, response.data.msg);
@@ -98,16 +104,16 @@ const BasicPopup = ({ open, row, onClose, onSubmit, collection }) => {
         }
         break;
       case "COLLECTION":
-        if (!row) {
-          await fetchAddNewCollection(data).then((response) => {
+        if (type === "ADD") {
+          await fetchAddNewCollection(data, currentUser.access_token).then((response) => {
             if (response.status === 200) {
               Notification(NotificationType.success, response.data.msg);
               setData(collectionState);
             } else Notification(NotificationType.error, response.data.msg);
             onClose();
           });
-        } else {
-          await fetchUpdateCollection(data, row.id)
+        } else if (type === "UPDATE" && row) {
+          await fetchUpdateCollection(data, row.id, currentUser.access_token)
             .then((response) => {
               if (response.status === 200) {
                 Notification(NotificationType.success, response.data.msg);
@@ -119,16 +125,16 @@ const BasicPopup = ({ open, row, onClose, onSubmit, collection }) => {
         }
         break;
       case "SALE":
-        if (!row) {
-          await fetchAddNewSale(data).then((response) => {
+        if (type === "ADD") {
+          await fetchAddNewSale(data, currentUser.access_token).then((response) => {
             if (response.status === 200) {
               Notification(NotificationType.success, response.data.msg);
               setData(saleState);
             } else Notification(NotificationType.error, response.data.msg);
             onClose();
           });
-        } else {
-          await fetchUpdateSale(data, row.id)
+        } else if (type === "UPDATE" && row) {
+          await fetchUpdateSale(data, row.id, currentUser.access_token)
             .then((response) => {
               if (response.status === 200) {
                 Notification(NotificationType.success, response.data.msg);
@@ -209,7 +215,7 @@ const BasicPopup = ({ open, row, onClose, onSubmit, collection }) => {
           Cancel
         </Button>
         <Button onClick={handleSubmit} color="primary">
-          {row ? "Update" : "Create"}
+          {type === "UPDATE" ? "Update" : "Create"}
         </Button>
       </DialogActions>
     </Dialog>

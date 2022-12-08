@@ -6,7 +6,8 @@ const ProductHeader = styled.div`
   align-items: center;
 `;
 const ProductTitle = styled.div`
-  font-size: 25px;
+  font-size: 28px;
+  font-weight: bold;
 `;
 const ProductIconContainer = styled.div``;
 const ProductToolbar = styled.div`

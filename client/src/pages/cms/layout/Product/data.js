@@ -1,7 +1,8 @@
-import ModeEditIcon from "@mui/icons-material/ModeEdit";
-import BorderColorIcon from "@mui/icons-material/BorderColor";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 
 export const types = {
   BACK: "BACK",
@@ -14,110 +15,55 @@ export const types = {
   SHOW_CUSTOM: "SHOW_CUSTOM",
 };
 export const ListButton = [
-  // {
-  //   key: "B0",
-  //   ariaLabel: "Back",
-  //   size: "medium",
-  //   type: types.BACK,
-  //   fontSize: "inherit",
-  //   icon: <ArrowBackIcon />,
-  // },
-  {
-    key: "ADD",
-    ariaLabel: "ADD",
-    size: "medium",
-    type: types.SHOW_EDIT,
-    fontSize: "inherit",
-    icon: <ModeEditIcon />,
-  },
-  {
-    key: "EDIT",
-    ariaLabel: "EDIT",
-    size: "medium",
-    type: types.SHOW_EDIT,
-    fontSize: "inherit",
-    icon: <ModeEditIcon />,
-  },
-  {
-    key: "DELETE",
-    ariaLabel: "DELETE",
-    size: "medium",
-    type: types.SHOW_EDIT,
-    fontSize: "inherit",
-    icon: <ModeEditIcon />,
-  },
-  {
-    key: "D2",
-    ariaLabel: "Detail",
-    size: "medium",
-    type: types.SHOW_DETAIL,
-    fontSize: "inherit",
-    icon: <BorderColorIcon />,
-  },
-  // {
-  //   key: "C3",
-  //   ariaLabel: "Custom",
-  //   size: "medium",
-  //   type: types.SHOW_CUSTOM,
-  //   fontSize: "inherit",
-  //   icon: <KeyboardArrowDownIcon />,
-  // },
-  //   {
-  //     key: "F1",
-  //     ariaLabel: "Sort",
-  //     size: "medium",
-  //     type: types.SHOW_SORT,
-  //     fontSize: "inherit",
-  //     icon: <SortIcon />,
-  //   },
-  //   {
-  //     key: "S3",
-  //     ariaLabel: "Searchbar",
-  //     size: "medium",
-  //     type: types.SHOW_SEARCH_BAR,
-  //     fontSize: "inherit",
-  //     icon: <SearchIcon />,
-  //   },
-  //   {
-  //     key: "S4",
-  //     ariaLabel: "Select",
-  //     size: "medium",
-  //     type: types.SHOW_SELECT,
-  //     fontSize: "inherit",
-  //     icon: <CheckBoxOutlineBlankIcon />,
-  //   },
-  //   {
-  //     key: "G5",
-  //     ariaLabel: "Group",
-  //     size: "medium",
-  //     type: types.SHOW_GROUP,
-  //     fontSize: "inherit",
-  //     icon: <WorkspacesIcon />,
-  //   },
-];
-export const ListButtonCustomize = [
-  {
-    key: "C1",
-    ariaLabel: "Show Select",
-    size: "medium",
-    type: types.SHOW_SELECT,
-    fontSize: "inherit",
-    // icon: <WorkspacesIcon />,
-  },
-  {
-    key: "S2",
-    ariaLabel: "Show Search",
-    size: "medium",
-    type: types.SHOW_SEARCH_BAR,
-    fontSize: "inherit",
-    // icon: <WorkspacesIcon />,
-  },
-  {
-    key: "G3",
-    ariaLabel: "Show Group",
-    size: "medium",
-    type: types.SHOW_GROUP,
-    fontSize: "inherit",
-    // icon: <WorkspacesIcon />,
-  },
-];
+    { 
+        key: "B1",
+        ariaLabel: "Add",
+        size: "medium",
+        type: "ADD",
+        fontSize: "inherit",
+        icon: <AddCircleOutlineIcon/>,
+        disabled: false,
+        level: 2
+    },
+    { 
+        key: "B2",
+        ariaLabel: "Update",
+        size: "medium",
+        type: "UPDATE",
+        fontSize: "inherit",
+        icon: <EditIcon/>,
+        disabled: true,
+        level: 2
+    },
+    { 
+        key: "B3",
+        ariaLabel: "Delete",
+        size: "medium",
+        type: "DELETE",
+        fontSize: "inherit",
+        icon: <DeleteIcon/>,
+        disabled: true,
+        level: 1,
+    },
+    { 
+        key: "B4",
+        ariaLabel: "Filter",
+        size: "medium",
+        type: "FILTER",
+        fontSize: "inherit",
+        icon : <FilterAltIcon/>,
+        disabled: false,
+        level: 3
+    },
+    { 
+        key: "B6",
+        ariaLabel: "Detail",
+        size: "medium",
+        type: "DETAIL",
+        fontSize: "inherit",
+        icon : <RemoveRedEyeIcon/>,
+        disabled: true,
+        level: 3
+    },
+]
+
