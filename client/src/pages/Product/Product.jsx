@@ -229,7 +229,7 @@ const Product = () => {
                 <ImageContainer>
                     <ImagePrimaryContainer>
                         <Image
-                            alt='img'
+                            alt="img"
                             src={currentProduct.product?.primaryImages?.[0].img}
                         />
                     </ImagePrimaryContainer>
@@ -243,14 +243,14 @@ const Product = () => {
                     <Name>{currentProduct.product?.productName}</Name>
                     <HeaderInformationContainer>
                         <CodeProduct>
-                            Mã sản phẩm:{' '}
-                            <strong style={{ fontWeight: 'bold' }}>
+                            Mã sản phẩm:{" "}
+                            <strong style={{ fontWeight: "bold" }}>
                                 {currentProduct.product?._id}
                             </strong>
                         </CodeProduct>
                         <StateProduct>
-                            Tình trạng:{' '}
-                            <strong style={{ fontWeight: 'bold' }}>
+                            Tình trạng:{" "}
+                            <strong style={{ fontWeight: "bold" }}>
                                 {currentProduct.product?.stateCode}
                             </strong>
                         </StateProduct>

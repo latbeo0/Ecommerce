@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 // import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import AdminRouter from './pages/cms/AdminRouter';
@@ -54,7 +54,7 @@ const App = () => {
     const [isScroll, setIsScroll] = useState(false);
 
     useEffect(() => {
-        window.addEventListener('scroll', () => {
+        window.addEventListener("scroll", () => {
             if (window.scrollY > 500) {
                 setIsScroll(true);
             } else {
@@ -63,13 +63,13 @@ const App = () => {
         });
 
         return () =>
-            window.removeEventListener('scroll', () => {
+            window.removeEventListener("scroll", () => {
                 return;
             });
     }, []);
 
     const handleScrollToTop = () => {
-        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     };
 
     // Fetch api
@@ -83,7 +83,7 @@ const App = () => {
                     fetchGetProducts({ pageSize, pageIndex })
                 ).unwrap();
             } catch (error) {
-                console.log('/App/fetchProducts');
+                console.log("/App/fetchProducts");
             }
         };
         fetchProducts();
@@ -111,28 +111,28 @@ const App = () => {
                         <Route path='/*' index element={<AdminRouter />} />
                     ) : (
                         <>
-                            <Route path='/register' element={<Register />} />
+                            <Route path="/register" element={<Register />} />
                             <Route
-                                path='/activate_email/:activationToken'
+                                path="/activate_email/:activationToken"
                                 element={<ActiveEmail />}
                             />
-                            <Route path='/login' element={<Login />} />
+                            <Route path="/login" element={<Login />} />
                             <Route
-                                path='/forgot_password'
+                                path="/forgot_password"
                                 element={<ForgotPassword />}
                             />
                             <Route
-                                path='/reset_password/:token'
+                                path="/reset_password/:token"
                                 element={<ResetPassword />}
                             />
-                            <Route path='/' element={<HeaderFooterPage />}>
+                            <Route path="/" element={<HeaderFooterPage />}>
                                 <Route index element={<Home />} />
                                 <Route
-                                    path='/products/:codeProduct'
+                                    path="/products/:codeProduct"
                                     element={<Product />}
                                 />
                                 <Route
-                                    path='/products'
+                                    path="/products"
                                     element={<Products />}
                                 />
                                 <Route path='/cart' element={<Cart />} />
