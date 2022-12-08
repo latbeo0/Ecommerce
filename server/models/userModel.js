@@ -15,15 +15,17 @@ const UserSchema = new mongoose.Schema(
         },
         firstName: {
             type: String,
+            default: "",
         },
         lastName: {
             type: String,
+            default: "",
         },
         birthDate: {
             type: Date,
         },
-        address: {
-            type: Object,
+        addressShipping: {
+            type: Array,
         },
         gender: {
             type: String,
@@ -46,6 +48,10 @@ const UserSchema = new mongoose.Schema(
         roleCode: {
             type: String,
             default: "CUSTOMER",
+        },
+        cart: {
+            type: Array,
+            default: [],
         },
     },
     {

@@ -5,6 +5,7 @@ import {
     WrapperLanguage,
     WrapperSearch,
     WrapperCart,
+    SpaceCart,
 } from "./UserMenuStyled";
 import { Button } from "../../Button";
 import { Link } from "react-router-dom";
@@ -12,20 +13,37 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "./../../../../redux/userSlice";
 import { fetchLogout } from "../../../../services/userFetch";
 import Avatar from "../../Avatar";
+import { selectCart } from "../../../../redux/cartSlice";
 
 const UserMenu = () => {
-    const user = useSelector(selectUser);
-    const { currentUser, isLoading, isError } = user;
     const dispatch = useDispatch();
+    const user = useSelector(selectUser);
+    const cart = useSelector(selectCart);
+
+    const getFullName = (firstName, lastName) => {
+        if (firstName && lastName) {
+            return `${firstName} ${lastName}`;
+        }
+
+        if (firstName) return firstName;
+        if (lastName) return lastName;
+
+        return "New User";
+    };
+
+    const { currentUser, isLoading, isError } = user;
 
     return (
         <Container>
             {user.currentUser ? (
                 <WrapperUser>
                     <Avatar
-                        link="#"
+                        link="/profile"
                         src={currentUser?.avatar}
-                        text={currentUser?.fullName}
+                        text={getFullName(
+                            currentUser?.firstName,
+                            currentUser?.lastName
+                        )}
                     />
                     <Separate />
                     <Button
@@ -98,34 +116,48 @@ const UserMenu = () => {
                 />
             </WrapperSearch>
             <WrapperCart>
-                <Button
-                    href="#"
-                    content="0"
-                    color="var(--black-color)"
-                    endIcon={{
-                        icon: (
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                strokeWidth="2"
-                                stroke="currentColor"
-                                aria-hidden="true"
-                                style={{
-                                    width: "1.5rem",
-                                    height: "1.5rem",
-                                }}
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
-                                ></path>
-                            </svg>
-                        ),
-                    }}
-                    sizeIcon="1.25rem"
-                    padding="0"
-                />
+                <Link to="/cart">
+                    <Button
+                        href="#"
+                        content={cart.listProducts.length}
+                        color="var(--black-color)"
+                        endIcon={{
+                            icon: (
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    strokeWidth="2"
+                                    stroke="currentColor"
+                                    aria-hidden="true"
+                                    style={{
+                                        width: "1.5rem",
+                                        height: "1.5rem",
+                                    }}
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+                                    ></path>
+                                </svg>
+                            ),
+                        }}
+                        sizeIcon="1.25rem"
+                        padding="0"
+                        style={{ height: "100%" }}
+                    />
+                </Link>
+                {/* <SpaceCart>
+                    <StepsCart></StepsCart>
+                    <ContentCart>
+                        <ListProductsCart>
+                            <ItemCart></ItemCart>
+                        </ListProductsCart>
+                        <OrderSummary>
+                            
+                        </OrderSummary>
+                    </ContentCart>
+                </SpaceCart> */}
             </WrapperCart>
         </Container>
     );

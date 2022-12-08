@@ -21,13 +21,7 @@ const sendMail = async (to, url, txt) => {
         await oauth2Client.setCredentials({
             refresh_token: MAILING_SERVICE_REFRESH_TOKEN,
         });
-        const accessToken = new Promise((resolve, reject) => {
-            oauth2Client.getAccessToken((err, token) => {
-                if (err) reject(err);
-                resolve(token);
-            });
-        });
-
+        const accessToken = await oauth2Client.getAccessToken();
         const smtpTransport = await nodemailer.createTransport({
             service: 'gmail',
             auth: {

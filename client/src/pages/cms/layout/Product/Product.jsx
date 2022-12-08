@@ -168,7 +168,7 @@ const Product = () => {
           listButton={data.ListButton}
           listButtonCustom={data.ListButtonCustomize}
           onClickItem={handleClickOptionButton}
-        />;
+        />
       {/* <ProductToolbar>
         <Stack direction="row" alignItems="center" spacing={1}>
           {data.ListButton.map((item) => (

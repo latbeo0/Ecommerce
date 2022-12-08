@@ -19,18 +19,32 @@ import { selectUser } from "./redux/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import ButtonScrollToTop from "./helpers/ButtonScrollToTop";
 import { fetchGetProducts } from "./services/productFetch";
+import Cart from "./pages/Cart";
+import {
+    fetchDistrict,
+    fetchProvince,
+    fetchWard,
+} from "./services/locationFetch";
+import Profile from "./pages/Profile";
+import WishList from "./pages/WishList";
+import NotFound from "./pages/NotFound";
+import { fetchGetCart } from "./services/cartFetch";
+import { fetchGetAllCategory } from "./services/categoryFetch";
+import { fetchGetAllState } from "./services/stateFetch";
+import { fetchGetAllCollection } from "./services/collectionFetch";
 
 const App = () => {
     const dispatch = useDispatch();
     // const dispatch = useDispatch();
     // const auth = useSelector((state) => state.auth);
-    // const { isLogged, isAdmin } = auth;
+
     // const [loading, setLoading] = useState(true);
     const isAdmin = false;
 
     // Get access_token
     const auth = useSelector(selectAuth);
     const user = useSelector(selectUser);
+    // const { isLogged, isAdmin } = auth;
 
     useEffect(() => {
         const fetchAccessToken = async () => {
@@ -83,7 +97,62 @@ const App = () => {
             }
         };
         fetchProducts();
+
+        const fetchLocation = async () => {
+            try {
+                await dispatch(fetchProvince()).unwrap();
+                await dispatch(fetchDistrict()).unwrap();
+                await dispatch(fetchWard()).unwrap();
+            } catch (error) {
+                console.log("/App/fetchLocation");
+            }
+        };
+        fetchLocation();
         // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    useEffect(() => {
+        const fetchCartOfUser = async () => {
+            try {
+                await dispatch(
+                    fetchGetCart({ user: user.currentUser })
+                ).unwrap();
+            } catch (error) {
+                console.log("/App/fetchCart");
+            }
+        };
+        if (user.currentUser) {
+            fetchCartOfUser();
+        }
+    }, [user.currentUser]);
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                await dispatch(fetchGetAllCategory()).unwrap();
+            } catch (error) {
+                console.log("/App/fetchCategories");
+            }
+        };
+        fetchCategories();
+
+        const fetchStates = async () => {
+            try {
+                await dispatch(fetchGetAllState()).unwrap();
+            } catch (error) {
+                console.log("/App/fetchStates");
+            }
+        };
+        fetchStates();
+
+        const fetchCollections = async () => {
+            try {
+                await dispatch(fetchGetAllCollection()).unwrap();
+            } catch (error) {
+                console.log("/App/fetchCollections");
+            }
+        };
+        fetchCollections();
     }, []);
 
     return (
@@ -120,7 +189,21 @@ const App = () => {
                                     path="/products"
                                     element={<Products />}
                                 />
+                                <Route path="/cart" element={<Cart />} />
+                                {user.currentUser ? (
+                                    <>
+                                        <Route
+                                            path="/profile"
+                                            element={<Profile />}
+                                        />
+                                        <Route
+                                            path="/wish_list"
+                                            element={<WishList />}
+                                        />
+                                    </>
+                                ) : null}
                             </Route>
+                            <Route path="/*" element={<NotFound />} />
                         </>
                     )}
                 </Routes>

@@ -4,13 +4,15 @@ import {
     Container,
     Wrapper,
     ContentWrapper,
+    ContentWrapperGap,
     Content,
+    ContentGap,
     Arrow,
 } from './CarouselStyled';
 import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from 'react-icons/md';
 
 const Carousel = (props) => {
-    const { children, show, infiniteLoop } = props;
+    const { children, show, infiniteLoop, hasGap } = props;
 
     const [currentIndex, setCurrentIndex] = useState(infiniteLoop ? show : 0);
     const [length, setLength] = useState(children.length);
@@ -114,6 +116,57 @@ const Carousel = (props) => {
         }
         return output;
     };
+
+    if (hasGap)
+        return (
+            <Container>
+                <Wrapper>
+                    {/* You can alwas change the content of the button to other things */}
+                    {(isRepeating || currentIndex > 0) && (
+                        <Arrow
+                            type='button'
+                            onClick={prev}
+                            direction='left'
+                            aria-label='button'
+                        >
+                            <MdKeyboardArrowLeft />
+                        </Arrow>
+                    )}
+                    <ContentWrapperGap
+                        onTouchStart={handleTouchStart}
+                        onTouchMove={handleTouchMove}
+                    >
+                        <ContentGap
+                            show={show}
+                            style={{
+                                transform: `translateX(-${
+                                    currentIndex * (100 / show)
+                                }%)`,
+                                transition: !transitionEnabled
+                                    ? 'none'
+                                    : undefined,
+                            }}
+                            onTransitionEnd={() => handleTransitionEnd()}
+                        >
+                            {length > show && isRepeating && renderExtraPrev()}
+                            {children}
+                            {length > show && isRepeating && renderExtraNext()}
+                        </ContentGap>
+                    </ContentWrapperGap>
+                    {/* You can alwas change the content of the button to other things */}
+                    {(isRepeating || currentIndex < length - show) && (
+                        <Arrow
+                            type='button'
+                            onClick={next}
+                            direction='right'
+                            aria-label='button'
+                        >
+                            <MdKeyboardArrowRight />
+                        </Arrow>
+                    )}
+                </Wrapper>
+            </Container>
+        );
 
     return (
         <Container>

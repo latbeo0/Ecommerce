@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from 'styled-components';
 
 const Container = styled.div`
     display: flex;
@@ -74,22 +74,149 @@ const PriceContainer = styled.div``;
 const PriceNew = styled.p``;
 const PriceOld = styled.p``;
 const DescriptionContainer = styled.div``;
+
 const ColorContainer = styled.div`
     display: flex;
     align-items: center;
-    gap: 2rem;
+    gap: 1rem;
 `;
+
+const Color = styled.div`
+    width: 2rem;
+    height: 2rem;
+    position: relative;
+    background: ${(props) => props?.background};
+    border-radius: 50%;
+
+    ${(props) =>
+        props.selected
+            ? css`
+                  border: 1px solid var(--black-color);
+                  background: transparent;
+
+                  &::before {
+                      content: '';
+                      position: absolute;
+                      top: 50%;
+                      left: 50%;
+                      transform: translate(-50%, -50%);
+                      width: 80%;
+                      height: 80%;
+                      border: 1px solid var(--black-color);
+                      border-radius: 50%;
+                      background: ${(props) => props?.background};
+                  }
+              `
+            : undefined}
+`;
+
 const DetailContainer = styled.div``;
-const SizeContainer = styled.div``;
-const QuantityContainer = styled.div``;
-const ButtonContainer = styled.div``;
-const ButtonCart = styled.button``;
-const ButtonCheckout = styled.button``;
+
+const SizeContainer = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+`;
+
+const Size = styled.button`
+    padding: 0.5rem 1.5rem;
+    border: ${(props) =>
+        props.selected
+            ? '1px solid var(--primary-color)'
+            : '1px solid var(--gray-color-light)'};
+    background: ${(props) =>
+        props.selected ? 'var(--secondary-color)' : 'transparent'};
+    cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
+
+    &:hover {
+        border: ${(props) =>
+            props.disabled ? undefined : '1px solid var(--primary-color)'};
+    }
+`;
+
+const QuantityContainer = styled.div`
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+`;
+
+const Quantity = styled.div`
+    display: flex;
+    border: 1px solid var(--gray-color-light);
+    border-radius: 2rem;
+    overflow: hidden;
+`;
+
+const Input = styled.input.attrs({
+    type: 'number',
+})`
+    padding: 0.5rem;
+    min-width: 2rem;
+    max-width: 4rem;
+    color: var(--black-color);
+    text-align: center;
+    border-left: 1px solid var(--gray-color-light);
+    border-right: 1px solid var(--gray-color-light);
+    cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
+    background: ${(props) =>
+        props.disabled ? 'var(--gray-color-light)' : 'transparent'};
+    transition: all 200ms linear;
+
+    -webkit-appearance: textfield;
+    -moz-appearance: textfield;
+    appearance: textfield;
+
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+    }
+`;
+
+const Arrow = styled.div`
+    color: var(--black-color);
+    padding: 1rem 1.5rem;
+    cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
+    background: ${(props) =>
+        props.disabled ? 'var(--gray-color-light)' : 'transparent'};
+    user-select: none;
+    transition: all 200ms linear;
+`;
+
+const ButtonContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 1rem;
+`;
+
+const ButtonCart = styled.button`
+    flex: 1;
+    padding: 1rem 3rem;
+    background: var(--primary-color);
+    border-radius: 0.5rem;
+    color: var(--white-color);
+    font-size: 1rem;
+    font-weight: 400;
+`;
+
+const ButtonCheckout = styled.button`
+    flex: 1;
+    padding: 1rem 3rem;
+    background: var(--primary-color);
+    border-radius: 0.5rem;
+    color: var(--white-color);
+    font-size: 1rem;
+    font-weight: 400;
+`;
+
 const SubInformationContainer = styled.div``;
 const CommentContainer = styled.div``;
+
 const RelatedProductsContainer = styled.div`
     margin: 0 1rem 5rem;
 `;
+
 const RecentlyViewedProducts = styled.div``;
 
 const Title = styled.h1`
@@ -119,15 +246,6 @@ const Decor = styled.div`
     border-radius: 4px;
 `;
 
-const Color = styled.div`
-    width: 1rem;
-    height: 1rem;
-    background: ${(props) => props?.background};
-    outline: ${(props) => (props.selected ? "2px solid black" : undefined)};
-    padding: 0.5rem;
-    border-radius: 50%;
-`;
-
 export {
     Container,
     ProductDetailContainer,
@@ -145,9 +263,14 @@ export {
     PriceOld,
     DescriptionContainer,
     ColorContainer,
+    Color,
     DetailContainer,
     SizeContainer,
+    Size,
     QuantityContainer,
+    Quantity,
+    Input,
+    Arrow,
     ButtonContainer,
     ButtonCart,
     ButtonCheckout,
@@ -157,5 +280,4 @@ export {
     RecentlyViewedProducts,
     Title,
     Decor,
-    Color,
 };

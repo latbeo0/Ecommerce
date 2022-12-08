@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
     Container,
     Label,
@@ -6,8 +6,8 @@ import {
     IconContainer,
     Input,
     ErrorMessage,
-} from './InputGroupStyled';
-import { VscEye, VscEyeClosed } from 'react-icons/vsc';
+} from "./InputGroupStyled";
+import { VscEye, VscEyeClosed } from "react-icons/vsc";
 
 const InputGroup = (props) => {
     const { id, label, errorMessage, showErr, icon, onChange, ...inputProps } =
@@ -28,15 +28,18 @@ const InputGroup = (props) => {
                 <Input
                     id={`inputGroup${id}`}
                     {...inputProps}
-                    type={isShowPassword ? 'text' : inputProps.type}
+                    type={isShowPassword ? "text" : inputProps.type}
+                    icon={icon}
                     onChange={onChange}
                     onBlur={() => setFocused(true)}
                     tabIndex={id}
                 />
-                <IconContainer slot='start'>{icon}</IconContainer>
-                {inputProps.type === 'password' && (
+                {icon ? (
+                    <IconContainer slot="start">{icon}</IconContainer>
+                ) : null}
+                {inputProps.type === "password" && (
                     <IconContainer
-                        slot='end'
+                        slot="end"
                         onClick={() => setIsShowPassword(!isShowPassword)}
                     >
                         {isShowPassword ? <VscEye /> : <VscEyeClosed />}

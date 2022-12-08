@@ -54,11 +54,22 @@ const WrapperCart = styled.div`
     display: flex;
     height: 100%;
     padding: 0 0.5rem;
+    position: relative;
 
     @media only screen and (min-width: 1025px) {
         padding: 0;
         margin-left: 1.5rem;
     }
+`;
+
+const SpaceCart = styled.div`
+    content: '';
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 100px;
+    height: 50px;
+    background: white;
 `;
 
 export {
@@ -68,4 +79,5 @@ export {
     WrapperLanguage,
     WrapperSearch,
     WrapperCart,
+    SpaceCart,
 };

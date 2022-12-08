@@ -1,11 +1,13 @@
-import React from 'react';
-import { Container, Label, Input } from './CheckBoxStyled';
+import React from "react";
+import { Container, Label, Input } from "./CheckBoxStyled";
 
-const CheckBox = () => {
+const CheckBox = (props) => {
+    const { label } = props;
+
     return (
         <Container>
             <Input />
-            <Label>Label</Label>
+            <Label>{label}</Label>
         </Container>
     );
 };

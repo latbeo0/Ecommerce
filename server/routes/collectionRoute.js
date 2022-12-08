@@ -1,15 +1,15 @@
-const router = require('express').Router();
-const collectionCtrl = require('../controllers/collectionCtrl');
+const router = require("express").Router();
+const collectionCtrl = require("../controllers/collectionCtrl");
 // const { verifyTokenAndAdmin } = require('../middleware/verifyToken');
 
 // CREATE
-router.post('/', collectionCtrl.createCollection);
+router.post("/", collectionCtrl.createCollection);
 
 // UPDATE
-router.put('/:id', collectionCtrl.updateCollection);
+router.put("/:id", collectionCtrl.updateCollection);
 
-// GET ALL VOUCHER
-router.get('/', collectionCtrl.getAllCollection);
+// GET ALL
+router.get("/", collectionCtrl.getAllCollection);
 // GET PRODUCT BY NAME
 
 module.exports = router;
