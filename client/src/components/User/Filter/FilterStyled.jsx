@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled, { css } from "styled-components";
 
 const Container = styled.div`
     margin: 0 1rem;
@@ -54,7 +54,7 @@ const ButtonHide = styled.div`
 const ArrowContainer = styled.div`
     & > * {
         transform: ${(props) =>
-            props.isOpen ? 'rotate(0deg)' : 'rotate(-180deg)'};
+            props.isOpen ? "rotate(0deg)" : "rotate(-180deg)"};
         transition: transform 200ms linear;
     }
 `;
@@ -104,6 +104,48 @@ const Body = styled.div`
 
 const Content = styled.div``;
 
+const ColorContent = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0.5rem;
+`;
+
+const Color = styled.div.withConfig({
+    shouldForwardProp: (prop, defaultValidatorFn) =>
+        ["name", "value", "checked", "selected"].includes(prop) ||
+        defaultValidatorFn(prop),
+})`
+    width: 2rem;
+    height: 2rem;
+    position: relative;
+    background: ${(props) => props?.background};
+    border-radius: 50%;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    transition: all 200ms linear;
+    cursor: pointer;
+
+    ${(props) =>
+        props.checked
+            ? css`
+                  border: 1px solid var(--black-color);
+                  background: transparent;
+
+                  &::before {
+                      content: "";
+                      position: absolute;
+                      top: 50%;
+                      left: 50%;
+                      transform: translate(-50%, -50%);
+                      width: 80%;
+                      height: 80%;
+                      border: 1px solid var(--black-color);
+                      border-radius: 50%;
+                      background: ${(props) => props?.background};
+                  }
+              `
+            : undefined}
+`;
+
 export {
     Container,
     Section,
@@ -118,4 +160,6 @@ export {
     Header,
     Body,
     Content,
+    ColorContent,
+    Color,
 };

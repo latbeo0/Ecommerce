@@ -231,6 +231,14 @@ const productCtrl = {
         }
     },
     deleteProduct: async (req, res) => {},
+    getColors: async (req, res) => {
+        try {
+            const colors = await Product.find({}, { color: 1 });
+            res.status(200).json({ colors });
+        } catch (err) {
+            return res.status(500).json({ msg: err.message });
+        }
+    },
 };
 
 module.exports = productCtrl;

@@ -8,6 +8,7 @@ import locationReducer from "./locationSlice";
 import categoryReducer from "./categorySlice";
 import stateReducer from "./stateSlice";
 import collectionReducer from "./collectionSlice";
+import colorReducer from "./colorSlice";
 import {
     persistStore,
     persistReducer,
@@ -37,6 +38,7 @@ const rootReducer = combineReducers({
     categories: categoryReducer,
     states: stateReducer,
     collections: collectionReducer,
+    colors: colorReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

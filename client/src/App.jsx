@@ -32,6 +32,7 @@ import { fetchGetCart } from "./services/cartFetch";
 import { fetchGetAllCategory } from "./services/categoryFetch";
 import { fetchGetAllState } from "./services/stateFetch";
 import { fetchGetAllCollection } from "./services/collectionFetch";
+import { fetchGetAllColors } from "./services/colorFetch";
 
 const App = () => {
     const dispatch = useDispatch();
@@ -153,6 +154,15 @@ const App = () => {
             }
         };
         fetchCollections();
+
+        const fetchColors = async () => {
+            try {
+                await dispatch(fetchGetAllColors()).unwrap();
+            } catch (error) {
+                console.log("/App/fetchGetAllColors");
+            }
+        };
+        fetchColors();
     }, []);
 
     return (
