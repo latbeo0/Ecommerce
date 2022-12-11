@@ -17,21 +17,32 @@ import {
 import BreadCrumb from '../../components/Basic/BreadCrumb';
 import Search from '../../components/Basic/Search';
 import { useDispatch, useSelector } from 'react-redux';
-import { searchChange, selectSearch } from '../../redux/filterSlice';
+import {
+    searchChange,
+    selectFilter,
+    selectSearch,
+} from '../../redux/filterSlice';
 import { Pagination } from '../../components/Basic';
 import { selectProducts } from '../../redux/productSlice';
 import Loading from '../../helpers/Loading';
 import Select from 'react-select';
 import { fetchGetProducts } from '../../services/productFetch';
+import queryString from 'query-string';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const options = [
-    { value: 5, label: 5 },
-    { value: 10, label: 10 },
-    { value: 15, label: 15 },
+    { value: 5, label: 5, name: 'pageSize' },
+    { value: 10, label: 10, name: 'pageSize' },
+    { value: 15, label: 15, name: 'pageSize' },
 ];
 
 const Products = () => {
     const dispatch = useDispatch();
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    const { isLoading, sort, pageSize, pageIndex } = useSelector(selectFilter);
+
     const [, startTransition] = useTransition();
 
     const products = useSelector(selectProducts);
@@ -49,27 +60,80 @@ const Products = () => {
     };
 
     // pagination
-    // let PageSize = 5;
-    const [pageSize, setPageSize] = useState(options[1]);
-    const [currentPage, setCurrentPage] = useState(1);
+    // const [pageSize, setPageSize] = useState(options[1]);
+    // const [currentPage, setCurrentPage] = useState(1);
 
     const handleChangePageSize = (selectOption) => {
-        setCurrentPage(1);
-        setPageSize(selectOption);
+        // setCurrentPage(1);
+        // setPageSize(selectOption);
+
+        const { name, value } = selectOption;
+
+        const pathname = location.pathname;
+        const query = queryString.parse(location.search);
+
+        const modifiedQuery = {
+            ...query,
+            [name]: value,
+            pageIndex: 1,
+        };
+
+        const search = queryString.stringify(modifiedQuery);
+        navigate(`${pathname}?${search}`, { replace: true });
+    };
+
+    const handleChangePageIndex = (page) => {
+        const pathname = location.pathname;
+        const query = queryString.parse(location.search);
+
+        const modifiedQuery = {
+            ...query,
+            pageIndex: page,
+        };
+
+        const search = queryString.stringify(modifiedQuery);
+        navigate(`${pathname}?${search}`, { replace: true });
     };
 
     const handleScrollToTop = () => {
         window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
     };
 
+    const handleChooseSort = (e) => {
+        const { name, value } = e.target;
+
+        const pathname = location.pathname;
+        const query = queryString.parse(location.search);
+
+        const modifiedQuery = {
+            ...query,
+            [name]: value,
+        };
+
+        const search = queryString.stringify(modifiedQuery);
+        navigate(`${pathname}?${search}`, { replace: true });
+    };
+
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const pageSizeCurrent = pageSize.value;
-                const pageIndexCurrent = currentPage;
+                // const pageSizeCurrent = pageSize[0];
+                // const pageIndexCurrent = pageIndex[0];
+
+                const search = queryString.parse(location.search);
+                const pageSizeCurrent = search.pageSize || pageSize[0];
+                const pageIndexCurrent = search.pageIndex || 1;
+
+                const modifiedQuery = {
+                    ...search,
+                    pageSize: pageSizeCurrent,
+                    pageIndex: pageIndexCurrent,
+                };
+                const query = queryString.stringify(modifiedQuery);
 
                 await dispatch(
                     fetchGetProducts({
+                        query,
                         pageSize: pageSizeCurrent,
                         pageIndex: pageIndexCurrent,
                     })
@@ -79,7 +143,8 @@ const Products = () => {
             }
         };
         fetchProducts();
-    }, [pageSize, currentPage, dispatch]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [location.search, dispatch]);
 
     return (
         <Container>
@@ -97,12 +162,65 @@ const Products = () => {
                             <SortContainer>
                                 Sort:
                                 <SortChooseContainer>
-                                    <SortChooseButton choose>
+                                    <SortChooseButton
+                                        choose={
+                                            sort.includes('relevance')
+                                                ? true
+                                                : false
+                                        }
+                                        name='sort'
+                                        value='relevance'
+                                        onClick={(e) => handleChooseSort(e)}
+                                    >
                                         Relevance
                                     </SortChooseButton>
-                                    <SortChooseButton>Popular</SortChooseButton>
-                                    <SortChooseButton>
+                                    <SortChooseButton
+                                        choose={
+                                            sort.includes('popular')
+                                                ? true
+                                                : false
+                                        }
+                                        name='sort'
+                                        value='popular'
+                                        onClick={(e) => handleChooseSort(e)}
+                                    >
+                                        Popular
+                                    </SortChooseButton>
+                                    <SortChooseButton
+                                        choose={
+                                            sort.includes('most-new')
+                                                ? true
+                                                : false
+                                        }
+                                        name='sort'
+                                        value='most-new'
+                                        onClick={(e) => handleChooseSort(e)}
+                                    >
                                         Most New
+                                    </SortChooseButton>
+                                    <SortChooseButton
+                                        choose={
+                                            sort.includes('price-low-high')
+                                                ? true
+                                                : false
+                                        }
+                                        name='sort'
+                                        value='price-low-high'
+                                        onClick={(e) => handleChooseSort(e)}
+                                    >
+                                        Price (Low - High)
+                                    </SortChooseButton>
+                                    <SortChooseButton
+                                        choose={
+                                            sort.includes('price-high-low')
+                                                ? true
+                                                : false
+                                        }
+                                        name='sort'
+                                        value='price-high-low'
+                                        onClick={(e) => handleChooseSort(e)}
+                                    >
+                                        Price (High - Low)
                                     </SortChooseButton>
                                 </SortChooseContainer>
                             </SortContainer>
@@ -110,14 +228,22 @@ const Products = () => {
                                 Products per page:
                                 <Select
                                     options={options}
-                                    defaultValue={pageSize}
+                                    defaultValue={{
+                                        value: 10,
+                                        label: 10,
+                                        name: 'pageSize',
+                                    }}
                                     onChange={handleChangePageSize}
                                 />
                             </CountProductsContainer>
                         </DisplayContainer>
                     </HeaderProductsWrapper>
                     <BodyProductsWrapper
-                        isLoading={products?.isError || products?.isLoading}
+                        isLoading={
+                            products?.isError ||
+                            products?.isLoading ||
+                            isLoading
+                        }
                     >
                         {products.isError ? (
                             <span>Something wrong with api get products</span>
@@ -133,13 +259,15 @@ const Products = () => {
                         )}
                     </BodyProductsWrapper>
                     <FooterProductsWrapper>
+                        {/* {console.log(pageIndex[0], pageSize[0])} */}
                         <Pagination
-                            currentPage={currentPage}
+                            currentPage={Number(pageIndex[0])}
                             totalCount={products?.totalProducts}
-                            pageSize={pageSize.value}
+                            pageSize={Number(pageSize[0])}
                             onPageChange={(page) => {
                                 handleScrollToTop();
-                                setCurrentPage(page);
+                                // setCurrentPage(page);
+                                handleChangePageIndex(page);
                             }}
                         />
                     </FooterProductsWrapper>

@@ -1,7 +1,7 @@
-const Product = require("../models/productModel");
-const ProductMaster = require("../models/productMasterModel");
-
-const jwt = require("jsonwebtoken");
+const Product = require('../models/productModel');
+const ProductMaster = require('../models/productMasterModel');
+const queryString = require('query-string');
+const jwt = require('jsonwebtoken');
 
 const productCtrl = {
     //Product Master
@@ -10,10 +10,10 @@ const productCtrl = {
         try {
             productMaster = await ProductMaster.find()
                 .populate({
-                    path: "vCollection",
-                    select: "collectName -collectCode",
+                    path: 'vCollection',
+                    select: 'collectName -collectCode',
                 })
-                .populate({ path: "vCategory", select: "cateName -cateCode" });
+                .populate({ path: 'vCategory', select: 'cateName -cateCode' });
             for (const pm of productMaster) {
                 const product = await Product.find({ productMasterId: pm._id });
                 pm.productDetails = [...pm.productDetails].concat(product);
@@ -36,7 +36,7 @@ const productCtrl = {
         const newProductMaster = new ProductMaster(req.body);
         try {
             await newProductMaster.save();
-            res.status(200).json({ msg: "Product has been created" });
+            res.status(200).json({ msg: 'Product has been created' });
         } catch (err) {
             return res.status(500).json({ msg: err.message });
         }
@@ -50,7 +50,7 @@ const productCtrl = {
                 },
                 { new: true }
             );
-            res.status(200).json({ msg: "Updated product success" });
+            res.status(200).json({ msg: 'Updated product success' });
         } catch (err) {
             return res.status(500).json({ msg: err.message });
         }
@@ -105,6 +105,170 @@ const productCtrl = {
             // });
 
             await res.status(200).json({ totalProducts, listProducts });
+        } catch (err) {
+            return res.status(500).json({ msg: err.message });
+        }
+    },
+    test: async (req, res) => {
+        try {
+            const queryObject = { ...req.query };
+            // console.log(queryObject);
+
+            const selectedField = [
+                'categories',
+                'collections',
+                'colors',
+                'sizes',
+            ];
+
+            const newQueryObject = {};
+            for (const key of selectedField) {
+                if (queryObject[key]) {
+                    newQueryObject[key] = queryObject[key].split(',');
+                }
+            }
+            // console.log(newQueryObject);
+
+            const listProducts = [];
+            const listProductsTemp = await Product.find();
+
+            for (const product of listProductsTemp) {
+                const productMaster = await ProductMaster.findOne({
+                    _id: product.productMasterId,
+                })
+                    .populate({
+                        path: 'vCollection',
+                        select: 'collectName -collectCode',
+                    })
+                    .populate({
+                        path: 'vCategory',
+                        select: 'cateName -cateCode',
+                    });
+
+                const {
+                    productName,
+                    productDescription,
+                    vCategory,
+                    vCollection,
+                } = productMaster;
+
+                const categories = vCategory[0].cateName;
+                const collections = vCollection[0].collectName;
+
+                const handle = {
+                    ...product._doc,
+                    productName,
+                    productDescription,
+                    categories,
+                    collections,
+                };
+
+                listProducts.push(handle);
+            }
+
+            const checkFilter = (product) => {
+                let isPassed = true;
+                for (const key in newQueryObject) {
+                    if (key === 'categories' || key === 'collections') {
+                        if (!newQueryObject[key].includes(product[key])) {
+                            isPassed = false;
+                        }
+                    } else if (key === 'colors') {
+                        if (
+                            !newQueryObject[key].includes(
+                                product.color.valueColor
+                            )
+                        ) {
+                            isPassed = false;
+                        }
+                    } else if (key === 'sizes') {
+                        const check = product.color.details.find((item) =>
+                            newQueryObject[key].includes(item.size.toString())
+                        );
+                        if (!check) isPassed = false;
+                    }
+                }
+                return isPassed;
+            };
+
+            // Lọc sản phẩm
+            const filter = listProducts.filter((product) =>
+                checkFilter(product)
+            );
+
+            // Số lượng sản phẩm phù hợp với bộ lọc
+            const totalProducts = filter.length;
+
+            // Sắp xếp
+            const { sort } = queryObject;
+            filter.sort((a, b) => {
+                if (sort === 'popular') {
+                } else if (sort === 'most-new') {
+                    const temp1 = a.createdAt.getTime();
+                    const temp2 = b.createdAt.getTime();
+
+                    if (temp1 - temp2 > 0) {
+                        return -1;
+                    }
+
+                    if (temp1 - temp2 < 0) {
+                        return 1;
+                    }
+
+                    return 0;
+                } else if (sort === 'price-low-high') {
+                    let temp1 = Number(a.price);
+                    let temp2 = Number(b.price);
+
+                    if (Number(a.newPrice) !== 0) {
+                        temp1 = Number(a.newPrice);
+                    }
+
+                    if (Number(b.newPrice) !== 0) {
+                        temp2 = Number(b.newPrice);
+                    }
+
+                    if (temp1 - temp2 > 0) {
+                        return 1;
+                    }
+
+                    if (temp1 - temp2 < 0) {
+                        return -1;
+                    }
+
+                    return 0;
+                } else if (sort === 'price-high-low') {
+                    let temp1 = Number(a.price);
+                    let temp2 = Number(b.price);
+
+                    if (Number(a.newPrice) !== 0) {
+                        temp1 = Number(a.newPrice);
+                    }
+
+                    if (Number(b.newPrice) !== 0) {
+                        temp2 = Number(b.newPrice);
+                    }
+
+                    if (temp1 - temp2 > 0) {
+                        return -1;
+                    }
+
+                    if (temp1 - temp2 < 0) {
+                        return 1;
+                    }
+
+                    return 0;
+                }
+            });
+
+            // Phân trang
+            const { pageSize, pageIndex } = queryObject;
+            const start = pageSize * (pageIndex - 1);
+            const end = pageSize * (pageIndex - 1) + pageSize;
+
+            const data = filter.slice(start, end);
+
+            await res.status(200).json({ totalProducts, listProducts: data });
         } catch (err) {
             return res.status(500).json({ msg: err.message });
         }
@@ -187,8 +351,8 @@ const productCtrl = {
             const product = await Product.find({
                 productMasterId: req.params.id,
             })
-                .populate({ path: "vSale", select: "saleName -saleCode" })
-                .populate({ path: "vState", select: "stateName -stateCode" });
+                .populate({ path: 'vSale', select: 'saleName -saleCode' })
+                .populate({ path: 'vState', select: 'stateName -stateCode' });
             res.status(200).json({ product });
         } catch (err) {
             return res.status(500).json({ msg: err.message });
@@ -196,7 +360,7 @@ const productCtrl = {
     },
     getProductByName: async (req, res) => {
         try {
-            var regex = new RegExp(req.params.name, "i");
+            var regex = new RegExp(req.params.name, 'i');
             Product.find({
                 name: regex,
                 inStock: true,
@@ -211,7 +375,7 @@ const productCtrl = {
         const newProduct = new Product(req.body);
         try {
             await newProduct.save();
-            res.status(200).json({ msg: "Product has been created" });
+            res.status(200).json({ msg: 'Product has been created' });
         } catch (err) {
             return res.status(500).json({ msg: err.message });
         }
@@ -225,7 +389,7 @@ const productCtrl = {
                 },
                 { new: true }
             );
-            res.status(200).json({ msg: "Updated product success" });
+            res.status(200).json({ msg: 'Updated product success' });
         } catch (err) {
             return res.status(500).json({ msg: err.message });
         }

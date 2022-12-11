@@ -1,6 +1,6 @@
-import React from "react";
-import { useState } from "react";
-import { IoIosArrowDown } from "react-icons/io";
+import React from 'react';
+import { useState } from 'react';
+import { IoIosArrowDown } from 'react-icons/io';
 import {
     SectionWrapper,
     Header,
@@ -9,7 +9,7 @@ import {
     ButtonHide,
     ArrowContainer,
     SeeAll,
-} from "./FilterItemStyled";
+} from './FilterItemStyled';
 
 const FilterItem = (props) => {
     const { title, children } = props;
@@ -37,7 +37,7 @@ const FilterItem = (props) => {
                     <input type="range" />
                     <p>Max value: 100.000.000 vnđ</p>
                 </Content> */}
-                <SeeAll>See all</SeeAll>
+                {/* <SeeAll>See all</SeeAll> */}
             </Body>
         </SectionWrapper>
     );

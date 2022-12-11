@@ -15,7 +15,9 @@ const Wrapper = styled.div`
     height: 100%;
 `;
 
-const Page = styled.a`
+const Page = styled.button.attrs((props) => ({
+    type: 'button',
+}))`
     display: flex;
     align-items: center;
     font-size: 0.875rem;
@@ -26,6 +28,13 @@ const Page = styled.a`
 
     &:hover {
         color: rgb(31 41 55);
+    }
+
+    & > * {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 `;
 

@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { IoIosArrowDown } from "react-icons/io";
-import { CheckBox } from "../../Basic";
+import React, { useEffect } from 'react';
+import { CheckBox } from '../../Basic';
 import {
     Container,
     Section,
@@ -10,24 +9,27 @@ import {
     Content,
     ColorContent,
     Color,
-} from "./FilterStyled";
-import FilterItem from "../../Basic/FilterItem";
-import { useDispatch, useSelector } from "react-redux";
-import { selectCategories } from "../../../redux/categorySlice";
-import { selectStates } from "../../../redux/stateSlice";
-import { selectCollections } from "../../../redux/collectionSlice";
-import { useLocation, useNavigate } from "react-router-dom";
-import queryString from "query-string";
-import { fetchClearFilter, fetchFilter } from "../../../services/filterFetch";
-import { selectFilter } from "../../../redux/filterSlice";
-import { selectColors } from "../../../redux/colorSlice";
+    Size,
+} from './FilterStyled';
+import FilterItem from '../../Basic/FilterItem';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectCategories } from '../../../redux/categorySlice';
+import { selectStates } from '../../../redux/stateSlice';
+import { selectCollections } from '../../../redux/collectionSlice';
+import { useLocation, useNavigate } from 'react-router-dom';
+import queryString from 'query-string';
+import { fetchClearFilter, fetchFilter } from '../../../services/filterFetch';
+import { selectFilter } from '../../../redux/filterSlice';
+import { selectColors } from '../../../redux/colorSlice';
+import { selectSizes } from '../../../redux/sizeSlice';
 
 const Filter = () => {
     const { listCategories } = useSelector(selectCategories);
     const { listStates } = useSelector(selectStates);
     const { listCollections } = useSelector(selectCollections);
+    const { listSizes } = useSelector(selectSizes);
     const { listColors } = useSelector(selectColors);
-    const { categories, states, collections, colors } =
+    const { categories, states, collections, colors, sizes } =
         useSelector(selectFilter);
 
     const navigate = useNavigate();
@@ -43,14 +45,14 @@ const Filter = () => {
 
         if (checked) {
             if (query[name]) {
-                const arr = query[name].split(",");
+                const arr = query[name].split(',');
                 arr.push(value);
-                temp = arr.join(",");
+                temp = arr.join(',');
             }
         } else {
-            const arr = query[name].split(",");
+            const arr = query[name].split(',');
             const newArr = arr.filter((item) => item !== value);
-            temp = newArr.join(",");
+            temp = newArr.join(',');
         }
 
         const modifiedQuery = {
@@ -68,8 +70,8 @@ const Filter = () => {
     };
 
     const handleChangeColor = (e, check) => {
-        const name = e.target.getAttribute("name");
-        const value = e.target.getAttribute("value");
+        const name = e.target.getAttribute('name');
+        const value = e.target.getAttribute('value');
         // const checked = e.target.getAttribute("checked");
 
         if (check) {
@@ -94,12 +96,10 @@ const Filter = () => {
     useEffect(() => {
         const query = queryString.parse(location.search);
 
-        // Call api
-
         if (location.search) {
             let convertData;
             for (const key in query) {
-                convertData = { ...convertData, [key]: query[key].split(",") };
+                convertData = { ...convertData, [key]: query[key].split(',') };
             }
 
             const fetchProductByFilter = async () => {
@@ -122,7 +122,7 @@ const Filter = () => {
             };
             handleClearFilter();
         }
-    }, [location]);
+    }, [location.search, dispatch]);
 
     return (
         <Container>
@@ -133,12 +133,12 @@ const Filter = () => {
                 </SectionHeader>
             </Section>
             <Section>
-                <FilterItem title="Categories">
+                <FilterItem title='Categories'>
                     <Content>
                         {listCategories.map((category) => (
                             <CheckBox
                                 key={category._id}
-                                name="categories"
+                                name='categories'
                                 label={category.cateName}
                                 checked={categories.includes(category.cateName)}
                                 onChange={handleChangeFilter}
@@ -148,35 +148,12 @@ const Filter = () => {
                 </FilterItem>
             </Section>
             <Section>
-                <FilterItem title="States">
-                    <Content>
-                        {listStates.map((state) => (
-                            <CheckBox
-                                key={state._id}
-                                name="states"
-                                label={state.stateName}
-                                checked={states.includes(state.stateName)}
-                                onChange={handleChangeFilter}
-                            />
-                        ))}
-                    </Content>
-                </FilterItem>
-            </Section>
-            <Section>
-                <FilterItem title="Price range">
-                    <Content>
-                        <input type="range" />
-                        <p>Max value: 100.000.000 vnđ</p>
-                    </Content>
-                </FilterItem>
-            </Section>
-            <Section>
-                <FilterItem title="Collections">
+                <FilterItem title='Collections'>
                     <Content>
                         {listCollections.map((collection) => (
                             <CheckBox
                                 key={collection._id}
-                                name="collections"
+                                name='collections'
                                 label={collection.collectName}
                                 checked={collections.includes(
                                     collection.collectName
@@ -188,26 +165,66 @@ const Filter = () => {
                 </FilterItem>
             </Section>
             <Section>
-                <FilterItem title="Colors">
+                <FilterItem title='Price range'>
+                    <Content>
+                        <input type='range' />
+                        <p>Max value: 100.000.000 vnđ</p>
+                    </Content>
+                </FilterItem>
+            </Section>
+            <Section>
+                <FilterItem title='Sizes'>
                     <ColorContent>
-                        {listColors.map((color) => (
-                            <Color
-                                key={color.id}
-                                background={color.value}
-                                name="colors"
-                                value={color.value}
+                        {listSizes.map((size) => (
+                            <Size
+                                key={size}
+                                name='sizes'
+                                value={Number(size)}
                                 checked={
-                                    colors.includes(color.value) ? true : false
+                                    sizes.includes(size.toString())
+                                        ? true
+                                        : false
                                 }
                                 onClick={(e) =>
                                     handleChangeColor(
                                         e,
-                                        colors.includes(color.value)
+                                        sizes.includes(size.toString())
                                             ? true
                                             : false
                                     )
                                 }
-                            ></Color>
+                            >
+                                {size}
+                            </Size>
+                        ))}
+                    </ColorContent>
+                </FilterItem>
+            </Section>
+            <Section>
+                <FilterItem title='Colors'>
+                    <ColorContent style={{ paddingBottom: '1rem' }}>
+                        {listColors.map((color) => (
+                            <div key={color.id}>
+                                <Color
+                                    key={color.id}
+                                    background={color.value}
+                                    name='colors'
+                                    value={color.value}
+                                    checked={
+                                        colors.includes(color.value)
+                                            ? true
+                                            : false
+                                    }
+                                    onClick={(e) =>
+                                        handleChangeColor(
+                                            e,
+                                            colors.includes(color.value)
+                                                ? true
+                                                : false
+                                        )
+                                    }
+                                ></Color>
+                            </div>
                         ))}
                     </ColorContent>
                 </FilterItem>
