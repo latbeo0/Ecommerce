@@ -2,6 +2,12 @@ import React from "react";
 
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
 
 import {
   Box,
@@ -14,12 +20,13 @@ import {
 
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import { fetchGetOrderByDate } from "../../../../services/orderFetch";
+import { fetchGetProductByDate } from "../../../../services/productFetch";
+
 import { styled } from "@mui/material/styles";
 import {
   Bar,
   BarChart,
   Brush,
-  Legend,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -31,12 +38,22 @@ import {
   DashboardTitle,
   DashboardButtonContainer,
   DashboardContent,
+  GridHeader,
+  GridTitle,
+  GridContent,
+  GridLogo,
+  GridValue,
 } from "./DashboardStyle";
 import * as _data from "./data";
 import { getDaysInMonth } from "./../../../../utils/getDayInMonth";
 import FilterDate from "./../../../../components/CMS/FilterDate/FilterDate";
-import { selectUser } from './../../../../redux/userSlice';
-import { useSelector } from 'react-redux';
+import { selectUser } from "./../../../../redux/userSlice";
+import { useSelector } from "react-redux";
+import CustomerIcon from "../../../../assets/img/icons8-girl-and-shopping-bag-100.png";
+import ProductIcon from "../../../../assets/img/icons8-shoes-64.png";
+import OrderIcon from "../../../../assets/img/icons8-red-shopping-basket-100.png";
+import CurrencyIcon from "../../../../assets/img/icons8-stack-of-money-100.png";
+import { formatCurrencyVND } from "./../../../../utils/format";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -105,18 +122,17 @@ function filterReducer(period, action) {
       return period;
   }
 }
-const summary = (array) => {
+const summary = (array, key = "totalPrice") => {
   let sum = 0;
-  array.map((item) => (sum += item.totalPrice));
+  array.map((item) => (sum += item[key]));
   return sum;
 };
 const Dashboard = () => {
-  const {currentUser} = useSelector(selectUser);
+  const { currentUser } = useSelector(selectUser);
   const [filter, dispatch] = React.useReducer(filterReducer, {
     fromDate: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
     toDate: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0),
   });
-  const [data, setData] = React.useState([]);
   const [type, setType] = React.useState(2);
   const [year, setYear] = React.useState(new Date());
   const [halfYear, setHalfYear] = React.useState(new Date());
@@ -131,12 +147,58 @@ const Dashboard = () => {
   });
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+  const [data, setData] = React.useState([]);
+  const [data1, setData1] = React.useState(0);
+  const [data2, setData2] = React.useState([]);
+  const [data3, setData3] = React.useState(0);
+  const [data4, setData4] = React.useState(0);
 
   const id = open ? "simple-popover" : undefined;
 
   React.useEffect(() => {
     if (filter && filter.fromDate && filter.toDate) {
-      fetchGetOrderByDate(filter,currentUser.access_token).then((response) => {
+      fetchGetProductByDate(filter).then((response) => {
+        setData1(response?.data?.products?.length);
+      });
+      fetchGetOrderByDate(filter, currentUser.access_token).then((response) => {
+        console.log(response?.data?.orders);
+        setData3(response?.data?.orders?.length);
+        let customerArr = [];
+        response.data.orders.forEach((order, index) => {
+          // let tempSum = 0;
+          // order.listOderItems.map((item) => (tempSum += item.product.price));
+
+          if (
+            !customerArr.find(
+              (item) =>
+                item?.email === order?.addressShipping?.email &&
+                order.addressShipping.email.length > 0
+            )
+          ) {
+            customerArr.push({
+              email: order.addressShipping.email,
+              firstName: order.addressShipping.firstName,
+              lastName: order.addressShipping.lastName,
+              phone: order.addressShipping.phone,
+              province: order.addressShipping.province,
+              // spending: tempSum,
+              spending: order.totalPrice,
+            });
+          } else {
+            customerArr.map((customer) => {
+              if (customer.email === order?.addressShipping?.email) {
+                return {
+                  ...customer,
+                  // spending: (customer.spending += tempSum),
+                  spending: (customer.spending += order.totalPrice),
+                };
+              } else return customer;
+            });
+          }
+        });
+        console.log(customerArr);
+        setData2(customerArr);
+
         let tempArr = [];
         //Theo ngày
         if (type === 2 || type === 3) {
@@ -149,19 +211,19 @@ const Dashboard = () => {
             .forEach((day, index) => {
               let filterArr = [];
               filterArr = response.data.orders.filter(
-                (itemFilter) => 
-                new Date(itemFilter.createdAt)?.getDate() === day.getDate()
+                (itemFilter) =>
+                  new Date(itemFilter.createdAt)?.getDate() === day.getDate()
               );
               if (filterArr && filterArr.length > 0) {
-                  tempArr.push({
-                    name: day.getDate().toString(),
-                    "Doanh thu": summary(filterArr),
-                  });
-                } else {
-                  tempArr.push({
-                    name: day.getDate().toString(),
-                    "Doanh thu": 0,
-                  });
+                tempArr.push({
+                  name: day.getDate().toString(),
+                  "Doanh thu": summary(filterArr),
+                });
+              } else {
+                tempArr.push({
+                  name: day.getDate().toString(),
+                  "Doanh thu": 0,
+                });
               }
             });
         }
@@ -178,21 +240,23 @@ const Dashboard = () => {
               filterArr = response.data.orders.filter(
                 (itemFilter) =>
                   (new Date(itemFilter.createdAt)?.getMonth() &&
-                  new Date(itemFilter.createdAt)?.getMonth() + 1) === month.value
+                    new Date(itemFilter.createdAt)?.getMonth() + 1) ===
+                  month.value
               );
               if (filterArr && filterArr.length > 0) {
-                  tempArr.push({
-                    name: month.value.toString(),
-                    "Doanh thu": summary(filterArr),
-                  });
-                } else {
-                  tempArr.push({
-                    name: month.value.toString(),
-                    "Doanh thu": 0,
-                  });
+                tempArr.push({
+                  name: month.value.toString(),
+                  "Doanh thu": summary(filterArr),
+                });
+              } else {
+                tempArr.push({
+                  name: month.value.toString(),
+                  "Doanh thu": 0,
+                });
               }
             });
         }
+        setData4(summary(tempArr, "Doanh thu"));
         setData([...tempArr]);
       });
     }
@@ -394,63 +458,131 @@ const Dashboard = () => {
       </DashboardHeader>
       <DashboardContent>
         <Grid container spacing={2}>
-          <Grid item xs={4}>
-            <Item>xs=4</Item>
+          <Grid item xs={12} md={6} xl={3}>
+            <Item>
+              <GridHeader>
+                <GridTitle>Sản phẩm mới</GridTitle>
+              </GridHeader>
+              <GridContent>
+                <GridLogo src={ProductIcon} />
+                <GridValue>{data1 ? data1 : 0}</GridValue>
+              </GridContent>
+            </Item>
           </Grid>
-          <Grid item xs={4}>
-            <Item>xs=4</Item>
+          <Grid item xs={12} md={6} xl={3}>
+            <Item>
+              <GridHeader>
+                <GridTitle>Tổng số khách hàng</GridTitle>
+              </GridHeader>
+              <GridContent>
+                <GridLogo src={CustomerIcon} />
+                <GridValue>{data2?.length ? data2.length : 0}</GridValue>
+              </GridContent>
+            </Item>
           </Grid>
-          <Grid item xs={4}>
-            <Item>xs=4</Item>
+          <Grid item xs={12} md={6} xl={3}>
+            <Item>
+              <GridHeader>
+                <GridTitle>Tổng số đơn hàng</GridTitle>
+              </GridHeader>
+              <GridContent>
+                <GridLogo src={OrderIcon} />
+                <GridValue>{data3 ? data3 : 0}</GridValue>
+              </GridContent>
+            </Item>
+          </Grid>
+          <Grid item xs={12} md={6} xl={3}>
+            <Item>
+              <GridHeader>
+                <GridTitle>Doanh thu</GridTitle>
+              </GridHeader>
+              <GridContent>
+                <GridLogo src={CurrencyIcon} />
+                <GridValue>{data4 ? formatCurrencyVND(data4) : 0}</GridValue>
+              </GridContent>
+            </Item>
           </Grid>
           <Grid item xs={12}>
             <Item>
-            <ResponsiveContainer width="100%" height={500}>
-              <BarChart
-                width={600}
-                height={300}
-                data={data}
-                margin={{
-                  top: 35,
-                  right: 110,
-                  left: 20,
-                  bottom: 5,
-                }}
-              >
-                <XAxis
-                  dataKey="name"
-                  label={{
-                    value:
-                      +filter.toDate - +filter.fromDate > 31
-                        ? "Theo tháng"
-                        : "Theo ngày",
-                    angle: 0,
-                    position: "right",
-                    offset: 20,
+              <ResponsiveContainer width="100%" height={500}>
+                <BarChart
+                  width={600}
+                  height={300}
+                  data={data}
+                  margin={{
+                    top: 35,
+                    right: 110,
+                    left: 20,
+                    bottom: 5,
                   }}
-                />
-                <YAxis
-                  yAxisId="left"
-                  orientation="left"
-                  stroke="#8884d8"
-                  // tickFormatter={numberWithCommas}
-                  width={100}
-                  label={{
-                    value: "Doanh thu",
-                    angle: 0,
-                    position: "top",
-                    offset: 20,
-                  }}
-                />
-                <Tooltip />
-                {/* <Legend /> */}
-                <Bar yAxisId="left" dataKey="Doanh thu" fill="#82ca9d" />
-                {/* <Bar yAxisId="right" dataKey="Số lượt thuê" fill="#8884d8" /> */}
-                <Brush />
-              </BarChart>
-            </ResponsiveContainer>
+                >
+                  <XAxis
+                    dataKey="name"
+                    label={{
+                      value:
+                        +filter.toDate - +filter.fromDate > 31
+                          ? "Theo tháng"
+                          : "Theo ngày",
+                      angle: 0,
+                      position: "right",
+                      offset: 20,
+                    }}
+                  />
+                  <YAxis
+                    yAxisId="left"
+                    orientation="left"
+                    stroke="#8884d8"
+                    // tickFormatter={numberWithCommas}
+                    width={100}
+                    label={{
+                      value: "Doanh thu",
+                      angle: 0,
+                      position: "top",
+                      offset: 20,
+                    }}
+                  />
+                  <Tooltip />
+                  {/* <Legend /> */}
+                  <Bar yAxisId="left" dataKey="Doanh thu" fill="#82ca9d" />
+                  {/* <Bar yAxisId="right" dataKey="Số lượt thuê" fill="#8884d8" /> */}
+                  <Brush />
+                </BarChart>
+              </ResponsiveContainer>
             </Item>
-
+          </Grid>
+          <Grid item xs={12}>
+            {data2 && data2.length > 0 && (
+              <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                  <TableHead>
+                    <TableRow>
+                      {Object.keys(data2[0]).map((key, index) => (
+                        <TableCell>{key}</TableCell>
+                      ))}
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {data2.map((row) => (
+                      <TableRow
+                        key={row.email}
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                        }}
+                      >
+                        <TableCell component="th" scope="row">
+                          {row.email}
+                        </TableCell>
+                        <TableCell>{row.firstName}</TableCell>
+                        <TableCell>{row.lastName}</TableCell>
+                        <TableCell>{row.phone}</TableCell>
+                        <TableCell>{row.province}</TableCell>
+                        <TableCell>{formatCurrencyVND(row.spending)}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            )}
           </Grid>
         </Grid>
       </DashboardContent>

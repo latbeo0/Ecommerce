@@ -63,7 +63,7 @@ const User = () => {
   ]);
 
   const [option, setOption] = React.useState({
-    isshowSort: false,
+    isShowSort: false,
     isShowGroup: false,
     isShowEdit: false,
     isShowSearchBar: false,
@@ -310,7 +310,7 @@ const User = () => {
             rows={rows}
             columns={columns}
             selection={selection}
-            showSort={option.isshowSort}
+            showSort={option.isShowSort}
             showSelect={option.isShowSelect}
             showGroup={option.isShowGroup}
             showSearchBar={option.isShowSearchBar}

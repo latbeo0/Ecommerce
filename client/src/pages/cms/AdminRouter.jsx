@@ -20,6 +20,7 @@ import { LogoutOutlined } from "@ant-design/icons";
 import { fetchLogout } from "../../services/userFetch";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "./../../redux/userSlice";
+import Order from './layout/Order/Order';
 
 const { Header, Sider, Content } = Layout;
 
@@ -29,7 +30,7 @@ const AdminRouter = () => {
   const dispatch = useDispatch();
 
   return (
-    <Layout className="KBody">
+    <Layout className="KBody" style={{ height: "100vh" }}>
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div className="logo">
           <img
@@ -104,13 +105,14 @@ const AdminRouter = () => {
           )}
         </Header>
         <Content
+          id="KContent"
           className="site-layout-background"
           style={{
             margin: "24px 16px",
             padding: 8,
             minHeight: 280,
             maxHeight: "93vh",
-            overflow: "auto",
+            overflowY: "auto",
           }}
         >
           <Routes>
@@ -118,11 +120,10 @@ const AdminRouter = () => {
             <Route path="/list-product" element={<Product />} />
             <Route path="/list-product/detail:id" element={<Detail />} />
             <Route path="/list-user" element={<User />} />
-            {/* <Route path="/list-order" element={<Order />} /> */}
+            <Route path="/list-order" element={<Order />} />
             <Route path="/list-category" element={<Category />} />
             <Route path="/list-collection" element={<Collection />} />
             <Route path="/list-voucher" element={<Sale />} />
-            {/* </Route> */}
           </Routes>
         </Content>
       </Layout>

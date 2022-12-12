@@ -24,3 +24,12 @@ export const fetchGetOrderByDate = async (filter, token) => {
     throw err;
   }
 };
+export const fetchGetAllOrder = async (token) => {
+  try {
+    return await baseRequest.get("/api/order/find-all", {
+      headers: { Authorization: token },
+    });
+  } catch (err) {
+    throw err;
+  }
+};

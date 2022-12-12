@@ -3,11 +3,12 @@ import DataGrid from "../../../../../components/Basic/DataGrid";
 import Stack from "@mui/material/Stack";
 import IconButton from "@mui/material/IconButton";
 // import { ProductHeader, ProductTitle } from "./DetailStyle";
-import * as data from "../data";
+import * as data from "./data";
 import PopupEdit from "../../../../../components/CMS/Product/Detail/PopupEdit";
 import { fetchGetProductByIdMaster } from "../../../../../services/productFetch";
 import { DetailHeader, DetailTitle } from "./DetailStyle";
 import { useParams } from "react-router-dom";
+import Toolbar from './../../../../../components/CMS/Toolbar/Toolbar';
 
 const defaultColumnWidths = [
   { columnName: "primaryImages", width: 250 },
@@ -25,10 +26,26 @@ const tableColumnExtensions = [
   { columnName: "color", align: "center" },
   { columnName: "stock", align: "center" },
 ];
+const actionReducer = (state, action) => {
+  switch (action.type) {
+    case "ADD":
+      return { ...state, type: "ADD", payload: "", open: true };
+    case "UPDATE":
+      return { ...state, type: "UPDATE", payload: action.payload, open: true };
+    case "DELETE":
+      return state;
+    case "FILTER":
+      return state;
+    case "OPTION":
+      return state;
+    default:
+      return { ...state, type: "", payload: null, open: false };
+  }
+};
 const Detail = () => {
   const { id } = useParams();
   const [option, setOption] = useState({
-    isshowSort: false,
+    isShowSort: false,
     isShowGroup: false,
     isShowEdit: false,
     isShowSearchBar: false,
@@ -48,6 +65,11 @@ const Detail = () => {
     { name: "stock", title: "Stock" },
   ]);
 
+  const [action, dispatchAction] = React.useReducer(actionReducer, {
+    type: "",
+    payload: null,
+    open: false,
+  });
   const getQuantity = (data) => {
     let quantity = 0;
     if (data) {
@@ -57,6 +79,40 @@ const Detail = () => {
     }
     return quantity;
   };
+  const ListButtonCustomize = [
+    {
+      menuName: !option.isShowSelect ? "Show select box" : "Hide select box",
+      onClick: () => {
+        setOption({ ...option, isShowSelect: !option.isShowSelect });
+      },
+      backgroundColor: option.isShowSelect && "#1890ffc9",
+      color: option.isShowSelect && "#FFF",
+    },
+    {
+      menuName: !option.isShowSearchBar ? "Show search bar" : "Hide search bar",
+      onClick: () => {
+        setOption({ ...option, isShowSearchBar: !option.isShowSearchBar });
+      },
+      backgroundColor: option.isShowSearchBar && "#1890ffc9",
+      color: option.isShowSearchBar && "#FFF",
+    },
+    {
+      menuName: !option.isShowGroup ? "Show grouping" : "Hide grouping",
+      onClick: () => {
+        setOption({ ...option, isShowGroup: !option.isShowGroup });
+      },
+      backgroundColor: option.isShowGroup && "#1890ffc9",
+      color: option.isShowGroup && "#FFF",
+    },
+    {
+      menuName: !option.isShowSort ? "Show sorting" : "Hide sorting",
+      onClick: () => {
+        setOption({ ...option, isShowSort: !option.isShowSort });
+      },
+      backgroundColor: option.isShowSort && "#1890ffc9",
+      color: option.isShowSort && "#FFF",
+    },
+  ];
   React.useEffect(() => {
     const fetchData = async () => {
       await fetchGetProductByIdMaster(id)
@@ -90,7 +146,7 @@ const Detail = () => {
   const handleClickOptionButton = (event, type) => {
     switch (type) {
       case data.types.SHOW_SORT:
-        setOption({ ...option, isshowSort: !option.isshowSort });
+        setOption({ ...option, isShowSort: !option.isShowSort });
         break;
       case data.types.SHOW_GROUP:
         setOption({ ...option, isShowGroup: !option.isShowGroup });
@@ -101,7 +157,7 @@ const Detail = () => {
       case data.types.SHOW_SEARCH_BAR:
         setOption({ ...option, isShowSearchBar: !option.isShowSearchBar });
         break;
-      case data.types.SHOW_EDIT:
+      case "UPDATE":
         setProductDetail(rows[selection[selection.length - 1]]);
         setOpen(true);
         break;
@@ -132,26 +188,25 @@ const Detail = () => {
 
       <DetailHeader>
         <DetailTitle>Product Detail</DetailTitle>
-        <Stack direction="row" alignItems="center" spacing={1}>
-          {data.ListButton.map((item) => (
-            <IconButton
-              key={item.key}
-              aria-label={item.ariaLabel}
-              size={item.size}
-              onClick={(event) => handleClickOptionButton(event, item.type)}
-            >
-              {item.icon}
-            </IconButton>
-          ))}
-        </Stack>
       </DetailHeader>
+      <Toolbar
+        activeItem={selection[0] >= 0 ? true : false}
+        listButton={data.ListButton}
+        listButtonCustom={ListButtonCustomize}
+        onClickItem={(button, buttonType) => {
+             dispatchAction({
+                type: buttonType,
+                payload: rows[selection[selection.length - 1]],
+              });
+        }}
+      />
       {React.useMemo(() => {
         return (
           <DataGrid
             rows={rows}
             columns={columns}
             selection={selection}
-            showSort={option.isshowSort}
+            showSort={option.isShowSort}
             showSelect={option.isShowSelect}
             showGroup={option.isShowGroup}
             showSearchBar={option.isShowSearchBar}

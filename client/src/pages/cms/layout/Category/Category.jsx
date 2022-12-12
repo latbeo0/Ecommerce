@@ -30,7 +30,7 @@ const actionReducer = (state, action) => {
 };
 const Category = () => {
   const [option, setOption] = useState({
-    isshowSort: false,
+    isShowSort: false,
     isShowGroup: false,
     isShowEdit: false,
     isShowSearchBar: false,
@@ -150,7 +150,7 @@ const Category = () => {
             rows={rows}
             columns={columns}
             selection={selection}
-            showSort={option.isshowSort}
+            showSort={option.isShowSort}
             showSelect={option.isShowSelect}
             showGroup={option.isShowGroup}
             showSearchBar={option.isShowSearchBar}

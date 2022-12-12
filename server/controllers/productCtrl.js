@@ -143,6 +143,17 @@ const productCtrl = {
             return res.status(500).json({ msg: err.message });
         }
     },
+    getProductByDate: async (req, res) => {
+        try {
+          const products = await Product.find({
+            createdAt: { $gte: req.body.fromDate, $lte: req.body.toDate },
+          });
+    
+          res.status(200).json({ products });
+        } catch (err) {
+          res.status(500).json({ err });
+        }
+      },
     getRelatedProducts: async (req, res) => {
         try {
             const { id } = req.body;

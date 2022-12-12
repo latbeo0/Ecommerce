@@ -2,29 +2,25 @@ import React, { useState } from "react";
 import DataGrid from "../../../../components/Basic/DataGrid";
 import Stack from "@mui/material/Stack";
 import IconButton from "@mui/material/IconButton";
-import { SaleHeader, SaleTitle } from "./SaleStyle";
+import { OrderHeader, OrderTitle } from "./OrderStyle";
 import * as data from "./data";
-// import PopupEdit from "../../../../components/CMS/Sale/PopupEdit";
-import { fetchGetAllSale } from "../../../../services/saleFetch";
-import BasicPopup from "./../../../../components/CMS/BasicPopup/BasicPopup";
-import Toolbar from './../../../../components/CMS/Toolbar/Toolbar';
-import { selectUser } from './../../../../redux/userSlice';
-import { useSelector } from 'react-redux';
+// import PopupEdit from "../../../../components/CMS/Order/PopupEdit";
+import { fetchGetAllOrder } from "../../../../services/orderFetch";
+import BasicPopup from "../../../../components/CMS/BasicPopup/BasicPopup";
+import Toolbar from "../../../../components/CMS/Toolbar/Toolbar";
+import { selectUser } from "../../../../redux/userSlice";
+import { useSelector } from "react-redux";
 
 const defaultColumnWidths = [
-  { columnName: "saleCode", width: 200 },
-  { columnName: "saleName", width: 300 },
-  { columnName: "saleDescription", width: 400 },
+  { columnName: "codeOrder", width: 200 },
+  { columnName: "totalPrice", width: 200 },
+  { columnName: "userId", width: 200 },
+  { columnName: "stateOrder", width: 200 },
+  { columnName: "deliveredAt", width: 200 }
 ];
 const actionReducer = (state, action) => {
   switch (action.type) {
-    case "ADD":
-      return { ...state, type: "ADD", payload: "", open: true };
-    case "UPDATE":
-      return { ...state, type: "UPDATE", payload: action.payload, open: true };
-    case "DELETE":
-      return state;
-    case "FILTER":
+    case "VIEWDETAIL":
       return state;
     case "OPTION":
       return state;
@@ -32,7 +28,7 @@ const actionReducer = (state, action) => {
       return { ...state, type: "", payload: null, open: false };
   }
 };
-const Sale = () => {
+const Order = () => {
   const { currentUser } = useSelector(selectUser);
   const [option, setOption] = useState({
     isShowSort: false,
@@ -47,25 +43,30 @@ const Sale = () => {
     open: false,
   });
   const [isOpen, setOpen] = useState(false);
-  const [saleDetail, setSaleDetail] = useState();
+  const [orderDetail, setOrderDetail] = useState();
   const [selection, setSelection] = React.useState([]);
   const [rows, setRows] = useState([]);
   const [columns, setColumns] = useState([
-    { name: "saleCode", title: "Code" },
-    { name: "saleName", title: "Sale" },
-    { name: "saleDescription", title: "Description" },
+    { name: "codeOrder", title: "Code" },
+    { name: "totalPrice", title: "Total Price" },
+    { name: "userId", title: "User" },
+    { name: "stateOrder", title: "State" },
+    { name: "deliveredAt", title: "Time" }
   ]);
 
   React.useEffect(() => {
     const fetchData = async () => {
-      await fetchGetAllSale(currentUser.access_token)
+      await fetchGetAllOrder(currentUser.access_token)
         .then((response) => {
           let tempArr = [];
-          response.data.sale.forEach((item) => {
+          response?.data?.orders?.forEach((item) => {
             tempArr.push({
               id: item._id,
-              saleCode: item.saleCode,
-              saleName: item.saleName,
+              codeOrder: item.codeOrder,
+              totalPrice: item.totalPrice,
+              userId: item.userId,
+              stateOrder: item.stateOrder,
+              deliveredAt: item.deliveredAt && `${item.deliveredAt?.getDate()}/${item.deliveredAt?.getMonth()}/${item.deliveredAt?.getFullYear()}`,
             });
           });
           setRows(tempArr);
@@ -84,7 +85,7 @@ const Sale = () => {
         setOption({ ...option, isShowSelect: !option.isShowSelect });
       },
       backgroundColor: option.isShowSelect && "#1890ffc9",
-      color: option.isShowSelect && "#FFF"
+      color: option.isShowSelect && "#FFF",
     },
     {
       menuName: !option.isShowSearchBar ? "Show search bar" : "Hide search bar",
@@ -92,8 +93,7 @@ const Sale = () => {
         setOption({ ...option, isShowSearchBar: !option.isShowSearchBar });
       },
       backgroundColor: option.isShowSearchBar && "#1890ffc9",
-      color: option.isShowSearchBar && "#FFF"
-
+      color: option.isShowSearchBar && "#FFF",
     },
     {
       menuName: !option.isShowGroup ? "Show grouping" : "Hide grouping",
@@ -101,8 +101,7 @@ const Sale = () => {
         setOption({ ...option, isShowGroup: !option.isShowGroup });
       },
       backgroundColor: option.isShowGroup && "#1890ffc9",
-      color: option.isShowGroup && "#FFF"
-
+      color: option.isShowGroup && "#FFF",
     },
     {
       menuName: !option.isShowSort ? "Show sorting" : "Hide sorting",
@@ -110,8 +109,7 @@ const Sale = () => {
         setOption({ ...option, isShowSort: !option.isShowSort });
       },
       backgroundColor: option.isShowSort && "#1890ffc9",
-      color: option.isShowSort && "#FFF"
-
+      color: option.isShowSort && "#FFF",
     },
   ];
   const handleRowChange = (index) => {
@@ -136,9 +134,9 @@ const Sale = () => {
         );
       }, [action.open])}
 
-     <SaleHeader>
-        <SaleTitle>Sale</SaleTitle>
-      </SaleHeader>
+      <OrderHeader>
+        <OrderTitle>Order</OrderTitle>
+      </OrderHeader>
       <Toolbar
         activeItem={selection[0] >= 0 ? true : false}
         listButton={data.ListButton}
@@ -170,4 +168,4 @@ const Sale = () => {
   );
 };
 
-export default Sale;
+export default Order;

@@ -32,7 +32,7 @@ const actionReducer = (state, action) => {
 };
 const Collection = () => {
   const [option, setOption] = useState({
-    isshowSort: false,
+    isShowSort: false,
     isShowGroup: false,
     isShowEdit: false,
     isShowSearchBar: false,
@@ -152,7 +152,7 @@ const Collection = () => {
             rows={rows}
             columns={columns}
             selection={selection}
-            showSort={option.isshowSort}
+            showSort={option.isShowSort}
             showSelect={option.isShowSelect}
             showGroup={option.isShowGroup}
             showSearchBar={option.isShowSearchBar}

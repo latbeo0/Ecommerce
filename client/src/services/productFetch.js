@@ -60,6 +60,13 @@ export const fetchGetProduct = async (id) => {
         console.log(2);
     }
 };
+export const fetchGetProductByDate = async (filter) => {
+    try {
+        return await baseRequest.post(`/api/product/find-by-date`, filter);
+    } catch (err) {
+        console.log(2);
+    }
+};
 export const fetchGetProductByIdMaster = async (idm) => {
     try {
         return await baseRequest.get(`/api/product/find-master/${idm}`, null);

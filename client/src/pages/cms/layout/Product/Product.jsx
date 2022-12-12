@@ -26,6 +26,7 @@ const tableColumnExtensions = [
   { columnName: "colors", align: "center" },
   { columnName: "stock", align: "center" },
 ];
+
 const actionReducer = (state, action) => {
   switch (action.type) {
     case "ADD":
@@ -38,27 +39,12 @@ const actionReducer = (state, action) => {
       return state;
     case "OPTION":
       return state;
-    case "DETAIL":
-      return state;
     default:
       return { ...state, type: "", payload: null, open: false };
   }
 };
-
 const Product = () => {
   const navigate = useNavigate();
-  const [action, dispatchAction] = React.useReducer(actionReducer, {
-    type: "",
-    payload: null,
-    open: false,
-  });
-  const [option, setOption] = useState({
-    isShowSort: false,
-    isShowGroup: false,
-    isShowEdit: false,
-    isShowSearchBar: false,
-    isShowSelect: false,
-  });
   const [selection, setSelection] = React.useState([]);
   const [rows, setRows] = useState([]);
   const [columns, setColumns] = useState([
@@ -71,6 +57,20 @@ const Product = () => {
     { name: "quantity", title: "Quantity" },
     { name: "stock", title: "Stock" },
   ]);
+
+  const [action, dispatchAction] = React.useReducer(actionReducer, {
+    type: "",
+    payload: null,
+    open: false,
+  });
+  const [option, setOption] = useState({
+    isShowSort: false,
+    isShowGroup: false,
+    isShowEdit: false,
+    isShowSearchBar: false,
+    isShowSelect: false,
+  });
+
   const getQuantity = (colors) => {
     let quantity = 0;
     colors.forEach((color) => {
@@ -113,7 +113,7 @@ const Product = () => {
         setOption({ ...option, isShowSelect: !option.isShowSelect });
       },
       backgroundColor: option.isShowSelect && "#1890ffc9",
-      color: option.isShowSelect && "#FFF"
+      color: option.isShowSelect && "#FFF",
     },
     {
       menuName: !option.isShowSearchBar ? "Show search bar" : "Hide search bar",
@@ -121,8 +121,7 @@ const Product = () => {
         setOption({ ...option, isShowSearchBar: !option.isShowSearchBar });
       },
       backgroundColor: option.isShowSearchBar && "#1890ffc9",
-      color: option.isShowSearchBar && "#FFF"
-
+      color: option.isShowSearchBar && "#FFF",
     },
     {
       menuName: !option.isShowGroup ? "Show grouping" : "Hide grouping",
@@ -130,8 +129,7 @@ const Product = () => {
         setOption({ ...option, isShowGroup: !option.isShowGroup });
       },
       backgroundColor: option.isShowGroup && "#1890ffc9",
-      color: option.isShowGroup && "#FFF"
-
+      color: option.isShowGroup && "#FFF",
     },
     {
       menuName: !option.isShowSort ? "Show sorting" : "Hide sorting",
@@ -139,8 +137,7 @@ const Product = () => {
         setOption({ ...option, isShowSort: !option.isShowSort });
       },
       backgroundColor: option.isShowSort && "#1890ffc9",
-      color: option.isShowSort && "#FFF"
-
+      color: option.isShowSort && "#FFF",
     },
   ];
 
@@ -173,10 +170,14 @@ const Product = () => {
         listButton={data.ListButton}
         listButtonCustom={ListButtonCustomize}
         onClickItem={(button, buttonType) => {
-          dispatchAction({
-            type: buttonType,
-            payload: rows[selection[selection.length - 1]],
-          });
+          buttonType === "DETAIL"
+            ? navigate(
+                `detail${rows[selection[selection.length - 1]].id}`
+              )
+            : dispatchAction({
+                type: buttonType,
+                payload: rows[selection[selection.length - 1]],
+              });
         }}
       />
       {React.useMemo(() => {
@@ -185,7 +186,7 @@ const Product = () => {
             rows={rows}
             columns={columns}
             selection={selection}
-            showSort={option.isshowSort}
+            showSort={option.isShowSort}
             showSelect={option.isShowSelect}
             showGroup={option.isShowGroup}
             showSearchBar={option.isShowSearchBar}

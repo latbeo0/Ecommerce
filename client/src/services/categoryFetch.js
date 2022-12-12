@@ -16,6 +16,7 @@ export const fetchAddNewCategory = async (category, token) => {
     throw err;
   }
 };
+
 export const fetchUpdateCategory = async (category, id, token) => {
   try {
     return await baseRequest.put(`/api/category/${id}`, category, {

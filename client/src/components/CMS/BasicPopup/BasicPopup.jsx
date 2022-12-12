@@ -173,6 +173,7 @@ const BasicPopup = ({ type, open, row, onClose, onSubmit, collection }) => {
                 Object.entries(data).map(([key, value]) => {
                   return (
                     <TextField
+                      key={key}
                       margin="normal"
                       name={key}
                       label={key.toUpperCase()}

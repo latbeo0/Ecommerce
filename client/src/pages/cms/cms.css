@@ -26,3 +26,6 @@
 .KLink {
   text-decoration: none;
 }
+#KContent::-webkit-scrollbar {
+  display: none;
+}

@@ -11,7 +11,6 @@ export const fetchGetAccessToken = createAsyncThunk(
     async () => {
         try {
             const res = await baseRequest.post("/api/user/refresh_token", null);
-            console.log(res)
             return res.data;
         } catch (error) {
             throw new Error(error.response.data.msg);
