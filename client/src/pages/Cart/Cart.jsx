@@ -24,6 +24,7 @@ import { toast } from "react-toastify";
 import { formatCurrencyVND } from "./../../utils/format";
 import { selectUser } from "../../redux/userSlice";
 import Loading from "../../helpers/Loading";
+import emptyCartImg from "../../assets/img/empty-cart.png";
 
 const INITIAL_DATA = {
     listOrderItem: [],
@@ -340,7 +341,20 @@ const Cart = () => {
         <Container>
             <BreadCrumb />
             {listProducts.length === 0 ? (
-                <div>No thing in cart</div>
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                    }}
+                >
+                    <img
+                        style={{ maxWidth: "50%" }}
+                        src={emptyCartImg}
+                        alt="emptyCartImg"
+                    />
+                    No thing in cart
+                </div>
             ) : (
                 <Wrapper>
                     <StepsCart>
