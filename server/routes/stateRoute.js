@@ -8,5 +8,4 @@ router.put('/:id', verifyTokenAndAdmin, stateCtrl.updatestate);
 
 router.get('/', stateCtrl.getAllstate);
 
-
 module.exports = router;

@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const Container = styled.div`
     font-family: system-ui, sans-serif;
@@ -8,6 +8,8 @@ const Container = styled.div`
     display: grid;
     grid-template-columns: 1em auto;
     gap: 0.5em;
+    display: flex;
+    align-items: center;
 
     & + & {
         margin-top: 1rem;
@@ -15,7 +17,7 @@ const Container = styled.div`
 `;
 
 const Input = styled.input.attrs({
-    type: 'checkbox',
+    type: "checkbox",
 })`
     /* Add if not using autoprefixer */
     -webkit-appearance: none;
@@ -36,7 +38,7 @@ const Input = styled.input.attrs({
     display: grid;
     place-content: center;
     &::before {
-        content: '';
+        content: "";
         width: 0.65em;
         height: 0.65em;
         transform: scale(0);
@@ -65,7 +67,7 @@ const Input = styled.input.attrs({
 
     position: relative;
     &::after {
-        content: '';
+        content: "";
         position: absolute;
         top: 0;
         left: 0;
@@ -76,6 +78,8 @@ const Input = styled.input.attrs({
 `;
 
 const Label = styled.label`
+    font-size: 1rem;
+
     &:disabled {
         color: var(--gray-color);
         cursor: not-allowed;

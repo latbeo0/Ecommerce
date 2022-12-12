@@ -52,6 +52,24 @@ router.delete(
   userCtrl.deleteAddressShipping
 );
 
+router.post("/cart", verifyToken, userCtrl.addToCart);
+
+router.get("/cart", verifyToken, userCtrl.getCart);
+
+router.delete("/cart", verifyToken, userCtrl.clearCart);
+
+router.post("/cart/item", verifyToken, userCtrl.removeItemCart);
+
+router.post("/cart/increase", verifyToken, userCtrl.increaseQuantity);
+
+router.post("/cart/decrease", verifyToken, userCtrl.decreaseQuantity);
+
+router.put("/cart/select", verifyToken, userCtrl.selectItemCart);
+
+router.put("/cart/selectAll", verifyToken, userCtrl.selectAllItemCart);
+
+router.put("/cart/unselectAll", verifyToken, userCtrl.unselectAllItemCart);
+
 //Admin
 router.get(
   "/",

@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useTransition } from 'react';
-import ProductCard from '../../components/User/ProductCard';
-import Filter from '../../components/User/Filter';
+import React, { useEffect, useState, useTransition } from "react";
+import ProductCard from "../../components/User/ProductCard";
+import Filter from "../../components/User/Filter";
 import {
     Container,
     Content,
@@ -13,25 +13,37 @@ import {
     CountProductsContainer,
     BodyProductsWrapper,
     FooterProductsWrapper,
-} from './ProductsStyled';
-import BreadCrumb from '../../components/Basic/BreadCrumb';
-import Search from '../../components/Basic/Search';
-import { useDispatch, useSelector } from 'react-redux';
-import { searchChange, selectSearch } from '../../redux/filterSlice';
-import { Pagination } from '../../components/Basic';
-import { selectProducts } from '../../redux/productSlice';
-import Loading from '../../helpers/Loading';
-import Select from 'react-select';
-import { fetchGetProducts } from '../../services/productFetch';
+} from "./ProductsStyled";
+import BreadCrumb from "../../components/Basic/BreadCrumb";
+import Search from "../../components/Basic/Search";
+import { useDispatch, useSelector } from "react-redux";
+import {
+    searchChange,
+    selectFilter,
+    selectSearch,
+} from "../../redux/filterSlice";
+import { Pagination } from "../../components/Basic";
+import { selectProducts } from "../../redux/productSlice";
+import Loading from "../../helpers/Loading";
+import Select from "react-select";
+import { fetchGetProducts } from "../../services/productFetch";
+import queryString from "query-string";
+import { useLocation, useNavigate } from "react-router-dom";
+import imgNotFoundProduct from "../../assets/img/istockphoto-1038232966-612x612.jpg";
 
 const options = [
-    { value: 5, label: 5 },
-    { value: 10, label: 10 },
-    { value: 15, label: 15 },
+    { value: 5, label: 5, name: "pageSize" },
+    { value: 10, label: 10, name: "pageSize" },
+    { value: 15, label: 15, name: "pageSize" },
 ];
 
 const Products = () => {
     const dispatch = useDispatch();
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    const { isLoading, sort, pageSize, pageIndex } = useSelector(selectFilter);
+
     const [, startTransition] = useTransition();
 
     const products = useSelector(selectProducts);
@@ -45,41 +57,92 @@ const Products = () => {
     };
 
     const handleClearSearch = () => {
-        dispatch(searchChange({ value: '' }));
+        dispatch(searchChange({ value: "" }));
     };
 
     // pagination
-    // let PageSize = 5;
-    const [pageSize, setPageSize] = useState(options[1]);
-    const [currentPage, setCurrentPage] = useState(1);
+    // const [pageSize, setPageSize] = useState(options[1]);
+    // const [currentPage, setCurrentPage] = useState(1);
 
     const handleChangePageSize = (selectOption) => {
-        setCurrentPage(1);
-        setPageSize(selectOption);
+        // setCurrentPage(1);
+        // setPageSize(selectOption);
+
+        const { name, value } = selectOption;
+
+        const pathname = location.pathname;
+        const query = queryString.parse(location.search);
+
+        const modifiedQuery = {
+            ...query,
+            [name]: value,
+            pageIndex: 1,
+        };
+
+        const search = queryString.stringify(modifiedQuery);
+        navigate(`${pathname}?${search}`, { replace: true });
+    };
+
+    const handleChangePageIndex = (page) => {
+        const pathname = location.pathname;
+        const query = queryString.parse(location.search);
+
+        const modifiedQuery = {
+            ...query,
+            pageIndex: page,
+        };
+
+        const search = queryString.stringify(modifiedQuery);
+        navigate(`${pathname}?${search}`, { replace: true });
     };
 
     const handleScrollToTop = () => {
-        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+    };
+
+    const handleChooseSort = (e) => {
+        const { name, value } = e.target;
+
+        const pathname = location.pathname;
+        const query = queryString.parse(location.search);
+
+        const modifiedQuery = {
+            ...query,
+            [name]: value,
+        };
+
+        const search = queryString.stringify(modifiedQuery);
+        navigate(`${pathname}?${search}`, { replace: true });
     };
 
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const pageSizeCurrent = pageSize.value;
-                const pageIndexCurrent = currentPage;
+                const search = queryString.parse(location.search);
+                const pageSizeCurrent = search.pageSize || pageSize[0];
+                const pageIndexCurrent = search.pageIndex || 1;
+
+                const modifiedQuery = {
+                    ...search,
+                    pageSize: pageSizeCurrent,
+                    pageIndex: pageIndexCurrent,
+                };
+                const query = queryString.stringify(modifiedQuery);
 
                 await dispatch(
                     fetchGetProducts({
+                        query,
                         pageSize: pageSizeCurrent,
                         pageIndex: pageIndexCurrent,
                     })
                 ).unwrap();
             } catch (error) {
-                console.log('/Products/fetchProducts');
+                console.log("/Products/fetchProducts");
             }
         };
         fetchProducts();
-    }, [pageSize, currentPage, dispatch]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [location.search, dispatch]);
 
     return (
         <Container>
@@ -97,12 +160,65 @@ const Products = () => {
                             <SortContainer>
                                 Sort:
                                 <SortChooseContainer>
-                                    <SortChooseButton choose>
+                                    <SortChooseButton
+                                        choose={
+                                            sort.includes("relevance")
+                                                ? true
+                                                : false
+                                        }
+                                        name="sort"
+                                        value="relevance"
+                                        onClick={(e) => handleChooseSort(e)}
+                                    >
                                         Relevance
                                     </SortChooseButton>
-                                    <SortChooseButton>Popular</SortChooseButton>
-                                    <SortChooseButton>
+                                    <SortChooseButton
+                                        choose={
+                                            sort.includes("popular")
+                                                ? true
+                                                : false
+                                        }
+                                        name="sort"
+                                        value="popular"
+                                        onClick={(e) => handleChooseSort(e)}
+                                    >
+                                        Popular
+                                    </SortChooseButton>
+                                    <SortChooseButton
+                                        choose={
+                                            sort.includes("most-new")
+                                                ? true
+                                                : false
+                                        }
+                                        name="sort"
+                                        value="most-new"
+                                        onClick={(e) => handleChooseSort(e)}
+                                    >
                                         Most New
+                                    </SortChooseButton>
+                                    <SortChooseButton
+                                        choose={
+                                            sort.includes("price-low-high")
+                                                ? true
+                                                : false
+                                        }
+                                        name="sort"
+                                        value="price-low-high"
+                                        onClick={(e) => handleChooseSort(e)}
+                                    >
+                                        Price (Low - High)
+                                    </SortChooseButton>
+                                    <SortChooseButton
+                                        choose={
+                                            sort.includes("price-high-low")
+                                                ? true
+                                                : false
+                                        }
+                                        name="sort"
+                                        value="price-high-low"
+                                        onClick={(e) => handleChooseSort(e)}
+                                    >
+                                        Price (High - Low)
                                     </SortChooseButton>
                                 </SortChooseContainer>
                             </SortContainer>
@@ -110,19 +226,45 @@ const Products = () => {
                                 Products per page:
                                 <Select
                                     options={options}
-                                    defaultValue={pageSize}
+                                    defaultValue={{
+                                        value: 10,
+                                        label: 10,
+                                        name: "pageSize",
+                                    }}
                                     onChange={handleChangePageSize}
                                 />
                             </CountProductsContainer>
                         </DisplayContainer>
                     </HeaderProductsWrapper>
                     <BodyProductsWrapper
-                        isLoading={products?.isError || products?.isLoading}
+                        isLoading={
+                            products?.isError ||
+                            products?.isLoading ||
+                            isLoading
+                        }
                     >
                         {products.isError ? (
                             <span>Something wrong with api get products</span>
                         ) : products.isLoading ? (
                             <Loading />
+                        ) : products.listProducts.length === 0 ? (
+                            <div
+                                style={{
+                                    gridColumn: "span 3",
+                                    margin: "auto",
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    alignItems: "center",
+                                }}
+                            >
+                                <img
+                                    src={imgNotFoundProduct}
+                                    alt="Not found product you want"
+                                />
+                                <span>
+                                    No products found matching the filter
+                                </span>
+                            </div>
                         ) : (
                             products.listProducts?.map((product) => (
                                 <ProductCard
@@ -134,12 +276,12 @@ const Products = () => {
                     </BodyProductsWrapper>
                     <FooterProductsWrapper>
                         <Pagination
-                            currentPage={currentPage}
+                            currentPage={Number(pageIndex[0])}
                             totalCount={products?.totalProducts}
-                            pageSize={pageSize.value}
+                            pageSize={Number(pageSize[0])}
                             onPageChange={(page) => {
                                 handleScrollToTop();
-                                setCurrentPage(page);
+                                handleChangePageIndex(page);
                             }}
                         />
                     </FooterProductsWrapper>

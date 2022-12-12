@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import BreadCrumb from "../../components/Basic/BreadCrumb";
-import { selectUser } from "../../redux/userSlice";
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import BreadCrumb from '../../components/Basic/BreadCrumb';
+import { selectUser } from '../../redux/userSlice';
 import {
     Container,
     Wrapper,
@@ -31,137 +31,137 @@ import {
     TitleLocation,
     DescriptionLocation,
     DefaultLocation,
-} from "./ProfileStyled";
-import { RiUser3Fill } from "react-icons/ri";
+} from './ProfileStyled';
+import { RiUser3Fill } from 'react-icons/ri';
 import {
     MdLocationOn,
     MdEdit,
     MdOutlineEditLocationAlt,
     MdOutlineWrongLocation,
-} from "react-icons/md";
-import { BsFillHeartFill } from "react-icons/bs";
-import { Button, InputGroup, SelectGroup } from "../../components/Basic";
-import imgNoLocation from "../../assets/img/noLocation.jpeg";
-import { Link } from "react-router-dom";
-import Loading from "../../helpers/Loading";
+} from 'react-icons/md';
+import { BsFillHeartFill } from 'react-icons/bs';
+import { Button, InputGroup, SelectGroup } from '../../components/Basic';
+import imgNoLocation from '../../assets/img/noLocation.jpeg';
+import { Link } from 'react-router-dom';
+import Loading from '../../helpers/Loading';
 import {
     fetchAddAddressShipping,
     fetchChangeAvatar,
     fetchChangeDefaultAddressShipping,
     fetchChangeUserInfo,
     fetchDeleteAddressShipping,
-} from "../../services/userFetch";
-import { toast } from "react-toastify";
-import { useEffect } from "react";
-import Modal from "../../components/User/Modal";
-import imgLocation from "../../assets/img/pexels-photo-1051077.jpeg";
+} from '../../services/userFetch';
+import { toast } from 'react-toastify';
+import { useEffect } from 'react';
+import Modal from '../../components/User/Modal';
+import imgLocation from '../../assets/img/pexels-photo-1051077.jpeg';
 
 const inputs = [
     {
         id: 1,
-        type: "text",
-        name: "firstName",
-        patterns: ["required"],
-        label: "First name",
+        type: 'text',
+        name: 'firstName',
+        patterns: ['required'],
+        label: 'First name',
     },
     {
         id: 2,
-        type: "text",
-        name: "lastName",
-        patterns: ["required"],
-        label: "Last name",
+        type: 'text',
+        name: 'lastName',
+        patterns: ['required'],
+        label: 'Last name',
     },
     {
         id: 3,
-        type: "email",
-        name: "email",
-        patterns: ["required", "email"],
-        label: "Email",
+        type: 'email',
+        name: 'email',
+        patterns: ['required', 'email'],
+        label: 'Email',
     },
     {
         id: 4,
-        type: "phone",
-        name: "phone",
-        patterns: ["required"],
-        label: "Phone",
+        type: 'phone',
+        name: 'phone',
+        patterns: ['required'],
+        label: 'Phone',
     },
     {
         id: 5,
-        name: "province",
-        patterns: ["required"],
+        name: 'province',
+        patterns: ['required'],
     },
     {
         id: 6,
-        name: "district",
-        patterns: ["required"],
+        name: 'district',
+        patterns: ['required'],
     },
     {
         id: 7,
-        name: "ward",
-        patterns: ["required"],
+        name: 'ward',
+        patterns: ['required'],
     },
     {
         id: 8,
-        type: "text",
-        name: "address",
-        patterns: ["required"],
-        label: "Address",
+        type: 'text',
+        name: 'address',
+        patterns: ['required'],
+        label: 'Address',
     },
 ];
 
 const inputsNewLocation = [
     {
         id: 5,
-        name: "province",
-        patterns: ["required"],
+        name: 'province',
+        patterns: ['required'],
     },
     {
         id: 6,
-        name: "district",
-        patterns: ["required"],
+        name: 'district',
+        patterns: ['required'],
     },
     {
         id: 7,
-        name: "ward",
-        patterns: ["required"],
+        name: 'ward',
+        patterns: ['required'],
     },
     {
         id: 8,
-        type: "text",
-        name: "address",
-        patterns: ["required"],
-        label: "Address",
+        type: 'text',
+        name: 'address',
+        patterns: ['required'],
+        label: 'Address',
     },
 ];
 
 const inputsUserInfo = [
     {
         id: 1,
-        type: "text",
-        name: "firstName",
-        patterns: ["required"],
-        label: "First name",
+        type: 'text',
+        name: 'firstName',
+        patterns: ['required'],
+        label: 'First name',
     },
     {
         id: 2,
-        type: "text",
-        name: "lastName",
-        patterns: ["required"],
-        label: "Last name",
+        type: 'text',
+        name: 'lastName',
+        patterns: ['required'],
+        label: 'Last name',
     },
     {
         id: 3,
-        type: "email",
-        name: "email",
-        patterns: ["required", "email"],
-        label: "Email",
+        type: 'email',
+        name: 'email',
+        patterns: ['required', 'email'],
+        label: 'Email',
     },
     {
         id: 4,
-        type: "phone",
-        name: "phone",
-        patterns: ["required"],
-        label: "Phone",
+        type: 'phone',
+        name: 'phone',
+        patterns: ['required'],
+        label: 'Phone',
     },
 ];
 
@@ -171,9 +171,9 @@ const Profile = () => {
     const { currentUser } = useSelector(selectUser);
 
     const [dataTemp, setDataTemp] = useState({
-        firstName: "",
-        lastName: "",
-        phone: "",
+        firstName: '',
+        lastName: '',
+        phone: '',
     });
 
     const [isOpened, setIsOpened] = useState(false);
@@ -200,7 +200,7 @@ const Profile = () => {
         if (firstName) return firstName;
         if (lastName) return lastName;
 
-        return "New User";
+        return 'New User';
     };
 
     const handleChangeUserInfo = async () => {
@@ -210,12 +210,12 @@ const Profile = () => {
             const data = {};
             inputsUserInfo
                 .filter(
-                    (input) => input.id !== 3 && dataTemp[input.name] !== ""
+                    (input) => input.id !== 3 && dataTemp[input.name] !== ''
                 )
                 .map((item) => (data[item.name] = dataTemp[item.name]));
             await dispatch(fetchChangeUserInfo({ id, token, data })).unwrap();
-            return toast.success("Update user info successful", {
-                position: "top-right",
+            return toast.success('Update user info successful', {
+                position: 'top-right',
                 autoClose: 1000,
                 hideProgressBar: false,
                 closeOnClick: true,
@@ -224,7 +224,7 @@ const Profile = () => {
                 progress: undefined,
             });
         } catch (error) {
-            console.log("error", error);
+            console.log('error', error);
         }
     };
 
@@ -234,18 +234,18 @@ const Profile = () => {
     const maxNumber = 69;
 
     const checkFile = (file) => {
-        if (!file) return { msg: "No files were uploaded." };
+        if (!file) return { msg: 'No files were uploaded.' };
 
-        if (file.size > 1024 * 1024) return { msg: "Size too large." };
+        if (file.size > 1024 * 1024) return { msg: 'Size too large.' };
 
-        if (file.type !== "image/jpeg" && file.type !== "image/png")
-            return { msg: "File format is incorrect." };
+        if (file.type !== 'image/jpeg' && file.type !== 'image/png')
+            return { msg: 'File format is incorrect.' };
     };
 
     const onChange = (imageList, addUpdateIndex) => {
         // data for submit
 
-        console.log(imageList, addUpdateIndex);
+        // console.log(imageList, addUpdateIndex);
         setImages(imageList);
     };
 
@@ -256,7 +256,7 @@ const Profile = () => {
 
         if (!check) {
             const formData = new FormData();
-            formData.append("file", file);
+            formData.append('file', file);
 
             const token = currentUser.access_token;
             const id = currentUser._id;
@@ -268,7 +268,7 @@ const Profile = () => {
                 setIsOpened(false);
                 setImages([]);
                 toast.success(`Update avatar successful`, {
-                    position: "top-right",
+                    position: 'top-right',
                     autoClose: 1000,
                     hideProgressBar: false,
                     closeOnClick: true,
@@ -279,7 +279,7 @@ const Profile = () => {
             } catch (error) {}
         } else {
             toast.error(`${check.msg}`, {
-                position: "top-right",
+                position: 'top-right',
                 autoClose: 1000,
                 hideProgressBar: false,
                 closeOnClick: true,
@@ -294,26 +294,26 @@ const Profile = () => {
     const location = useSelector((state) => state.location);
 
     const [newLocation, setNewLocation] = useState({
-        province: "",
-        district: "",
-        ward: "",
-        address: "",
+        province: '',
+        district: '',
+        ward: '',
+        address: '',
     });
 
     const handleChangeLocation = (e) => {
         const { name, value } = e.target;
-        if (name === "province") {
+        if (name === 'province') {
             setNewLocation({
                 ...newLocation,
                 [name]: value,
-                district: "",
-                ward: "",
+                district: '',
+                ward: '',
             });
-        } else if (name === "district") {
+        } else if (name === 'district') {
             setNewLocation({
                 ...newLocation,
                 [name]: value,
-                ward: "",
+                ward: '',
             });
         } else {
             setNewLocation({
@@ -326,7 +326,7 @@ const Profile = () => {
     const provinces = location?.province?.map((item) => ({
         value: item.code,
         label: item.name,
-        name: "province",
+        name: 'province',
     }));
 
     const [province, setProvince] = useState(null);
@@ -334,8 +334,8 @@ const Profile = () => {
     const handleChangeProvince = (selectOption) => {
         if (handleChangeLocation) {
             setProvince(selectOption);
-            setDistrict("");
-            setWard("");
+            setDistrict('');
+            setWard('');
             handleChangeLocation({
                 target: {
                     name: selectOption.name,
@@ -354,7 +354,7 @@ const Profile = () => {
               ?.map((item) => ({
                   value: item.code,
                   label: item.name,
-                  name: "district",
+                  name: 'district',
               }))
         : [];
 
@@ -363,7 +363,7 @@ const Profile = () => {
     const handleChangeDistrict = (selectOption) => {
         if (handleChangeLocation) {
             setDistrict(selectOption);
-            setWard("");
+            setWard('');
             handleChangeLocation({
                 target: {
                     name: selectOption.name,
@@ -382,7 +382,7 @@ const Profile = () => {
               ?.map((item) => ({
                   value: item.code,
                   label: item.name,
-                  name: "ward",
+                  name: 'ward',
               }))
         : [];
 
@@ -402,7 +402,7 @@ const Profile = () => {
 
     const handleAddNewLocation = async () => {
         const check = inputsNewLocation.find(
-            (item) => newLocation[item.name] === ""
+            (item) => newLocation[item.name] === ''
         );
 
         if (!check) {
@@ -414,9 +414,9 @@ const Profile = () => {
             setDistrict(null);
             setWard(null);
             setIsOpenAddNew(false);
-            setNewLocation((prev) => ({ ...prev, address: "" }));
+            setNewLocation((prev) => ({ ...prev, address: '' }));
             toast.success(`Add new address shipping successful`, {
-                position: "top-right",
+                position: 'top-right',
                 autoClose: 1000,
                 hideProgressBar: false,
                 closeOnClick: true,
@@ -426,7 +426,7 @@ const Profile = () => {
             });
         } else {
             toast.error(`Please fill all required field`, {
-                position: "top-right",
+                position: 'top-right',
                 autoClose: 1000,
                 hideProgressBar: false,
                 closeOnClick: true,
@@ -457,7 +457,7 @@ const Profile = () => {
                 ).unwrap();
 
                 toast.success(`Change default address shipping successful`, {
-                    position: "top-right",
+                    position: 'top-right',
                     autoClose: 1000,
                     hideProgressBar: false,
                     closeOnClick: true,
@@ -481,7 +481,7 @@ const Profile = () => {
                 ).unwrap();
 
                 toast.success(`Delete address shipping successful`, {
-                    position: "top-right",
+                    position: 'top-right',
                     autoClose: 1000,
                     hideProgressBar: false,
                     closeOnClick: true,
@@ -492,7 +492,7 @@ const Profile = () => {
             } catch (error) {}
         } else {
             toast.error(`You need to change default address shipping first!`, {
-                position: "top-right",
+                position: 'top-right',
                 autoClose: 1000,
                 hideProgressBar: false,
                 closeOnClick: true,
@@ -512,7 +512,7 @@ const Profile = () => {
                         <ButtonEditAvatar onClick={handleOpenModal}>
                             <MdEdit />
                         </ButtonEditAvatar>
-                        <Avatar src={currentUser.avatar} alt="avatar" />
+                        <Avatar src={currentUser.avatar} alt='avatar' />
                         {isOpened ? (
                             <Modal
                                 avatar={images}
@@ -538,7 +538,7 @@ const Profile = () => {
                             <MdLocationOn />
                             Address shipping
                         </Tool>
-                        <Link to="/wish_list">
+                        <Link to='/wish_list'>
                             <Tool>
                                 <BsFillHeartFill />
                                 Wish list
@@ -551,7 +551,7 @@ const Profile = () => {
                         <Header>
                             <Title>User Information</Title>
                             <Button
-                                variant="contained"
+                                variant='contained'
                                 onClick={handleChangeUserInfo}
                             >
                                 Update
@@ -580,12 +580,12 @@ const Profile = () => {
                                     />
                                 ))}
                             </Row>
-                            <Row style={{ width: "calc(50% - 0.5rem)" }}>
+                            <Row style={{ width: 'calc(50% - 0.5rem)' }}>
                                 {inputsUserInfo.slice(3, 4).map((input) => {
                                     return (
                                         <InputGroup
                                             key={input.id}
-                                            value={dataTemp[input.name] || ""}
+                                            value={dataTemp[input.name] || ''}
                                             onChange={(e) => handleChange(e)}
                                             {...input}
                                         />
@@ -598,7 +598,7 @@ const Profile = () => {
                         <Header>
                             <Title>Address Shipping</Title>
                             <Button
-                                variant="contained"
+                                variant='contained'
                                 onClick={handleOpenAddNew}
                             >
                                 New
@@ -609,24 +609,24 @@ const Profile = () => {
                                 <WrapperRow>
                                     <Row>
                                         <SelectGroup
-                                            label="Province"
-                                            placeholder="Select province ..."
+                                            label='Province'
+                                            placeholder='Select province ...'
                                             options={provinces}
                                             value={province}
                                             onChange={handleChangeProvince}
                                             // errorMessage={errorsForm['province'][0]}
                                         />
                                         <SelectGroup
-                                            label="District"
-                                            placeholder="Select district ..."
+                                            label='District'
+                                            placeholder='Select district ...'
                                             options={districts}
                                             value={district}
                                             onChange={handleChangeDistrict}
                                             // errorMessage={errorsForm['district'][0]}
                                         />
                                         <SelectGroup
-                                            label="Ward"
-                                            placeholder="Select ward ..."
+                                            label='Ward'
+                                            placeholder='Select ward ...'
                                             options={wards}
                                             value={ward}
                                             onChange={handleChangeWard}
@@ -647,7 +647,7 @@ const Profile = () => {
                                         ))}
                                     </Row>
                                     <Button
-                                        variant="contained"
+                                        variant='contained'
                                         onClick={handleAddNewLocation}
                                     >
                                         Add
@@ -670,7 +670,7 @@ const Profile = () => {
                                                 <ImageLocationContainer>
                                                     <ImageLocation
                                                         src={imgLocation}
-                                                        alt="imageLocation"
+                                                        alt='imageLocation'
                                                     />
                                                 </ImageLocationContainer>
                                                 <ContentLocationContainer>
@@ -708,7 +708,7 @@ const Profile = () => {
                                     You don't have any address shipping
                                     <LocationImage
                                         src={imgNoLocation}
-                                        alt="no-location"
+                                        alt='no-location'
                                     />
                                 </LocationImageContainer>
                             )}

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const Container = styled.div`
     display: flex;
@@ -7,6 +7,12 @@ const Container = styled.div`
     border-radius: 1rem;
     box-shadow: rgb(100 100 111 / 20%) 0px 7px 29px 0px;
     gap: 3rem;
+`;
+
+const Header = styled.div`
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
 `;
 
 const Title = styled.h1`
@@ -36,6 +42,7 @@ const AddressShippingContainer = styled.div``;
 
 export {
     Container,
+    Header,
     Title,
     UserInfoContainer,
     UserInfoWrapper,

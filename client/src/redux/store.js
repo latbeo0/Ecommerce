@@ -5,6 +5,11 @@ import productReducer from './productSlice';
 import filterReducer from './filterSlice';
 import cartReducer from './cartSlice';
 import locationReducer from './locationSlice';
+import categoryReducer from './categorySlice';
+import stateReducer from './stateSlice';
+import collectionReducer from './collectionSlice';
+import colorReducer from './colorSlice';
+import sizeReducer from './sizeSlice';
 import {
     persistStore,
     persistReducer,
@@ -31,6 +36,11 @@ const rootReducer = combineReducers({
     filters: filterReducer,
     cart: cartReducer,
     location: locationReducer,
+    categories: categoryReducer,
+    states: stateReducer,
+    collections: collectionReducer,
+    colors: colorReducer,
+    sizes: sizeReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

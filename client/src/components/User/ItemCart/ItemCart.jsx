@@ -68,8 +68,12 @@ const ItemCart = (props) => {
         try {
             if (selectQuantity < quantityBySelectedSize) {
                 await dispatch(
-                    fetchIncreaseNumber({ product: product?.product })
-                );
+                    fetchIncreaseNumber({
+                        user: currentUser,
+                        product: product?.product,
+                        quantity: selectQuantity,
+                    })
+                ).unwrap();
             }
         } catch (error) {
             console.log("error", error);
@@ -80,8 +84,12 @@ const ItemCart = (props) => {
         try {
             if (selectQuantity > 1) {
                 await dispatch(
-                    fetchDecreaseNumber({ product: product?.product })
-                );
+                    fetchDecreaseNumber({
+                        user: currentUser,
+                        product: product?.product,
+                        quantity: selectQuantity,
+                    })
+                ).unwrap();
             } else {
                 setIsOpened((prev) => !prev);
             }
@@ -93,7 +101,12 @@ const ItemCart = (props) => {
     const handleRemoveItem = async () => {
         try {
             setIsOpened((prev) => !prev);
-            await dispatch(fetchRemoveItem({ product: product?.product }));
+            await dispatch(
+                fetchRemoveItem({
+                    user: currentUser,
+                    product: product?.product,
+                })
+            ).unwrap();
         } catch (error) {
             console.log("error", error);
         }
@@ -101,7 +114,13 @@ const ItemCart = (props) => {
 
     const handleSelect = async () => {
         try {
-            await dispatch(fetchSelectItem({ product: product?.product }));
+            await dispatch(
+                fetchSelectItem({
+                    user: currentUser,
+                    product: product?.product,
+                    isSelected: product?.isSelected,
+                })
+            ).unwrap();
         } catch (error) {
             console.log("error", error);
         }
@@ -178,6 +197,7 @@ const ItemCart = (props) => {
         <Container
             key={product.product._id + product.size}
             isSelect={product?.isSelected}
+            isError={product?.isError}
         >
             <ImageContainer>
                 <Image src={product?.product.primaryImages[0].img} alt="#" />
@@ -249,8 +269,15 @@ const ItemCart = (props) => {
                 <CheckContainer
                     onClick={handleSelect}
                     isSelect={product?.isSelected}
+                    isError={product?.isError}
                 >
-                    {product?.isSelected ? <FiCheck /> : null}
+                    {product?.isSelected ? (
+                        product?.isError ? (
+                            <IoClose />
+                        ) : (
+                            <FiCheck />
+                        )
+                    ) : null}
                 </CheckContainer>
                 <DeleteContainer onClick={handleOpenModal}>
                     <IoTrashOutline />

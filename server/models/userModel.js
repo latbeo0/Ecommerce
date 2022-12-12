@@ -49,6 +49,10 @@ const UserSchema = new mongoose.Schema(
             type: String,
             default: "CUSTOMER",
         },
+        cart: {
+            type: Array,
+            default: [],
+        },
     },
     {
         timestamps: true,

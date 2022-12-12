@@ -1,18 +1,22 @@
 import { baseRequest } from "./apiFetch";
 
 export const fetchPayment = async (
+  orderCode,
   listOderItems,
   addressShipping,
-  itemsPrice,
+  subPrice,
   totalPrice,
-  userId
+  userId,
+  payment
 ) => {
-  return await baseRequest.post("/api/order/payment", {
-    listOderItems,
-    addressShipping,
-    itemsPrice,
-    totalPrice,
-    userId,
+  return await baseRequest.post('/api/order/payment', {
+      orderCode,
+      listOderItems,
+      addressShipping,
+      subPrice,
+      totalPrice,
+      userId,
+      payment,
   });
 };
 export const fetchGetOrderByDate = async (filter, token) => {

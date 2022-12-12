@@ -1,3 +1,4 @@
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import { baseRequest } from "./apiFetch";
 
 export const fetchGetAllCategory = async () => {
@@ -25,4 +26,20 @@ export const fetchUpdateCategory = async (category, id, token) => {
   } catch (err) {
     throw err;
   }
-};
+}
+// export const fetchGetAllCategory = createAsyncThunk(
+//   "category/fetchGetAllCategory",
+//   async () => {
+//       try {
+//           const res = await baseRequest.get("/api/category/");
+//           return [...res.data.category];
+//       } catch (error) {
+//           // if (!error.response) throw error;
+//           throw new Error(error.response.data.msg);
+//       }
+//   }
+// );
+
+
+
+

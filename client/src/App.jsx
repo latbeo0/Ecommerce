@@ -21,13 +21,20 @@ import ButtonScrollToTop from "./helpers/ButtonScrollToTop";
 import { fetchGetProducts } from "./services/productFetch";
 import Cart from "./pages/Cart";
 import {
-  fetchDistrict,
-  fetchProvince,
-  fetchWard,
+    fetchDistrict,
+    fetchProvince,
+    fetchWard,
 } from "./services/locationFetch";
 import Profile from "./pages/Profile";
 import WishList from "./pages/WishList";
 import NotFound from "./pages/NotFound";
+import { fetchGetCart } from "./services/cartFetch";
+import { fetchGetAllCategory } from "./services/categoryFetch";
+import { fetchGetAllState } from "./services/stateFetch";
+import { fetchGetAllCollection } from "./services/collectionFetch";
+import { fetchGetAllColors } from "./services/colorFetch";
+import { fetchGetAllSizes } from "./services/sizeFetch";
+import Orders from "./pages/Orders";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -99,49 +106,128 @@ const App = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return (
-    <>
-      <ToastContainer />
-      <BrowserRouter>
-        <ScrollToTop />
-        <Routes>
-          {user?.currentUser && user.currentUser?.vRole[0]?.level < 3 ? (
-            <Route path="/*" index element={<AdminRouter />} />
-          ) : (
-            <>
-              <Route path="/register" element={<Register />} />
-              <Route
-                path="/activate_email/:activationToken"
-                element={<ActiveEmail />}
-              />
-              <Route path="/login" element={<Login />} />
-              <Route path="/forgot_password" element={<ForgotPassword />} />
-              <Route
-                path="/reset_password/:token"
-                element={<ResetPassword />}
-              />
-              <Route path="/" element={<HeaderFooterPage />}>
-                <Route index element={<Home />} />
-                <Route path="/products/:codeProduct" element={<Product />} />
-                <Route path="/products" element={<Products />} />
-                <Route path="/cart" element={<Cart />} />
-                {user.currentUser ? (
-                  <>
-                    <Route path="/profile" element={<Profile />} />
-                    <Route path="/wish_list" element={<WishList />} />
-                  </>
-                ) : null}
-              </Route>
-              <Route path="/*" element={<NotFound />} />
-            </>
-          )}
-        </Routes>
-      </BrowserRouter>
-      {isScroll ? (
-        <ButtonScrollToTop onClick={() => handleScrollToTop()} />
-      ) : null}
-    </>
-  );
+
+    useEffect(() => {
+        const fetchCartOfUser = async () => {
+            try {
+                await dispatch(
+                    fetchGetCart({ user: user.currentUser })
+                ).unwrap();
+            } catch (error) {
+                console.log("/App/fetchCart");
+            }
+        };
+        if (user.currentUser) {
+            fetchCartOfUser();
+        }
+    }, [user.currentUser, dispatch]);
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                await dispatch(fetchGetAllCategory()).unwrap();
+            } catch (error) {
+                console.log("/App/fetchCategories");
+            }
+        };
+        fetchCategories();
+
+        const fetchStates = async () => {
+            try {
+                await dispatch(fetchGetAllState()).unwrap();
+            } catch (error) {
+                console.log("/App/fetchStates");
+            }
+        };
+        fetchStates();
+
+        const fetchCollections = async () => {
+            try {
+                await dispatch(fetchGetAllCollection()).unwrap();
+            } catch (error) {
+                console.log("/App/fetchCollections");
+            }
+        };
+        fetchCollections();
+
+        const fetchColors = async () => {
+            try {
+                await dispatch(fetchGetAllColors()).unwrap();
+            } catch (error) {
+                console.log("/App/fetchGetAllColors");
+            }
+        };
+        fetchColors();
+
+        const fetchSizes = async () => {
+            try {
+                await dispatch(fetchGetAllSizes()).unwrap();
+            } catch (error) {
+                console.log("/App/fetchGetAllSizes");
+            }
+        };
+        fetchSizes();
+    }, [dispatch]);
+
+    return (
+        <>
+            <ToastContainer />
+            <BrowserRouter>
+                <ScrollToTop />
+                <Routes>
+                    {user?.currentUser && user.currentUser.level < 3 ? (
+                        <Route path="/*" index element={<AdminRouter />} />
+                    ) : (
+                        <>
+                            <Route path="/register" element={<Register />} />
+                            <Route
+                                path="/activate_email/:activationToken"
+                                element={<ActiveEmail />}
+                            />
+                            <Route path="/login" element={<Login />} />
+                            <Route
+                                path="/forgot_password"
+                                element={<ForgotPassword />}
+                            />
+                            <Route
+                                path="/reset_password/:token"
+                                element={<ResetPassword />}
+                            />
+                            <Route path="/" element={<HeaderFooterPage />}>
+                                <Route index element={<Home />} />
+                                <Route
+                                    path="/products/:codeProduct"
+                                    element={<Product />}
+                                />
+                                <Route
+                                    path="/products"
+                                    element={<Products />}
+                                />
+                                <Route path="/cart" element={<Cart />} />
+                                <Route path="/orders" element={<Orders />} />
+                                {user.currentUser ? (
+                                    <>
+                                        <Route
+                                            path="/profile"
+                                            element={<Profile />}
+                                        />
+                                        <Route
+                                            path="/wish_list"
+                                            element={<WishList />}
+                                        />
+                                    </>
+                                ) : null}
+                            </Route>
+                            <Route path="/*" element={<NotFound />} />
+                        </>
+                    )}
+                </Routes>
+            </BrowserRouter>
+            {isScroll ? (
+                <ButtonScrollToTop onClick={() => handleScrollToTop()} />
+            ) : null}
+        </>
+    );
 };
 
 export default App;

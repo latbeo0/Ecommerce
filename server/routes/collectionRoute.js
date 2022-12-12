@@ -8,8 +8,8 @@ router.post('/', verifyTokenAndAdmin, collectionCtrl.createCollection);
 // UPDATE
 router.put('/:id', verifyTokenAndAdmin, collectionCtrl.updateCollection);
 
-// GET ALL VOUCHER
-router.get('/', collectionCtrl.getAllCollection);
+// GET ALL
+router.get("/", collectionCtrl.getAllCollection);
 // GET PRODUCT BY NAME
 
 module.exports = router;

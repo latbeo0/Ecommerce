@@ -1,14 +1,15 @@
-import { createSlice, current } from '@reduxjs/toolkit';
+import { createSlice, current } from "@reduxjs/toolkit";
 import {
     fetchAddToCart,
     fetchClearCart,
     fetchDecreaseNumber,
+    fetchGetCart,
     fetchIncreaseNumber,
     fetchRemoveItem,
     fetchSelectAllItem,
     fetchSelectItem,
     fetchUnSelectAllItem,
-} from '../services/cartFetch';
+} from "../services/cartFetch";
 
 const initialState = {
     isLoading: false,
@@ -17,10 +18,23 @@ const initialState = {
 };
 
 export const cartSlice = createSlice({
-    name: 'cart',
+    name: "cart",
     initialState,
     reducers: {},
     extraReducers: (builder) => {
+        // Get cart
+        builder
+            .addCase(fetchGetCart.pending, (state, action) => {
+                state.isLoading = true;
+            })
+            .addCase(fetchGetCart.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.listProducts = action.payload;
+            })
+            .addCase(fetchGetCart.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+            });
         // Add to cart
         builder
             .addCase(fetchAddToCart.pending, (state, action) => {
@@ -129,10 +143,14 @@ export const cartSlice = createSlice({
             })
             .addCase(fetchUnSelectAllItem.fulfilled, (state, action) => {
                 state.isLoading = false;
-                const newList = state.listProducts.map((item) => {
-                    if (!item.isError) return { ...item, isSelected: false };
-                    else return item;
-                });
+                // const newList = state.listProducts.map((item) => {
+                //     if (!item.isError) return { ...item, isSelected: false };
+                //     else return item;
+                // });
+                const newList = state.listProducts.map((item) => ({
+                    ...item,
+                    isSelected: false,
+                }));
                 state.listProducts = newList;
             })
             .addCase(fetchUnSelectAllItem.rejected, (state, action) => {
@@ -147,10 +165,14 @@ export const cartSlice = createSlice({
             })
             .addCase(fetchSelectAllItem.fulfilled, (state, action) => {
                 state.isLoading = false;
-                const newList = state.listProducts.map((item) => {
-                    if (!item.isError) return { ...item, isSelected: true };
-                    else return item;
-                });
+                // const newList = state.listProducts.map((item) => {
+                //     if (!item.isError) return { ...item, isSelected: true };
+                //     else return item;
+                // });
+                const newList = state.listProducts.map((item) => ({
+                    ...item,
+                    isSelected: true,
+                }));
                 state.listProducts = newList;
             })
             .addCase(fetchSelectAllItem.rejected, (state, action) => {
