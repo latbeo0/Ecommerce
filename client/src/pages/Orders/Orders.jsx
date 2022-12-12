@@ -1,5 +1,5 @@
-import React from "react";
-import BreadCrumb from "../../components/Basic/BreadCrumb";
+import React from 'react';
+import BreadCrumb from '../../components/Basic/BreadCrumb';
 import {
     Container,
     Content,
@@ -30,7 +30,7 @@ import {
     EditIcon,
     DeleteEdit,
     LinkR,
-} from "./OrdersStyled";
+} from './OrdersStyled';
 
 const Orders = () => {
     return (
@@ -41,16 +41,16 @@ const Orders = () => {
                 <WrapperInputs>
                     <NavbarSearch>
                         <SearchInput
-                            placeholder="Enter Id Order"
-                            type="text"
-                            id="idOrder"
-                            name="idOrder"
+                            placeholder='Enter Id Order'
+                            type='text'
+                            id='idOrder'
+                            name='idOrder'
                             // value={search.idOrder}
                             // onChange={handleChangeInput}
                         />
                     </NavbarSearch>
                     <NavbarSearch>
-                        <SearchInput placeholder="Enter name or phone" />
+                        <SearchInput placeholder='Enter name or phone' />
                     </NavbarSearch>
                     <Button
                     // onClick={handleSearchById}
@@ -64,9 +64,8 @@ const Orders = () => {
                             <HeaderTable>
                                 <RowHeaderTable>
                                     <ItemHeaderTable>Id</ItemHeaderTable>
-                                    <ItemHeaderTable>Name</ItemHeaderTable>
-                                    <ItemHeaderTable>Phone</ItemHeaderTable>
                                     <ItemHeaderTable>Address</ItemHeaderTable>
+                                    <ItemHeaderTable>State</ItemHeaderTable>
                                     <ItemHeaderTable>
                                         Total Price
                                     </ItemHeaderTable>
