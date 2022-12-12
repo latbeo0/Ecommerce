@@ -35,6 +35,8 @@ import { fetchGetAllCollection1 } from './services/collectionFetch';
 import { fetchGetAllColors } from './services/colorFetch';
 import { fetchGetAllSizes } from './services/sizeFetch';
 import Orders from './pages/Orders';
+import { fetchGetAllOrder1 } from './services/orderFetch';
+import Store from './pages/Store';
 
 const App = () => {
     const dispatch = useDispatch();
@@ -118,8 +120,20 @@ const App = () => {
                 console.log('/App/fetchCart');
             }
         };
+
+        const fetchOrderOfUser = async () => {
+            try {
+                await dispatch(
+                    fetchGetAllOrder1({ user: user.currentUser })
+                ).unwrap();
+            } catch (error) {
+                console.log('/App/fetchOrder');
+            }
+        };
+
         if (user.currentUser) {
             fetchCartOfUser();
+            fetchOrderOfUser();
         }
     }, [user.currentUser, dispatch]);
 
@@ -206,6 +220,7 @@ const App = () => {
                                 />
                                 <Route path='/cart' element={<Cart />} />
                                 <Route path='/orders' element={<Orders />} />
+                                <Route path='/stores' element={<Store />} />
                                 {user.currentUser ? (
                                     <>
                                         <Route

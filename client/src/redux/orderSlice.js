@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { fetchGetAllOrder1 } from '../services/orderFetch';
 
 const initialState = {
     isLoading: false,
@@ -6,29 +7,29 @@ const initialState = {
     isError: false,
 };
 
-export const sizeSlice = createSlice({
-    name: 'size',
+export const orderSlice = createSlice({
+    name: 'order',
     initialState,
     reducers: {},
     extraReducers: (builder) => {
         // Get all sizes
-        // builder
-        //     .addCase(fetchGetAllSizes.pending, (state, action) => {
-        //         state.isLoading = true;
-        //     })
-        //     .addCase(fetchGetAllSizes.fulfilled, (state, action) => {
-        //         state.isLoading = false;
-        //         state.listSizes = action.payload;
-        //     })
-        //     .addCase(fetchGetAllSizes.rejected, (state, action) => {
-        //         state.isLoading = false;
-        //         state.isError = true;
-        //     });
+        builder
+            .addCase(fetchGetAllOrder1.pending, (state, action) => {
+                state.isLoading = true;
+            })
+            .addCase(fetchGetAllOrder1.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.listOrders = action.payload;
+            })
+            .addCase(fetchGetAllOrder1.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+            });
     },
 });
 
 // export const {} = stateSlice.actions;
 
-export const selectSizes = (state) => state.sizes;
+export const selectOrders = (state) => state.orders;
 
-export default sizeSlice.reducer;
+export default orderSlice.reducer;
