@@ -23,8 +23,12 @@ router.post('/find/collection/:collectCode', productCtrl.getRelatedProducts);
 // GET ALL PRODUCT
 router.get('/', productCtrl.getAllProduct);
 router.get('/master', productCtrl.getAllProductMaster);
+router.get('/test', productCtrl.test);
 
 // GET PRODUCT BY NAME
 router.get('/search/:name', productCtrl.getProductByName);
+
+// GET ALL COLORS
+router.get('/colors/', productCtrl.getColors);
 
 module.exports = router;

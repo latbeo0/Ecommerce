@@ -1,9 +1,9 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import { baseRequest } from "./apiFetch";
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { baseRequest } from './apiFetch';
 
 export const fetchAddNewProductMaster = async (product, token) => {
     try {
-        return await baseRequest.post("/api/product/master/", product);
+        return await baseRequest.post('/api/product/master/', product);
     } catch (err) {
         throw err;
     }
@@ -11,7 +11,7 @@ export const fetchAddNewProductMaster = async (product, token) => {
 
 export const fetchGetAllProductMaster = async () => {
     try {
-        return await baseRequest.get("/api/product/master/", null);
+        return await baseRequest.get('/api/product/master/', null);
     } catch (err) {
         console.log(err);
     }
@@ -33,7 +33,7 @@ export const fetchUpdateProductMaster = async (product, id, token) => {
 };
 export const fetchAddNewProduct = async (product, token) => {
     try {
-        return await baseRequest.post("/api/product/", product);
+        return await baseRequest.post('/api/product/', product);
     } catch (err) {
         throw err;
     }
@@ -41,7 +41,7 @@ export const fetchAddNewProduct = async (product, token) => {
 
 export const fetchGetAllProduct = async () => {
     try {
-        return await baseRequest.get("/api/product/", null);
+        return await baseRequest.get('/api/product/', null);
     } catch (err) {
         console.log(err);
     }
@@ -78,10 +78,10 @@ export const fetchGetProductByName = async (name) => {
 };
 export const fetchUploadImageProduct = async (formData, token) => {
     try {
-        return await baseRequest.post("/api/upload/upload_product", formData, {
+        return await baseRequest.post('/api/upload/upload_product', formData, {
             headers: {
                 // 'content-type': 'multipart/form-data',
-                accept: "application/json",
+                accept: 'application/json',
                 // Authorization: token,
             },
         });
@@ -91,11 +91,15 @@ export const fetchUploadImageProduct = async (formData, token) => {
 };
 
 export const fetchGetProducts = createAsyncThunk(
-    "products/getProducts",
-    async ({ pageSize, pageIndex }) => {
+    'products/getProducts',
+    async ({ query, pageSize, pageIndex }) => {
         try {
+            // const res = await baseRequest.get(
+            //     `/api/product?pageSize=${pageSize}&pageIndex=${pageIndex}`,
+            //     null
+            // );
             const res = await baseRequest.get(
-                `/api/product?pageSize=${pageSize}&pageIndex=${pageIndex}`,
+                `/api/product/test?${query}`,
                 null
             );
             return res.data;

@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { Container, Wrapper, Page } from './FlyoutMenuStyled';
 import Popover from './Popover';
 
@@ -11,8 +12,8 @@ const FlyoutMenu = (props) => {
                     <Popover key={category.name} category={category} />
                 ))}
                 {navigation.pages.map((page) => (
-                    <Page key={page.name} href={page.href}>
-                        {page.name}
+                    <Page key={page.name}>
+                        <Link to={page.href}>{page.name}</Link>
                     </Page>
                 ))}
             </Wrapper>

@@ -32,6 +32,9 @@ import { fetchGetCart } from "./services/cartFetch";
 import { fetchGetAllCategory } from "./services/categoryFetch";
 import { fetchGetAllState } from "./services/stateFetch";
 import { fetchGetAllCollection } from "./services/collectionFetch";
+import { fetchGetAllColors } from "./services/colorFetch";
+import { fetchGetAllSizes } from "./services/sizeFetch";
+import Orders from "./pages/Orders";
 
 const App = () => {
     const dispatch = useDispatch();
@@ -124,7 +127,7 @@ const App = () => {
         if (user.currentUser) {
             fetchCartOfUser();
         }
-    }, [user.currentUser]);
+    }, [user.currentUser, dispatch]);
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -153,7 +156,25 @@ const App = () => {
             }
         };
         fetchCollections();
-    }, []);
+
+        const fetchColors = async () => {
+            try {
+                await dispatch(fetchGetAllColors()).unwrap();
+            } catch (error) {
+                console.log("/App/fetchGetAllColors");
+            }
+        };
+        fetchColors();
+
+        const fetchSizes = async () => {
+            try {
+                await dispatch(fetchGetAllSizes()).unwrap();
+            } catch (error) {
+                console.log("/App/fetchGetAllSizes");
+            }
+        };
+        fetchSizes();
+    }, [dispatch]);
 
     return (
         <>
@@ -190,6 +211,7 @@ const App = () => {
                                     element={<Products />}
                                 />
                                 <Route path="/cart" element={<Cart />} />
+                                <Route path="/orders" element={<Orders />} />
                                 {user.currentUser ? (
                                     <>
                                         <Route

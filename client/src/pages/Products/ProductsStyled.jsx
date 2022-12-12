@@ -43,12 +43,12 @@ const DisplayContainer = styled.div`
 const SortContainer = styled.div`
     display: flex;
     align-items: center;
-    gap: 2rem;
+    gap: 1rem;
 `;
 
 const SortChooseContainer = styled.div`
     display: flex;
-    gap: 1rem;
+    gap: 0.5rem;
 `;
 
 const SortChooseButton = styled.button`
