@@ -1,5 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { fetchGetAllCategory } from "../services/categoryFetch";
+import { createSlice } from '@reduxjs/toolkit';
+import { fetchGetAllCategory1 } from '../services/categoryFetch';
 
 const initialState = {
     isLoading: false,
@@ -8,20 +8,20 @@ const initialState = {
 };
 
 export const categorySlice = createSlice({
-    name: "category",
+    name: 'category',
     initialState,
     reducers: {},
     extraReducers: (builder) => {
         // Get all categories
         builder
-            .addCase(fetchGetAllCategory.pending, (state, action) => {
+            .addCase(fetchGetAllCategory1.pending, (state, action) => {
                 state.isLoading = true;
             })
-            .addCase(fetchGetAllCategory.fulfilled, (state, action) => {
+            .addCase(fetchGetAllCategory1.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.listCategories = action.payload;
             })
-            .addCase(fetchGetAllCategory.rejected, (state, action) => {
+            .addCase(fetchGetAllCategory1.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
             });
