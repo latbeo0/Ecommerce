@@ -37,6 +37,7 @@ import { fetchGetAllSizes } from './services/sizeFetch';
 import Orders from './pages/Orders';
 import { fetchGetAllOrder1 } from './services/orderFetch';
 import Store from './pages/Store';
+import PaySuccess from './pages/PaySuccess';
 
 const App = () => {
     const dispatch = useDispatch();
@@ -52,7 +53,7 @@ const App = () => {
                     await dispatch(fetchGetAccessToken()).unwrap();
                 }
             } catch (error) {
-                await dispatch(fetchLogout()).unwrap();
+                await dispatch(fetchLogout({ dispatch })).unwrap();
             }
         };
         fetchAccessToken();
@@ -221,6 +222,10 @@ const App = () => {
                                 <Route path='/cart' element={<Cart />} />
                                 <Route path='/orders' element={<Orders />} />
                                 <Route path='/stores' element={<Store />} />
+                                <Route
+                                    path='/pay-successful'
+                                    element={<PaySuccess />}
+                                />
                                 {user.currentUser ? (
                                     <>
                                         <Route

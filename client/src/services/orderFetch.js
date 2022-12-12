@@ -62,3 +62,23 @@ export const fetchGetAllOrder1 = createAsyncThunk(
         }
     }
 );
+
+export const fetchClearOrder = createAsyncThunk(
+    'order/fetchClearOrder',
+    async (args) => {
+        try {
+        } catch (error) {
+            throw new Error(error.response.data.msg);
+        }
+    }
+);
+
+export const fetchOrderByCode = async (orderCode) => {
+    try {
+        return await baseRequest.post('/api/order/search/code', {
+            orderCode,
+        });
+    } catch (error) {
+        throw new Error(error.response.data.msg);
+    }
+};

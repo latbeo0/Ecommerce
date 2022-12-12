@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import { FiEdit2 } from "react-icons/fi";
-import { AiOutlineDelete } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import styled from 'styled-components';
+import { FiEdit2 } from 'react-icons/fi';
+import { AiOutlineDelete } from 'react-icons/ai';
+import { Link } from 'react-router-dom';
 
 const Container = styled.div`
     max-width: 80rem;
@@ -18,7 +18,6 @@ const Content = styled.div`
 
 const Header = styled.h1`
     font-size: 1.5rem;
-    margin-bottom: 2.5rem;
 `;
 
 const WrapperInputs = styled.div`
@@ -26,7 +25,7 @@ const WrapperInputs = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 40px 0;
+    padding: 20px 0;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 `;
@@ -60,9 +59,10 @@ const Button = styled.button`
     width: 100px;
     border: none;
     color: white;
-    font-size: 1.8rem;
-    background-color: #f15e2c;
+    font-size: 1.125rem;
+    background-color: var(--primary-color);
     border-radius: 10px;
+    margin-left: 1rem;
     cursor: pointer;
 `;
 
@@ -87,7 +87,8 @@ const RowHeaderTable = styled.tr`
 `;
 
 const ItemHeaderTable = styled.th`
-    font-size: 1.5rem;
+    text-align: center;
+    font-size: 0.9375rem;
 `;
 
 const BodyTable = styled.tbody``;
@@ -95,7 +96,7 @@ const BodyTable = styled.tbody``;
 const RowBodyTable = styled.tr``;
 
 const ItemBodyTable = styled.td`
-    font-size: 1.5rem;
+    font-size: 0.9375rem;
     height: 80px;
     text-align: center;
     border-top: 1px solid rgba(0, 0, 0, 0.1);

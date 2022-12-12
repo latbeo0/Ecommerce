@@ -15,56 +15,68 @@ import {
     RowHeaderTable,
     ItemHeaderTable,
     BodyTable,
-    RowBodyTable,
-    ItemBodyTable,
-    ItemBodyWrapper,
-    ImageProduct,
-    TitleProduct,
-    ColorContainer,
-    Color,
-    Stock,
-    StockFalse,
-    StockTrue,
-    ActionContainer,
-    ActionItem,
-    EditIcon,
-    DeleteEdit,
-    LinkR,
 } from './OrdersStyled';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectOrders } from './../../redux/orderSlice';
+import OrderItem from '../../components/User/OrderItem';
+import { useState } from 'react';
+import { fetchOrderByCode } from '../../services/orderFetch';
+import img from '../../assets/img/questions_jpg_lofQZuuf-e1602569646116.jpg';
 
 const Orders = () => {
+    const dispatch = useDispatch();
+
+    const { listOrders } = useSelector(selectOrders);
+
+    const [orders, setOrders] = useState([]);
+    const [search, setSearch] = useState('');
+
+    const handleChangeInput = (e) => {
+        const { name, value } = e.target;
+        setSearch(value);
+    };
+
+    const handleSearchByCode = async () => {
+        try {
+            const res = await fetchOrderByCode(search);
+            const temp = res.data.orders.filter(
+                (item) => item.orderCode === search
+            );
+            setOrders((prev) => [...prev, ...temp]);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     return (
         <Container>
             <BreadCrumb />
             <Content>
-                <Header>Find your order</Header>
                 <WrapperInputs>
-                    <NavbarSearch>
-                        <SearchInput
-                            placeholder='Enter Id Order'
-                            type='text'
-                            id='idOrder'
-                            name='idOrder'
-                            // value={search.idOrder}
-                            // onChange={handleChangeInput}
-                        />
-                    </NavbarSearch>
-                    <NavbarSearch>
-                        <SearchInput placeholder='Enter name or phone' />
-                    </NavbarSearch>
-                    <Button
-                    // onClick={handleSearchById}
-                    >
-                        Search
-                    </Button>
+                    <Header>Find your order</Header>
+                    <div style={{ display: 'flex' }}>
+                        <NavbarSearch>
+                            <SearchInput
+                                placeholder='Enter Order Code'
+                                type='text'
+                                id='orderCode'
+                                name='orderCode'
+                                value={search}
+                                onChange={handleChangeInput}
+                            />
+                        </NavbarSearch>
+                        <Button onClick={handleSearchByCode}>Search</Button>
+                    </div>
                 </WrapperInputs>
                 <WrapperOrders>
                     <TableContainer>
                         <Table>
                             <HeaderTable>
                                 <RowHeaderTable>
-                                    <ItemHeaderTable>Id</ItemHeaderTable>
-                                    <ItemHeaderTable>Address</ItemHeaderTable>
+                                    <ItemHeaderTable>
+                                        Order Code
+                                    </ItemHeaderTable>
+                                    <ItemHeaderTable>Full Name</ItemHeaderTable>
                                     <ItemHeaderTable>State</ItemHeaderTable>
                                     <ItemHeaderTable>
                                         Total Price
@@ -73,41 +85,38 @@ const Orders = () => {
                                 </RowHeaderTable>
                             </HeaderTable>
                             <BodyTable>
-                                {/* {orders &&
-                                orders.map((order) => (
-                                    <RowBodyTable key={order._id}>
-                                        <ItemBodyTable
-                                            style={{ minWidth: '250px' }}
+                                {orders.length > 0 ? (
+                                    orders.map((order) => (
+                                        <OrderItem
+                                            order={order}
+                                            key={order._id}
+                                        />
+                                    ))
+                                ) : listOrders.length > 0 ? (
+                                    listOrders.map((order) => (
+                                        <OrderItem
+                                            order={order}
+                                            key={order._id}
+                                        />
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td
+                                            colSpan='5'
+                                            style={{
+                                                textAlign: 'center',
+                                                fontSize: '1rem',
+                                            }}
                                         >
-                                            {order._id}
-                                        </ItemBodyTable>
-                                        <ItemBodyTable
-                                            style={{ minWidth: '150px' }}
-                                        >
-                                            {order.userName}
-                                        </ItemBodyTable>
-                                        <ItemBodyTable
-                                            style={{ minWidth: '150px' }}
-                                        >
-                                            {order.addressShipping.phone}
-                                        </ItemBodyTable>
-                                        <ItemBodyTable
-                                            style={{ minWidth: '150px' }}
-                                        >
-                                            {formatCash(
-                                                order.totalPrice.toString()
-                                            )}{' '}
-                                            VNĐ
-                                        </ItemBodyTable>
-                                        <ItemBodyTable
-                                            style={{ minWidth: '150px' }}
-                                        >
-                                            {new Date(
-                                                order.createdAt
-                                            ).toLocaleDateString()}
-                                        </ItemBodyTable>
-                                    </RowBodyTable>
-                                ))} */}
+                                            You don't any order yet
+                                            <img
+                                                src={img}
+                                                alt='img'
+                                                style={{ margin: 'auto' }}
+                                            />
+                                        </td>
+                                    </tr>
+                                )}
                             </BodyTable>
                         </Table>
                     </TableContainer>

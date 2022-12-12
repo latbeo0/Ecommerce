@@ -24,7 +24,7 @@ import {
     ContainerOthers,
     WrapperOther,
 } from './HeaderStyled';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUser } from './../../../redux/userSlice';
 import { fetchLogout } from '../../../services/userFetch';
@@ -172,6 +172,12 @@ const Header = () => {
 
     const { currentUser, isLoading, isError } = user;
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const handleLogout = async () => {
+        await dispatch(fetchLogout({ dispatch })).unwrap();
+        navigate('/');
+    };
 
     const [active, setActive] = useState(false);
     const [gender, setGender] = useState('women');
@@ -415,9 +421,7 @@ const Header = () => {
                                         <Button
                                             content='Log out'
                                             color='var(--black-color)'
-                                            onClick={async () => {
-                                                await dispatch(fetchLogout());
-                                            }}
+                                            onClick={handleLogout}
                                         />
                                     </WrapperOther>
                                 </ContainerOthers>

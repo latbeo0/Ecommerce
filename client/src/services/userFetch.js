@@ -1,16 +1,17 @@
-import { baseRequest } from "./apiFetch";
-
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { baseRequest } from './apiFetch';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { fetchClearOrder } from './orderFetch';
+import { fetchClearCart } from './cartFetch';
 
 // export const fetchGetAccessToken = async () => {
 //     return await baseRequest.post('/api/user/refresh_token', null);
 // };
 
 export const fetchGetAccessToken = createAsyncThunk(
-    "user/getAccessToken",
+    'user/getAccessToken',
     async () => {
         try {
-            const res = await baseRequest.post("/api/user/refresh_token", null);
+            const res = await baseRequest.post('/api/user/refresh_token', null);
             return res.data;
         } catch (error) {
             throw new Error(error.response.data.msg);
@@ -19,12 +20,12 @@ export const fetchGetAccessToken = createAsyncThunk(
 );
 
 export const fetchForgotPassword = async (email) => {
-    return await baseRequest.post("/api/user/forgot_password", { email });
+    return await baseRequest.post('/api/user/forgot_password', { email });
 };
 
 export const fetchResetPassword = async (password, token) => {
     return await baseRequest.post(
-        "/api/user/reset_password",
+        '/api/user/reset_password',
         { password },
         {
             headers: { Authorization: token },
@@ -34,16 +35,16 @@ export const fetchResetPassword = async (password, token) => {
 
 export const fetchGetAllUser = async (token) => {
     try {
-        return await baseRequest.get("/api/user/", {
+        return await baseRequest.get('/api/user/', {
             headers: { Authorization: token },
         });
     } catch (err) {
-        throw (err);
+        throw err;
     }
 };
 export const fetchAddNewUser = async (user, token) => {
     try {
-        return await baseRequest.post("/api/user/create-new", user,  {
+        return await baseRequest.post('/api/user/create-new', user, {
             headers: { Authorization: token },
         });
     } catch (err) {
@@ -63,21 +64,26 @@ export const fetchUpdateUser = async (user, id, token) => {
 //     return await baseRequest.get('/api/user/logout', null);
 // };
 
-export const fetchLogout = createAsyncThunk("user/logout", async () => {
+export const fetchLogout = createAsyncThunk('user/logout', async (args) => {
     try {
-        await baseRequest.get("/api/user/logout", null);
+        const { dispatch } = args;
+
+        await dispatch(fetchClearOrder()).unwrap();
+        await dispatch(fetchClearCart({ user: null })).unwrap();
+
+        await baseRequest.get('/api/user/logout', null);
     } catch (error) {
         throw new Error(error.response.data.msg);
     }
 });
 
 export const fetchWishList = createAsyncThunk(
-    "user/change_wish_list",
+    'user/change_wish_list',
     async (args) => {
         try {
             const { type, productId, token } = args;
             await baseRequest.post(
-                "/api/user/wish_list",
+                '/api/user/wish_list',
                 {
                     type,
                     productId,
@@ -94,7 +100,7 @@ export const fetchWishList = createAsyncThunk(
 );
 
 export const fetchGetWishList = createAsyncThunk(
-    "user/get_wish_list",
+    'user/get_wish_list',
     async (args) => {
         try {
             const { id, token } = args;
@@ -109,7 +115,7 @@ export const fetchGetWishList = createAsyncThunk(
 );
 
 export const fetchClearWishList = createAsyncThunk(
-    "user/clear_wish_list",
+    'user/clear_wish_list',
     async (args) => {
         try {
             const { id, token } = args;
@@ -124,7 +130,7 @@ export const fetchClearWishList = createAsyncThunk(
 );
 
 export const fetchChangeUserInfo = createAsyncThunk(
-    "user/change_user_info",
+    'user/change_user_info',
     async (args) => {
         try {
             const { id, token, data } = args;
@@ -146,7 +152,7 @@ export const fetchChangeUserInfo = createAsyncThunk(
 );
 
 export const fetchChangeAvatar = createAsyncThunk(
-    "user/change_avatar",
+    'user/change_avatar',
     async (args) => {
         try {
             const { formData, token, id, dispatch } = args;
@@ -156,7 +162,7 @@ export const fetchChangeAvatar = createAsyncThunk(
                 formData,
                 {
                     headers: {
-                        "Content-Type": "multipart/form-data",
+                        'Content-Type': 'multipart/form-data',
                         Authorization: token,
                     },
                 }
@@ -172,7 +178,7 @@ export const fetchChangeAvatar = createAsyncThunk(
 );
 
 export const fetchAddAddressShipping = createAsyncThunk(
-    "user/add_address_shipping",
+    'user/add_address_shipping',
     async (args) => {
         try {
             const { token, province, district, ward, address } = args;
@@ -201,7 +207,7 @@ export const fetchAddAddressShipping = createAsyncThunk(
 );
 
 export const fetchChangeDefaultAddressShipping = createAsyncThunk(
-    "user/change_default_address_shipping",
+    'user/change_default_address_shipping',
     async (args) => {
         try {
             const { token, id } = args;
@@ -218,7 +224,7 @@ export const fetchChangeDefaultAddressShipping = createAsyncThunk(
 );
 
 export const fetchDeleteAddressShipping = createAsyncThunk(
-    "user/delete_address_shipping",
+    'user/delete_address_shipping',
     async (args) => {
         try {
             const { token, id } = args;
