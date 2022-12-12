@@ -1,11 +1,11 @@
-const router = require('express').Router();
-const stateCtrl = require('../controllers/stateCtrl');
-const { verifyTokenAndAdmin,  verifyTokenAndSalePerson} = require('../middleware/verifyToken');
+const router = require("express").Router();
+const stateCtrl = require("../controllers/stateCtrl");
+// const { verifyTokenAndAdmin } = require('../middleware/verifyToken');
 
-router.post('/', verifyTokenAndSalePerson, stateCtrl.createstate);
+// router.post('/', stateCtrl.createstate);
 
-router.put('/:id', verifyTokenAndAdmin, stateCtrl.updatestate);
+// router.put('/:id', stateCtrl.updatestate);
 
-router.get('/', stateCtrl.getAllstate);
+router.get("/", stateCtrl.getAllstate);
 
 module.exports = router;
