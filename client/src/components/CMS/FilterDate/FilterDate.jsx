@@ -37,7 +37,7 @@ export default function FilterDate(props) {
             id={props.id}
             className={props.className}
             name={props.name}
-            style={props.style}
+            sx={props.style}
           />
         )}
         disabled={props.disabled}

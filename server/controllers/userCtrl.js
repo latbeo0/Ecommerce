@@ -291,6 +291,7 @@ const userCtrl = {
     }
   },
   updateUserById: async (req, res) => {
+    console.log(req.user)
     try {
       await Users.findOneAndUpdate(
         { _id: req.user.id },
