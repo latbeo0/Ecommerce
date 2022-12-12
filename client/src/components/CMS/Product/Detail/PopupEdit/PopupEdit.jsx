@@ -336,86 +336,7 @@ const PopupEdit = ({ open, master, row, onClose, onSubmit }) => {
         <MuiGrid container spacing={2}>
           <MuiGrid
             item
-            xs={6}
-            sx={{
-              padding: 1,
-              marginTop: 2,
-            }}
-          >
-            <MuiGrid container spacing={1}>
-              <MuiGrid item xs={6}>
-                <FormGroup>
-                  <TextField
-                    margin="normal"
-                    name="valueColor"
-                    value={product?.color?.valueColor}
-                    onChange={(e) => handleChangeColor(e)}
-                    type="color"
-                  />
-                </FormGroup>
-              </MuiGrid>
-              <MuiGrid item xs={6}>
-                <FormGroup>
-                  <TextField
-                    margin="normal"
-                    name="nameColor"
-                    value={product?.color?.nameColor}
-                    onChange={(e) => handleChangeColor(e)}
-                    label="Color Name"
-                  />
-                </FormGroup>
-              </MuiGrid>
-            </MuiGrid>
-            <Link id="addItem" onClick={(e) => handleCalCColorDetail(e)}>
-              New Size
-            </Link>
-            {product?.color?.details?.length > 0 &&
-              product.color.details.map((detail, detailIndex) => (
-                <MuiGrid container spacing={1} key={`DS${detailIndex}`}>
-                  <MuiGrid item xs={6}>
-                    <FormGroup>
-                      <TextField
-                        margin="normal"
-                        name="size"
-                        value={detail.size}
-                        onChange={(e) =>
-                          handleChangeColorDetail(e, detailIndex)
-                        }
-                        select // tell TextField to render select
-                        type="text"
-                        label="Size"
-                      >
-                        <MenuItem key="SIZE" value="">
-                          <em>None</em>
-                        </MenuItem>
-                        {data.sizes.map((item) => (
-                          <MenuItem key={item.id} value={item.value}>
-                            {item.value}
-                          </MenuItem>
-                        ))}
-                      </TextField>
-                    </FormGroup>
-                  </MuiGrid>
-                  <MuiGrid item xs={6}>
-                    <FormGroup>
-                      <TextField
-                        margin="normal"
-                        name="quantity"
-                        value={detail.quantity}
-                        onChange={(e) =>
-                          handleChangeColorDetail(e, detailIndex)
-                        }
-                        type="number"
-                        label="Quantity"
-                      />
-                    </FormGroup>
-                  </MuiGrid>
-                </MuiGrid>
-              ))}
-          </MuiGrid>
-          <MuiGrid
-            item
-            xs={6}
+            xs={12}
             sx={{
               padding: 1,
               marginTop: 2,
@@ -493,6 +414,85 @@ const PopupEdit = ({ open, master, row, onClose, onSubmit }) => {
                 )}
               </ImageList>
             </MuiGrid>
+          </MuiGrid>
+          <MuiGrid
+            item
+            xs={12}
+            sx={{
+              padding: 1,
+              marginTop: 2,
+            }}
+          >
+            <MuiGrid container spacing={1}>
+              <MuiGrid item xs={6}>
+                <FormGroup>
+                  <TextField
+                    margin="normal"
+                    name="valueColor"
+                    value={product?.color?.valueColor}
+                    onChange={(e) => handleChangeColor(e)}
+                    type="color"
+                  />
+                </FormGroup>
+              </MuiGrid>
+              <MuiGrid item xs={6}>
+                <FormGroup>
+                  <TextField
+                    margin="normal"
+                    name="nameColor"
+                    value={product?.color?.nameColor}
+                    onChange={(e) => handleChangeColor(e)}
+                    label="Color Name"
+                  />
+                </FormGroup>
+              </MuiGrid>
+            </MuiGrid>
+            <Link id="addItem" onClick={(e) => handleCalCColorDetail(e)}>
+              New Size
+            </Link>
+            {product?.color?.details?.length > 0 &&
+              product.color.details.map((detail, detailIndex) => (
+                <MuiGrid container spacing={1} key={`DS${detailIndex}`}>
+                  <MuiGrid item xs={6}>
+                    <FormGroup>
+                      <TextField
+                        margin="normal"
+                        name="size"
+                        value={detail.size}
+                        onChange={(e) =>
+                          handleChangeColorDetail(e, detailIndex)
+                        }
+                        select // tell TextField to render select
+                        type="text"
+                        label="Size"
+                      >
+                        <MenuItem key="SIZE" value="">
+                          <em>None</em>
+                        </MenuItem>
+                        {data.sizes.map((item) => (
+                          <MenuItem key={item.id} value={item.value}>
+                            {item.value}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                    </FormGroup>
+                  </MuiGrid>
+                  <MuiGrid item xs={6}>
+                    <FormGroup>
+                      <TextField
+                        margin="normal"
+                        name="quantity"
+                        value={detail.quantity}
+                        onChange={(e) =>
+                          handleChangeColorDetail(e, detailIndex)
+                        }
+                        type="number"
+                        label="Quantity"
+                      />
+                    </FormGroup>
+                  </MuiGrid>
+                </MuiGrid>
+              ))}
           </MuiGrid>
         </MuiGrid>
       </DialogContent>

@@ -143,28 +143,6 @@ const Detail = () => {
     fetchData();
   }, []);
 
-  const handleClickOptionButton = (event, type) => {
-    switch (type) {
-      case data.types.SHOW_SORT:
-        setOption({ ...option, isShowSort: !option.isShowSort });
-        break;
-      case data.types.SHOW_GROUP:
-        setOption({ ...option, isShowGroup: !option.isShowGroup });
-        break;
-      case data.types.SHOW_SELECT:
-        setOption({ ...option, isShowSelect: !option.isShowSelect });
-        break;
-      case data.types.SHOW_SEARCH_BAR:
-        setOption({ ...option, isShowSearchBar: !option.isShowSearchBar });
-        break;
-      case "UPDATE":
-        setProductDetail(rows[selection[selection.length - 1]]);
-        setOpen(true);
-        break;
-      default:
-        break;
-    }
-  };
   const handleRowChange = (index) => {
     if (!option.isShowSelect) {
       let rowSelected = [];
@@ -179,12 +157,12 @@ const Detail = () => {
         return (
           <PopupEdit
             master={id}
-            row={productDetail}
-            open={isOpen}
-            onClose={() => setOpen(false)}
+            row={action.payload}
+            open={action.open}
+            onClose={() => dispatchAction({ type: "" })}
           />
         );
-      }, [isOpen])}
+      }, [action.open])}
 
       <DetailHeader>
         <DetailTitle>Product Detail</DetailTitle>
