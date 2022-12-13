@@ -191,6 +191,7 @@ const TitleCategory = styled.h1`
     left: 50%;
     transform: translateX(-50%);
     color: var(--white-color);
+    font-size: 2rem;
 `;
 
 const BodySection = styled.div`

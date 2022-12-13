@@ -11,6 +11,7 @@ import collectionReducer from './collectionSlice';
 import colorReducer from './colorSlice';
 import sizeReducer from './sizeSlice';
 import orderReducer from './orderSlice';
+import materialReducer from './materialSlice';
 import {
     persistStore,
     persistReducer,
@@ -43,6 +44,7 @@ const rootReducer = combineReducers({
     colors: colorReducer,
     sizes: sizeReducer,
     orders: orderReducer,
+    materials: materialReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

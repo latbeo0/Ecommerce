@@ -119,11 +119,15 @@ const productCtrl = {
             // console.log(queryObject);
 
             const selectedField = [
+                'search',
                 'gender',
                 'categories',
                 'collections',
                 'colors',
                 'sizes',
+                'materials',
+                'min',
+                'max',
             ];
 
             const newQueryObject = {};
@@ -159,11 +163,13 @@ const productCtrl = {
                     productDescription,
                     vCategory,
                     vCollection,
+                    vMaterial,
                     gender,
                 } = productMaster;
 
                 const categories = vCategory[0].cateName;
                 const collections = vCollection[0].collectName;
+                const materials = vMaterial[0].materialName;
 
                 const handle = {
                     ...product._doc,
@@ -171,6 +177,7 @@ const productCtrl = {
                     productDescription,
                     categories,
                     collections,
+                    materials,
                     gender,
                 };
 
@@ -187,7 +194,11 @@ const productCtrl = {
                         ) {
                             isPassed = false;
                         }
-                    } else if (key === 'categories' || key === 'collections') {
+                    } else if (
+                        key === 'categories' ||
+                        key === 'collections' ||
+                        key === 'materials'
+                    ) {
                         if (!newQueryObject[key].includes(product[key])) {
                             isPassed = false;
                         }
@@ -203,6 +214,35 @@ const productCtrl = {
                         const check = product.color.details.find((item) =>
                             newQueryObject[key].includes(item.size.toString())
                         );
+                        if (!check) isPassed = false;
+                    } else if (key === 'min') {
+                        if (product.priceNew) {
+                            const check =
+                                Number(product.priceNew) >
+                                Number(newQueryObject[key][0]);
+                            if (!check) isPassed = false;
+                        } else {
+                            const check =
+                                Number(product.price) >
+                                Number(newQueryObject[key][0]);
+                            if (!check) isPassed = false;
+                        }
+                    } else if (key === 'max') {
+                        if (product.priceNew) {
+                            const check =
+                                Number(product.priceNew) <
+                                Number(newQueryObject[key][0]);
+                            if (!check) isPassed = false;
+                        } else {
+                            const check =
+                                Number(product.price) <
+                                Number(newQueryObject[key][0]);
+                            if (!check) isPassed = false;
+                        }
+                    } else if (key === 'search') {
+                        const check = product.productName
+                            .toLowerCase()
+                            .includes(newQueryObject[key][0]);
                         if (!check) isPassed = false;
                     }
                 }

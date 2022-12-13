@@ -30,6 +30,7 @@ import { selectUser } from './../../../redux/userSlice';
 import { fetchLogout } from '../../../services/userFetch';
 import { selectCategories } from '../../../redux/categorySlice';
 import { selectCollections } from '../../../redux/collectionSlice';
+import { selectMaterials } from './../../../redux/materialSlice';
 
 // const navigation = {
 //     categories: [
@@ -169,6 +170,7 @@ const Header = () => {
     const user = useSelector(selectUser);
     const { listCategories } = useSelector(selectCategories);
     const { listCollections } = useSelector(selectCollections);
+    const { listMaterials } = useSelector(selectMaterials);
 
     const { currentUser, isLoading, isError } = user;
     const dispatch = useDispatch();
@@ -193,6 +195,13 @@ const Header = () => {
         };
     });
 
+    const materialMenu = listMaterials.map((element) => {
+        return {
+            name: element.materialName,
+            href: `/products?materials=${element.materialName}`,
+        };
+    });
+
     const collectMenu = listCollections.map((element) => {
         return {
             name: element.collectName,
@@ -210,6 +219,11 @@ const Header = () => {
             id: 'collections',
             name: 'Collections',
             items: collectMenu,
+        },
+        {
+            id: 'materials',
+            name: 'Materials',
+            items: materialMenu,
         },
     ];
 

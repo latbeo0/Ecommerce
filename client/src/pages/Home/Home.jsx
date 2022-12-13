@@ -63,7 +63,7 @@ const Home = () => {
                         <Decor />
                         Categories
                     </Title>
-                    <Link to='#'>
+                    <Link to='/products'>
                         <ViewAll>
                             Browse all categories
                             <BsArrowRightShort />
@@ -71,28 +71,34 @@ const Home = () => {
                     </Link>
                 </HeaderSection>
                 <ContentSection>
-                    <CategoryCard>
-                        <ImageCategory
-                            alt='category image'
-                            src='https://images.pexels.com/photos/5730956/pexels-photo-5730956.jpeg?auto=compress&cs=tinysrgb&w=1600'
-                        />
-                        <TitleCategory>Men</TitleCategory>
-                    </CategoryCard>
-                    <CategoryCard>
-                        <ImageCategory
-                            alt='category image'
-                            src='https://images.pexels.com/photos/1858407/pexels-photo-1858407.jpeg?auto=compress&cs=tinysrgb&w=1600'
-                        />
-                        <TitleCategory>Women</TitleCategory>
-                    </CategoryCard>
-                    <CategoryCard>
-                        <ImageCategory
-                            alt='category image'
-                            // src='https://images.pexels.com/photos/1620815/pexels-photo-1620815.jpeg?auto=compress&cs=tinysrgb&w=1600'
-                            src='https://images.pexels.com/photos/1684076/pexels-photo-1684076.jpeg?auto=compress&cs=tinysrgb&w=1600'
-                        />
-                        <TitleCategory>Unisex</TitleCategory>
-                    </CategoryCard>
+                    <Link to='/products?gender=Male'>
+                        <CategoryCard>
+                            <ImageCategory
+                                alt='category image'
+                                src='https://images.pexels.com/photos/5730956/pexels-photo-5730956.jpeg?auto=compress&cs=tinysrgb&w=1600'
+                            />
+                            <TitleCategory>Men</TitleCategory>
+                        </CategoryCard>
+                    </Link>
+                    <Link to='/products?gender=Female'>
+                        <CategoryCard>
+                            <ImageCategory
+                                alt='category image'
+                                src='https://images.pexels.com/photos/1858407/pexels-photo-1858407.jpeg?auto=compress&cs=tinysrgb&w=1600'
+                            />
+                            <TitleCategory>Women</TitleCategory>
+                        </CategoryCard>
+                    </Link>
+                    <Link to='/products?gender=Unisex'>
+                        <CategoryCard>
+                            <ImageCategory
+                                alt='category image'
+                                // src='https://images.pexels.com/photos/1620815/pexels-photo-1620815.jpeg?auto=compress&cs=tinysrgb&w=1600'
+                                src='https://images.pexels.com/photos/1684076/pexels-photo-1684076.jpeg?auto=compress&cs=tinysrgb&w=1600'
+                            />
+                            <TitleCategory>Unisex</TitleCategory>
+                        </CategoryCard>
+                    </Link>
                 </ContentSection>
             </Section>
             <Section>

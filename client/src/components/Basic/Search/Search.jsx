@@ -1,4 +1,4 @@
-import React, { useTransition, useState } from "react";
+import React, { useTransition, useState } from 'react';
 import {
     Container,
     IconSearch,
@@ -6,9 +6,9 @@ import {
     IconClear,
     ResultContainer,
     Result,
-} from "./SearchStyled";
-import { BiSearch } from "react-icons/bi";
-import { MdClear } from "react-icons/md";
+} from './SearchStyled';
+import { BiSearch } from 'react-icons/bi';
+import { MdClear } from 'react-icons/md';
 
 const Search = (props) => {
     const { result, onChange, onClear } = props;
@@ -19,24 +19,25 @@ const Search = (props) => {
                 <IconSearch>
                     <BiSearch
                         style={{
-                            position: "absolute",
-                            width: "100%",
-                            height: "100%",
+                            position: 'absolute',
+                            width: '100%',
+                            height: '100%',
                         }}
                     />
                 </IconSearch>
                 <Input
-                    placeholder="Search here ..."
+                    placeholder='Search here ...'
                     value={result}
+                    name='search'
                     onChange={(e) => onChange(e)}
                 />
-                {result ? (
+                {result !== '' ? (
                     <IconClear onClick={onClear}>
                         <MdClear
                             style={{
-                                position: "absolute",
-                                width: "100%",
-                                height: "100%",
+                                position: 'absolute',
+                                width: '100%',
+                                height: '100%',
                             }}
                         />
                     </IconClear>

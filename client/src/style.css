@@ -1,3 +1,5 @@
+@import 'rsuite/dist/rsuite.css';
+
 :root {
     --height-navbar: 4.375rem;
     --height-announcement: 2.5rem;
@@ -9,7 +11,7 @@
 ::after {
     margin: 0;
     padding: 0;
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
     box-sizing: border-box;
     /* font-size: 62.5%; */
     border-width: 0;
@@ -91,21 +93,21 @@ menu {
 }
 
 a {
-    color: inherit;
-    text-decoration: inherit;
+    color: inherit !important;
+    text-decoration: inherit !important;
 }
 
 button,
-[type="button"],
-[type="reset"],
-[type="submit"] {
+[type='button'],
+[type='reset'],
+[type='submit'] {
     -webkit-appearance: button;
     background-color: transparent;
     background-image: none;
 }
 
 button,
-[role="button"] {
+[role='button'] {
     cursor: pointer;
 }
 

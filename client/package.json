@@ -34,6 +34,7 @@
         "react-transition-group": "^4.4.2",
         "recharts": "^2.1.16",
         "redux-persist": "^6.0.0",
+        "rsuite": "^5.23.2",
         "styled-components": "^5.3.5",
         "swiper": "^8.2.5",
         "use-react-router-breadcrumbs": "^4.0.1",

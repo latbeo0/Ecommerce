@@ -1,18 +1,19 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { maxValueRange } from '../helpers/contain';
 import { fetchClearFilter, fetchFilter } from '../services/filterFetch';
 
 const initialState = {
     search: '',
     pageSize: ['10'],
     pageIndex: ['1'],
-    priceRange: [0, maxValueRange],
     gender: [],
     categories: [],
     states: [],
     collections: [],
     sizes: [],
     colors: [],
+    materials: [],
+    min: ['0'],
+    max: ['10000000'],
     sort: ['relevance'],
     isLoading: false,
     isError: false,

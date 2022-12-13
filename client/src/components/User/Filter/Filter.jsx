@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CheckBox } from '../../Basic';
 import {
     Container,
@@ -22,6 +22,9 @@ import { fetchClearFilter, fetchFilter } from '../../../services/filterFetch';
 import { selectFilter } from '../../../redux/filterSlice';
 import { selectColors } from '../../../redux/colorSlice';
 import { selectSizes } from '../../../redux/sizeSlice';
+import { selectMaterials } from '../../../redux/materialSlice';
+import { RangeSlider, InputGroup, InputNumber } from 'rsuite';
+import './slider.less';
 
 const listGenders = [
     { id: 1, name: 'Female' },
@@ -35,12 +38,24 @@ const Filter = () => {
     const { listCollections } = useSelector(selectCollections);
     const { listSizes } = useSelector(selectSizes);
     const { listColors } = useSelector(selectColors);
-    const { gender, categories, states, collections, colors, sizes } =
-        useSelector(selectFilter);
+    const { listMaterials } = useSelector(selectMaterials);
+    const {
+        gender,
+        categories,
+        states,
+        collections,
+        materials,
+        colors,
+        sizes,
+        min,
+        max,
+    } = useSelector(selectFilter);
 
     const navigate = useNavigate();
     const location = useLocation();
     const dispatch = useDispatch();
+
+    const [value, setValue] = useState([25, 75]);
 
     const handleChangeFilter = (e) => {
         const { name, value, checked } = e.target;
@@ -97,6 +112,38 @@ const Filter = () => {
                 },
             });
         }
+    };
+
+    const handleChangeSlider = (value) => {
+        // [%start, %end]
+
+        const pathname = location.pathname;
+        const query = queryString.parse(location.search);
+
+        const modifiedQuery = {
+            ...query,
+            min: value[0] * 100000,
+            max: value[1] * 100000,
+        };
+
+        const search = queryString.stringify(modifiedQuery);
+        navigate(`${pathname}?${search}`, { replace: true });
+    };
+
+    const handleChangeInput = (value) => {
+        // [%start, %end]
+
+        const pathname = location.pathname;
+        const query = queryString.parse(location.search);
+
+        const modifiedQuery = {
+            ...query,
+            min: value[0],
+            max: value[1],
+        };
+
+        const search = queryString.stringify(modifiedQuery);
+        navigate(`${pathname}?${search}`, { replace: true });
     };
 
     useEffect(() => {
@@ -186,10 +233,77 @@ const Filter = () => {
                 </FilterItem>
             </Section>
             <Section>
+                <FilterItem title='Materials'>
+                    <Content>
+                        {listMaterials.map((material) => (
+                            <CheckBox
+                                key={material._id}
+                                name='materials'
+                                label={material.materialName}
+                                checked={materials?.includes(
+                                    material.materialName
+                                )}
+                                onChange={handleChangeFilter}
+                            />
+                        ))}
+                    </Content>
+                </FilterItem>
+            </Section>
+            <Section>
                 <FilterItem title='Price range'>
                     <Content>
-                        <input type='range' />
-                        <p>Max value: 100.000.000 vnđ</p>
+                        <RangeSlider
+                            progress
+                            style={{ margin: '16px 16px 0' }}
+                            value={[min[0] / 100000, max[0] / 100000]}
+                            onChange={(value) => {
+                                handleChangeSlider(value);
+                            }}
+                        />
+                        <div
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                                padding: '1rem 0 0.5rem',
+                            }}
+                        >
+                            <span>Min</span>
+                            <span>Max</span>
+                        </div>
+                        <InputGroup>
+                            <InputNumber
+                                min={0}
+                                max={10000000}
+                                value={min[0]}
+                                onChange={(nextValue) => {
+                                    const temp = Number(nextValue) / 100000;
+                                    if (temp > Number(max[0])) {
+                                        return;
+                                    }
+                                    handleChangeInput([
+                                        nextValue,
+                                        Number(max[0]),
+                                    ]);
+                                }}
+                            />
+                            <InputGroup.Addon>to</InputGroup.Addon>
+                            <InputNumber
+                                min={0}
+                                max={10000000}
+                                value={max[0]}
+                                onChange={(nextValue) => {
+                                    const temp = Number(nextValue) / 100000;
+                                    if (Number(min[0]) > temp) {
+                                        return;
+                                    }
+                                    handleChangeInput([
+                                        Number(min[0]),
+                                        nextValue,
+                                    ]);
+                                }}
+                            />
+                        </InputGroup>
                     </Content>
                 </FilterItem>
             </Section>

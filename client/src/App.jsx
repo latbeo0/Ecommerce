@@ -38,6 +38,7 @@ import Orders from './pages/Orders';
 import { fetchGetAllOrder1 } from './services/orderFetch';
 import Store from './pages/Store';
 import PaySuccess from './pages/PaySuccess';
+import { fetchGetAllMaterial1 } from './services/materialFetch';
 
 const App = () => {
     const dispatch = useDispatch();
@@ -183,6 +184,15 @@ const App = () => {
             }
         };
         fetchSizes();
+
+        const fetchMaterials = async () => {
+            try {
+                await dispatch(fetchGetAllMaterial1()).unwrap();
+            } catch (error) {
+                console.log('/App/fetchMaterials');
+            }
+        };
+        fetchMaterials();
     }, [dispatch]);
 
     return (

@@ -43,12 +43,12 @@ const Products = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const { isLoading, sort, pageSize, pageIndex } = useSelector(selectFilter);
+    const { search, isLoading, sort, pageSize, pageIndex } =
+        useSelector(selectFilter);
 
     const [, startTransition] = useTransition();
 
     const products = useSelector(selectProducts);
-    const search = useSelector(selectSearch);
 
     const handleChangeSearch = (e) => {
         // startTransition(() => {
@@ -56,13 +56,35 @@ const Products = () => {
         //     dispatch(searchChange({ value }));
         // });
 
-        const value = e.target.value;
-        dispatch(searchChange({ value }));
+        // const value = e.target.value;
+        // dispatch(searchChange({ value }));
+
+        const { name, value } = e.target;
+        setTemp(value);
+
+        const pathname = location.pathname;
+        const query = queryString.parse(location.search);
+
+        const modifiedQuery = {
+            ...query,
+            [name]: value,
+        };
+
+        const search = queryString.stringify(modifiedQuery);
+        navigate(`${pathname}?${search}`, { replace: true });
     };
 
     const handleClearSearch = () => {
-        dispatch(searchChange({ value: '' }));
+        handleChangeSearch({
+            target: {
+                name: 'search',
+                value: '',
+            },
+        });
+        // dispatch(searchChange({ value: '' }));
     };
+
+    const [temp, setTemp] = useState('');
 
     // pagination
     // const [pageSize, setPageSize] = useState(options[1]);
@@ -177,6 +199,10 @@ const Products = () => {
         // };
         // fetchProducts();
         debouncedChangeHandler();
+
+        return () => {
+            debouncedChangeHandler.cancel();
+        };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [location.search, dispatch]);
 
@@ -188,7 +214,7 @@ const Products = () => {
                 <ProductsContainer>
                     <HeaderProductsWrapper>
                         <Search
-                            result={search}
+                            result={temp}
                             onChange={handleChangeSearch}
                             onClear={handleClearSearch}
                         />
