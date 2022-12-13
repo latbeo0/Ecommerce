@@ -115,6 +115,7 @@ const productCtrl = {
             // console.log(queryObject);
 
             const selectedField = [
+                'gender',
                 'categories',
                 'collections',
                 'colors',
@@ -150,6 +151,7 @@ const productCtrl = {
                     productDescription,
                     vCategory,
                     vCollection,
+                    gender,
                 } = productMaster;
 
                 const categories = vCategory[0].cateName;
@@ -161,6 +163,7 @@ const productCtrl = {
                     productDescription,
                     categories,
                     collections,
+                    gender,
                 };
 
                 listProducts.push(handle);
@@ -169,7 +172,14 @@ const productCtrl = {
             const checkFilter = (product) => {
                 let isPassed = true;
                 for (const key in newQueryObject) {
-                    if (key === 'categories' || key === 'collections') {
+                    if (key === 'gender') {
+                        if (
+                            !newQueryObject[key].includes(product[key]) &&
+                            product[key] !== 'Unisex'
+                        ) {
+                            isPassed = false;
+                        }
+                    } else if (key === 'categories' || key === 'collections') {
                         if (!newQueryObject[key].includes(product[key])) {
                             isPassed = false;
                         }
@@ -309,15 +319,15 @@ const productCtrl = {
     },
     getProductByDate: async (req, res) => {
         try {
-          const products = await Product.find({
-            createdAt: { $gte: req.body.fromDate, $lte: req.body.toDate },
-          });
-    
-          res.status(200).json({ products });
+            const products = await Product.find({
+                createdAt: { $gte: req.body.fromDate, $lte: req.body.toDate },
+            });
+
+            res.status(200).json({ products });
         } catch (err) {
-          res.status(500).json({ err });
+            res.status(500).json({ err });
         }
-      },
+    },
     getRelatedProducts: async (req, res) => {
         try {
             const { id } = req.body;

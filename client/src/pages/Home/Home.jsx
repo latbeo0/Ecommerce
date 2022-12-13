@@ -88,9 +88,10 @@ const Home = () => {
                     <CategoryCard>
                         <ImageCategory
                             alt='category image'
-                            src='https://images.pexels.com/photos/1620815/pexels-photo-1620815.jpeg?auto=compress&cs=tinysrgb&w=1600'
+                            // src='https://images.pexels.com/photos/1620815/pexels-photo-1620815.jpeg?auto=compress&cs=tinysrgb&w=1600'
+                            src='https://images.pexels.com/photos/1684076/pexels-photo-1684076.jpeg?auto=compress&cs=tinysrgb&w=1600'
                         />
-                        <TitleCategory>Children</TitleCategory>
+                        <TitleCategory>Unisex</TitleCategory>
                     </CategoryCard>
                 </ContentSection>
             </Section>

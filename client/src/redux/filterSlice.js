@@ -7,6 +7,7 @@ const initialState = {
     pageSize: ['10'],
     pageIndex: ['1'],
     priceRange: [0, maxValueRange],
+    gender: [],
     categories: [],
     states: [],
     collections: [],

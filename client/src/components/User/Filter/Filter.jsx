@@ -23,13 +23,19 @@ import { selectFilter } from '../../../redux/filterSlice';
 import { selectColors } from '../../../redux/colorSlice';
 import { selectSizes } from '../../../redux/sizeSlice';
 
+const listGenders = [
+    { id: 1, name: 'Female' },
+    { id: 2, name: 'Male' },
+    { id: 3, name: 'Unisex' },
+];
+
 const Filter = () => {
     const { listCategories } = useSelector(selectCategories);
     const { listStates } = useSelector(selectStates);
     const { listCollections } = useSelector(selectCollections);
     const { listSizes } = useSelector(selectSizes);
     const { listColors } = useSelector(selectColors);
-    const { categories, states, collections, colors, sizes } =
+    const { gender, categories, states, collections, colors, sizes } =
         useSelector(selectFilter);
 
     const navigate = useNavigate();
@@ -131,6 +137,21 @@ const Filter = () => {
                     <Title>Filter</Title>
                     <ButtonReset onClick={handleClearFilter}>Reset</ButtonReset>
                 </SectionHeader>
+            </Section>
+            <Section>
+                <FilterItem title='Gender'>
+                    <Content>
+                        {listGenders.map((item) => (
+                            <CheckBox
+                                key={item.id}
+                                name='gender'
+                                label={item.name}
+                                checked={gender?.includes(item.name)}
+                                onChange={handleChangeFilter}
+                            />
+                        ))}
+                    </Content>
+                </FilterItem>
             </Section>
             <Section>
                 <FilterItem title='Categories'>
