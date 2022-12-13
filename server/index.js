@@ -12,6 +12,7 @@ const productRoute = require("./routes/productRoute");
 const orderRoute = require("./routes/orderRoute");
 const uploadRoute = require("./routes/uploadRoute");
 const saleRoute = require("./routes/saleRoute");
+const materialRoute = require("./routes/materialRoute");
 const categoryRoute = require("./routes/categoryRoute");
 const stateRoute = require("./routes/stateRoute");
 const collectionRoute = require("./routes/collectionRoute");
@@ -67,6 +68,8 @@ app.use("/api/auth", authRoute);
 app.use("/api/user", userRoute);
 app.use("/api/product", productRoute);
 app.use("/api/sale", saleRoute);
+app.use("/api/material", materialRoute);
+
 app.use("/api/category", categoryRoute);
 app.use("/api/state", stateRoute);
 app.use("/api/collection", collectionRoute);

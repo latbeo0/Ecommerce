@@ -21,6 +21,7 @@ import { fetchLogout } from "../../services/userFetch";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "./../../redux/userSlice";
 import Order from './layout/Order/Order';
+import Material from './layout/Material/Material';
 
 const { Header, Sider, Content } = Layout;
 
@@ -123,6 +124,8 @@ const AdminRouter = () => {
             <Route path="/list-order" element={<Order />} />
             <Route path="/list-category" element={<Category />} />
             <Route path="/list-collection" element={<Collection />} />
+            <Route path="/list-material" element={<Material />} />
+
             <Route path="/list-voucher" element={<Sale />} />
           </Routes>
         </Content>

@@ -22,6 +22,7 @@ const CategoryCtrl = {
         }
     },
     createCategory: async (req, res) => {
+        const newCategory = new Category(req.body);
         try {
             await newCategory.save();
             res.status(200).json({ msg: "Category has been created" });
