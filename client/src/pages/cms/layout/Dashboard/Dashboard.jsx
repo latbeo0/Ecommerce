@@ -341,7 +341,7 @@ const Dashboard = () => {
                   select
                   value={type}
                   onChange={(e) => setType(Number(e.target.value))}
-                  style={{ width: "100%" }}
+                  sx={{ width: "100%" }}
                 >
                   {_data.filterType.map((type) => (
                     <MenuItem key={`${type.value}`} value={type.value}>
@@ -421,7 +421,7 @@ const Dashboard = () => {
                       }
                       style={{ width: "100%" }}
                     >
-                      {data.listSeason.map((season) => (
+                      {_data.listSeason.map((season) => (
                         <MenuItem key={`${season.value}`} value={season.value}>
                           {season.name}
                         </MenuItem>
@@ -520,7 +520,7 @@ const Dashboard = () => {
                     dataKey="name"
                     label={{
                       value:
-                        +filter.toDate - +filter.fromDate > 31
+                        +filter.toDate.getDate() - +filter.fromDate.getDate() > 31
                           ? "Theo tháng"
                           : "Theo ngày",
                       angle: 0,
@@ -562,23 +562,28 @@ const Dashboard = () => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {data2.map((row) => (
-                      <TableRow
-                        key={row.email}
-                        sx={{
-                          "&:last-child td, &:last-child th": { border: 0 },
-                        }}
-                      >
-                        <TableCell component="th" scope="row">
-                          {row.email}
-                        </TableCell>
-                        <TableCell>{row.firstName}</TableCell>
-                        <TableCell>{row.lastName}</TableCell>
-                        <TableCell>{row.phone}</TableCell>
-                        <TableCell>{row.province}</TableCell>
-                        <TableCell>{formatCurrencyVND(row.spending)}</TableCell>
-                      </TableRow>
-                    ))}
+                    {data2.map((row, index) => {
+                      if (index < 11)
+                        return (
+                          <TableRow
+                            key={row.email}
+                            sx={{
+                              "&:last-child td, &:last-child th": { border: 0 },
+                            }}
+                          >
+                            <TableCell component="th" scope="row">
+                              {row.email}
+                            </TableCell>
+                            <TableCell>{row.firstName}</TableCell>
+                            <TableCell>{row.lastName}</TableCell>
+                            <TableCell>{row.phone}</TableCell>
+                            <TableCell>{row.province}</TableCell>
+                            <TableCell>
+                              {formatCurrencyVND(row.spending)}
+                            </TableCell>
+                          </TableRow>
+                        );
+                    })}
                   </TableBody>
                 </Table>
               </TableContainer>

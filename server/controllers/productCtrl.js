@@ -13,7 +13,11 @@ const productCtrl = {
                     path: 'vCollection',
                     select: 'collectName -collectCode',
                 })
-                .populate({ path: 'vCategory', select: 'cateName -cateCode' });
+                .populate({ path: 'vCategory', select: 'cateName -cateCode' })
+                .populate({
+                    path: 'vMaterial',
+                    select: 'materialName -materialCode',
+                });
             for (const pm of productMaster) {
                 const product = await Product.find({ productMasterId: pm._id });
                 pm.productDetails = [...pm.productDetails].concat(product);
@@ -144,6 +148,10 @@ const productCtrl = {
                     .populate({
                         path: 'vCategory',
                         select: 'cateName -cateCode',
+                    })
+                    .populate({
+                        path: 'vMaterial',
+                        select: 'materialName -materialCode',
                     });
 
                 const {
@@ -373,7 +381,11 @@ const productCtrl = {
                 productMasterId: req.params.id,
             })
                 .populate({ path: 'vSale', select: 'saleName -saleCode' })
-                .populate({ path: 'vState', select: 'stateName -stateCode' });
+                .populate({ path: 'vState', select: 'stateName -stateCode' })
+                .populate({
+                    path: 'vMaterial',
+                    select: 'materialName -materialCode',
+                });
             res.status(200).json({ product });
         } catch (err) {
             return res.status(500).json({ msg: err.message });

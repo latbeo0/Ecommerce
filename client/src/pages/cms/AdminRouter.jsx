@@ -21,6 +21,7 @@ import { fetchLogout } from '../../services/userFetch';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUser } from './../../redux/userSlice';
 import Order from './layout/Order/Order';
+import Material from './layout/Material/Material';
 
 const { Header, Sider, Content } = Layout;
 

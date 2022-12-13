@@ -19,6 +19,7 @@ import {
   ProductSecondaryImageLabel,
   ProductSecondaryImage,
   ProductSecondaryImageInput,
+  CloseImage,
 } from "./PopupEditStyle";
 import Plus from "../../../../../assets/img/plus.png";
 import {
@@ -36,6 +37,8 @@ import Notification from "../../../../Basic/Notification/Notification";
 import { NotificationType } from "../../../../Basic/Notification/type";
 import { useSelector } from "react-redux";
 import { selectUser } from "./../../../../../redux/userSlice";
+import IconButton from "@mui/material/IconButton";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 
 const primaryItems = [
   // {
@@ -183,8 +186,34 @@ const PopupEdit = ({ open, master, row, onClose, onSubmit }) => {
       });
     }
   };
-  const handleChangeSecondaryImage = () => {};
-
+  const handleCloseImage = (e, index, type) => {
+    let ftempArr = [];
+    let ltempArr = [];
+    switch (type.toUpperCase()) {
+      case "PRIMARYIMAGES":
+        if (product.primaryImages) {
+          ftempArr = product.primaryImages.slice(0, index);
+          ltempArr = product.primaryImages.slice(
+            index + 1,
+            product.primaryImages.length
+          );
+        }
+        setProductData({...product, primaryImages: [...ftempArr, ...ltempArr]});
+        break;
+      case "SECONDARYIMAGES":
+        if (product.secondaryImages) {
+          ftempArr = product.secondaryImages.slice(0, index);
+          ltempArr = product.secondaryImages.slice(
+            index + 1,
+            product.secondaryImages.length
+          );
+        }
+        setProductData({...product, secondaryImages: [...ftempArr, ...ltempArr]});
+        break;
+      default:
+        break;
+    }
+  };
   const handleSubmit = async () => {
     if (!row) {
       await fetchAddNewProduct(
@@ -344,8 +373,8 @@ const PopupEdit = ({ open, master, row, onClose, onSubmit }) => {
           >
             <Link>List Primary Images</Link>
             <MuiGrid>
-              <ImageList cols={2} rowHeight={228}>
-                {product.primaryImages?.map((item) => (
+              <ImageList cols={6} rowHeight={200}>
+                {product.primaryImages?.map((item, index) => (
                   <ImageListItem key={item.img}>
                     <ProductSecondaryImage
                       src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
@@ -353,9 +382,18 @@ const PopupEdit = ({ open, master, row, onClose, onSubmit }) => {
                       alt={item.title}
                       loading="lazy"
                     />
+                    <CloseImage>
+                      <IconButton
+                        aria-label="close"
+                        onClick={(e) => handleCloseImage(e, index, "PRIMARYIMAGES")}
+                      >
+                        <HighlightOffIcon />
+                      </IconButton>
+                    </CloseImage>
                   </ImageListItem>
                 ))}
-                {product.primaryImages.length < 2 && (
+                {!product.primaryImages |
+                  (product.primaryImages?.length < 2) && (
                   <ImageListItem>
                     <ProductSecondaryImageCard>
                       <ProductSecondaryImageLabel htmlFor="file-input-1">
@@ -380,8 +418,8 @@ const PopupEdit = ({ open, master, row, onClose, onSubmit }) => {
             </MuiGrid>
             <Link>List Extra Images</Link>
             <MuiGrid>
-              <ImageList cols={2} rowHeight={228}>
-                {product.secondaryImages?.map((item) => (
+              <ImageList cols={6} rowHeight={200}>
+                {product.secondaryImages?.map((item, index) => (
                   <ImageListItem key={item.img}>
                     <ProductSecondaryImage
                       src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
@@ -389,9 +427,15 @@ const PopupEdit = ({ open, master, row, onClose, onSubmit }) => {
                       alt={item.title}
                       loading="lazy"
                     />
+                    <CloseImage onClick={(e) => handleCloseImage(e, index, "SECONDARYIMAGES")}>
+                      <IconButton aria-label="close">
+                        <HighlightOffIcon />
+                      </IconButton>
+                    </CloseImage>
                   </ImageListItem>
                 ))}
-                {product.secondaryImages?.length < 4 && (
+                {!product.secondaryImages |
+                  (product.secondaryImages?.length < 4) && (
                   <ImageListItem>
                     <ProductSecondaryImageCard>
                       <ProductSecondaryImageLabel htmlFor="file-input-2">
@@ -424,7 +468,7 @@ const PopupEdit = ({ open, master, row, onClose, onSubmit }) => {
             }}
           >
             <MuiGrid container spacing={1}>
-              <MuiGrid item xs={6}>
+              <MuiGrid item xs={3}>
                 <FormGroup>
                   <TextField
                     margin="normal"
@@ -435,7 +479,7 @@ const PopupEdit = ({ open, master, row, onClose, onSubmit }) => {
                   />
                 </FormGroup>
               </MuiGrid>
-              <MuiGrid item xs={6}>
+              <MuiGrid item xs={3}>
                 <FormGroup>
                   <TextField
                     margin="normal"
@@ -453,7 +497,7 @@ const PopupEdit = ({ open, master, row, onClose, onSubmit }) => {
             {product?.color?.details?.length > 0 &&
               product.color.details.map((detail, detailIndex) => (
                 <MuiGrid container spacing={1} key={`DS${detailIndex}`}>
-                  <MuiGrid item xs={6}>
+                  <MuiGrid item xs={3}>
                     <FormGroup>
                       <TextField
                         margin="normal"
@@ -477,7 +521,7 @@ const PopupEdit = ({ open, master, row, onClose, onSubmit }) => {
                       </TextField>
                     </FormGroup>
                   </MuiGrid>
-                  <MuiGrid item xs={6}>
+                  <MuiGrid item xs={3}>
                     <FormGroup>
                       <TextField
                         margin="normal"

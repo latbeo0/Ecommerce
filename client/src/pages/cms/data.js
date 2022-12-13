@@ -6,7 +6,7 @@ import {
   ShoppingCartOutlined,
   CrownOutlined,
   ReadOutlined,
-  LogoutOutlined,
+  FormatPainterOutlined 
 } from "@ant-design/icons";
 
 export const ListMenu = [
@@ -36,18 +36,24 @@ export const ListMenu = [
   },
   {
     key: "5",
+    icon: FormatPainterOutlined,
+    label: "Material",
+    link: "/list-material",
+  },
+  {
+    key: "6",
     icon: ReadOutlined,
     label: "Category",
     link: "/list-category",
   },
   {
-    key: "6",
+    key: "7",
     icon: CrownOutlined,
     label: "Collection",
     link: "/list-collection",
   },
   {
-    key: "7",
+    key: "8",
     icon: PercentageOutlined,
     label: "Sale Voucher",
     link: "/list-voucher",

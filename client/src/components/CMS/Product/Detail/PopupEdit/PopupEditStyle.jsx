@@ -8,7 +8,7 @@ const ProductSecondaryImageLabel = styled.label`
   height: inherit;
 `;
 const ProductSecondaryImage = styled.img`
-  height: inherit;
+  width: inherit;
   border: 1px solid;
   cursor: pointer;
   &:hover {
@@ -18,7 +18,13 @@ const ProductSecondaryImage = styled.img`
 const ProductSecondaryImageInput = styled.input`
   display: none;
 `;
+const CloseImage = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+`;
 export {
+  CloseImage,
   ProductSecondaryImageCard,
   ProductSecondaryImageLabel,
   ProductSecondaryImage,

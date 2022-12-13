@@ -23,8 +23,12 @@ import Slide from "@mui/material/Slide";
 
 import Notification from "../../Basic/Notification/Notification";
 import { NotificationType } from "../../Basic/Notification/type";
-import { useSelector } from 'react-redux';
-import { selectUser } from './../../../redux/userSlice';
+import { useSelector } from "react-redux";
+import { selectUser } from "./../../../redux/userSlice";
+import {
+  fetchAddNewMaterial,
+  fetchUpdateMaterial,
+} from "../../../services/materialFetch";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -49,6 +53,11 @@ const saleState = {
   saleName: "",
   saleDescription: "",
 };
+const materialState = {
+  materialCode: "",
+  materialName: "",
+  materialDescription: "",
+};
 const BasicPopup = ({ type, open, row, onClose, onSubmit, collection }) => {
   const { currentUser } = useSelector(selectUser);
 
@@ -68,6 +77,9 @@ const BasicPopup = ({ type, open, row, onClose, onSubmit, collection }) => {
         case "SALE":
           setData(saleState);
           break;
+        case "MATERIAL":
+          setData(materialState);
+          break;
         default:
           setData(initialState);
           break;
@@ -84,13 +96,15 @@ const BasicPopup = ({ type, open, row, onClose, onSubmit, collection }) => {
     switch (collection?.toUpperCase()) {
       case "CATEGORY":
         if (type === "ADD") {
-          await fetchAddNewCategory(data, currentUser.access_token).then((response) => {
-            if (response.status === 200) {
-              Notification(NotificationType.success, response.data.msg);
-              setData(categoryState);
-            } else Notification(NotificationType.error, response.data.msg);
-            onClose();
-          });
+          await fetchAddNewCategory(data, currentUser.access_token).then(
+            (response) => {
+              if (response.status === 200) {
+                Notification(NotificationType.success, response.data.msg);
+                setData(categoryState);
+              } else Notification(NotificationType.error, response.data.msg);
+              onClose();
+            }
+          );
         } else if (type === "UPDATE" && row) {
           await fetchUpdateCategory(data, row.id, currentUser.access_token)
             .then((response) => {
@@ -105,13 +119,15 @@ const BasicPopup = ({ type, open, row, onClose, onSubmit, collection }) => {
         break;
       case "COLLECTION":
         if (type === "ADD") {
-          await fetchAddNewCollection(data, currentUser.access_token).then((response) => {
-            if (response.status === 200) {
-              Notification(NotificationType.success, response.data.msg);
-              setData(collectionState);
-            } else Notification(NotificationType.error, response.data.msg);
-            onClose();
-          });
+          await fetchAddNewCollection(data, currentUser.access_token).then(
+            (response) => {
+              if (response.status === 200) {
+                Notification(NotificationType.success, response.data.msg);
+                setData(collectionState);
+              } else Notification(NotificationType.error, response.data.msg);
+              onClose();
+            }
+          );
         } else if (type === "UPDATE" && row) {
           await fetchUpdateCollection(data, row.id, currentUser.access_token)
             .then((response) => {
@@ -126,15 +142,40 @@ const BasicPopup = ({ type, open, row, onClose, onSubmit, collection }) => {
         break;
       case "SALE":
         if (type === "ADD") {
-          await fetchAddNewSale(data, currentUser.access_token).then((response) => {
-            if (response.status === 200) {
-              Notification(NotificationType.success, response.data.msg);
-              setData(saleState);
-            } else Notification(NotificationType.error, response.data.msg);
-            onClose();
-          });
+          await fetchAddNewSale(data, currentUser.access_token).then(
+            (response) => {
+              if (response.status === 200) {
+                Notification(NotificationType.success, response.data.msg);
+                setData(saleState);
+              } else Notification(NotificationType.error, response.data.msg);
+              onClose();
+            }
+          );
         } else if (type === "UPDATE" && row) {
           await fetchUpdateSale(data, row.id, currentUser.access_token)
+            .then((response) => {
+              if (response.status === 200) {
+                Notification(NotificationType.success, response.data.msg);
+                setData(saleState);
+              } else Notification(NotificationType.error, response.data.msg);
+              onClose();
+            })
+            .catch((error) => Notification(NotificationType.error, error));
+        }
+        break;
+      case "MATERIAL":
+        if (type === "ADD") {
+          await fetchAddNewMaterial(data, currentUser.access_token).then(
+            (response) => {
+              if (response.status === 200) {
+                Notification(NotificationType.success, response.data.msg);
+                setData(saleState);
+              } else Notification(NotificationType.error, response.data.msg);
+              onClose();
+            }
+          );
+        } else if (type === "UPDATE" && row) {
+          await fetchUpdateMaterial(data, row.id, currentUser.access_token)
             .then((response) => {
               if (response.status === 200) {
                 Notification(NotificationType.success, response.data.msg);
