@@ -42,6 +42,7 @@ const INITIAL_DATA = {
     },
     payment: {
         type: '',
+        bank: '',
     },
 };
 

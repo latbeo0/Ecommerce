@@ -1,16 +1,17 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { fetchLogin } from "../services/authFetch";
-import { fetchLogout } from "../services/userFetch";
+import { createSlice } from '@reduxjs/toolkit';
+import { fetchLogin } from '../services/authFetch';
+import { fetchLogout } from '../services/userFetch';
 
 const initialState = {
     isLogged: false,
+    provider: '',
     isLoading: false,
     isError: false,
     isAdmin: false,
 };
 
 export const authSlice = createSlice({
-    name: "auth",
+    name: 'auth',
     initialState,
     reducers: {},
     extraReducers: (builder) => {
@@ -22,6 +23,10 @@ export const authSlice = createSlice({
             .addCase(fetchLogin.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isLogged = true;
+
+                if (action.payload) {
+                    state.provider = action.payload;
+                }
                 // state.isAdmin = true;
             })
             .addCase(fetchLogin.rejected, (state, action) => {

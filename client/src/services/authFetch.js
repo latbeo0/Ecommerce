@@ -36,12 +36,16 @@ export const fetchActiveEmail = async (activation_token) => {
 export const fetchLogin = createAsyncThunk(
     'auth/fetchLogin',
     async (valuesForm) => {
-        const { email, password } = valuesForm;
+        const { email, password, provider } = valuesForm;
         try {
-            await baseRequest.post('/api/auth/login', {
-                email,
-                password,
-            });
+            if (!provider) {
+                await baseRequest.post('/api/auth/login', {
+                    email,
+                    password,
+                });
+            } else {
+                return provider;
+            }
         } catch (error) {
             // if (!error.response) throw error;
             throw new Error(error.response.data.msg);

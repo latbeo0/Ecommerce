@@ -39,6 +39,7 @@ import { fetchGetAllOrder1 } from './services/orderFetch';
 import Store from './pages/Store';
 import PaySuccess from './pages/PaySuccess';
 import { fetchGetAllMaterial1 } from './services/materialFetch';
+import GoogleLogin from './pages/GoogleLogin';
 
 const App = () => {
     const dispatch = useDispatch();
@@ -211,6 +212,10 @@ const App = () => {
                                 element={<ActiveEmail />}
                             />
                             <Route path='/login' element={<Login />} />
+                            <Route
+                                path='/login_google'
+                                element={<GoogleLogin />}
+                            />
                             <Route
                                 path='/forgot_password'
                                 element={<ForgotPassword />}

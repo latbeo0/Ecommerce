@@ -46,7 +46,7 @@ const UserMenu = () => {
                 <WrapperUser>
                     <Avatar
                         link='/profile'
-                        src={currentUser?.avatar}
+                        src={currentUser?.avatar && currentUser.avatar}
                         text={getFullName(
                             currentUser?.firstName,
                             currentUser?.lastName

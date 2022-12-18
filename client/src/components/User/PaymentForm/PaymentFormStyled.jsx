@@ -49,6 +49,8 @@ const ImagePayment = styled.img`
     object-fit: contain;
 `;
 
+const BankContainer = styled.div``;
+
 export {
     Container,
     Title,
@@ -57,4 +59,5 @@ export {
     RadioCheck,
     ImageContainer,
     ImagePayment,
+    BankContainer,
 };
