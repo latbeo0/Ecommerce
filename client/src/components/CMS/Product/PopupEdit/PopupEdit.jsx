@@ -19,8 +19,9 @@ import Slide from "@mui/material/Slide";
 
 import Notification from "../../../Basic/Notification/Notification";
 import { NotificationType } from "../../../Basic/Notification/type";
-import { useSelector } from 'react-redux';
-import { selectUser } from './../../../../redux/userSlice';
+import { useSelector } from "react-redux";
+import { selectUser } from "./../../../../redux/userSlice";
+import { fetchGetAllMaterial } from "./../../../../services/materialFetch";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -28,7 +29,12 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const PopupEdit = ({ type, open, row, onClose, onSubmit }) => {
   const { currentUser } = useSelector(selectUser);
   const [productMaster, setProductMaster] = useState(data.productMaster);
-
+  const [materialOptions, setMaterialOptions] = useState([]);
+  React.useEffect(() => {
+    fetchGetAllMaterial().then((result) => {
+      setMaterialOptions(result?.data?.materials);
+    });
+  }, []);
   React.useEffect(() => {
     if (row) {
       setProductMaster(row);
@@ -54,7 +60,11 @@ const PopupEdit = ({ type, open, row, onClose, onSubmit }) => {
         })
         .catch((error) => Notification(NotificationType.error, error));
     } else if (type === "UPDATE" && row) {
-      await fetchUpdateProductMaster(productMaster, row.id, currentUser.access_token)
+      await fetchUpdateProductMaster(
+        productMaster,
+        row.id,
+        currentUser.access_token
+      )
         .then((response) => {
           if (response.status === 200) {
             Notification(NotificationType.success, response.data.msg);
@@ -76,17 +86,41 @@ const PopupEdit = ({ type, open, row, onClose, onSubmit }) => {
     >
       <DialogTitle id="form-dialog-title">Product</DialogTitle>
       <DialogContent>
-        <MuiGrid>
-          <FormGroup>
-            <TextField
-              margin="normal"
-              name="productName"
-              label="Name"
-              value={productMaster.productName || ""}
-              onChange={handleChangeInput}
-              sx={{ minWidth: 200 }}
-            />{" "}
-          </FormGroup>
+        <MuiGrid container spacing={6}>
+          <MuiGrid item xs={6}>
+            <FormGroup>
+              <TextField
+                margin="normal"
+                name="productName"
+                label="Name"
+                value={productMaster.productName || ""}
+                onChange={handleChangeInput}
+                sx={{ minWidth: 200 }}
+              />
+            </FormGroup>
+          </MuiGrid>
+          <MuiGrid item xs={6}>
+            <FormGroup>
+              <TextField
+                margin="normal"
+                value={productMaster.materialCode || ""}
+                onChange={handleChangeInput}
+                select // tell TextField to render select
+                label="Material"
+                name="materialCode"
+                sx={{ minWidth: 200 }}
+              >
+                <MenuItem key="MATERIAL" value="">
+                  <em>None</em>
+                </MenuItem>
+                {materialOptions?.map((item) => (
+                  <MenuItem key={item.materialCode} value={item.materialCode}>
+                    {item.materialName}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </FormGroup>
+          </MuiGrid>
         </MuiGrid>
         <MuiGrid container spacing={6}>
           <MuiGrid item xs={4}>

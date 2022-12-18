@@ -34,27 +34,25 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 const initialState = {
-  code: "",
   name: "",
   description: "",
 };
 const categoryState = {
-  cateCode: "",
   cateName: "",
   cateDescription: "",
 };
 const collectionState = {
-  collectCode: "",
   collectName: "",
   collectDescription: "",
 };
 const saleState = {
-  saleCode: "",
   saleName: "",
+  discount: "",
+  startDate: new Date(),
+  endDate: new Date(),
   saleDescription: "",
 };
 const materialState = {
-  materialCode: "",
   materialName: "",
   materialDescription: "",
 };

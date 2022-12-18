@@ -51,6 +51,7 @@ export const fetchAddNewUser = async (user, token) => {
     }
 };
 export const fetchUpdateUser = async (user, id, token) => {
+    console.log(user)
     try {
         return await baseRequest.put(`/api/user/update/${id}`, user, {
             headers: { Authorization: token },

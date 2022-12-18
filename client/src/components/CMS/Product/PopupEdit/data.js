@@ -4,6 +4,7 @@ export const productMaster = {
   gender: "",
   cateCode: "",
   collectCode: "",
+  materialCode: "",
   err: "",
   success: "",
 };

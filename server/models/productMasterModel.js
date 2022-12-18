@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const CollectionModel = require("./collectionModel");
 const CategoryModel = require("./categoryModel");
+const MaterialModel = require("./materialModel");
+
 const ProductMasterSchema = new mongoose.Schema(
   {
     masterCode: {type: String},
@@ -8,6 +10,7 @@ const ProductMasterSchema = new mongoose.Schema(
     productDescription: { type: String, required: true },
     gender: { type: String, required: true },
     cateCode: { type: String },
+    materialCode: {type: String},
     collectCode: { type: String },
     productDetails: {type: Array},
   },
@@ -25,6 +28,11 @@ ProductMasterSchema.virtual("vCategory", {
   ref: CategoryModel,
   localField: "cateCode",
   foreignField: "cateCode",
+});
+ProductMasterSchema.virtual('vMaterial', {
+  ref: MaterialModel,
+  localField: 'materialCode',
+  foreignField: 'materialCode',
 });
 
 ProductMasterSchema.set("toObject", { virtuals: true });

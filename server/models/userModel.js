@@ -66,4 +66,4 @@ UserSchema.virtual("vRole", {
 
 UserSchema.set("toObject", { virtuals: true });
 UserSchema.set("toJSON", { virtuals: true });
-module.exports = mongoose.model("User", UserSchema);
+module.exports = mongoose.model("users", UserSchema);

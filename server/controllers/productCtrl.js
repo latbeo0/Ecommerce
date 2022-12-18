@@ -352,7 +352,6 @@ const productCtrl = {
       })
         .populate({ path: "vSale", select: "saleName -saleCode" })
         .populate({ path: "vState", select: "stateName -stateCode" })
-        .populate({ path: "vMaterial", select: "materialName -materialCode" });
       res.status(200).json({ product });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
