@@ -1,45 +1,45 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 // import { useSelector, useDispatch } from 'react-redux';
-import { useEffect, useState } from 'react';
-import AdminRouter from './pages/cms/AdminRouter';
-import Home from './pages/Home';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import ForgotPassword from './pages/ForgotPassword';
-import ActiveEmail from './pages/ActiveEmail';
-import ResetPassword from './pages/ResetPassword';
-import Products from './pages/Products';
-import HeaderFooterPage from './layouts/HeaderFooterPage';
-import { ToastContainer } from 'react-toastify';
-import ScrollToTop from './helpers/ScrollToTop';
-import Product from './pages/Product';
-import { fetchGetAccessToken, fetchLogout } from './services/userFetch';
-import { selectAuth } from './redux/authSlice';
-import { selectUser } from './redux/userSlice';
-import { useDispatch, useSelector } from 'react-redux';
-import ButtonScrollToTop from './helpers/ButtonScrollToTop';
-import { fetchGetProducts } from './services/productFetch';
-import Cart from './pages/Cart';
+import { useEffect, useState } from "react";
+import AdminRouter from "./pages/cms/AdminRouter";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import ForgotPassword from "./pages/ForgotPassword";
+import ActiveEmail from "./pages/ActiveEmail";
+import ResetPassword from "./pages/ResetPassword";
+import Products from "./pages/Products";
+import HeaderFooterPage from "./layouts/HeaderFooterPage";
+import { ToastContainer } from "react-toastify";
+import ScrollToTop from "./helpers/ScrollToTop";
+import Product from "./pages/Product";
+import { fetchGetAccessToken, fetchLogout } from "./services/userFetch";
+import { selectAuth } from "./redux/authSlice";
+import { selectUser } from "./redux/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import ButtonScrollToTop from "./helpers/ButtonScrollToTop";
+import { fetchGetProducts } from "./services/productFetch";
+import Cart from "./pages/Cart";
 import {
     fetchDistrict,
     fetchProvince,
     fetchWard,
-} from './services/locationFetch';
-import Profile from './pages/Profile';
-import WishList from './pages/WishList';
-import NotFound from './pages/NotFound';
-import { fetchGetCart } from './services/cartFetch';
-import { fetchGetAllCategory1 } from './services/categoryFetch';
-import { fetchGetAllState } from './services/stateFetch';
-import { fetchGetAllCollection1 } from './services/collectionFetch';
-import { fetchGetAllColors } from './services/colorFetch';
-import { fetchGetAllSizes } from './services/sizeFetch';
-import Orders from './pages/Orders';
-import { fetchGetAllOrder1 } from './services/orderFetch';
-import Store from './pages/Store';
-import PaySuccess from './pages/PaySuccess';
-import { fetchGetAllMaterial1 } from './services/materialFetch';
-import GoogleLogin from './pages/GoogleLogin';
+} from "./services/locationFetch";
+import Profile from "./pages/Profile";
+import WishList from "./pages/WishList";
+import NotFound from "./pages/NotFound";
+import { fetchGetCart } from "./services/cartFetch";
+import { fetchGetAllCategory1 } from "./services/categoryFetch";
+import { fetchGetAllState } from "./services/stateFetch";
+import { fetchGetAllCollection1 } from "./services/collectionFetch";
+import { fetchGetAllColors } from "./services/colorFetch";
+import { fetchGetAllSizes } from "./services/sizeFetch";
+import Orders from "./pages/Orders";
+import { fetchGetAllOrder1 } from "./services/orderFetch";
+import Store from "./pages/Store";
+import PaySuccess from "./pages/PaySuccess";
+import { fetchGetAllMaterial1 } from "./services/materialFetch";
+import GoogleLogin from "./pages/GoogleLogin";
 
 const App = () => {
     const dispatch = useDispatch();
@@ -66,7 +66,7 @@ const App = () => {
     const [isScroll, setIsScroll] = useState(false);
 
     useEffect(() => {
-        window.addEventListener('scroll', () => {
+        window.addEventListener("scroll", () => {
             if (window.scrollY > 500) {
                 setIsScroll(true);
             } else {
@@ -75,13 +75,13 @@ const App = () => {
         });
 
         return () =>
-            window.removeEventListener('scroll', () => {
+            window.removeEventListener("scroll", () => {
                 return;
             });
     }, []);
 
     const handleScrollToTop = () => {
-        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     };
 
     // Fetch api
@@ -95,7 +95,7 @@ const App = () => {
                     fetchGetProducts({ pageSize, pageIndex })
                 ).unwrap();
             } catch (error) {
-                console.log('/App/fetchProducts');
+                console.log("/App/fetchProducts");
             }
         };
         fetchProducts();
@@ -106,7 +106,7 @@ const App = () => {
                 await dispatch(fetchDistrict()).unwrap();
                 await dispatch(fetchWard()).unwrap();
             } catch (error) {
-                console.log('/App/fetchLocation');
+                console.log("/App/fetchLocation");
             }
         };
         fetchLocation();
@@ -120,7 +120,7 @@ const App = () => {
                     fetchGetCart({ user: user.currentUser })
                 ).unwrap();
             } catch (error) {
-                console.log('/App/fetchCart');
+                console.log("/App/fetchCart");
             }
         };
 
@@ -130,7 +130,7 @@ const App = () => {
                     fetchGetAllOrder1({ user: user.currentUser })
                 ).unwrap();
             } catch (error) {
-                console.log('/App/fetchOrder');
+                console.log("/App/fetchOrder");
             }
         };
 
@@ -145,7 +145,7 @@ const App = () => {
             try {
                 await dispatch(fetchGetAllCategory1()).unwrap();
             } catch (error) {
-                console.log('/App/fetchCategories');
+                console.log("/App/fetchCategories");
             }
         };
         fetchCategories();
@@ -154,7 +154,7 @@ const App = () => {
             try {
                 await dispatch(fetchGetAllState()).unwrap();
             } catch (error) {
-                console.log('/App/fetchStates');
+                console.log("/App/fetchStates");
             }
         };
         fetchStates();
@@ -163,7 +163,7 @@ const App = () => {
             try {
                 await dispatch(fetchGetAllCollection1()).unwrap();
             } catch (error) {
-                console.log('/App/fetchCollections');
+                console.log("/App/fetchCollections");
             }
         };
         fetchCollections();
@@ -172,7 +172,7 @@ const App = () => {
             try {
                 await dispatch(fetchGetAllColors()).unwrap();
             } catch (error) {
-                console.log('/App/fetchGetAllColors');
+                console.log("/App/fetchGetAllColors");
             }
         };
         fetchColors();
@@ -181,7 +181,7 @@ const App = () => {
             try {
                 await dispatch(fetchGetAllSizes()).unwrap();
             } catch (error) {
-                console.log('/App/fetchGetAllSizes');
+                console.log("/App/fetchGetAllSizes");
             }
         };
         fetchSizes();
@@ -190,7 +190,7 @@ const App = () => {
             try {
                 await dispatch(fetchGetAllMaterial1()).unwrap();
             } catch (error) {
-                console.log('/App/fetchMaterials');
+                console.log("/App/fetchMaterials");
             }
         };
         fetchMaterials();
@@ -203,58 +203,58 @@ const App = () => {
                 <ScrollToTop />
                 <Routes>
                     {user?.currentUser && user.currentUser.level < 3 ? (
-                        <Route path='/*' index element={<AdminRouter />} />
+                        <Route path="/*" index element={<AdminRouter />} />
                     ) : (
                         <>
-                            <Route path='/register' element={<Register />} />
+                            <Route path="/register" element={<Register />} />
                             <Route
-                                path='/activate_email/:activationToken'
+                                path="/activate_email/:activationToken"
                                 element={<ActiveEmail />}
                             />
-                            <Route path='/login' element={<Login />} />
+                            <Route path="/login" element={<Login />} />
                             <Route
-                                path='/login_google'
+                                path="/login_google"
                                 element={<GoogleLogin />}
                             />
                             <Route
-                                path='/forgot_password'
+                                path="/forgot_password"
                                 element={<ForgotPassword />}
                             />
                             <Route
-                                path='/reset_password/:token'
+                                path="/reset_password/:token"
                                 element={<ResetPassword />}
                             />
-                            <Route path='/' element={<HeaderFooterPage />}>
+                            <Route path="/" element={<HeaderFooterPage />}>
                                 <Route index element={<Home />} />
                                 <Route
-                                    path='/products/:codeProduct'
+                                    path="/products/:codeProduct"
                                     element={<Product />}
                                 />
                                 <Route
-                                    path='/products'
+                                    path="/products"
                                     element={<Products />}
                                 />
-                                <Route path='/cart' element={<Cart />} />
-                                <Route path='/orders' element={<Orders />} />
-                                <Route path='/stores' element={<Store />} />
+                                <Route path="/cart" element={<Cart />} />
+                                <Route path="/orders" element={<Orders />} />
+                                <Route path="/stores" element={<Store />} />
                                 <Route
-                                    path='/pay-successful'
+                                    path="/pay-successful"
                                     element={<PaySuccess />}
                                 />
                                 {user.currentUser ? (
                                     <>
                                         <Route
-                                            path='/profile'
+                                            path="/profile"
                                             element={<Profile />}
                                         />
                                         <Route
-                                            path='/wish_list'
+                                            path="/wish_list"
                                             element={<WishList />}
                                         />
                                     </>
                                 ) : null}
                             </Route>
-                            <Route path='/*' element={<NotFound />} />
+                            <Route path="/*" element={<NotFound />} />
                         </>
                     )}
                 </Routes>
