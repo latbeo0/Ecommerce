@@ -1,31 +1,32 @@
-require('dotenv').config({ path: __dirname + '/configs/config.env' });
+require("dotenv").config({ path: __dirname + "/configs/config.env" });
 
-const cookieSession = require('cookie-session');
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const cookieParser = require('cookie-parser');
-const fileUpload = require('express-fileupload');
-const passportSetup = require('./controllers/passport');
-const passport = require('passport');
+const cookieSession = require("cookie-session");
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
+const cookieParser = require("cookie-parser");
+const fileUpload = require("express-fileupload");
+const passportSetup = require("./controllers/passport");
+const passport = require("passport");
+const bodyParser = require("body-parser");
 
-const authRoute = require('./routes/authRoute');
-const userRoute = require('./routes/userRoute');
-const productRoute = require('./routes/productRoute');
-const orderRoute = require('./routes/orderRoute');
-const uploadRoute = require('./routes/uploadRoute');
-const saleRoute = require('./routes/saleRoute');
-const materialRoute = require('./routes/materialRoute');
-const categoryRoute = require('./routes/categoryRoute');
-const stateRoute = require('./routes/stateRoute');
-const collectionRoute = require('./routes/collectionRoute');
+const authRoute = require("./routes/authRoute");
+const userRoute = require("./routes/userRoute");
+const productRoute = require("./routes/productRoute");
+const orderRoute = require("./routes/orderRoute");
+const uploadRoute = require("./routes/uploadRoute");
+const saleRoute = require("./routes/saleRoute");
+const materialRoute = require("./routes/materialRoute");
+const categoryRoute = require("./routes/categoryRoute");
+const stateRoute = require("./routes/stateRoute");
+const collectionRoute = require("./routes/collectionRoute");
 
 const app = express();
 
 app.use(
     cookieSession({
-        name: 'session',
-        keys: ['lv7'],
+        name: "session",
+        keys: ["lv7"],
         maxAge: 24 * 60 * 60 * 100,
     })
 );
@@ -34,10 +35,21 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(express.json());
+// app.use(
+//     cors({
+//         origin: "*",
+//         methods: "GET,POST,PUT,DELETE",
+//         credentials: true,
+//     })
+// );
 app.use(
     cors({
-        origin: 'http://localhost:3000',
-        methods: 'GET,POST,PUT,DELETE',
+        origin: [
+            "http://localhost:3000",
+            "http://localhost:5000/api/order/create_payment_url",
+            "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html",
+        ],
+        methods: "GET,POST,PUT,DELETE",
         credentials: true,
     })
 );
@@ -46,6 +58,8 @@ app.use(
         useTempFiles: true,
     })
 );
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // Connect to mongodb
@@ -53,7 +67,7 @@ const URI = process.env.MONGODB_URL;
 const connectDB = async () => {
     await mongoose
         .connect(URI)
-        .then(() => console.log('Connected to mongodb'))
+        .then(() => console.log("Connected to mongodb"))
         .catch((err) => {
             console.log(err);
         });
@@ -78,20 +92,29 @@ connectDB();
 //     // Pass to next layer of middleware
 //     next();
 // });
-// Routes
-app.use('/api/auth', authRoute);
-app.use('/api/user', userRoute);
-app.use('/api/product', productRoute);
-app.use('/api/sale', saleRoute);
-app.use('/api/material', materialRoute);
+app.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
+    res.header(
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content-Type, Accept"
+    );
+    next();
+});
 
-app.use('/api/category', categoryRoute);
-app.use('/api/state', stateRoute);
-app.use('/api/collection', collectionRoute);
-app.use('/api/order', orderRoute);
-app.use('/api/upload', uploadRoute);
+// Routes
+app.use("/api/auth", authRoute);
+app.use("/api/user", userRoute);
+app.use("/api/product", productRoute);
+app.use("/api/sale", saleRoute);
+app.use("/api/material", materialRoute);
+
+app.use("/api/category", categoryRoute);
+app.use("/api/state", stateRoute);
+app.use("/api/collection", collectionRoute);
+app.use("/api/order", orderRoute);
+app.use("/api/upload", uploadRoute);
 // Listening
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-    console.log('Server is running on port', PORT);
+    console.log("Server is running on port", PORT);
 });

@@ -357,6 +357,9 @@ const Cart = () => {
                 return next();
             }
         } else if (currentStepIndex === 2) {
+            if (data.payment.type === "cash") {
+                handleCheckOut();
+            }
             if (data.payment.type === "vn_pay") {
                 try {
                     const amount = subtotal;
@@ -378,7 +381,7 @@ const Cart = () => {
                     console.log(err);
                 }
             }
-            if (data.payment.type !== "cash") {
+            if (data.payment.type === "momo") {
                 return toast.error("This method is not support", {
                     position: "top-right",
                     autoClose: 3000,
@@ -391,7 +394,6 @@ const Cart = () => {
             }
         } else {
         }
-        handleCheckOut();
     }
 
     // return isLoading ? (
