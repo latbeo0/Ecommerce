@@ -1,17 +1,17 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { fetchLogin } from '../services/authFetch';
-import { fetchLogout } from '../services/userFetch';
+import { createSlice } from "@reduxjs/toolkit";
+import { fetchLogin } from "../services/authFetch";
+import { fetchLogout } from "../services/userFetch";
 
 const initialState = {
     isLogged: false,
-    provider: '',
+    provider: "",
     isLoading: false,
     isError: false,
     isAdmin: false,
 };
 
 export const authSlice = createSlice({
-    name: 'auth',
+    name: "auth",
     initialState,
     reducers: {},
     extraReducers: (builder) => {

@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled, { css } from "styled-components";
 
 const Section = styled.section`
     max-width: 80rem;
@@ -88,7 +88,7 @@ const Service = styled.div`
 
 const HeaderSection = styled.div`
     ${(props) =>
-        props.type === 'categories' &&
+        props.type === "categories" &&
         css`
             display: flex;
             align-items: baseline;
@@ -197,7 +197,7 @@ const TitleCategory = styled.h1`
 const BodySection = styled.div`
     display: grid;
     grid-template-columns: ${(props) =>
-        props.isLoading ? '1fr' : '1fr 1fr 1fr 1fr'};
+        props.isLoading ? "1fr" : "1fr 1fr 1fr 1fr"};
     gap: 1rem;
 
     @media only screen and (max-width: 1024px) and (min-width: 769px) {

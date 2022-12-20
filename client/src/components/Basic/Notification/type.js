@@ -1,5 +1,5 @@
-export const NotificationType =  {
+export const NotificationType = {
     success: "success",
     warning: "warning",
-    error: "error"
-}
+    error: "error",
+};

@@ -1,31 +1,31 @@
 .KBody {
-  min-height: 100vh;
-  font-size: 100% !important;
+    min-height: 100vh;
+    font-size: 100% !important;
 }
 .trigger {
-  padding: 0 24px;
-  font-size: 18px;
-  line-height: 64px;
-  cursor: pointer;
-  transition: color 0.3s;
+    padding: 0 24px;
+    font-size: 18px;
+    line-height: 64px;
+    cursor: pointer;
+    transition: color 0.3s;
 }
 
 .trigger:hover {
-  color: #1890ff;
+    color: #1890ff;
 }
 
 .logo {
-  height: 28px;
-  margin: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  /* background: rgba(255, 255, 255, 0.3); */
-  font-size: inherit;
+    height: 28px;
+    margin: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    /* background: rgba(255, 255, 255, 0.3); */
+    font-size: inherit;
 }
 .KLink {
-  text-decoration: none;
+    text-decoration: none;
 }
 #KContent::-webkit-scrollbar {
-  display: none;
+    display: none;
 }

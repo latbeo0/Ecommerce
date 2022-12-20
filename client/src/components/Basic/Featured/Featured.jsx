@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 import {
     Container,
     ContainerImg,
@@ -6,7 +6,7 @@ import {
     Text,
     TextAbs,
     Sub,
-} from './FeaturedStyled';
+} from "./FeaturedStyled";
 
 const Featured = (props) => {
     const [hover, setHover] = useState(false);

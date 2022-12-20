@@ -1,14 +1,14 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const Container = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    width: ${(props) => props.sizeIcon || '20px'};
-    height: ${(props) => props.sizeIcon || '20px'};
+    width: ${(props) => props.sizeIcon || "20px"};
+    height: ${(props) => props.sizeIcon || "20px"};
     pointer-events: none;
-    margin-right: ${(props) => props.slot === 'start' && '8px'};
-    margin-left: ${(props) => props.slot === 'end' && '8px'};
+    margin-right: ${(props) => props.slot === "start" && "8px"};
+    margin-left: ${(props) => props.slot === "end" && "8px"};
 
     & > svg,
     img {

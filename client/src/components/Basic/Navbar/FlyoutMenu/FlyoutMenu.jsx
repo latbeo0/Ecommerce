@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom';
-import { Container, Wrapper, Page } from './FlyoutMenuStyled';
-import Popover from './Popover';
+import { Link } from "react-router-dom";
+import { Container, Wrapper, Page } from "./FlyoutMenuStyled";
+import Popover from "./Popover";
 
 const FlyoutMenu = (props) => {
     const { navigation } = props;

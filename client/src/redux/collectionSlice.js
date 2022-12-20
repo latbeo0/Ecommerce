@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { fetchGetAllCollection1 } from '../services/collectionFetch';
+import { createSlice } from "@reduxjs/toolkit";
+import { fetchGetAllCollection1 } from "../services/collectionFetch";
 
 const initialState = {
     isLoading: false,
@@ -8,7 +8,7 @@ const initialState = {
 };
 
 export const collectionSlice = createSlice({
-    name: 'collection',
+    name: "collection",
     initialState,
     reducers: {},
     extraReducers: (builder) => {

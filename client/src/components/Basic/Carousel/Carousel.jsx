@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { flushSync } from 'react-dom';
+import React, { useEffect, useState } from "react";
+import { flushSync } from "react-dom";
 import {
     Container,
     Wrapper,
@@ -8,8 +8,8 @@ import {
     Content,
     ContentGap,
     Arrow,
-} from './CarouselStyled';
-import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from 'react-icons/md';
+} from "./CarouselStyled";
+import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from "react-icons/md";
 
 const Carousel = (props) => {
     const { children, show, infiniteLoop, hasGap } = props;
@@ -124,10 +124,10 @@ const Carousel = (props) => {
                     {/* You can alwas change the content of the button to other things */}
                     {(isRepeating || currentIndex > 0) && (
                         <Arrow
-                            type='button'
+                            type="button"
                             onClick={prev}
-                            direction='left'
-                            aria-label='button'
+                            direction="left"
+                            aria-label="button"
                         >
                             <MdKeyboardArrowLeft />
                         </Arrow>
@@ -143,7 +143,7 @@ const Carousel = (props) => {
                                     currentIndex * (100 / show)
                                 }%)`,
                                 transition: !transitionEnabled
-                                    ? 'none'
+                                    ? "none"
                                     : undefined,
                             }}
                             onTransitionEnd={() => handleTransitionEnd()}
@@ -156,10 +156,10 @@ const Carousel = (props) => {
                     {/* You can alwas change the content of the button to other things */}
                     {(isRepeating || currentIndex < length - show) && (
                         <Arrow
-                            type='button'
+                            type="button"
                             onClick={next}
-                            direction='right'
-                            aria-label='button'
+                            direction="right"
+                            aria-label="button"
                         >
                             <MdKeyboardArrowRight />
                         </Arrow>
@@ -174,10 +174,10 @@ const Carousel = (props) => {
                 {/* You can alwas change the content of the button to other things */}
                 {(isRepeating || currentIndex > 0) && (
                     <Arrow
-                        type='button'
+                        type="button"
                         onClick={prev}
-                        direction='left'
-                        aria-label='button'
+                        direction="left"
+                        aria-label="button"
                     >
                         <MdKeyboardArrowLeft />
                     </Arrow>
@@ -192,7 +192,7 @@ const Carousel = (props) => {
                             transform: `translateX(-${
                                 currentIndex * (100 / show)
                             }%)`,
-                            transition: !transitionEnabled ? 'none' : undefined,
+                            transition: !transitionEnabled ? "none" : undefined,
                         }}
                         onTransitionEnd={() => handleTransitionEnd()}
                     >
@@ -204,10 +204,10 @@ const Carousel = (props) => {
                 {/* You can alwas change the content of the button to other things */}
                 {(isRepeating || currentIndex < length - show) && (
                     <Arrow
-                        type='button'
+                        type="button"
                         onClick={next}
-                        direction='right'
-                        aria-label='button'
+                        direction="right"
+                        aria-label="button"
                     >
                         <MdKeyboardArrowRight />
                     </Arrow>

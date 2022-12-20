@@ -1,5 +1,5 @@
-import React from 'react';
-import styled, { keyframes } from 'styled-components';
+import React from "react";
+import styled, { keyframes } from "styled-components";
 
 const Container = styled.div`
     width: 100%;
@@ -29,7 +29,7 @@ const Content = styled.span`
     animation: ${rotation} 1s linear infinite;
 
     &::after {
-        content: '';
+        content: "";
         box-sizing: border-box;
         position: absolute;
         left: 0;

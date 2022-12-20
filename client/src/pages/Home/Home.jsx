@@ -1,5 +1,5 @@
-import Banners from '../../components/User/Banners';
-import { Card } from '../../components/Basic';
+import Banners from "../../components/User/Banners";
+import { Card } from "../../components/Basic";
 import {
     LayoutCards,
     LayoutBanner,
@@ -16,16 +16,16 @@ import {
     ImageCategory,
     TitleCategory,
     BodySection,
-} from './HomeStyled';
-import { HiCheck } from 'react-icons/hi';
-import { FaShippingFast, FaPhoneVolume } from 'react-icons/fa';
-import { AiOutlineSwap } from 'react-icons/ai';
-import { BsArrowRightShort } from 'react-icons/bs';
-import ProductCard from './../../components/User/ProductCard';
-import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { selectProducts } from '../../redux/productSlice';
-import Loading from '../../helpers/Loading';
+} from "./HomeStyled";
+import { HiCheck } from "react-icons/hi";
+import { FaShippingFast, FaPhoneVolume } from "react-icons/fa";
+import { AiOutlineSwap } from "react-icons/ai";
+import { BsArrowRightShort } from "react-icons/bs";
+import ProductCard from "./../../components/User/ProductCard";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectProducts } from "../../redux/productSlice";
+import Loading from "../../helpers/Loading";
 
 const Home = () => {
     const { listProducts, isLoading, isError } = useSelector(selectProducts);
@@ -36,8 +36,8 @@ const Home = () => {
                 <LayoutBanner>
                     <Banners />
                     <LayoutCards>
-                        <Card title='Special Offer' description='Save 74%' />
-                        <Card title='Special Offer' description='Save 74%' />
+                        <Card title="Special Offer" description="Save 74%" />
+                        <Card title="Special Offer" description="Save 74%" />
                     </LayoutCards>
                 </LayoutBanner>
             </Section>
@@ -58,12 +58,12 @@ const Home = () => {
                 </ServicesWrapper>
             </ServicesContainer>
             <Section>
-                <HeaderSection type='categories'>
+                <HeaderSection type="categories">
                     <Title>
                         <Decor />
                         Categories
                     </Title>
-                    <Link to='/products'>
+                    <Link to="/products">
                         <ViewAll>
                             Browse all categories
                             <BsArrowRightShort />
@@ -71,30 +71,30 @@ const Home = () => {
                     </Link>
                 </HeaderSection>
                 <ContentSection>
-                    <Link to='/products?gender=Male'>
+                    <Link to="/products?gender=Male">
                         <CategoryCard>
                             <ImageCategory
-                                alt='category image'
-                                src='https://images.pexels.com/photos/5730956/pexels-photo-5730956.jpeg?auto=compress&cs=tinysrgb&w=1600'
+                                alt="category image"
+                                src="https://images.pexels.com/photos/5730956/pexels-photo-5730956.jpeg?auto=compress&cs=tinysrgb&w=1600"
                             />
                             <TitleCategory>Men</TitleCategory>
                         </CategoryCard>
                     </Link>
-                    <Link to='/products?gender=Female'>
+                    <Link to="/products?gender=Female">
                         <CategoryCard>
                             <ImageCategory
-                                alt='category image'
-                                src='https://images.pexels.com/photos/1858407/pexels-photo-1858407.jpeg?auto=compress&cs=tinysrgb&w=1600'
+                                alt="category image"
+                                src="https://images.pexels.com/photos/1858407/pexels-photo-1858407.jpeg?auto=compress&cs=tinysrgb&w=1600"
                             />
                             <TitleCategory>Women</TitleCategory>
                         </CategoryCard>
                     </Link>
-                    <Link to='/products?gender=Unisex'>
+                    <Link to="/products?gender=Unisex">
                         <CategoryCard>
                             <ImageCategory
-                                alt='category image'
+                                alt="category image"
                                 // src='https://images.pexels.com/photos/1620815/pexels-photo-1620815.jpeg?auto=compress&cs=tinysrgb&w=1600'
-                                src='https://images.pexels.com/photos/1684076/pexels-photo-1684076.jpeg?auto=compress&cs=tinysrgb&w=1600'
+                                src="https://images.pexels.com/photos/1684076/pexels-photo-1684076.jpeg?auto=compress&cs=tinysrgb&w=1600"
                             />
                             <TitleCategory>Unisex</TitleCategory>
                         </CategoryCard>
@@ -102,12 +102,12 @@ const Home = () => {
                 </ContentSection>
             </Section>
             <Section>
-                <HeaderSection type='categories'>
+                <HeaderSection type="categories">
                     <Title>
                         <Decor />
                         Best Seller
                     </Title>
-                    <Link to='/products'>
+                    <Link to="/products">
                         <ViewAll>
                             Browse all products
                             <BsArrowRightShort />

@@ -1,10 +1,10 @@
-import React from 'react';
-import { Container } from './IconStyled';
+import React from "react";
+import { Container } from "./IconStyled";
 
 const Icon = ({ slot, icon, img, sizeIcon, children }) => {
     return (
         <Container slot={slot} sizeIcon={sizeIcon}>
-            {img && <img src={img} alt='' />}
+            {img && <img src={img} alt="" />}
             {icon && icon}
         </Container>
     );

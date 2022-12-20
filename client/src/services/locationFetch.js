@@ -1,12 +1,12 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
 export const fetchProvince = createAsyncThunk(
-    'location/fetchProvince',
+    "location/fetchProvince",
     async () => {
         try {
             const res = await axios.get(
-                'https://provinces.open-api.vn/api/p/?depth=2',
+                "https://provinces.open-api.vn/api/p/?depth=2",
                 null
             );
             return res.data;
@@ -18,11 +18,11 @@ export const fetchProvince = createAsyncThunk(
 );
 
 export const fetchDistrict = createAsyncThunk(
-    'location/fetchDistrict',
+    "location/fetchDistrict",
     async () => {
         try {
             const res = await axios.get(
-                'https://provinces.open-api.vn/api/d/?depth=2',
+                "https://provinces.open-api.vn/api/d/?depth=2",
                 null
             );
             return res.data;
@@ -33,10 +33,10 @@ export const fetchDistrict = createAsyncThunk(
     }
 );
 
-export const fetchWard = createAsyncThunk('location/fetchWard', async () => {
+export const fetchWard = createAsyncThunk("location/fetchWard", async () => {
     try {
         const res = await axios.get(
-            'https://provinces.open-api.vn/api/w/?depth=2',
+            "https://provinces.open-api.vn/api/w/?depth=2",
             null
         );
         return res.data;

@@ -1,363 +1,363 @@
 export const dataGender = [
     {
         id: 0,
-        link: '/products?gender=men,women&category=&attribute=',
-        value: 'All',
+        link: "/products?gender=men,women&category=&attribute=",
+        value: "All",
     },
     {
         id: 1,
-        link: '/products?gender=men&category=&attribute=',
-        value: 'Male',
+        link: "/products?gender=men&category=&attribute=",
+        value: "Male",
     },
     {
         id: 2,
-        link: '/products?gender=women&category=&attribute=',
-        value: 'Female',
+        link: "/products?gender=women&category=&attribute=",
+        value: "Female",
     },
 ];
 
 export const dataCategory = [
     {
         id: 1,
-        link: '/products?gender=&category=shoes&attribute=',
-        value: 'Shoes',
+        link: "/products?gender=&category=shoes&attribute=",
+        value: "Shoes",
     },
     {
         id: 2,
-        link: '/products?gender=men&category=half_upper&attribute=',
-        value: 'Half Upper',
+        link: "/products?gender=men&category=half_upper&attribute=",
+        value: "Half Upper",
     },
     {
         id: 3,
-        link: '/products?gender=men&category=accessory&attribute=',
-        value: 'Accessory',
+        link: "/products?gender=men&category=accessory&attribute=",
+        value: "Accessory",
     },
 ];
 
 export const dataProductLine = [
     {
         id: 1,
-        value: 'Basas',
+        value: "Basas",
     },
     {
         id: 2,
-        value: 'Vintas',
+        value: "Vintas",
     },
     {
         id: 3,
-        value: 'Urbas',
+        value: "Urbas",
     },
     {
         id: 4,
-        value: 'Pattas',
+        value: "Pattas",
     },
     {
         id: 5,
-        value: 'Creas',
+        value: "Creas",
     },
     {
         id: 6,
-        value: 'Graphic Tee',
+        value: "Graphic Tee",
     },
     {
         id: 7,
-        value: 'Hoodie',
+        value: "Hoodie",
     },
     {
         id: 8,
-        value: 'Sweatshirt',
+        value: "Sweatshirt",
     },
     {
         id: 9,
-        value: 'Backpack | Ba lô',
+        value: "Backpack | Ba lô",
     },
     {
         id: 10,
-        value: 'Socks | Vớ',
+        value: "Socks | Vớ",
     },
     {
         id: 11,
-        value: 'Hat | Nón',
+        value: "Hat | Nón",
     },
     {
         id: 12,
-        value: 'Track 6',
+        value: "Track 6",
     },
     {
         id: 13,
-        value: 'Basic Tee | Áo thun cơ bản',
+        value: "Basic Tee | Áo thun cơ bản",
     },
     {
         id: 14,
-        value: 'Shoelaces | Dây giày',
+        value: "Shoelaces | Dây giày",
     },
 ];
 
 export const dataCollection = [
     {
         id: 1,
-        value: 'Ananas x Doraemon 50 Years',
+        value: "Ananas x Doraemon 50 Years",
     },
     {
         id: 2,
-        value: 'DiscoverYou',
+        value: "DiscoverYou",
     },
     {
         id: 3,
-        value: 'Ananas Symbol',
+        value: "Ananas Symbol",
     },
     {
         id: 4,
-        value: 'Ananas Cropped Symbol',
+        value: "Ananas Cropped Symbol",
     },
     {
         id: 5,
-        value: 'Ananas Typo Logo',
+        value: "Ananas Typo Logo",
     },
     {
         id: 6,
-        value: 'Ananas x Lucky Luke',
+        value: "Ananas x Lucky Luke",
     },
     {
         id: 7,
-        value: 'Pineapple Or Ananas',
+        value: "Pineapple Or Ananas",
     },
 ];
 
 export const dataMaterial = [
     {
         id: 1,
-        value: 'Canvas | Vải',
+        value: "Canvas | Vải",
     },
     {
         id: 2,
-        value: 'Suede | Da lộn',
+        value: "Suede | Da lộn",
     },
     {
         id: 3,
-        value: 'Synthetic Leather',
+        value: "Synthetic Leather",
     },
     {
         id: 4,
-        value: 'Leather | Da',
+        value: "Leather | Da",
     },
     {
         id: 5,
-        value: 'Cotton',
+        value: "Cotton",
     },
     {
         id: 6,
-        value: 'Fabric',
+        value: "Fabric",
     },
     {
         id: 7,
-        value: 'Acrylic',
+        value: "Acrylic",
     },
     {
         id: 8,
-        value: 'Mesh',
+        value: "Mesh",
     },
     {
         id: 9,
-        value: 'Corduroy',
+        value: "Corduroy",
     },
     {
         id: 10,
-        value: 'Polyester',
+        value: "Polyester",
     },
 ];
 
 export const dataState = [
     {
         id: 1,
-        value: 'Limited Edition',
+        value: "Limited Edition",
     },
     {
         id: 2,
-        value: 'Online Only',
+        value: "Online Only",
     },
     {
         id: 3,
-        value: 'Sale off',
+        value: "Sale off",
     },
     {
         id: 4,
-        value: 'Best Seller',
+        value: "Best Seller",
     },
     {
         id: 5,
-        value: 'New Arrival',
+        value: "New Arrival",
     },
 ];
 
 export const dataStyle = [
     {
         id: 1,
-        value: 'Low Top',
+        value: "Low Top",
     },
     {
         id: 2,
-        value: 'High Top',
+        value: "High Top",
     },
     {
         id: 3,
-        value: 'Slip-on',
+        value: "Slip-on",
     },
     {
         id: 4,
-        value: 'Mule',
+        value: "Mule",
     },
 ];
 
 export const dataSize = [
     {
         id: 1,
-        value: '35',
+        value: "35",
     },
     {
         id: 2,
-        value: '36',
+        value: "36",
     },
     {
         id: 3,
-        value: '37',
+        value: "37",
     },
     {
         id: 4,
-        value: '38',
+        value: "38",
     },
     {
         id: 5,
-        value: '39',
+        value: "39",
     },
     {
         id: 6,
-        value: '40',
+        value: "40",
     },
     {
         id: 7,
-        value: '41',
+        value: "41",
     },
     {
         id: 8,
-        value: '42',
+        value: "42",
     },
     {
         id: 9,
-        value: '43',
+        value: "43",
     },
     {
         id: 10,
-        value: '44',
+        value: "44",
     },
     {
         id: 11,
-        value: '45',
+        value: "45",
     },
     {
         id: 12,
-        value: '46',
+        value: "46",
     },
 ];
 
 export const dataPrice = [
     {
         id: 1,
-        value: '500k - 599k',
+        value: "500k - 599k",
     },
     {
         id: 2,
-        value: '> 600k',
+        value: "> 600k",
     },
     {
         id: 3,
-        value: '400k - 499k',
+        value: "400k - 499k",
     },
     {
         id: 4,
-        value: '300k - 399k',
+        value: "300k - 399k",
     },
     {
         id: 5,
-        value: '200k - 299k',
+        value: "200k - 299k",
     },
     {
         id: 6,
-        value: '< 200k',
+        value: "< 200k",
     },
 ];
 
 export const dataColor = [
     {
         id: 1,
-        value: '#E7D3AD',
+        value: "#E7D3AD",
     },
     {
         id: 2,
-        value: '#F5F5DC',
+        value: "#F5F5DC",
     },
     {
         id: 3,
-        value: '#455851',
+        value: "#455851",
     },
     {
         id: 4,
-        value: '#574D35',
+        value: "#574D35",
     },
     {
         id: 5,
-        value: '#A49C8E',
+        value: "#A49C8E",
     },
     {
         id: 6,
-        value: '#006964',
+        value: "#006964",
     },
     {
         id: 7,
-        value: '#DDBE78',
+        value: "#DDBE78",
     },
     {
         id: 8,
-        value: '#999999',
+        value: "#999999",
     },
     {
         id: 9,
-        value: '#0E2366',
+        value: "#0E2366",
     },
     {
         id: 10,
-        value: '#624018',
+        value: "#624018",
     },
     {
         id: 11,
-        value: '#F4F4F4',
+        value: "#F4F4F4",
     },
     {
         id: 12,
-        value: '#588732',
+        value: "#588732",
     },
     {
         id: 13,
-        value: '#6633CC',
+        value: "#6633CC",
     },
     {
         id: 14,
-        value: '#FF80AA',
+        value: "#FF80AA",
     },
     {
         id: 15,
-        value: '#FFCC00',
+        value: "#FFCC00",
     },
     {
         id: 16,
-        value: '#FE6702',
+        value: "#FE6702",
     },
     {
         id: 17,
-        value: '#C10013',
+        value: "#C10013",
     },
     {
         id: 18,
-        value: '#000000',
+        value: "#000000",
     },
 ];

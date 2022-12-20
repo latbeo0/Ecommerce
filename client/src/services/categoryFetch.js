@@ -1,16 +1,16 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import { baseRequest } from './apiFetch';
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { baseRequest } from "./apiFetch";
 
 export const fetchGetAllCategory = async () => {
     try {
-        return await baseRequest.get('/api/category/', null);
+        return await baseRequest.get("/api/category/", null);
     } catch (err) {
         console.log(err);
     }
 };
 export const fetchAddNewCategory = async (category, token) => {
     try {
-        return await baseRequest.post('/api/category/', category, {
+        return await baseRequest.post("/api/category/", category, {
             headers: { Authorization: token },
         });
     } catch (err) {
@@ -28,10 +28,10 @@ export const fetchUpdateCategory = async (category, id, token) => {
     }
 };
 export const fetchGetAllCategory1 = createAsyncThunk(
-    'category/fetchGetAllCategory',
+    "category/fetchGetAllCategory",
     async () => {
         try {
-            const res = await baseRequest.get('/api/category/');
+            const res = await baseRequest.get("/api/category/");
             return [...res.data.category];
         } catch (error) {
             // if (!error.response) throw error;

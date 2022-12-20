@@ -1,12 +1,12 @@
-import React from 'react';
-import Button from '../Button';
+import React from "react";
+import Button from "../Button";
 import {
     Container,
     Background,
     Content,
     Title,
     Description,
-} from './CardStyled';
+} from "./CardStyled";
 
 const Card = ({ title, description }) => {
     return (
@@ -14,7 +14,7 @@ const Card = ({ title, description }) => {
             <Content>
                 {description && <Description>{description}</Description>}
                 {title && <Title>{title}</Title>}
-                <Button variant='contained' content='SHOP NOW' />
+                <Button variant="contained" content="SHOP NOW" />
                 <Background />
             </Content>
         </Container>

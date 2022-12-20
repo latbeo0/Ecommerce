@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const Container = styled.div`
     width: 100vw;
@@ -82,7 +82,7 @@ const HelpContainer = styled.div`
     font-weight: 500;
     color: var(--gray-color-dark);
 
-    & button[type='button'] {
+    & button[type="button"] {
         font-size: 0.875rem;
         font-weight: 500;
         color: var(--primary-color);

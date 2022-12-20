@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import {
     Container,
     Header,
@@ -8,9 +8,9 @@ import {
     UserInfoWrapper,
     Row,
     AddressShippingContainer,
-} from './UserInfoFormStyled';
-import { InputGroup, SelectGroup } from '../../Basic';
-import { AiFillEdit } from 'react-icons/ai';
+} from "./UserInfoFormStyled";
+import { InputGroup, SelectGroup } from "../../Basic";
+import { AiFillEdit } from "react-icons/ai";
 
 const UserInfoForm = (props) => {
     const { inputs, userInfo, errorsForm, handleChange, handleAutoFill } =
@@ -20,7 +20,7 @@ const UserInfoForm = (props) => {
     const provinces = location?.province?.map((item) => ({
         value: item.code,
         label: item.name,
-        name: 'province',
+        name: "province",
     }));
 
     const [province, setProvince] = useState(
@@ -51,7 +51,7 @@ const UserInfoForm = (props) => {
               ?.map((item) => ({
                   value: item.code,
                   label: item.name,
-                  name: 'district',
+                  name: "district",
               }))
         : [];
 
@@ -83,7 +83,7 @@ const UserInfoForm = (props) => {
               ?.map((item) => ({
                   value: item.code,
                   label: item.name,
-                  name: 'ward',
+                  name: "ward",
               }))
         : [];
 
@@ -134,7 +134,7 @@ const UserInfoForm = (props) => {
 
     useEffect(() => {
         setDistrict(
-            userInfo.district !== ''
+            userInfo.district !== ""
                 ? districts.find((item) => item.label === userInfo.district)
                 : null
         );
@@ -159,10 +159,10 @@ const UserInfoForm = (props) => {
                     <Title>User information</Title>
                     <div
                         style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '0.5rem',
-                            cursor: 'pointer',
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "0.5rem",
+                            cursor: "pointer",
                         }}
                         onClick={handleAutoFill}
                     >
@@ -193,7 +193,7 @@ const UserInfoForm = (props) => {
                             />
                         ))}
                     </Row>
-                    <Row style={{ width: 'calc(50% - 0.5rem)' }}>
+                    <Row style={{ width: "calc(50% - 0.5rem)" }}>
                         {inputs.addressShipping.slice(0, 1).map((input) => (
                             <InputGroup
                                 key={input.id}
@@ -211,29 +211,29 @@ const UserInfoForm = (props) => {
                 <UserInfoWrapper>
                     <Row>
                         <SelectGroup
-                            label='Province *'
-                            placeholder='Select province ...'
+                            label="Province *"
+                            placeholder="Select province ..."
                             options={provinces}
                             value={province}
                             onChange={handleChangeProvince}
-                            errorMessage={errorsForm['province'][0]}
+                            errorMessage={errorsForm["province"][0]}
                         />
                         <SelectGroup
-                            label='District *'
-                            placeholder='Select district ...'
+                            label="District *"
+                            placeholder="Select district ..."
                             options={districts}
                             value={district}
                             onChange={handleChangeDistrict}
-                            errorMessage={errorsForm['district'][0]}
+                            errorMessage={errorsForm["district"][0]}
                         />
                         <SelectGroup
-                            label='Ward *'
-                            placeholder='Select ward ...'
+                            label="Ward *"
+                            placeholder="Select ward ..."
                             options={wards}
                             defaultValue={ward}
                             value={ward}
                             onChange={handleChangeWard}
-                            errorMessage={errorsForm['ward'][0]}
+                            errorMessage={errorsForm["ward"][0]}
                         />
                     </Row>
                     <Row>

@@ -1,7 +1,7 @@
 .select-container.show {
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25) !important;
 }
-.select-container{
+.select-container {
     cursor: pointer;
     margin: 10px 0;
 }
@@ -24,7 +24,7 @@
     right: 0;
     z-index: 1;
 }
-.input-container:focus{
+.input-container:focus {
     background-color: red;
 }
 
@@ -38,7 +38,6 @@
     width: auto;
     max-width: 100%;
 }
-
 
 .indicator {
     -webkit-align-self: stretch;

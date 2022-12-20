@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled, { css } from "styled-components";
 
 const Container = styled.div`
     margin: 0 1rem;
@@ -54,7 +54,7 @@ const ButtonHide = styled.div`
 const ArrowContainer = styled.div`
     & > * {
         transform: ${(props) =>
-            props.isOpen ? 'rotate(0deg)' : 'rotate(-180deg)'};
+            props.isOpen ? "rotate(0deg)" : "rotate(-180deg)"};
         transition: transform 200ms linear;
     }
 `;
@@ -122,7 +122,7 @@ const ColorContent = styled.div`
 
 const Color = styled.div.withConfig({
     shouldForwardProp: (prop, defaultValidatorFn) =>
-        ['name', 'value', 'checked', 'selected'].includes(prop) ||
+        ["name", "value", "checked", "selected"].includes(prop) ||
         defaultValidatorFn(prop),
 })`
     width: 2rem;
@@ -141,7 +141,7 @@ const Color = styled.div.withConfig({
                   background: transparent;
 
                   &::before {
-                      content: '';
+                      content: "";
                       position: absolute;
                       top: 50%;
                       left: 50%;
@@ -158,21 +158,21 @@ const Color = styled.div.withConfig({
 
 const Size = styled.button.withConfig({
     shouldForwardProp: (prop, defaultValidatorFn) =>
-        ['name', 'value', 'checked', 'selected'].includes(prop) ||
+        ["name", "value", "checked", "selected"].includes(prop) ||
         defaultValidatorFn(prop),
 })`
     padding: 0.5rem 1.5rem;
     border: ${(props) =>
         props.checked
-            ? '1px solid var(--primary-color)'
-            : '1px solid var(--gray-color-light)'};
+            ? "1px solid var(--primary-color)"
+            : "1px solid var(--gray-color-light)"};
     background: ${(props) =>
-        props.checked ? 'var(--secondary-color)' : 'transparent'};
-    cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
+        props.checked ? "var(--secondary-color)" : "transparent"};
+    cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
 
     &:hover {
         border: ${(props) =>
-            props.disabled ? undefined : '1px solid var(--primary-color)'};
+            props.disabled ? undefined : "1px solid var(--primary-color)"};
     }
 `;
 

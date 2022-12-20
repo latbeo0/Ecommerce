@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const Container = styled.div`
     display: flex;
@@ -63,7 +63,7 @@ const WrapperCart = styled.div`
 `;
 
 const SpaceCart = styled.div`
-    content: '';
+    content: "";
     position: absolute;
     top: 100%;
     right: 0;

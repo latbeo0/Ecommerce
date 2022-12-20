@@ -1,5 +1,5 @@
-import { useEffect, useState, useRef } from 'react';
-import { CSSTransition } from 'react-transition-group';
+import { useEffect, useState, useRef } from "react";
+import { CSSTransition } from "react-transition-group";
 import {
     Announcement,
     Navbar,
@@ -7,7 +7,7 @@ import {
     List,
     Button,
     Avatar,
-} from '../../Basic';
+} from "../../Basic";
 import {
     Container,
     ContainerMobile,
@@ -23,14 +23,14 @@ import {
     ContainerFeatured,
     ContainerOthers,
     WrapperOther,
-} from './HeaderStyled';
-import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectUser } from './../../../redux/userSlice';
-import { fetchLogout } from '../../../services/userFetch';
-import { selectCategories } from '../../../redux/categorySlice';
-import { selectCollections } from '../../../redux/collectionSlice';
-import { selectMaterials } from './../../../redux/materialSlice';
+} from "./HeaderStyled";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { selectUser } from "./../../../redux/userSlice";
+import { fetchLogout } from "../../../services/userFetch";
+import { selectCategories } from "../../../redux/categorySlice";
+import { selectCollections } from "../../../redux/collectionSlice";
+import { selectMaterials } from "./../../../redux/materialSlice";
 
 // const navigation = {
 //     categories: [
@@ -178,11 +178,11 @@ const Header = () => {
 
     const handleLogout = async () => {
         await dispatch(fetchLogout({ dispatch })).unwrap();
-        navigate('/');
+        navigate("/");
     };
 
     const [active, setActive] = useState(false);
-    const [gender, setGender] = useState('women');
+    const [gender, setGender] = useState("women");
 
     const setActiveToggle = () => {
         setActive((active) => !active);
@@ -211,18 +211,18 @@ const Header = () => {
 
     const sectionMenu = [
         {
-            id: 'categories',
-            name: 'Categories',
+            id: "categories",
+            name: "Categories",
             items: cateMenu,
         },
         {
-            id: 'collections',
-            name: 'Collections',
+            id: "collections",
+            name: "Collections",
             items: collectMenu,
         },
         {
-            id: 'materials',
-            name: 'Materials',
+            id: "materials",
+            name: "Materials",
             items: materialMenu,
         },
     ];
@@ -230,55 +230,55 @@ const Header = () => {
     const menu = {
         categories: [
             {
-                id: 'women',
-                name: 'Women',
+                id: "women",
+                name: "Women",
                 featured: [
                     {
-                        name: 'New Arrivals',
-                        href: '#',
+                        name: "New Arrivals",
+                        href: "#",
                         imageSrc:
-                            'https://tailwindui.com/img/ecommerce-images/mega-menu-category-01.jpg',
+                            "https://tailwindui.com/img/ecommerce-images/mega-menu-category-01.jpg",
                         imageAlt:
-                            'Models sitting back to back, wearing Basic Tee in black and bone.',
+                            "Models sitting back to back, wearing Basic Tee in black and bone.",
                     },
                     {
-                        name: 'Basic Tees',
-                        href: '#',
+                        name: "Basic Tees",
+                        href: "#",
                         imageSrc:
-                            'https://tailwindui.com/img/ecommerce-images/mega-menu-category-02.jpg',
+                            "https://tailwindui.com/img/ecommerce-images/mega-menu-category-02.jpg",
                         imageAlt:
-                            'Close up of Basic Tee fall bundle with off-white, ochre, olive, and black tees.',
+                            "Close up of Basic Tee fall bundle with off-white, ochre, olive, and black tees.",
                     },
                 ],
                 sections: sectionMenu,
             },
             {
-                id: 'men',
-                name: 'Men',
+                id: "men",
+                name: "Men",
                 featured: [
                     {
-                        name: 'New Arrivals',
-                        href: '#',
+                        name: "New Arrivals",
+                        href: "#",
                         imageSrc:
-                            'https://tailwindui.com/img/ecommerce-images/product-page-04-detail-product-shot-01.jpg',
+                            "https://tailwindui.com/img/ecommerce-images/product-page-04-detail-product-shot-01.jpg",
                         imageAlt:
-                            'Drawstring top with elastic loop closure and textured interior padding.',
+                            "Drawstring top with elastic loop closure and textured interior padding.",
                     },
                     {
-                        name: 'Artwork Tees',
-                        href: '#',
+                        name: "Artwork Tees",
+                        href: "#",
                         imageSrc:
-                            'https://tailwindui.com/img/ecommerce-images/category-page-02-image-card-06.jpg',
+                            "https://tailwindui.com/img/ecommerce-images/category-page-02-image-card-06.jpg",
                         imageAlt:
-                            'Three shirts in gray, white, and blue arranged on table with same line drawing of hands and shapes overlapping on front of shirt.',
+                            "Three shirts in gray, white, and blue arranged on table with same line drawing of hands and shapes overlapping on front of shirt.",
                     },
                 ],
                 sections: sectionMenu,
             },
         ],
         pages: [
-            { name: 'Orders', href: '/orders' },
-            { name: 'Stores', href: '/stores' },
+            { name: "Orders", href: "/orders" },
+            { name: "Stores", href: "/stores" },
         ],
     };
 
@@ -289,10 +289,10 @@ const Header = () => {
             }
         };
 
-        document.addEventListener('click', handleClickOutside, true);
+        document.addEventListener("click", handleClickOutside, true);
 
         return () => {
-            document.removeEventListener('click', handleClickOutside, true);
+            document.removeEventListener("click", handleClickOutside, true);
         };
     }, []);
 
@@ -300,7 +300,7 @@ const Header = () => {
         <>
             <Container>
                 <Announcement
-                    announce={'Get free delivery on orders over $100'}
+                    announce={"Get free delivery on orders over $100"}
                 />
                 <Navbar
                     funcActive={() => setActiveToggle()}
@@ -312,7 +312,7 @@ const Header = () => {
                 <CSSTransition
                     in={active}
                     timeout={300}
-                    classNames='opacity-linear'
+                    classNames="opacity-linear"
                     unmountOnExit
                     nodeRef={modalRef}
                 >
@@ -321,7 +321,7 @@ const Header = () => {
                 <CSSTransition
                     in={active}
                     timeout={300}
-                    classNames='translate-x-ease'
+                    classNames="translate-x-ease"
                     unmountOnExit
                     nodeRef={dialogRef}
                 >
@@ -330,26 +330,26 @@ const Header = () => {
                             <WrapperCloseButton>
                                 <Button
                                     button
-                                    color='var(--black-color)'
-                                    sizeIcon='1.5rem'
+                                    color="var(--black-color)"
+                                    sizeIcon="1.5rem"
                                     onClick={() => setActiveToggle()}
                                 >
                                     <svg
-                                        xmlns='http://www.w3.org/2000/svg'
-                                        fill='none'
-                                        viewBox='0 0 24 24'
-                                        strokeWidth='2'
-                                        stroke='currentColor'
-                                        aria-hidden='true'
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        strokeWidth="2"
+                                        stroke="currentColor"
+                                        aria-hidden="true"
                                         style={{
-                                            width: '1.5rem',
-                                            height: '1.5rem',
+                                            width: "1.5rem",
+                                            height: "1.5rem",
                                         }}
                                     >
                                         <path
-                                            strokeLinecap='round'
-                                            strokeLinejoin='round'
-                                            d='M6 18L18 6M6 6l12 12'
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            d="M6 18L18 6M6 6l12 12"
                                         ></path>
                                     </svg>
                                 </Button>
@@ -417,24 +417,24 @@ const Header = () => {
                                         <Button
                                             href={page.href}
                                             content={page.name}
-                                            color='var(--black-color)'
+                                            color="var(--black-color)"
                                         />
                                     </WrapperOther>
                                 ))}
                             </ContainerOthers>
                             {user.currentUser ? (
                                 <ContainerOthers>
-                                    <WrapperOther style={{ display: 'flex' }}>
+                                    <WrapperOther style={{ display: "flex" }}>
                                         <Avatar
-                                            link='#'
+                                            link="#"
                                             src={currentUser?.avatar}
                                             text={currentUser?.fullName}
                                         />
                                     </WrapperOther>
                                     <WrapperOther>
                                         <Button
-                                            content='Log out'
-                                            color='var(--black-color)'
+                                            content="Log out"
+                                            color="var(--black-color)"
                                             onClick={handleLogout}
                                         />
                                     </WrapperOther>
@@ -442,20 +442,20 @@ const Header = () => {
                             ) : (
                                 <ContainerOthers>
                                     <WrapperOther>
-                                        <Link to='/login'>
+                                        <Link to="/login">
                                             <Button
-                                                type='button'
-                                                content='Sign in'
-                                                color='var(--black-color)'
-                                                size='medium'
+                                                type="button"
+                                                content="Sign in"
+                                                color="var(--black-color)"
+                                                size="medium"
                                             />
                                         </Link>
                                     </WrapperOther>
                                     <WrapperOther>
-                                        <Link to='/register'>
+                                        <Link to="/register">
                                             <Button
-                                                content='Create Account'
-                                                color='var(--black-color)'
+                                                content="Create Account"
+                                                color="var(--black-color)"
                                             />
                                         </Link>
                                     </WrapperOther>
@@ -464,10 +464,10 @@ const Header = () => {
                             <ContainerOthers>
                                 <Button
                                     startIcon={{
-                                        img: 'https://tailwindui.com/img/flags/flag-canada.svg',
+                                        img: "https://tailwindui.com/img/flags/flag-canada.svg",
                                     }}
-                                    content='CAD'
-                                    color='var(--black-color)'
+                                    content="CAD"
+                                    color="var(--black-color)"
                                 />
                             </ContainerOthers>
                         </MenuMobile>

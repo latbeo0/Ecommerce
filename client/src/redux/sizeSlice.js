@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { fetchGetAllSizes } from '../services/sizeFetch';
+import { createSlice } from "@reduxjs/toolkit";
+import { fetchGetAllSizes } from "../services/sizeFetch";
 
 const initialState = {
     isLoading: false,
@@ -8,7 +8,7 @@ const initialState = {
 };
 
 export const sizeSlice = createSlice({
-    name: 'size',
+    name: "size",
     initialState,
     reducers: {},
     extraReducers: (builder) => {

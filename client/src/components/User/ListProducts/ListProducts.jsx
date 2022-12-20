@@ -1,6 +1,6 @@
-import React from 'react';
-import { Carousel } from '../../Basic';
-import ProductCard from '../ProductCard';
+import React from "react";
+import { Carousel } from "../../Basic";
+import ProductCard from "../ProductCard";
 
 const ListProducts = (props) => {
     const { listProducts } = props;

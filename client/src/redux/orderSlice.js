@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { fetchClearOrder, fetchGetAllOrder1 } from '../services/orderFetch';
+import { createSlice } from "@reduxjs/toolkit";
+import { fetchClearOrder, fetchGetAllOrder1 } from "../services/orderFetch";
 
 const initialState = {
     isLoading: false,
@@ -8,7 +8,7 @@ const initialState = {
 };
 
 export const orderSlice = createSlice({
-    name: 'order',
+    name: "order",
     initialState,
     reducers: {},
     extraReducers: (builder) => {

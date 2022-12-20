@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const Container = styled.div`
     width: 100vw;
@@ -77,7 +77,7 @@ const Separate = styled.div`
     margin: 2rem 0;
 
     &::before {
-        content: 'Or';
+        content: "Or";
         position: absolute;
         top: 50%;
         left: 50%;
@@ -110,7 +110,7 @@ const HelpContainer = styled.div`
     align-items: center;
     justify-content: space-between;
 
-    & button[type='button'] {
+    & button[type="button"] {
         font-size: 0.875rem;
         font-weight: 500;
         color: var(--primary-color);

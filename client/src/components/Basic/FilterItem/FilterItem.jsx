@@ -1,6 +1,6 @@
-import React from 'react';
-import { useState } from 'react';
-import { IoIosArrowDown } from 'react-icons/io';
+import React from "react";
+import { useState } from "react";
+import { IoIosArrowDown } from "react-icons/io";
 import {
     SectionWrapper,
     Header,
@@ -9,7 +9,7 @@ import {
     ButtonHide,
     ArrowContainer,
     SeeAll,
-} from './FilterItemStyled';
+} from "./FilterItemStyled";
 
 const FilterItem = (props) => {
     const { title, children } = props;

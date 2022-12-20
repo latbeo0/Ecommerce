@@ -1,5 +1,5 @@
-import React from 'react';
-import { useLocation } from 'react-router-dom';
+import React from "react";
+import { useLocation } from "react-router-dom";
 import {
     Container,
     Header,
@@ -12,8 +12,8 @@ import {
     Footer,
     Button,
     LinkR,
-} from './PaySuccessStyled';
-import { formatCurrencyVND } from './../../utils/format';
+} from "./PaySuccessStyled";
+import { formatCurrencyVND } from "./../../utils/format";
 
 const PaySuccess = () => {
     const location = useLocation();
@@ -30,7 +30,7 @@ const PaySuccess = () => {
     return (
         <Container>
             <Header>
-                <Image src='https://media.istockphoto.com/vectors/flat-icon-check-vector-id496603666?k=20&m=496603666&s=170667a&w=0&h=QOfI-aqzv1dEamb2evpWUvKkukJwtH4YRF_Ugwksk6Y=' />
+                <Image src="https://media.istockphoto.com/vectors/flat-icon-check-vector-id496603666?k=20&m=496603666&s=170667a&w=0&h=QOfI-aqzv1dEamb2evpWUvKkukJwtH4YRF_Ugwksk6Y=" />
                 <Title>Payment Success</Title>
             </Header>
             <Body>
@@ -52,10 +52,10 @@ const PaySuccess = () => {
                 </GroupItem>
             </Body>
             <Footer>
-                <LinkR to='/'>
+                <LinkR to="/">
                     <Button>Home</Button>
                 </LinkR>
-                <LinkR to='/products'>
+                <LinkR to="/products">
                     <Button>Continue Shopping</Button>
                 </LinkR>
             </Footer>

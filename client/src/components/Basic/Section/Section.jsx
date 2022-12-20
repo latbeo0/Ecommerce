@@ -1,12 +1,12 @@
-import { Link } from 'react-router-dom';
-import { Container, Header, Items, WrapperItem, Item } from './SectionStyled';
+import { Link } from "react-router-dom";
+import { Container, Header, Items, WrapperItem, Item } from "./SectionStyled";
 
 const Section = (props) => {
     const { section, children, style, other } = props;
 
     return (
         <Container
-            slot={section.slot ? section.slot : 'start'}
+            slot={section.slot ? section.slot : "start"}
             style={style}
             {...other}
         >

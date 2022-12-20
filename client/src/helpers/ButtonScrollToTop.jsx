@@ -1,6 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
-import { MdKeyboardArrowUp } from 'react-icons/md';
+import React from "react";
+import styled from "styled-components";
+import { MdKeyboardArrowUp } from "react-icons/md";
 
 const Container = styled.button`
     position: fixed;

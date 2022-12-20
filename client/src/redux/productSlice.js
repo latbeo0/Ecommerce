@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { fetchGetProducts } from '../services/productFetch';
+import { createSlice } from "@reduxjs/toolkit";
+import { fetchGetProducts } from "../services/productFetch";
 
 const initialState = {
     totalProducts: 0,
@@ -9,7 +9,7 @@ const initialState = {
 };
 
 export const productSlice = createSlice({
-    name: 'products',
+    name: "products",
     initialState,
     reducers: {},
     extraReducers: (builder) => {

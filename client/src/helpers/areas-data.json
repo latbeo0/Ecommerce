@@ -1,4 +1,4 @@
 [
-  { "name": "Ho Chi Minh", "Code": "HCM" },
-  { "name": "Da Nang", "Code": "DN" }
+    { "name": "Ho Chi Minh", "Code": "HCM" },
+    { "name": "Da Nang", "Code": "DN" }
 ]

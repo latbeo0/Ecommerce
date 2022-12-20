@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { CheckBox } from '../../Basic';
+import React, { useEffect, useState } from "react";
+import { CheckBox } from "../../Basic";
 import {
     Container,
     Section,
@@ -10,26 +10,26 @@ import {
     ColorContent,
     Color,
     Size,
-} from './FilterStyled';
-import FilterItem from '../../Basic/FilterItem';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectCategories } from '../../../redux/categorySlice';
-import { selectStates } from '../../../redux/stateSlice';
-import { selectCollections } from '../../../redux/collectionSlice';
-import { useLocation, useNavigate } from 'react-router-dom';
-import queryString from 'query-string';
-import { fetchClearFilter, fetchFilter } from '../../../services/filterFetch';
-import { selectFilter } from '../../../redux/filterSlice';
-import { selectColors } from '../../../redux/colorSlice';
-import { selectSizes } from '../../../redux/sizeSlice';
-import { selectMaterials } from '../../../redux/materialSlice';
-import { RangeSlider, InputGroup, InputNumber } from 'rsuite';
-import './slider.less';
+} from "./FilterStyled";
+import FilterItem from "../../Basic/FilterItem";
+import { useDispatch, useSelector } from "react-redux";
+import { selectCategories } from "../../../redux/categorySlice";
+import { selectStates } from "../../../redux/stateSlice";
+import { selectCollections } from "../../../redux/collectionSlice";
+import { useLocation, useNavigate } from "react-router-dom";
+import queryString from "query-string";
+import { fetchClearFilter, fetchFilter } from "../../../services/filterFetch";
+import { selectFilter } from "../../../redux/filterSlice";
+import { selectColors } from "../../../redux/colorSlice";
+import { selectSizes } from "../../../redux/sizeSlice";
+import { selectMaterials } from "../../../redux/materialSlice";
+import { RangeSlider, InputGroup, InputNumber } from "rsuite";
+import "./slider.less";
 
 const listGenders = [
-    { id: 1, name: 'Female' },
-    { id: 2, name: 'Male' },
-    { id: 3, name: 'Unisex' },
+    { id: 1, name: "Female" },
+    { id: 2, name: "Male" },
+    { id: 3, name: "Unisex" },
 ];
 
 const Filter = () => {
@@ -66,14 +66,14 @@ const Filter = () => {
 
         if (checked) {
             if (query[name]) {
-                const arr = query[name].split(',');
+                const arr = query[name].split(",");
                 arr.push(value);
-                temp = arr.join(',');
+                temp = arr.join(",");
             }
         } else {
-            const arr = query[name].split(',');
+            const arr = query[name].split(",");
             const newArr = arr.filter((item) => item !== value);
-            temp = newArr.join(',');
+            temp = newArr.join(",");
         }
 
         const modifiedQuery = {
@@ -91,8 +91,8 @@ const Filter = () => {
     };
 
     const handleChangeColor = (e, check) => {
-        const name = e.target.getAttribute('name');
-        const value = e.target.getAttribute('value');
+        const name = e.target.getAttribute("name");
+        const value = e.target.getAttribute("value");
         // const checked = e.target.getAttribute("checked");
 
         if (check) {
@@ -152,7 +152,7 @@ const Filter = () => {
         if (location.search) {
             let convertData;
             for (const key in query) {
-                convertData = { ...convertData, [key]: query[key].split(',') };
+                convertData = { ...convertData, [key]: query[key].split(",") };
             }
 
             const fetchProductByFilter = async () => {
@@ -186,12 +186,12 @@ const Filter = () => {
                 </SectionHeader>
             </Section>
             <Section>
-                <FilterItem title='Gender'>
+                <FilterItem title="Gender">
                     <Content>
                         {listGenders.map((item) => (
                             <CheckBox
                                 key={item.id}
-                                name='gender'
+                                name="gender"
                                 label={item.name}
                                 checked={gender?.includes(item.name)}
                                 onChange={handleChangeFilter}
@@ -201,12 +201,12 @@ const Filter = () => {
                 </FilterItem>
             </Section>
             <Section>
-                <FilterItem title='Categories'>
+                <FilterItem title="Categories">
                     <Content>
                         {listCategories.map((category) => (
                             <CheckBox
                                 key={category._id}
-                                name='categories'
+                                name="categories"
                                 label={category.cateName}
                                 checked={categories.includes(category.cateName)}
                                 onChange={handleChangeFilter}
@@ -216,12 +216,12 @@ const Filter = () => {
                 </FilterItem>
             </Section>
             <Section>
-                <FilterItem title='Collections'>
+                <FilterItem title="Collections">
                     <Content>
                         {listCollections.map((collection) => (
                             <CheckBox
                                 key={collection._id}
-                                name='collections'
+                                name="collections"
                                 label={collection.collectName}
                                 checked={collections.includes(
                                     collection.collectName
@@ -233,12 +233,12 @@ const Filter = () => {
                 </FilterItem>
             </Section>
             <Section>
-                <FilterItem title='Materials'>
+                <FilterItem title="Materials">
                     <Content>
                         {listMaterials.map((material) => (
                             <CheckBox
                                 key={material._id}
-                                name='materials'
+                                name="materials"
                                 label={material.materialName}
                                 checked={materials?.includes(
                                     material.materialName
@@ -250,11 +250,11 @@ const Filter = () => {
                 </FilterItem>
             </Section>
             <Section>
-                <FilterItem title='Price range'>
+                <FilterItem title="Price range">
                     <Content>
                         <RangeSlider
                             progress
-                            style={{ margin: '16px 16px 0' }}
+                            style={{ margin: "16px 16px 0" }}
                             value={[min[0] / 100000, max[0] / 100000]}
                             onChange={(value) => {
                                 handleChangeSlider(value);
@@ -262,10 +262,10 @@ const Filter = () => {
                         />
                         <div
                             style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'space-between',
-                                padding: '1rem 0 0.5rem',
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "space-between",
+                                padding: "1rem 0 0.5rem",
                             }}
                         >
                             <span>Min</span>
@@ -308,12 +308,12 @@ const Filter = () => {
                 </FilterItem>
             </Section>
             <Section>
-                <FilterItem title='Sizes'>
+                <FilterItem title="Sizes">
                     <ColorContent>
                         {listSizes.map((size) => (
                             <Size
                                 key={size}
-                                name='sizes'
+                                name="sizes"
                                 value={Number(size)}
                                 checked={
                                     sizes.includes(size.toString())
@@ -336,14 +336,14 @@ const Filter = () => {
                 </FilterItem>
             </Section>
             <Section>
-                <FilterItem title='Colors'>
-                    <ColorContent style={{ paddingBottom: '1rem' }}>
+                <FilterItem title="Colors">
+                    <ColorContent style={{ paddingBottom: "1rem" }}>
                         {listColors.map((color) => (
                             <div key={color.id}>
                                 <Color
                                     key={color.id}
                                     background={color.value}
-                                    name='colors'
+                                    name="colors"
                                     value={color.value}
                                     checked={
                                         colors.includes(color.value)

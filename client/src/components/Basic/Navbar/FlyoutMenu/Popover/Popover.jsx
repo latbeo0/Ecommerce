@@ -1,7 +1,7 @@
-import { useState, useRef } from 'react';
-import { Container, WrapperButton, ButtonPopover } from './PopoverStyled';
-import PopoverPanel from './PopoverPanel';
-import { CSSTransition } from 'react-transition-group';
+import { useState, useRef } from "react";
+import { Container, WrapperButton, ButtonPopover } from "./PopoverStyled";
+import PopoverPanel from "./PopoverPanel";
+import { CSSTransition } from "react-transition-group";
 
 const Popover = (props) => {
     const [open, setOpen] = useState(false);
@@ -24,7 +24,7 @@ const Popover = (props) => {
             <CSSTransition
                 in={open}
                 timeout={300}
-                classNames='opacity-cubic'
+                classNames="opacity-cubic"
                 unmountOnExit
                 nodeRef={nodeRef}
             >

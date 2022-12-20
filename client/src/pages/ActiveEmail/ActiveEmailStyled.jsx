@@ -1,4 +1,4 @@
-import styled, { css, keyframes } from 'styled-components';
+import styled, { css, keyframes } from "styled-components";
 
 const Container = styled.div`
     width: 100vw;
@@ -47,11 +47,11 @@ const Title = styled.h1`
 
     ${(props) => {
         switch (props.type) {
-            case 'success':
+            case "success":
                 return css`
                     color: var(--green-color);
                 `;
-            case 'error':
+            case "error":
                 return css`
                     color: var(--red-color);
                 `;
@@ -88,7 +88,7 @@ const Loading = styled.span`
     animation: ${rotation} 1s linear infinite;
 
     &::after {
-        content: '';
+        content: "";
         box-sizing: border-box;
         position: absolute;
         left: 0;

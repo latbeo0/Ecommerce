@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const Container = styled.div`
     display: flex;
@@ -26,7 +26,7 @@ const PaymentItem = styled.div`
 `;
 
 const RadioCheck = styled.input.attrs(() => ({
-    type: 'radio',
+    type: "radio",
 }))``;
 
 const ImageContainer = styled.div`

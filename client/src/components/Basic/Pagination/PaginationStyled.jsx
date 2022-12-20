@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled, { css } from "styled-components";
 
 const Container = styled.ul`
     display: flex;
@@ -22,7 +22,7 @@ const Item = styled.li`
     min-width: 2rem;
 
     ${(props) =>
-        props.selected ? 'background-color: rgba(0, 0, 0, 0.08)' : undefined};
+        props.selected ? "background-color: rgba(0, 0, 0, 0.08)" : undefined};
 
     &:hover {
         background-color: rgba(0, 0, 0, 0.04);
@@ -51,14 +51,14 @@ const Dots = styled(Item)`
 
 const Arrow = styled.div`
     transform: ${(props) =>
-        props.direction === 'left'
-            ? 'rotate(-135deg) translate(-50%)'
-            : 'rotate(45deg)'};
+        props.direction === "left"
+            ? "rotate(-135deg) translate(-50%)"
+            : "rotate(45deg)"};
 
     &::before {
         position: relative;
         /* top: 3pt; Uncomment this to lower the icons as requested in comments*/
-        content: '';
+        content: "";
         /* By using an em scale, the arrows will size with the font */
         display: inline-block;
         width: 0.4em;

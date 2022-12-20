@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo, useState, useTransition } from 'react';
-import ProductCard from '../../components/User/ProductCard';
-import Filter from '../../components/User/Filter';
+import React, { useEffect, useMemo, useState, useTransition } from "react";
+import ProductCard from "../../components/User/ProductCard";
+import Filter from "../../components/User/Filter";
 import {
     Container,
     Content,
@@ -13,29 +13,29 @@ import {
     CountProductsContainer,
     BodyProductsWrapper,
     FooterProductsWrapper,
-} from './ProductsStyled';
-import BreadCrumb from '../../components/Basic/BreadCrumb';
-import Search from '../../components/Basic/Search';
-import { useDispatch, useSelector } from 'react-redux';
+} from "./ProductsStyled";
+import BreadCrumb from "../../components/Basic/BreadCrumb";
+import Search from "../../components/Basic/Search";
+import { useDispatch, useSelector } from "react-redux";
 import {
     searchChange,
     selectFilter,
     selectSearch,
-} from '../../redux/filterSlice';
-import { Pagination } from '../../components/Basic';
-import { selectProducts } from '../../redux/productSlice';
-import Loading from '../../helpers/Loading';
-import Select from 'react-select';
-import { fetchGetProducts } from '../../services/productFetch';
-import queryString from 'query-string';
-import { useLocation, useNavigate } from 'react-router-dom';
-import imgNotFoundProduct from '../../assets/img/istockphoto-1038232966-612x612.jpg';
-import debounce from 'lodash.debounce';
+} from "../../redux/filterSlice";
+import { Pagination } from "../../components/Basic";
+import { selectProducts } from "../../redux/productSlice";
+import Loading from "../../helpers/Loading";
+import Select from "react-select";
+import { fetchGetProducts } from "../../services/productFetch";
+import queryString from "query-string";
+import { useLocation, useNavigate } from "react-router-dom";
+import imgNotFoundProduct from "../../assets/img/istockphoto-1038232966-612x612.jpg";
+import debounce from "lodash.debounce";
 
 const options = [
-    { value: 5, label: 5, name: 'pageSize' },
-    { value: 10, label: 10, name: 'pageSize' },
-    { value: 15, label: 15, name: 'pageSize' },
+    { value: 5, label: 5, name: "pageSize" },
+    { value: 10, label: 10, name: "pageSize" },
+    { value: 15, label: 15, name: "pageSize" },
 ];
 
 const Products = () => {
@@ -77,14 +77,14 @@ const Products = () => {
     const handleClearSearch = () => {
         handleChangeSearch({
             target: {
-                name: 'search',
-                value: '',
+                name: "search",
+                value: "",
             },
         });
         // dispatch(searchChange({ value: '' }));
     };
 
-    const [temp, setTemp] = useState('');
+    const [temp, setTemp] = useState("");
 
     // pagination
     // const [pageSize, setPageSize] = useState(options[1]);
@@ -123,7 +123,7 @@ const Products = () => {
     };
 
     const handleScrollToTop = () => {
-        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     };
 
     const handleChooseSort = (e) => {
@@ -162,7 +162,7 @@ const Products = () => {
                 })
             ).unwrap();
         } catch (error) {
-            console.log('/Products/fetchProducts');
+            console.log("/Products/fetchProducts");
         }
     };
 
@@ -224,60 +224,60 @@ const Products = () => {
                                 <SortChooseContainer>
                                     <SortChooseButton
                                         choose={
-                                            sort.includes('relevance')
+                                            sort.includes("relevance")
                                                 ? true
                                                 : false
                                         }
-                                        name='sort'
-                                        value='relevance'
+                                        name="sort"
+                                        value="relevance"
                                         onClick={(e) => handleChooseSort(e)}
                                     >
                                         Relevance
                                     </SortChooseButton>
                                     <SortChooseButton
                                         choose={
-                                            sort.includes('popular')
+                                            sort.includes("popular")
                                                 ? true
                                                 : false
                                         }
-                                        name='sort'
-                                        value='popular'
+                                        name="sort"
+                                        value="popular"
                                         onClick={(e) => handleChooseSort(e)}
                                     >
                                         Popular
                                     </SortChooseButton>
                                     <SortChooseButton
                                         choose={
-                                            sort.includes('most-new')
+                                            sort.includes("most-new")
                                                 ? true
                                                 : false
                                         }
-                                        name='sort'
-                                        value='most-new'
+                                        name="sort"
+                                        value="most-new"
                                         onClick={(e) => handleChooseSort(e)}
                                     >
                                         Most New
                                     </SortChooseButton>
                                     <SortChooseButton
                                         choose={
-                                            sort.includes('price-low-high')
+                                            sort.includes("price-low-high")
                                                 ? true
                                                 : false
                                         }
-                                        name='sort'
-                                        value='price-low-high'
+                                        name="sort"
+                                        value="price-low-high"
                                         onClick={(e) => handleChooseSort(e)}
                                     >
                                         Price (Low - High)
                                     </SortChooseButton>
                                     <SortChooseButton
                                         choose={
-                                            sort.includes('price-high-low')
+                                            sort.includes("price-high-low")
                                                 ? true
                                                 : false
                                         }
-                                        name='sort'
-                                        value='price-high-low'
+                                        name="sort"
+                                        value="price-high-low"
                                         onClick={(e) => handleChooseSort(e)}
                                     >
                                         Price (High - Low)
@@ -291,7 +291,7 @@ const Products = () => {
                                     defaultValue={{
                                         value: 10,
                                         label: 10,
-                                        name: 'pageSize',
+                                        name: "pageSize",
                                     }}
                                     onChange={handleChangePageSize}
                                 />
@@ -312,16 +312,16 @@ const Products = () => {
                         ) : products.listProducts?.length === 0 ? (
                             <div
                                 style={{
-                                    gridColumn: 'span 3',
-                                    margin: 'auto',
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    alignItems: 'center',
+                                    gridColumn: "span 3",
+                                    margin: "auto",
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    alignItems: "center",
                                 }}
                             >
                                 <img
                                     src={imgNotFoundProduct}
-                                    alt='Not found product you want'
+                                    alt="Not found product you want"
                                 />
                                 <span>
                                     No products found matching the filter

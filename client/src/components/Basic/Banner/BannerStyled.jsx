@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const WrapperImage = styled.div`
     position: relative;
@@ -6,7 +6,7 @@ const WrapperImage = styled.div`
     height: 430px;
 
     &:before {
-        content: '';
+        content: "";
         display: block;
         padding-top: 45%;
         height: 0;

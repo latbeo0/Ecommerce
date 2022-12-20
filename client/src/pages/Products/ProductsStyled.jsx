@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const Container = styled.div`
     max-width: 80rem;
@@ -53,10 +53,10 @@ const SortChooseContainer = styled.div`
 
 const SortChooseButton = styled.button`
     padding: 0.5rem 1rem;
-    border: ${(props) => !props.choose && '1px solid var(--gray-color-light)'};
+    border: ${(props) => !props.choose && "1px solid var(--gray-color-light)"};
     border-radius: 1rem;
-    background: ${(props) => props.choose && 'var(--primary-color)'};
-    color: ${(props) => props.choose && 'var(--white-color)'};
+    background: ${(props) => props.choose && "var(--primary-color)"};
+    color: ${(props) => props.choose && "var(--white-color)"};
 `;
 
 const CountProductsSelect = styled.select``;
@@ -72,7 +72,7 @@ const CountProductsContainer = styled.div`
 const BodyProductsWrapper = styled.div`
     display: grid;
     grid-template-columns: ${(props) =>
-        props.isLoading ? '1fr' : '1fr 1fr 1fr'};
+        props.isLoading ? "1fr" : "1fr 1fr 1fr"};
     gap: 1rem;
     height: fit-content;
 `;

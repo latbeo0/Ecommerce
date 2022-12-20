@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const ListProductsContainer = styled.div`
     padding: 2rem;
@@ -31,14 +31,14 @@ const CheckAll = styled.div`
     height: 1.5rem;
     border: ${(props) =>
         props.checked
-            ? '1px solid var(--primary-color-border)'
-            : '1px solid var(--gray-color)'};
+            ? "1px solid var(--primary-color-border)"
+            : "1px solid var(--gray-color)"};
     border-radius: 0.5rem;
     position: relative;
     cursor: pointer;
 
     &::before {
-        content: 'All';
+        content: "All";
         position: absolute;
         top: 50%;
         left: 150%;
@@ -50,8 +50,8 @@ const CheckAll = styled.div`
     & > svg {
         color: ${(props) =>
             props.checked
-                ? 'var(--primary-color-border)'
-                : 'var(--gray-color)'};
+                ? "var(--primary-color-border)"
+                : "var(--gray-color)"};
     }
 `;
 

@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { fetchGetAllMaterial1 } from '../services/materialFetch';
+import { createSlice } from "@reduxjs/toolkit";
+import { fetchGetAllMaterial1 } from "../services/materialFetch";
 
 const initialState = {
     isLoading: false,
@@ -8,7 +8,7 @@ const initialState = {
 };
 
 export const categorySlice = createSlice({
-    name: 'material',
+    name: "material",
     initialState,
     reducers: {},
     extraReducers: (builder) => {

@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-import { FiEdit2 } from 'react-icons/fi';
-import { AiOutlineDelete } from 'react-icons/ai';
-import { Link } from 'react-router-dom';
+import styled from "styled-components";
+import { FiEdit2 } from "react-icons/fi";
+import { AiOutlineDelete } from "react-icons/ai";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
     max-width: 80rem;

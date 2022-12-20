@@ -24,10 +24,10 @@ export const checkLogin = (values) => {
     const { email, password } = values;
 
     if (isEmpty(email) || isEmpty(password))
-        return { msg: 'Please fill in all fields.' };
-    if (!isEmail(email)) return { msg: 'Invalid emails.' };
+        return { msg: "Please fill in all fields." };
+    if (!isEmail(email)) return { msg: "Invalid emails." };
     if (isLength(password))
-        return { msg: 'Password must be at least 6 characters.' };
+        return { msg: "Password must be at least 6 characters." };
 };
 
 export const checkRegister = (values) => {
@@ -39,37 +39,37 @@ export const checkRegister = (values) => {
         isEmpty(password) ||
         isEmpty(cf_password)
     )
-        return { msg: 'Please fill in all fields.' };
-    if (!isEmail(email)) return { msg: 'Invalid emails.' };
+        return { msg: "Please fill in all fields." };
+    if (!isEmail(email)) return { msg: "Invalid emails." };
     if (isLength(password))
-        return { msg: 'Password must be at least 6 characters.' };
+        return { msg: "Password must be at least 6 characters." };
     if (!isMatch(password, cf_password))
-        return { msg: 'Password did not match.' };
+        return { msg: "Password did not match." };
 };
 
 export const checkForgotPassword = (values) => {
     const { email } = values;
 
-    if (isEmpty(email)) return { msg: 'Please fill in all fields.' };
-    if (!isEmail(email)) return { msg: 'Invalid emails.' };
+    if (isEmpty(email)) return { msg: "Please fill in all fields." };
+    if (!isEmail(email)) return { msg: "Invalid emails." };
 };
 
 export const checkResetPassword = (values) => {
     const { password, cf_password } = values;
 
     if (isEmpty(password) || isEmpty(cf_password))
-        return { msg: 'Please fill in all fields.' };
+        return { msg: "Please fill in all fields." };
     if (isLength(password))
-        return { msg: 'Password must be at least 6 characters.' };
+        return { msg: "Password must be at least 6 characters." };
     if (!isMatch(password, cf_password))
-        return { msg: 'Password did not match.' };
+        return { msg: "Password did not match." };
 };
 
 export const checkFile = (file) => {
-    if (!file) return { msg: 'No files were uploaded.' };
+    if (!file) return { msg: "No files were uploaded." };
 
-    if (file.size > 1024 * 1024) return { msg: 'Size too large.' };
+    if (file.size > 1024 * 1024) return { msg: "Size too large." };
 
-    if (file.type !== 'image/jpeg' && file.type !== 'image/png')
-        return { msg: 'File format is incorrect.' };
+    if (file.type !== "image/jpeg" && file.type !== "image/png")
+        return { msg: "File format is incorrect." };
 };

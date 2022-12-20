@@ -1,11 +1,11 @@
-import { baseRequest } from './apiFetch';
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import { baseRequest } from "./apiFetch";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export const fetchGetAllColors = createAsyncThunk(
-    'color/fetchGetAllColors',
+    "color/fetchGetAllColors",
     async () => {
         try {
-            const res = await baseRequest.get('/api/product/colors/', null);
+            const res = await baseRequest.get("/api/product/colors/", null);
 
             // const data = res?.data?.colors.map((item) => ({
             //     id: item._id,

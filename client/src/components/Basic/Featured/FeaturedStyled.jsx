@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const Container = styled.div`
     font-size: 0.875rem;
@@ -16,7 +16,7 @@ const ContainerImg = styled.div`
 const Img = styled.img`
     object-fit: cover;
     object-position: center;
-    opacity: ${(props) => (props.hover ? '0.75' : '1')};
+    opacity: ${(props) => (props.hover ? "0.75" : "1")};
 `;
 
 const Text = styled.a`

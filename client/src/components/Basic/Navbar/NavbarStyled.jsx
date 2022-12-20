@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { Button } from '../Button';
+import styled from "styled-components";
+import { Button } from "../Button";
 
 const Nav = styled.nav`
     max-width: 80rem;
@@ -34,7 +34,7 @@ const Logo = styled(Button)`
     }
 `;
 
-const ButtonToggle = styled(Button).attrs({ type: 'button' })`
+const ButtonToggle = styled(Button).attrs({ type: "button" })`
     @media only screen and (min-width: 1025px) {
         display: none;
     }

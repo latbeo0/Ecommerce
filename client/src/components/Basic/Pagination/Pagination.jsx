@@ -1,6 +1,6 @@
-import React from 'react';
-import { Container, Item, Dots, Arrow } from './PaginationStyled';
-import { usePagination, DOTS } from '../../../hooks/usePagination';
+import React from "react";
+import { Container, Item, Dots, Arrow } from "./PaginationStyled";
+import { usePagination, DOTS } from "../../../hooks/usePagination";
 
 const Pagination = (props) => {
     const {
@@ -37,7 +37,7 @@ const Pagination = (props) => {
         <Container>
             {/* Left navigation arrow */}
             <Item disabled={currentPage === 1} onClick={onPrevious}>
-                <Arrow direction='left' disabled={currentPage === 1} />
+                <Arrow direction="left" disabled={currentPage === 1} />
             </Item>
             {paginationRange.map((pageNumber, index) => {
                 // If the pageItem is a DOT, render the DOTS unicode character
@@ -58,7 +58,7 @@ const Pagination = (props) => {
             })}
             {/*  Right Navigation arrow */}
             <Item disabled={currentPage === lastPage} onClick={onNext}>
-                <Arrow direction='right' disabled={currentPage === lastPage} />
+                <Arrow direction="right" disabled={currentPage === lastPage} />
             </Item>
         </Container>
     );

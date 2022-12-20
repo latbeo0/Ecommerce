@@ -5,12 +5,12 @@ import {
     WrapperContent,
     Title,
     Description,
-} from './BannerStyled';
+} from "./BannerStyled";
 
 const Banner = ({ banner, ...others }) => {
     return (
         <WrapperImage {...others}>
-            <LinkImage href={'#'}>
+            <LinkImage href={"#"}>
                 <Image src={banner.url} alt={banner.alt} />
             </LinkImage>
             <WrapperContent>

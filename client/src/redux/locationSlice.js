@@ -1,9 +1,9 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 import {
     fetchDistrict,
     fetchProvince,
     fetchWard,
-} from '../services/locationFetch';
+} from "../services/locationFetch";
 
 const initialState = {
     province: [],
@@ -14,7 +14,7 @@ const initialState = {
 };
 
 export const locationSlice = createSlice({
-    name: 'location',
+    name: "location",
     initialState,
     reducers: {},
     extraReducers: (builder) => {
