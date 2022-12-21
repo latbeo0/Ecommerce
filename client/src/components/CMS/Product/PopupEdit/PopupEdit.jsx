@@ -22,6 +22,8 @@ import { NotificationType } from "../../../Basic/Notification/type";
 import { useSelector } from "react-redux";
 import { selectUser } from "./../../../../redux/userSlice";
 import { fetchGetAllMaterial } from "./../../../../services/materialFetch";
+import { fetchGetAllCategory } from './../../../../services/categoryFetch';
+import { fetchGetAllCollection } from './../../../../services/collectionFetch';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -30,9 +32,18 @@ const PopupEdit = ({ type, open, row, onClose, onSubmit }) => {
   const { currentUser } = useSelector(selectUser);
   const [productMaster, setProductMaster] = useState(data.productMaster);
   const [materialOptions, setMaterialOptions] = useState([]);
+  const [categoryOptions, setCategoryOptions] = useState([]);
+  const [collectionOptions, setCollectionOptions] = useState([]);
+
   React.useEffect(() => {
     fetchGetAllMaterial().then((result) => {
-      setMaterialOptions(result?.data?.materials);
+      setMaterialOptions(result?.data?.material);
+    });
+    fetchGetAllCategory().then((result) => {
+      setCategoryOptions(result?.data?.category);
+    });
+    fetchGetAllCollection().then((result) => {
+      setCollectionOptions(result?.data?.collection);
     });
   }, []);
   React.useEffect(() => {
@@ -137,7 +148,7 @@ const PopupEdit = ({ type, open, row, onClose, onSubmit }) => {
                 <MenuItem key="CATEGORY0" value="">
                   <em>None</em>
                 </MenuItem>
-                {data.categories.map((item) => (
+                {categoryOptions?.map((item) => (
                   <MenuItem key={item.cateCode} value={item.cateCode}>
                     {item.cateName}
                   </MenuItem>
@@ -181,7 +192,7 @@ const PopupEdit = ({ type, open, row, onClose, onSubmit }) => {
                 <MenuItem key="COLLECTION" value="">
                   <em>None</em>
                 </MenuItem>
-                {data.collections.map((item) => (
+                {collectionOptions?.map((item) => (
                   <MenuItem key={item.collectCode} value={item.collectCode}>
                     {item.collectName}
                   </MenuItem>
