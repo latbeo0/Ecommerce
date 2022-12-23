@@ -6,14 +6,14 @@ import {
     WrapperSearch,
     WrapperCart,
     SpaceCart,
-} from "./UserMenuStyled";
-import { Button } from "../../Button";
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { selectUser } from "./../../../../redux/userSlice";
-import { fetchLogout } from "../../../../services/userFetch";
-import Avatar from "../../Avatar";
-import { selectCart } from "../../../../redux/cartSlice";
+} from './UserMenuStyled';
+import { Button } from '../../Button';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectUser } from './../../../../redux/userSlice';
+import { fetchLogout } from '../../../../services/userFetch';
+import Avatar from '../../Avatar';
+import { selectCart } from '../../../../redux/cartSlice';
 
 const UserMenu = () => {
     const dispatch = useDispatch();
@@ -30,14 +30,14 @@ const UserMenu = () => {
         if (firstName) return firstName;
         if (lastName) return lastName;
 
-        return "New User";
+        return 'New User';
     };
 
     const { currentUser, isLoading, isError } = user;
 
     const handleLogout = async () => {
         await dispatch(fetchLogout({ dispatch })).unwrap();
-        navigate("/");
+        navigate('/');
     };
 
     return (
@@ -45,7 +45,7 @@ const UserMenu = () => {
             {user.currentUser ? (
                 <WrapperUser>
                     <Avatar
-                        link="/profile"
+                        link='/profile'
                         src={currentUser?.avatar && currentUser.avatar}
                         text={getFullName(
                             currentUser?.firstName,
@@ -54,30 +54,30 @@ const UserMenu = () => {
                     />
                     <Separate />
                     <Button
-                        href="#"
-                        content="Log out"
-                        color="var(--black-color)"
-                        padding="0"
+                        href='#'
+                        content='Log out'
+                        color='var(--black-color)'
+                        padding='0'
                         onClick={handleLogout}
                     />
                 </WrapperUser>
             ) : (
                 <WrapperUser>
-                    <Link to="/login">
+                    <Link to='/login'>
                         <Button
-                            href="#"
-                            content="Sign in"
-                            color="var(--black-color)"
-                            padding="0"
+                            href='#'
+                            content='Sign in'
+                            color='var(--black-color)'
+                            padding='0'
                         />
                     </Link>
                     <Separate />
-                    <Link to="register">
+                    <Link to='register'>
                         <Button
-                            href="#"
-                            content="Create account"
-                            color="var(--black-color)"
-                            padding="0"
+                            href='#'
+                            content='Create account'
+                            color='var(--black-color)'
+                            padding='0'
                         />
                     </Link>
                 </WrapperUser>
@@ -85,71 +85,71 @@ const UserMenu = () => {
 
             <WrapperLanguage>
                 <Button
-                    href="#"
+                    href='#'
                     startIcon={{
-                        img: "https://tailwindui.com/img/flags/flag-canada.svg",
+                        img: 'https://tailwindui.com/img/flags/flag-canada.svg',
                     }}
-                    content="CAD"
-                    color="var(--black-color)"
-                    padding="0"
+                    content='CAD'
+                    color='var(--black-color)'
+                    padding='0'
                 />
             </WrapperLanguage>
             <WrapperSearch>
                 <Button
-                    href="#"
-                    color="var(--black-color)"
+                    href='#'
+                    color='var(--black-color)'
                     startIcon={{
                         icon: (
                             <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                strokeWidth="2"
-                                stroke="currentColor"
-                                aria-hidden="true"
-                                style={{ width: "1.5rem", height: "1.5rem" }}
+                                xmlns='http://www.w3.org/2000/svg'
+                                fill='none'
+                                viewBox='0 0 24 24'
+                                strokeWidth='2'
+                                stroke='currentColor'
+                                aria-hidden='true'
+                                style={{ width: '1.5rem', height: '1.5rem' }}
                             >
                                 <path
-                                    strokeLinejoin="round"
-                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                                    strokeLinejoin='round'
+                                    d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'
                                 ></path>
                             </svg>
                         ),
                     }}
-                    sizeIcon="1.25rem"
-                    padding="0"
+                    sizeIcon='1.25rem'
+                    padding='0'
                 />
             </WrapperSearch>
             <WrapperCart>
-                <Link to="/cart">
+                <Link to='/cart'>
                     <Button
-                        href="#"
-                        content={cart.listProducts.length}
-                        color="var(--black-color)"
+                        href='#'
+                        content={cart.listProducts?.length}
+                        color='var(--black-color)'
                         endIcon={{
                             icon: (
                                 <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    strokeWidth="2"
-                                    stroke="currentColor"
-                                    aria-hidden="true"
+                                    xmlns='http://www.w3.org/2000/svg'
+                                    fill='none'
+                                    viewBox='0 0 24 24'
+                                    strokeWidth='2'
+                                    stroke='currentColor'
+                                    aria-hidden='true'
                                     style={{
-                                        width: "1.5rem",
-                                        height: "1.5rem",
+                                        width: '1.5rem',
+                                        height: '1.5rem',
                                     }}
                                 >
                                     <path
-                                        strokeLinecap="round"
-                                        d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+                                        strokeLinecap='round'
+                                        d='M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z'
                                     ></path>
                                 </svg>
                             ),
                         }}
-                        sizeIcon="1.25rem"
-                        padding="0"
-                        style={{ height: "100%" }}
+                        sizeIcon='1.25rem'
+                        padding='0'
+                        style={{ height: '100%' }}
                     />
                 </Link>
                 {/* <SpaceCart>

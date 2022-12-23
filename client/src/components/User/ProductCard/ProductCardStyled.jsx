@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const Container = styled.div`
     border-radius: 5px;
@@ -52,7 +52,7 @@ const HeartContainer = styled.div`
     border-radius: 12px;
     cursor: pointer;
     /* border: 1px solid rgba(255, 107, 108, 0.1); */
-    background-color: ${(props) => props.isHeart && "#fff0f1"};
+    background-color: ${(props) => props.isHeart && '#fff0f1'};
 
     & > img {
         width: 25px;
@@ -90,6 +90,7 @@ const StarsContainer = styled.div`
 `;
 const StarsWrapper = styled.div`
     display: flex;
+    align-items: center;
     margin-right: 0.5rem;
 `;
 const Body = styled.div``;
@@ -118,7 +119,7 @@ const PriceNew = styled.div`
     font-size: 1rem;
     font-weight: 500;
     color: ${(props) =>
-        props.color === "gray" ? "var(--black-color)" : "rgb(255, 122, 122)"};
+        props.color === 'gray' ? 'var(--black-color)' : 'rgb(255, 122, 122)'};
 `;
 
 const PriceOld = styled.div`
@@ -157,6 +158,11 @@ const ButtonsContainer = styled.div`
     }
 `;
 
+const Star = styled.img`
+    width: 1rem;
+    height: 1rem;
+`;
+
 export {
     Container,
     Wrapper,
@@ -177,4 +183,5 @@ export {
     PriceOld,
     Modal,
     ButtonsContainer,
+    Star,
 };

@@ -1,10 +1,11 @@
-import styled, { css } from "styled-components";
+import styled, { css } from 'styled-components';
 
 const RowBodyTable = styled.tr`
     cursor: pointer;
     user-select: none;
 
-    background: ${(props) => (props.sub ? "var(--secondary-color)" : null)};
+    background: ${(props) => (props.sub ? 'var(--secondary-color)' : null)};
+    cursor: ${(props) => (props.sub ? 'default' : null)};
 `;
 
 const ItemBodyTable = styled.td`
@@ -16,7 +17,7 @@ const ItemBodyTable = styled.td`
 
 const ItemBodyFull = styled.td.withConfig({
     shouldForwardProp: (prop, defaultValidatorFn) =>
-        ["colspan"].includes(prop) || defaultValidatorFn(prop),
+        ['colspan'].includes(prop) || defaultValidatorFn(prop),
 })``;
 
 const Cover = styled.div`
@@ -54,6 +55,7 @@ const Content = styled.div`
 
 const Wrapper = styled.div`
     display: flex;
+    flex-direction: column;
     gap: 1rem;
 `;
 
@@ -77,7 +79,7 @@ const Color = styled.div`
                   background: transparent;
 
                   &::before {
-                      content: "";
+                      content: '';
                       position: absolute;
                       top: 50%;
                       left: 50%;

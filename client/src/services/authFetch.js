@@ -1,9 +1,9 @@
-import { baseRequest } from "./apiFetch";
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { baseRequest } from './apiFetch';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export const fetchRegister = async (email, password) => {
     try {
-        return await baseRequest.post("/api/auth/register", {
+        return await baseRequest.post('/api/auth/register', {
             email,
             password,
         });
@@ -14,7 +14,7 @@ export const fetchRegister = async (email, password) => {
 
 export const fetchActiveEmail = async (activation_token) => {
     try {
-        return await baseRequest.post("/api/auth/activation", {
+        return await baseRequest.post('/api/auth/activation', {
             activation_token,
         });
     } catch (error) {
@@ -34,12 +34,12 @@ export const fetchActiveEmail = async (activation_token) => {
 // };
 
 export const fetchLogin = createAsyncThunk(
-    "auth/fetchLogin",
+    'auth/fetchLogin',
     async (valuesForm) => {
         const { email, password, provider } = valuesForm;
         try {
             if (!provider) {
-                await baseRequest.post("/api/auth/login", {
+                await baseRequest.post('/api/auth/login', {
                     email,
                     password,
                 });

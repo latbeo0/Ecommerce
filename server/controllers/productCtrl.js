@@ -1,5 +1,8 @@
 const Product = require('../models/productModel');
+const Users = require('../models/userModel');
 const ProductMaster = require('../models/productMasterModel');
+const Order = require('../models/orderModel');
+const Comment = require('../models/commentModel');
 const queryString = require('query-string');
 const jwt = require('jsonwebtoken');
 
@@ -144,40 +147,40 @@ const productCtrl = {
             for (const product of listProductsTemp) {
                 const productMaster = await ProductMaster.findOne({
                     _id: product.productMasterId,
-                })
-                    .populate({
-                        path: 'vCollection',
-                        select: 'collectName -collectCode',
-                    })
-                    .populate({
-                        path: 'vCategory',
-                        select: 'cateName -cateCode',
-                    })
-                    .populate({
-                        path: 'vMaterial',
-                        select: 'materialName -materialCode',
-                    });
+                });
+                // .populate({
+                //     path: 'vCollection',
+                //     select: 'collectName -collectCode',
+                // })
+                // .populate({
+                //     path: 'vCategory',
+                //     select: 'cateName -cateCode',
+                // })
+                // .populate({
+                //     path: 'vMaterial',
+                //     select: 'materialName -materialCode',
+                // });
 
                 const {
                     productName,
                     productDescription,
-                    vCategory,
-                    vCollection,
-                    vMaterial,
+                    // vCategory,
+                    // vCollection,
+                    // vMaterial,
                     gender,
                 } = productMaster;
 
-                const categories = vCategory[0].cateName;
-                const collections = vCollection[0].collectName;
-                const materials = vMaterial[0].materialName;
+                // const categories = vCategory[0].cateName;
+                // const collections = vCollection[0].collectName;
+                // const materials = vMaterial[0].materialName;
 
                 const handle = {
                     ...product._doc,
                     productName,
                     productDescription,
-                    categories,
-                    collections,
-                    materials,
+                    // categories,
+                    // collections,
+                    // materials,
                     gender,
                 };
 
@@ -216,9 +219,9 @@ const productCtrl = {
                         );
                         if (!check) isPassed = false;
                     } else if (key === 'min') {
-                        if (product.priceNew) {
+                        if (product.newPrice !== 0) {
                             const check =
-                                Number(product.priceNew) >
+                                Number(product.newPrice) >
                                 Number(newQueryObject[key][0]);
                             if (!check) isPassed = false;
                         } else {
@@ -228,9 +231,9 @@ const productCtrl = {
                             if (!check) isPassed = false;
                         }
                     } else if (key === 'max') {
-                        if (product.priceNew) {
+                        if (product.newPrice !== 0) {
                             const check =
-                                Number(product.priceNew) <
+                                Number(product.newPrice) <
                                 Number(newQueryObject[key][0]);
                             if (!check) isPassed = false;
                         } else {
@@ -321,12 +324,122 @@ const productCtrl = {
 
             // Phân trang
             const { pageSize, pageIndex } = queryObject;
-            const start = pageSize * (pageIndex - 1);
-            const end = pageSize * (pageIndex - 1) + pageSize;
+            const start = Number(pageSize) * (Number(pageIndex) - 1);
+            const end =
+                Number(pageSize) * (Number(pageIndex) - 1) + Number(pageSize);
 
             const data = filter.slice(start, end);
 
             await res.status(200).json({ totalProducts, listProducts: data });
+        } catch (err) {
+            return res.status(500).json({ msg: err.message });
+        }
+    },
+    getBestSeller: async (req, res) => {
+        try {
+            const orders = await Order.find();
+
+            const listProduct = [];
+            const listPrice = [];
+            for (const order of orders) {
+                for (const item of order.listOderItems) {
+                    const index = listProduct.indexOf(item.product._id);
+                    if (index >= 0) {
+                        if (item.product.newPrice !== 0) {
+                            listPrice[index] +=
+                                item.product.newPrice * item.count;
+                        } else {
+                            listPrice[item.product._id] +=
+                                item.product.price * item.count;
+                        }
+                    } else {
+                        if (item.product.newPrice !== 0) {
+                            listProduct.push(item.product._id);
+                            const price = item.product.newPrice * item.count;
+                            listPrice.push(price);
+                        } else {
+                            listProduct.push(item.product._id);
+                            const price = item.product.price * item.count;
+                            listPrice.push(price);
+                        }
+                    }
+                }
+            }
+
+            const listBestSeller = [];
+            for (const item in listProduct) {
+                listBestSeller.push({
+                    productId: listProduct[item],
+                    hadSell: listPrice[item],
+                });
+            }
+
+            listBestSeller.sort((a, b) => {
+                if (a.hadSell > b.hadSell) return -1;
+                if (a.hadSell < b.hadSell) return 1;
+                return 0;
+            });
+
+            const listProducts = [];
+            for (const item of listBestSeller) {
+                const product = await Product.findById({ _id: item.productId });
+
+                const productMaster = await ProductMaster.findOne({
+                    _id: product.productMasterId,
+                });
+                // .populate({
+                //     path: 'vCollection',
+                //     select: 'collectName -collectCode',
+                // })
+                // .populate({
+                //     path: 'vCategory',
+                //     select: 'cateName -cateCode',
+                // })
+                // .populate({
+                //     path: 'vMaterial',
+                //     select: 'materialName -materialCode',
+                // });
+
+                const {
+                    productName,
+                    productDescription,
+                    // vCategory,
+                    // vCollection,
+                    // vMaterial,
+                    gender,
+                } = productMaster;
+
+                // const categories = vCategory[0].cateName;
+                // const collections = vCollection[0].collectName;
+                // const materials = vMaterial[0].materialName;
+
+                const comments = await Comment.find({
+                    productId: item.productId,
+                });
+
+                let point = 0;
+                for (const comment of comments) {
+                    point += comment.rating;
+                }
+                if (comments.length > 0) {
+                    point /= comments.length;
+                }
+
+                const handle = {
+                    ...product._doc,
+                    productName,
+                    productDescription,
+                    // categories,
+                    // collections,
+                    // materials,
+                    gender,
+                    point,
+                };
+
+                listProducts.push(handle);
+            }
+
+            await res.status(200).json({ listProducts });
         } catch (err) {
             return res.status(500).json({ msg: err.message });
         }
@@ -391,10 +504,63 @@ const productCtrl = {
                 const products = await Product.find({
                     productMasterId: idMaster,
                 });
+                // .populate({
+                //     path: 'vCollection',
+                //     select: 'collectName -collectCode',
+                // })
+                // .populate({
+                //     path: 'vCategory',
+                //     select: 'cateName -cateCode',
+                // })
+                // .populate({
+                //     path: 'vMaterial',
+                //     select: 'materialName -materialCode',
+                // });
 
                 for (const product of products) {
+                    const productMaster = await ProductMaster.findOne({
+                        _id: product.productMasterId,
+                    });
+
+                    const {
+                        productName,
+                        productDescription,
+                        // vCategory,
+                        // vCollection,
+                        // vMaterial,
+                        gender,
+                    } = productMaster;
+
+                    // const categories = vCategory[0].cateName;
+                    // const collections = vCollection[0].collectName;
+                    // const materials = vMaterial[0].materialName;
+
+                    const comments = await Comment.find({
+                        productId: product._id.toString(),
+                    });
+
+                    let pointTemp = 0;
+                    for (const comment of comments) {
+                        pointTemp += comment.rating;
+                    }
+                    if (comments.length > 0) {
+                        pointTemp /= comments.length;
+                    }
+                    const point = pointTemp.toFixed(1);
+
+                    const handle = {
+                        ...product._doc,
+                        productName,
+                        productDescription,
+                        // categories,
+                        // collections,
+                        // materials,
+                        gender,
+                        point,
+                    };
+
                     if (product._id.toString() !== id)
-                        listRelatedProducts.push(product);
+                        listRelatedProducts.push(handle);
                 }
 
                 // listRelatedProducts.push(...products);
@@ -411,6 +577,32 @@ const productCtrl = {
             res.status(200).json({
                 listRelatedProducts,
             });
+        } catch (err) {
+            return res.status(500).json({ msg: err.message });
+        }
+    },
+    getComments: async (req, res) => {
+        try {
+            const { id } = req.body;
+
+            const comments = await Comment.find({ productId: id });
+
+            const listComments = [];
+            for (const commentTemp of comments) {
+                const { userId, comment, rating, createdAt } = commentTemp;
+
+                const user = await Users.findById({ _id: userId });
+
+                const data = {
+                    user: user._doc,
+                    comment,
+                    rating,
+                    date: createdAt,
+                };
+                listComments.push(data);
+            }
+
+            res.status(200).json({ listComments });
         } catch (err) {
             return res.status(500).json({ msg: err.message });
         }

@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled, { css } from 'styled-components';
 
 const Container = styled.div`
     display: flex;
@@ -95,7 +95,7 @@ const Color = styled.div`
                   background: transparent;
 
                   &::before {
-                      content: "";
+                      content: '';
                       position: absolute;
                       top: 50%;
                       left: 50%;
@@ -122,15 +122,15 @@ const Size = styled.button`
     padding: 0.5rem 1.5rem;
     border: ${(props) =>
         props.selected
-            ? "1px solid var(--primary-color)"
-            : "1px solid var(--gray-color-light)"};
+            ? '1px solid var(--primary-color)'
+            : '1px solid var(--gray-color-light)'};
     background: ${(props) =>
-        props.selected ? "var(--secondary-color)" : "transparent"};
-    cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
+        props.selected ? 'var(--secondary-color)' : 'transparent'};
+    cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
 
     &:hover {
         border: ${(props) =>
-            props.disabled ? undefined : "1px solid var(--primary-color)"};
+            props.disabled ? undefined : '1px solid var(--primary-color)'};
     }
 `;
 
@@ -149,7 +149,7 @@ const Quantity = styled.div`
 `;
 
 const Input = styled.input.attrs({
-    type: "number",
+    type: 'number',
 })`
     padding: 0.5rem;
     min-width: 2rem;
@@ -158,9 +158,9 @@ const Input = styled.input.attrs({
     text-align: center;
     border-left: 1px solid var(--gray-color-light);
     border-right: 1px solid var(--gray-color-light);
-    cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
+    cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
     background: ${(props) =>
-        props.disabled ? "var(--gray-color-light)" : "transparent"};
+        props.disabled ? 'var(--gray-color-light)' : 'transparent'};
     transition: all 200ms linear;
 
     -webkit-appearance: textfield;
@@ -176,9 +176,9 @@ const Input = styled.input.attrs({
 const Arrow = styled.div`
     color: var(--black-color);
     padding: 1rem 1.5rem;
-    cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
+    cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
     background: ${(props) =>
-        props.disabled ? "var(--gray-color-light)" : "transparent"};
+        props.disabled ? 'var(--gray-color-light)' : 'transparent'};
     user-select: none;
     transition: all 200ms linear;
 `;
@@ -246,6 +246,15 @@ const Decor = styled.div`
     border-radius: 4px;
 `;
 
+const ReviewContainer = styled.div``;
+
+const Wrapper = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    padding: 1rem;
+`;
+
 export {
     Container,
     ProductDetailContainer,
@@ -280,4 +289,6 @@ export {
     RecentlyViewedProducts,
     Title,
     Decor,
+    ReviewContainer,
+    Wrapper,
 };

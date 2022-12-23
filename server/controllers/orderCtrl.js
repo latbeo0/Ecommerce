@@ -14,11 +14,46 @@ const orderCtrl = {
                 payment,
             } = req.body;
 
+            const products = [];
             for (const productTemp of listOderItems) {
-                const left =
-                    productTemp.product.color.details.find(
-                        (item) => item.size === productTemp.size
-                    ).quantity - productTemp.count;
+                const product = await Product.findById({
+                    _id: productTemp.product._id,
+                });
+                products.push(product);
+            }
+
+            let isError = false;
+            for (const productTemp of listOderItems) {
+                const indexProduct = products.findIndex(
+                    (item) => item._id.toString() === productTemp.product._id
+                );
+                const quantityDb = products[indexProduct].color.details.find(
+                    (item) => item.size === productTemp.size
+                ).quantity;
+                if (
+                    indexProduct === -1 || // Sản phẩm không có trong db
+                    quantityDb < productTemp.count || // Số lượng sản phẩm mua nhiều hơn db có
+                    !products[indexProduct].isStock // Sản phẩm không được bán nữa
+                ) {
+                    isError = true;
+                }
+            }
+
+            if (isError) {
+                return res
+                    .status(500)
+                    .json({ msg: 'Something wrong when payment' });
+            }
+
+            for (const productTemp of listOderItems) {
+                const indexProduct = products.findIndex(
+                    (item) => item._id.toString() === productTemp.product._id
+                );
+                const quantityDb = products[indexProduct].color.details.find(
+                    (item) => item.size === productTemp.size
+                ).quantity;
+
+                const left = quantityDb - productTemp.count;
 
                 await Product.updateMany(
                     {
@@ -44,6 +79,46 @@ const orderCtrl = {
             await newOrder.save();
 
             res.status(200).json({ newOrder });
+        } catch (err) {
+            return res.status(500).json({ msg: err.message });
+        }
+    },
+    rollback: async (req, res) => {
+        try {
+            const { orderCode, listOderItems } = req.body;
+
+            const products = [];
+            for (const productTemp of listOderItems) {
+                const product = await Product.findById({
+                    _id: productTemp.product._id,
+                });
+                products.push(product);
+            }
+
+            for (const productTemp of listOderItems) {
+                const indexProduct = products.findIndex(
+                    (item) => item._id.toString() === productTemp.product._id
+                );
+                const quantityDb = products[indexProduct].color.details.find(
+                    (item) => item.size === productTemp.size
+                ).quantity;
+
+                const left = quantityDb + productTemp.count;
+
+                await Product.updateMany(
+                    {
+                        _id: productTemp.product._id,
+                        'color.details.size': productTemp.size,
+                    },
+                    {
+                        $set: { 'color.details.$.quantity': left },
+                    }
+                );
+            }
+
+            await Orders.deleteOne({ orderCode });
+
+            res.status(200).json({ msg: 'Rollback successful' });
         } catch (err) {
             return res.status(500).json({ msg: err.message });
         }
@@ -103,7 +178,7 @@ const orderCtrl = {
     },
     getOrderByCode: async (req, res) => {
         try {
-            const orders = await Orders.find({
+            const orders = await Orders.findOne({
                 orderCode: req.body.orderCode,
             });
 

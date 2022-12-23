@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import BreadCrumb from "../../components/Basic/BreadCrumb";
-import ListProducts from "../../components/User/ListProducts";
-import ListImage from "../../components/User/ListImage";
+import React, { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import BreadCrumb from '../../components/Basic/BreadCrumb';
+import ListProducts from '../../components/User/ListProducts';
+import ListImage from '../../components/User/ListImage';
 import {
+    fetchGetCommentsOfProduct,
     fetchGetProductById,
     fetchGetRelatedProducts,
-} from "../../services/productFetch";
-import { fetchAddToCart } from "../../services/cartFetch";
-import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
+} from '../../services/productFetch';
+import { fetchAddToCart } from '../../services/cartFetch';
+import { AiOutlinePlus, AiOutlineMinus } from 'react-icons/ai';
 import {
     Container,
     ProductDetailContainer,
@@ -43,12 +44,15 @@ import {
     RecentlyViewedProducts,
     Title,
     Decor,
-} from "./ProductStyled";
-import Loading from "../../helpers/Loading";
-import { toast } from "react-toastify";
-import { useDispatch, useSelector } from "react-redux";
-import { formatCurrencyVND } from "../../utils/format";
-import { selectUser } from "../../redux/userSlice";
+    ReviewContainer,
+    Wrapper,
+} from './ProductStyled';
+import Loading from '../../helpers/Loading';
+import { toast } from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
+import { formatCurrencyVND } from '../../utils/format';
+import { selectUser } from '../../redux/userSlice';
+import CommentItem from '../../components/Basic/CommentItem';
 
 const Product = () => {
     const dispatch = useDispatch();
@@ -110,6 +114,18 @@ const Product = () => {
         }
     }, [currentProduct.product]);
 
+    const [listReviews, setListReviews] = useState([]);
+
+    useEffect(() => {
+        if (currentProduct.product) {
+            const getallComments = async (idProduct) => {
+                const res = await fetchGetCommentsOfProduct(idProduct);
+                setListReviews(res?.data?.listComments);
+            };
+            getallComments(currentProduct.product?._id);
+        }
+    }, [currentProduct.product]);
+
     const handleSelectSize = (e) => {
         const { value } = e.target;
         setSelectSize(Number(value));
@@ -119,8 +135,8 @@ const Product = () => {
 
     const handleClick = () => {
         if (selectSize === null) {
-            toast.info("Please choose a size first", {
-                position: "top-right",
+            toast.info('Please choose a size first', {
+                position: 'top-right',
                 autoClose: 1000,
                 hideProgressBar: false,
                 closeOnClick: true,
@@ -145,8 +161,8 @@ const Product = () => {
             value > quantityBySelectedSize ||
             !checkInteger(value)
         ) {
-            toast.error("Please choose the right quantity", {
-                position: "top-right",
+            toast.error('Please choose the right quantity', {
+                position: 'top-right',
                 autoClose: 1000,
                 hideProgressBar: false,
                 closeOnClick: true,
@@ -173,8 +189,8 @@ const Product = () => {
 
     const handleAddToCart = () => {
         if (selectSize === null) {
-            return toast.error("Please choose the right size and quantity", {
-                position: "top-right",
+            return toast.error('Please choose the right size and quantity', {
+                position: 'top-right',
                 autoClose: 3000,
                 hideProgressBar: false,
                 closeOnClick: true,
@@ -200,8 +216,8 @@ const Product = () => {
                     })
                 ).unwrap();
 
-                toast.success("Add product to cart successful", {
-                    position: "top-right",
+                toast.success('Add product to cart successful', {
+                    position: 'top-right',
                     autoClose: 1000,
                     hideProgressBar: false,
                     closeOnClick: true,
@@ -211,7 +227,7 @@ const Product = () => {
                 });
             } catch (err) {
                 toast.error(`${err}`, {
-                    position: "top-right",
+                    position: 'top-right',
                     autoClose: 1000,
                     hideProgressBar: false,
                     closeOnClick: true,
@@ -233,7 +249,7 @@ const Product = () => {
                 <ImageContainer>
                     <ImagePrimaryContainer>
                         <Image
-                            alt="img"
+                            alt='img'
                             src={currentProduct.product?.primaryImages?.[0].img}
                         />
                     </ImagePrimaryContainer>
@@ -247,14 +263,14 @@ const Product = () => {
                     <Name>{currentProduct.product?.productName}</Name>
                     <HeaderInformationContainer>
                         <CodeProduct>
-                            Mã sản phẩm:{" "}
-                            <strong style={{ fontWeight: "bold" }}>
+                            Mã sản phẩm:{' '}
+                            <strong style={{ fontWeight: 'bold' }}>
                                 {currentProduct.product?._id}
                             </strong>
                         </CodeProduct>
                         <StateProduct>
-                            Tình trạng:{" "}
-                            <strong style={{ fontWeight: "bold" }}>
+                            Tình trạng:{' '}
+                            <strong style={{ fontWeight: 'bold' }}>
                                 {currentProduct.product?.stateCode}
                             </strong>
                         </StateProduct>
@@ -274,7 +290,7 @@ const Product = () => {
                                 </PriceOld>
                             </>
                         ) : (
-                            <PriceNew color="gray">
+                            <PriceNew color='gray'>
                                 {formatCurrencyVND(
                                     currentProduct.product?.price
                                 )}
@@ -311,7 +327,7 @@ const Product = () => {
                     </ColorContainer>
                     <DetailContainer>
                         <SizeContainer>
-                            Size{" "}
+                            Size{' '}
                             {listSize.map((item) => (
                                 <Size
                                     key={item}
@@ -376,10 +392,24 @@ const Product = () => {
                     <ListProducts listProducts={relatedProducts} />
                 </RelatedProductsContainer>
             ) : undefined}
-            <RecentlyViewedProducts>
-                {/* <h1>Recently Viewed Products</h1> */}
-                {/* <ListProducts listProducts={[1, 1, 1, 1, 1, 1, 1, 1]} /> */}
-            </RecentlyViewedProducts>
+            {/* <RecentlyViewedProducts>
+                <h1>Recently Viewed Products</h1>
+                <ListProducts listProducts={[1, 1, 1, 1, 1, 1, 1, 1]} />
+            </RecentlyViewedProducts> */}
+            <ReviewContainer>
+                <Title>
+                    <Decor />
+                    Reviews
+                </Title>
+                <Wrapper>
+                    {listReviews.map((item) => (
+                        <CommentItem
+                            key={item.user + item.comment}
+                            item={item}
+                        />
+                    ))}
+                </Wrapper>
+            </ReviewContainer>
         </Container>
     );
 };

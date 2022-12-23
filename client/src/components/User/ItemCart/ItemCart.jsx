@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
-import { FiCheck } from "react-icons/fi";
-import { IoClose, IoTrashOutline } from "react-icons/io5";
-import { formatCurrencyVND } from "../../../utils/format";
+import React, { useState } from 'react';
+import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
+import { FiCheck } from 'react-icons/fi';
+import { IoClose, IoTrashOutline } from 'react-icons/io5';
+import { formatCurrencyVND } from '../../../utils/format';
 import {
     Container,
     ImageContainer,
@@ -26,21 +26,22 @@ import {
     ToolContainer,
     CheckContainer,
     DeleteContainer,
-} from "./ItemCartStyled";
-import heartIcon1 from "../../../assets/img/heart (1).png";
-import heartIcon2 from "../../../assets/img/heart (2).png";
+} from './ItemCartStyled';
+import heartIcon1 from '../../../assets/img/heart (1).png';
+import heartIcon2 from '../../../assets/img/heart (2).png';
 import {
     fetchDecreaseNumber,
+    fetchGetCart,
     fetchIncreaseNumber,
     fetchRemoveItem,
     fetchSelectItem,
-} from "../../../services/cartFetch";
-import { useDispatch, useSelector } from "react-redux";
-import Modal from "../Modal";
-import { selectUser } from "../../../redux/userSlice";
-import { useEffect } from "react";
-import { toast } from "react-toastify";
-import { fetchWishList } from "../../../services/userFetch";
+} from '../../../services/cartFetch';
+import { useDispatch, useSelector } from 'react-redux';
+import Modal from '../Modal';
+import { selectUser } from '../../../redux/userSlice';
+import { useEffect } from 'react';
+import { toast } from 'react-toastify';
+import { fetchWishList } from '../../../services/userFetch';
 
 const ItemCart = (props) => {
     const dispatch = useDispatch();
@@ -64,6 +65,14 @@ const ItemCart = (props) => {
             setIsHeart(true);
     }, [currentUser]);
 
+    const fetchCartOfUser = async () => {
+        try {
+            await dispatch(fetchGetCart({ user: currentUser })).unwrap();
+        } catch (error) {
+            console.log('/App/fetchCart');
+        }
+    };
+
     const handlePlusQuantity = async () => {
         try {
             if (selectQuantity < quantityBySelectedSize) {
@@ -74,9 +83,12 @@ const ItemCart = (props) => {
                         quantity: selectQuantity,
                     })
                 ).unwrap();
+                if (product.isError) {
+                    fetchCartOfUser();
+                }
             }
         } catch (error) {
-            console.log("error", error);
+            console.log('error', error);
         }
     };
 
@@ -90,11 +102,14 @@ const ItemCart = (props) => {
                         quantity: selectQuantity,
                     })
                 ).unwrap();
+                if (product.isError) {
+                    fetchCartOfUser();
+                }
             } else {
                 setIsOpened((prev) => !prev);
             }
         } catch (error) {
-            console.log("error", error);
+            console.log('error', error);
         }
     };
 
@@ -108,7 +123,7 @@ const ItemCart = (props) => {
                 })
             ).unwrap();
         } catch (error) {
-            console.log("error", error);
+            console.log('error', error);
         }
     };
 
@@ -122,7 +137,7 @@ const ItemCart = (props) => {
                 })
             ).unwrap();
         } catch (error) {
-            console.log("error", error);
+            console.log('error', error);
         }
     };
 
@@ -140,8 +155,8 @@ const ItemCart = (props) => {
                     })
                 ).unwrap();
                 if (type) {
-                    return toast.error("You just remove product to wishlist", {
-                        position: "top-right",
+                    return toast.error('You just remove product to wishlist', {
+                        position: 'top-right',
                         autoClose: 1000,
                         hideProgressBar: false,
                         closeOnClick: true,
@@ -151,9 +166,9 @@ const ItemCart = (props) => {
                     });
                 } else {
                     return toast.success(
-                        "You just add new product to wishlist",
+                        'You just add new product to wishlist',
                         {
-                            position: "top-right",
+                            position: 'top-right',
                             autoClose: 1000,
                             hideProgressBar: false,
                             closeOnClick: true,
@@ -165,7 +180,7 @@ const ItemCart = (props) => {
                 }
             } catch (error) {
                 toast.error(error, {
-                    position: "top-right",
+                    position: 'top-right',
                     autoClose: 1000,
                     hideProgressBar: false,
                     closeOnClick: true,
@@ -175,8 +190,8 @@ const ItemCart = (props) => {
                 });
             }
         } else {
-            toast.error("You need to login to use this feature.", {
-                position: "top-right",
+            toast.error('You need to login to use this feature.', {
+                position: 'top-right',
                 autoClose: 1000,
                 hideProgressBar: false,
                 closeOnClick: true,
@@ -200,9 +215,9 @@ const ItemCart = (props) => {
             isError={product?.isError}
         >
             <ImageContainer>
-                <Image src={product?.product.primaryImages[0].img} alt="#" />
+                <Image src={product?.product.primaryImages[0].img} alt='#' />
                 <HeartContainer isHeart={isHeart} onClick={handleWishList}>
-                    <Heart src={isHeart ? heartIcon1 : heartIcon2} alt="img" />
+                    <Heart src={isHeart ? heartIcon1 : heartIcon2} alt='img' />
                 </HeartContainer>
             </ImageContainer>
             <BodyContainer>
@@ -234,12 +249,12 @@ const ItemCart = (props) => {
                 </Detail>
             </BodyContainer>
             <FooterContainer>
-                have only{" "}
+                have only{' '}
                 {
                     product?.product.color.details.find(
                         (item) => item.size === product?.size
                     ).quantity
-                }{" "}
+                }{' '}
                 in stock
                 <QuantityContainer>
                     <Quantity>

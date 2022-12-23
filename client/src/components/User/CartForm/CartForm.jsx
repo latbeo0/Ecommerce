@@ -1,34 +1,34 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {
     ListProductsContainer,
     ListProducts,
     HeaderList,
     CheckAll,
     ButtonClearAll,
-} from "./CartFormStyled";
-import ItemCart from "../ItemCart";
-import { FiCheck } from "react-icons/fi";
-import { useDispatch } from "react-redux";
+} from './CartFormStyled';
+import ItemCart from '../ItemCart';
+import { FiCheck } from 'react-icons/fi';
+import { useDispatch } from 'react-redux';
 import {
     fetchClearCart,
     fetchSelectAllItem,
     fetchUnSelectAllItem,
-} from "../../../services/cartFetch";
-import Modal from "../Modal";
+} from '../../../services/cartFetch';
+import Modal from '../Modal';
 
 const CartForm = (props) => {
     const dispatch = useDispatch();
 
     const { currentUser, listProducts } = props;
 
-    const checkAll = listProducts.find(
+    const checkAll = listProducts?.find(
         // (item) => !item.isError && !item.isSelected
         (item) => !item.isSelected
     );
 
     // console.log(checkAll);
 
-    const checkError = listProducts.find((item) => item.isError);
+    const checkError = listProducts?.find((item) => item.isError);
 
     // console.log(checkError);
 
@@ -43,7 +43,7 @@ const CartForm = (props) => {
         }
     }, [checkAll]);
 
-    const countErrorProductSelect = listProducts.filter(
+    const countErrorProductSelect = listProducts?.filter(
         (item) => item.isError && item.isSelected
     ).length;
 
@@ -54,7 +54,7 @@ const CartForm = (props) => {
                     fetchSelectAllItem({ user: currentUser })
                 ).unwrap();
             } catch (error) {
-                console.log("error", error);
+                console.log('error', error);
             }
         } else {
             try {
@@ -62,7 +62,7 @@ const CartForm = (props) => {
                     fetchUnSelectAllItem({ user: currentUser })
                 ).unwrap();
             } catch (error) {
-                console.log("error", error);
+                console.log('error', error);
             }
         }
     };
@@ -71,7 +71,7 @@ const CartForm = (props) => {
         try {
             await dispatch(fetchClearCart({ user: currentUser })).unwrap();
         } catch (error) {
-            console.log("error", error);
+            console.log('error', error);
         }
     };
 
@@ -79,21 +79,21 @@ const CartForm = (props) => {
         setIsOpened((prev) => !prev);
     };
 
-    return listProducts?.length > 0 ? (
+    return (
         <ListProductsContainer>
-            <h1 style={{ marginBottom: "2rem" }}>My Cart</h1>
+            <h1 style={{ marginBottom: '2rem' }}>My Cart</h1>
             <HeaderList>
                 <div
                     style={{
-                        display: "flex",
-                        gap: "2.5rem",
+                        display: 'flex',
+                        gap: '2.5rem',
                     }}
                 >
                     <CheckAll onClick={handleCheckAll} checked={isChecked}>
                         {isChecked ? <FiCheck /> : null}
                     </CheckAll>
                     {countErrorProductSelect > 0 ? (
-                        <span style={{ fontStyle: "italic" }}>
+                        <span style={{ fontStyle: 'italic' }}>
                             {`(have ${countErrorProductSelect} error product)`}
                         </span>
                     ) : null}
@@ -103,7 +103,7 @@ const CartForm = (props) => {
                 </ButtonClearAll>
             </HeaderList>
             <ListProducts>
-                {listProducts.map((product) => (
+                {listProducts?.map((product) => (
                     <ItemCart
                         key={product.product._id + product.size}
                         product={product}
@@ -118,8 +118,6 @@ const CartForm = (props) => {
                 />
             ) : null}
         </ListProductsContainer>
-    ) : (
-        <div>No thing in cart</div>
     );
 };
 

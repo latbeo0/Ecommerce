@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
-import styled from "styled-components";
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 
 const Container = styled.div`
     display: flex;
@@ -26,7 +26,9 @@ const Image = styled.img`
 
 const Title = styled.div`
     font-size: 1.875rem;
-    color: #42b86e;
+    color: ${(props) =>
+        props.type === 'error' ? 'var(--red-color)' : 'var(--green-color))'};
+    /* color: #42b86e; */
 `;
 
 const Body = styled.div`

@@ -1,5 +1,5 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import { baseRequest } from "./apiFetch";
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { baseRequest } from './apiFetch';
 
 export const fetchPayment = async (
     orderCode,
@@ -10,7 +10,7 @@ export const fetchPayment = async (
     userId,
     payment
 ) => {
-    return await baseRequest.post("/api/order/payment", {
+    return await baseRequest.post('/api/order/payment', {
         orderCode,
         listOderItems,
         addressShipping,
@@ -20,6 +20,7 @@ export const fetchPayment = async (
         payment,
     });
 };
+
 export const fetchPaymentVnPay = async (
     amount,
     bankCode,
@@ -27,7 +28,7 @@ export const fetchPaymentVnPay = async (
     orderType,
     language
 ) => {
-    return await baseRequest.post("/api/order/create_payment_url", {
+    return await baseRequest.post('/api/order/create_payment_url', {
         amount,
         bankCode,
         orderDescription,
@@ -35,9 +36,14 @@ export const fetchPaymentVnPay = async (
         language,
     });
 };
+
+export const fetchPaymentVnPayReturn = async (url) => {
+    return await baseRequest.get(`/api/order/vnpay_return${url}`, null);
+};
+
 export const fetchGetOrderByDate = async (filter, token) => {
     try {
-        return await baseRequest.post("/api/order/find-by-date", filter, {
+        return await baseRequest.post('/api/order/find-by-date', filter, {
             headers: { Authorization: token },
         });
     } catch (err) {
@@ -46,7 +52,7 @@ export const fetchGetOrderByDate = async (filter, token) => {
 };
 export const fetchGetAllOrder = async (token) => {
     try {
-        return await baseRequest.get("/api/order/find-all", {
+        return await baseRequest.get('/api/order/find-all', {
             headers: { Authorization: token },
         });
     } catch (err) {
@@ -55,7 +61,7 @@ export const fetchGetAllOrder = async (token) => {
 };
 
 export const fetchGetAllOrder1 = createAsyncThunk(
-    "order/fetchGetOrders",
+    'order/fetchGetOrders',
     async (args) => {
         try {
             const { user } = args;
@@ -79,7 +85,7 @@ export const fetchGetAllOrder1 = createAsyncThunk(
 );
 
 export const fetchClearOrder = createAsyncThunk(
-    "order/fetchClearOrder",
+    'order/fetchClearOrder',
     async (args) => {
         try {
         } catch (error) {
@@ -90,8 +96,19 @@ export const fetchClearOrder = createAsyncThunk(
 
 export const fetchOrderByCode = async (orderCode) => {
     try {
-        return await baseRequest.post("/api/order/search/code", {
+        return await baseRequest.post('/api/order/search/code', {
             orderCode,
+        });
+    } catch (error) {
+        throw new Error(error.response.data.msg);
+    }
+};
+
+export const fetchRollBack = async (orderCode, listOderItems) => {
+    try {
+        return await baseRequest.post('/api/order/rollback', {
+            orderCode,
+            listOderItems,
         });
     } catch (error) {
         throw new Error(error.response.data.msg);

@@ -281,7 +281,8 @@ const userCtrl = {
     },
     createUser: async (req, res) => {
         const newUser = new Users(req.body);
-        const user = await Users.findOne(newUser.email);
+        const user = await Users.findOne({ email: newUser.email });
+        // const user = await Users.findOne(newUser.email);
         if (user)
             return res.status(400).json({ msg: 'This email already exists.' });
 

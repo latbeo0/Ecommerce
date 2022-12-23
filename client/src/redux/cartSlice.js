@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 import {
     fetchAddToCart,
     fetchClearCart,
@@ -9,7 +9,7 @@ import {
     fetchSelectAllItem,
     fetchSelectItem,
     fetchUnSelectAllItem,
-} from "../services/cartFetch";
+} from '../services/cartFetch';
 
 const initialState = {
     isLoading: false,
@@ -18,7 +18,7 @@ const initialState = {
 };
 
 export const cartSlice = createSlice({
-    name: "cart",
+    name: 'cart',
     initialState,
     reducers: {},
     extraReducers: (builder) => {
