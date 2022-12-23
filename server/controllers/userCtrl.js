@@ -272,7 +272,7 @@ const userCtrl = {
   },
   createUser: async (req, res) => {
     const newUser = new Users(req.body);
-    const user = await Users.findOne(newUser.email);
+    const user = await Users.findOne({ email: newUser.email });
     if (user)
       return res.status(400).json({ msg: "This email already exists." });
 
@@ -291,7 +291,7 @@ const userCtrl = {
     }
   },
   updateUserById: async (req, res) => {
-    console.log(req.user)
+    console.log(req.user);
     try {
       await Users.findOneAndUpdate(
         { _id: req.user.id },
@@ -311,187 +311,173 @@ const userCtrl = {
       const { id } = req.params;
       //   const user = req.user;
 
-            return res
-                .status(200)
-                .json({ msg: "Delete Address Shipping Successful!" });
-        } catch (err) {
-            return res.status(500).json({ msg: err.message });
-        }
-    },
-    // Add to cart
-    addToCart: async (req, res) => {
-        try {
-            const user = req.user;
-            const { productId, size, count, isSelected } = req.body;
+      return res
+        .status(200)
+        .json({ msg: "Delete Address Shipping Successful!" });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+  // Add to cart
+  addToCart: async (req, res) => {
+    try {
+      const user = req.user;
+      const { productId, size, count, isSelected } = req.body;
 
-            await Users.findOneAndUpdate(
-                { _id: user.id },
-                { $push: { cart: { productId, size, count, isSelected } } }
-            );
+      await Users.findOneAndUpdate(
+        { _id: user.id },
+        { $push: { cart: { productId, size, count, isSelected } } }
+      );
 
-            return res
-                .status(200)
-                .json({ msg: "Add Product To Cart Successful!" });
-        } catch (err) {
-            return res.status(500).json({ msg: err.message });
-        }
-    },
-    // Get cart
-    getCart: async (req, res) => {
-        try {
-            const user = req.user;
+      return res.status(200).json({ msg: "Add Product To Cart Successful!" });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+  // Get cart
+  getCart: async (req, res) => {
+    try {
+      const user = req.user;
 
-            const data = await Users.findById({ _id: user.id });
+      const data = await Users.findById({ _id: user.id });
 
-            const cart = [];
+      const cart = [];
 
-            for (const cartItem of data.cart) {
-                const { productId, size, count, isSelected } = cartItem;
-                const product = await Product.findById({ _id: productId });
-                cart.push({
-                    product,
-                    size,
-                    count,
-                    isSelected,
-                });
-            }
+      for (const cartItem of data.cart) {
+        const { productId, size, count, isSelected } = cartItem;
+        const product = await Product.findById({ _id: productId });
+        cart.push({
+          product,
+          size,
+          count,
+          isSelected,
+        });
+      }
 
-            return res.status(200).json({ cart });
-        } catch (err) {
-            return res.status(500).json({ msg: err.message });
-        }
-    },
-    // Clear cart
-    clearCart: async (req, res) => {
-        try {
-            const user = req.user;
+      return res.status(200).json({ cart });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+  // Clear cart
+  clearCart: async (req, res) => {
+    try {
+      const user = req.user;
 
-            await Users.findByIdAndUpdate(
-                { _id: user.id },
-                { $set: { cart: [] } }
-            );
+      await Users.findByIdAndUpdate({ _id: user.id }, { $set: { cart: [] } });
 
-            return res.status(200).json({ msg: "Clear Cart Successful" });
-        } catch (err) {
-            return res.status(500).json({ msg: err.message });
-        }
-    },
-    // Remove item cart
-    removeItemCart: async (req, res) => {
-        try {
-            const user = req.user;
-            const { productId } = req.body;
+      return res.status(200).json({ msg: "Clear Cart Successful" });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+  // Remove item cart
+  removeItemCart: async (req, res) => {
+    try {
+      const user = req.user;
+      const { productId } = req.body;
 
-            await Users.updateMany(
-                { _id: user.id },
-                { $pull: { cart: { productId: productId } } }
-            );
+      await Users.updateMany(
+        { _id: user.id },
+        { $pull: { cart: { productId: productId } } }
+      );
 
-            return res.status(200).json({ msg: "Remove Item Cart Successful" });
-        } catch (err) {
-            return res.status(500).json({ msg: err.message });
-        }
-    },
-    // Increase quantity cart
-    increaseQuantity: async (req, res) => {
-        try {
-            const user = req.user;
-            const { productId, quantity } = req.body;
+      return res.status(200).json({ msg: "Remove Item Cart Successful" });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+  // Increase quantity cart
+  increaseQuantity: async (req, res) => {
+    try {
+      const user = req.user;
+      const { productId, quantity } = req.body;
 
-            await Users.findOneAndUpdate(
-                { _id: user.id, "cart.productId": productId },
-                { $set: { "cart.$.count": quantity } }
-            );
+      await Users.findOneAndUpdate(
+        { _id: user.id, "cart.productId": productId },
+        { $set: { "cart.$.count": quantity } }
+      );
 
-            return res
-                .status(200)
-                .json({ msg: "Increase Quantity Successful" });
-        } catch (err) {
-            return res.status(500).json({ msg: err.message });
-        }
-    },
-    // Decrease quantity cart
-    decreaseQuantity: async (req, res) => {
-        try {
-            const user = req.user;
-            const { productId, quantity } = req.body;
+      return res.status(200).json({ msg: "Increase Quantity Successful" });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+  // Decrease quantity cart
+  decreaseQuantity: async (req, res) => {
+    try {
+      const user = req.user;
+      const { productId, quantity } = req.body;
 
-            await Users.findOneAndUpdate(
-                { _id: user.id, "cart.productId": productId },
-                { $set: { "cart.$.count": quantity } }
-            );
+      await Users.findOneAndUpdate(
+        { _id: user.id, "cart.productId": productId },
+        { $set: { "cart.$.count": quantity } }
+      );
 
-            return res
-                .status(200)
-                .json({ msg: "Decrease Quantity Successful" });
-        } catch (err) {
-            return res.status(500).json({ msg: err.message });
-        }
-    },
-    // Select product cart
-    selectItemCart: async (req, res) => {
-        try {
-            const user = req.user;
-            const { productId, isSelected } = req.body;
+      return res.status(200).json({ msg: "Decrease Quantity Successful" });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+  // Select product cart
+  selectItemCart: async (req, res) => {
+    try {
+      const user = req.user;
+      const { productId, isSelected } = req.body;
 
-            await Users.findOneAndUpdate(
-                { _id: user.id, "cart.productId": productId },
-                { $set: { "cart.$.isSelected": isSelected } }
-            );
+      await Users.findOneAndUpdate(
+        { _id: user.id, "cart.productId": productId },
+        { $set: { "cart.$.isSelected": isSelected } }
+      );
 
-            return res.status(200).json({ msg: "Select Item Cart Successful" });
-        } catch (err) {
-            return res.status(500).json({ msg: err.message });
-        }
-    },
-    // Select all product cart
-    selectAllItemCart: async (req, res) => {
-        try {
-            const user = req.user;
+      return res.status(200).json({ msg: "Select Item Cart Successful" });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+  // Select all product cart
+  selectAllItemCart: async (req, res) => {
+    try {
+      const user = req.user;
 
-            await Users.updateMany(
-                { _id: user.id },
-                { $set: { "cart.$[].isSelected": true } }
-            );
+      await Users.updateMany(
+        { _id: user.id },
+        { $set: { "cart.$[].isSelected": true } }
+      );
 
-            return res
-                .status(200)
-                .json({ msg: "Select All Item Cart Successful" });
-        } catch (err) {
-            return res.status(500).json({ msg: err.message });
-        }
-    },
-    // Unselect all product cart
-    unselectAllItemCart: async (req, res) => {
-        try {
-            const user = req.user;
+      return res.status(200).json({ msg: "Select All Item Cart Successful" });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+  // Unselect all product cart
+  unselectAllItemCart: async (req, res) => {
+    try {
+      const user = req.user;
 
-            await Users.updateMany(
-                { _id: user.id },
-                { $set: { "cart.$[].isSelected": false } }
-            );
+      await Users.updateMany(
+        { _id: user.id },
+        { $set: { "cart.$[].isSelected": false } }
+      );
 
-            return res
-                .status(200)
-                .json({ msg: "Unselect All Item Cart Successful" });
-        } catch (err) {
-            return res.status(500).json({ msg: err.message });
-        }
-    },
-    //Admin
-    getAllUser: async (req, res) => {
-        try {
-            let user;
-            user = await Users.find().populate({
-                path: "vRole",
-                select: "roleName -roleCode",
-            });
-            res.status(200).json({ user });
-        } catch (err) {
-            return res.status(500).json({ msg: err.message });
-        }
-    },
-    
+      return res.status(200).json({ msg: "Unselect All Item Cart Successful" });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+  //Admin
+  getAllUser: async (req, res) => {
+    try {
+      let user;
+      user = await Users.find().populate({
+        path: "vRole",
+        select: "roleName -roleCode",
+      });
+      res.status(200).json({ user });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
 };
 
 module.exports = userCtrl;

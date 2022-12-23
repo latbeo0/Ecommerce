@@ -44,6 +44,7 @@ const App = () => {
     const user = useSelector(selectUser);
 
     useEffect(() => {
+        console.log(user.currentUser)
         const fetchAccessToken = async () => {
             try {
                 if (auth.isLogged && !user.currentUser) {
@@ -176,7 +177,7 @@ const App = () => {
             <BrowserRouter>
                 <ScrollToTop />
                 <Routes>
-                    {user?.currentUser && user.currentUser.level < 3 ? (
+                    {user?.currentUser && user.currentUser.level < 4? (
                         <Route path='/*' index element={<AdminRouter />} />
                     ) : (
                         <>
