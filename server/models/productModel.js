@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const StateModel = require('./stateModel');
 const SaleModel = require('./saleModel');
+const MaterialModel = require('./materialModel');
 
 const ProductSchema = new mongoose.Schema(
     {
@@ -10,7 +11,6 @@ const ProductSchema = new mongoose.Schema(
         secondaryImages: { type: Array, required: true },
         stateCode: { type: String },
         saleCode: { type: String },
-        materialCode: { type: String },
         color: { type: Object },
         price: { type: Number, required: true },
         newPrice: { type: Number },
@@ -33,11 +33,7 @@ ProductSchema.virtual('vSale', {
     localField: 'saleCode',
     foreignField: 'saleCode',
 });
-ProductSchema.virtual('vMaterial', {
-  ref: SaleModel,
-  localField: 'materialCode',
-  foreignField: 'materialCode',
-});
+
 
 ProductSchema.set('toObject', { virtuals: true });
 ProductSchema.set('toJSON', { virtuals: true });

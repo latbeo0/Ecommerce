@@ -1,9 +1,11 @@
 const mongoose = require("mongoose");
+const counter = require("./counterModel");
 
 const SaleSchema = new mongoose.Schema(
   {
-    saleCode: { type: String, required: true, unique: true },
+    saleCode: { type: String, unique: true },
     saleName: { type: String, required: true },
+    saleDescription: { type: String, required: true },
     discount: { type: Number },
     startDate: { type: Date },
     endDate: { type: Date },
@@ -22,7 +24,7 @@ SaleSchema.pre("save", function (next) {
       var str = "" + counter.seq;
       var pad = "0000";
       var ans = pad.substring(0, pad.length - str.length) + str;
-      model.cateCode = `SAL${new Date().getMonth() + 1}${new Date().getFullYear()}${ans}`;
+      model.saleCode = `SAL${new Date().getMonth() + 1}${new Date().getFullYear()}${ans}`;
       next();
     }
   );

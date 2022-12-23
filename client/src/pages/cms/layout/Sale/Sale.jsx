@@ -1,40 +1,46 @@
-import React, { useState } from "react";
-import DataGrid from "../../../../components/Basic/DataGrid";
-import Stack from "@mui/material/Stack";
-import IconButton from "@mui/material/IconButton";
-import { SaleHeader, SaleTitle } from "./SaleStyle";
-import * as data from "./data";
+import React, { useState } from 'react';
+import DataGrid from '../../../../components/Basic/DataGrid';
+import Stack from '@mui/material/Stack';
+import IconButton from '@mui/material/IconButton';
+import { SaleHeader, SaleTitle } from './SaleStyle';
+import * as data from './data';
 // import PopupEdit from "../../../../components/CMS/Sale/PopupEdit";
-import { fetchGetAllSale } from "../../../../services/saleFetch";
-import BasicPopup from "./../../../../components/CMS/BasicPopup/BasicPopup";
-import Toolbar from "./../../../../components/CMS/Toolbar/Toolbar";
-import { selectUser } from "./../../../../redux/userSlice";
-import { useSelector } from "react-redux";
+import { fetchGetAllSale } from '../../../../services/saleFetch';
+import BasicPopup from './../../../../components/CMS/BasicPopup/BasicPopup';
+import Toolbar from './../../../../components/CMS/Toolbar/Toolbar';
+import { selectUser } from './../../../../redux/userSlice';
+import { useSelector } from 'react-redux';
+import Toolbar from './../../../../components/CMS/Toolbar/Toolbar';
+import { selectUser } from './../../../../redux/userSlice';
+import { useSelector } from 'react-redux';
 
 const defaultColumnWidths = [
-    { columnName: "saleCode", width: 200 },
-    { columnName: "saleName", width: 300 },
-    { columnName: "saleDescription", width: 400 },
+    { columnName: 'saleCode', width: 200 },
+    { columnName: 'saleName', width: 200 },
+    { columnName: 'discount', width: 200 },
+    { columnName: 'startDate', width: 400 },
+    { columnName: 'endDate', width: 400 },
+    { columnName: 'saleDescription', width: 400 },
 ];
 const actionReducer = (state, action) => {
     switch (action.type) {
-        case "ADD":
-            return { ...state, type: "ADD", payload: "", open: true };
-        case "UPDATE":
+        case 'ADD':
+            return { ...state, type: 'ADD', payload: '', open: true };
+        case 'UPDATE':
             return {
                 ...state,
-                type: "UPDATE",
+                type: 'UPDATE',
                 payload: action.payload,
                 open: true,
             };
-        case "DELETE":
+        case 'DELETE':
             return state;
-        case "FILTER":
+        case 'FILTER':
             return state;
-        case "OPTION":
+        case 'OPTION':
             return state;
         default:
-            return { ...state, type: "", payload: null, open: false };
+            return { ...state, type: '', payload: null, open: false };
     }
 };
 const Sale = () => {
@@ -47,18 +53,20 @@ const Sale = () => {
         isShowSelect: false,
     });
     const [action, dispatchAction] = React.useReducer(actionReducer, {
-        type: "",
+        type: '',
         payload: null,
         open: false,
     });
-    const [isOpen, setOpen] = useState(false);
-    const [saleDetail, setSaleDetail] = useState();
+    const [reload, setReload] = React.useState(false);
     const [selection, setSelection] = React.useState([]);
     const [rows, setRows] = useState([]);
     const [columns, setColumns] = useState([
-        { name: "saleCode", title: "Code" },
-        { name: "saleName", title: "Sale" },
-        { name: "saleDescription", title: "Description" },
+        { name: 'saleCode', title: 'Code' },
+        { name: 'saleName', title: 'Sale' },
+        { name: 'discount', title: 'Discount' },
+        { name: 'startDate', title: 'From' },
+        { name: 'endDate', title: 'To' },
+        { name: 'saleDescription', title: 'Description' },
     ]);
 
     React.useEffect(() => {
@@ -71,6 +79,10 @@ const Sale = () => {
                             id: item._id,
                             saleCode: item.saleCode,
                             saleName: item.saleName,
+                            saleDescription: item.saleDescription,
+                            discount: item.discount?.toString(),
+                            startDate: item?.startDate,
+                            endDate: item?.endDate,
                         });
                     });
                     setRows(tempArr);
@@ -80,47 +92,47 @@ const Sale = () => {
                 });
         };
         fetchData();
-    }, []);
+    }, [reload]);
 
     const ListButtonCustomize = [
         {
             menuName: !option.isShowSelect
-                ? "Show select box"
-                : "Hide select box",
+                ? 'Show select box'
+                : 'Hide select box',
             onClick: () => {
                 setOption({ ...option, isShowSelect: !option.isShowSelect });
             },
-            backgroundColor: option.isShowSelect && "#1890ffc9",
-            color: option.isShowSelect && "#FFF",
+            backgroundColor: option.isShowSelect && '#1890ffc9',
+            color: option.isShowSelect && '#FFF',
         },
         {
             menuName: !option.isShowSearchBar
-                ? "Show search bar"
-                : "Hide search bar",
+                ? 'Show search bar'
+                : 'Hide search bar',
             onClick: () => {
                 setOption({
                     ...option,
                     isShowSearchBar: !option.isShowSearchBar,
                 });
             },
-            backgroundColor: option.isShowSearchBar && "#1890ffc9",
-            color: option.isShowSearchBar && "#FFF",
+            backgroundColor: option.isShowSearchBar && '#1890ffc9',
+            color: option.isShowSearchBar && '#FFF',
         },
         {
-            menuName: !option.isShowGroup ? "Show grouping" : "Hide grouping",
+            menuName: !option.isShowGroup ? 'Show grouping' : 'Hide grouping',
             onClick: () => {
                 setOption({ ...option, isShowGroup: !option.isShowGroup });
             },
-            backgroundColor: option.isShowGroup && "#1890ffc9",
-            color: option.isShowGroup && "#FFF",
+            backgroundColor: option.isShowGroup && '#1890ffc9',
+            color: option.isShowGroup && '#FFF',
         },
         {
-            menuName: !option.isShowSort ? "Show sorting" : "Hide sorting",
+            menuName: !option.isShowSort ? 'Show sorting' : 'Hide sorting',
             onClick: () => {
                 setOption({ ...option, isShowSort: !option.isShowSort });
             },
-            backgroundColor: option.isShowSort && "#1890ffc9",
-            color: option.isShowSort && "#FFF",
+            backgroundColor: option.isShowSort && '#1890ffc9',
+            color: option.isShowSort && '#FFF',
         },
     ];
     const handleRowChange = (index) => {
@@ -136,11 +148,14 @@ const Sale = () => {
             {React.useMemo(() => {
                 return (
                     <BasicPopup
-                        collection="SALE"
+                        collection='SALE'
                         type={action.type}
                         row={action.payload}
                         open={action.open}
-                        onClose={() => dispatchAction({ type: "" })}
+                        onClose={() => {
+                            setReload(!reload);
+                            dispatchAction({ type: '' });
+                        }}
                     />
                 );
             }, [action.open])}

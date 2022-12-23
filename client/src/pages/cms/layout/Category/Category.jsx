@@ -1,36 +1,36 @@
-import React, { useState } from "react";
-import DataGrid from "../../../../components/Basic/DataGrid";
-import Stack from "@mui/material/Stack";
-import IconButton from "@mui/material/IconButton";
-import { CategoryHeader, CategoryTitle } from "./CategoryStyle";
-import * as data from "./data";
+import React, { useState } from 'react';
+import DataGrid from '../../../../components/Basic/DataGrid';
+import Stack from '@mui/material/Stack';
+import IconButton from '@mui/material/IconButton';
+import { CategoryHeader, CategoryTitle } from './CategoryStyle';
+import * as data from './data';
 // import PopupEdit from "../../../../components/CMS/Category/PopupEdit";
-import { fetchGetAllCategory } from "../../../../services/categoryFetch";
-import BasicPopup from "../../../../components/CMS/BasicPopup/BasicPopup";
-import Toolbar from "./../../../../components/CMS/Toolbar/Toolbar";
+import { fetchGetAllCategory } from '../../../../services/categoryFetch';
+import BasicPopup from '../../../../components/CMS/BasicPopup/BasicPopup';
+import Toolbar from './../../../../components/CMS/Toolbar/Toolbar';
 
 const defaultColumnWidths = [
-    { columnName: "cateCode", width: 200 },
-    { columnName: "cateName", width: 300 },
-    { columnName: "cateDescription", width: 400 },
+    { columnName: 'cateCode', width: 200 },
+    { columnName: 'cateName', width: 300 },
+    { columnName: 'cateDescription', width: 400 },
 ];
 const actionReducer = (state, action) => {
     switch (action.type) {
-        case "ADD":
-            return { ...state, type: "ADD", payload: "", open: true };
-        case "UPDATE":
+        case 'ADD':
+            return { ...state, type: 'ADD', payload: '', open: true };
+        case 'UPDATE':
             return {
                 ...state,
-                type: "UPDATE",
+                type: 'UPDATE',
                 payload: action.payload,
                 open: true,
             };
-        case "DELETE":
+        case 'DELETE':
             return state;
-        case "FILTER":
+        case 'FILTER':
             return state;
         default:
-            return { ...state, type: "", payload: null, open: false };
+            return { ...state, type: '', payload: null, open: false };
     }
 };
 const Category = () => {
@@ -42,7 +42,7 @@ const Category = () => {
         isShowSelect: false,
     });
     const [action, dispatchAction] = React.useReducer(actionReducer, {
-        type: "",
+        type: '',
         payload: null,
         open: false,
     });
@@ -50,11 +50,11 @@ const Category = () => {
     const [selection, setSelection] = React.useState([]);
     const [rows, setRows] = useState([]);
     const [columns, setColumns] = useState([
-        { name: "cateCode", title: "Code" },
-        { name: "cateName", title: "Category" },
-        { name: "cateDescription", title: "Description" },
+        { name: 'cateCode', title: 'Code' },
+        { name: 'cateName', title: 'Category' },
+        { name: 'cateDescription', title: 'Description' },
     ]);
-
+    const [reload, setReload] = React.useState(false);
     React.useEffect(() => {
         const fetchData = async () => {
             await fetchGetAllCategory()
@@ -65,6 +65,7 @@ const Category = () => {
                             id: item._id,
                             cateCode: item.cateCode,
                             cateName: item.cateName,
+                            cateDescription: item.cateDescription,
                         });
                     });
                     setRows(tempArr);
@@ -74,46 +75,46 @@ const Category = () => {
                 });
         };
         fetchData();
-    }, []);
+    }, [reload]);
     const ListButtonCustomize = [
         {
             menuName: !option.isShowSelect
-                ? "Show select box"
-                : "Hide select box",
+                ? 'Show select box'
+                : 'Hide select box',
             onClick: () => {
                 setOption({ ...option, isShowSelect: !option.isShowSelect });
             },
-            backgroundColor: option.isShowSelect && "#1890ffc9",
-            color: option.isShowSelect && "#FFF",
+            backgroundColor: option.isShowSelect && '#1890ffc9',
+            color: option.isShowSelect && '#FFF',
         },
         {
             menuName: !option.isShowSearchBar
-                ? "Show search bar"
-                : "Hide search bar",
+                ? 'Show search bar'
+                : 'Hide search bar',
             onClick: () => {
                 setOption({
                     ...option,
                     isShowSearchBar: !option.isShowSearchBar,
                 });
             },
-            backgroundColor: option.isShowSearchBar && "#1890ffc9",
-            color: option.isShowSearchBar && "#FFF",
+            backgroundColor: option.isShowSearchBar && '#1890ffc9',
+            color: option.isShowSearchBar && '#FFF',
         },
         {
-            menuName: !option.isShowGroup ? "Show grouping" : "Hide grouping",
+            menuName: !option.isShowGroup ? 'Show grouping' : 'Hide grouping',
             onClick: () => {
                 setOption({ ...option, isShowGroup: !option.isShowGroup });
             },
-            backgroundColor: option.isShowGroup && "#1890ffc9",
-            color: option.isShowGroup && "#FFF",
+            backgroundColor: option.isShowGroup && '#1890ffc9',
+            color: option.isShowGroup && '#FFF',
         },
         {
-            menuName: !option.isShowSort ? "Show sorting" : "Hide sorting",
+            menuName: !option.isShowSort ? 'Show sorting' : 'Hide sorting',
             onClick: () => {
                 setOption({ ...option, isShowSort: !option.isShowSort });
             },
-            backgroundColor: option.isShowSort && "#1890ffc9",
-            color: option.isShowSort && "#FFF",
+            backgroundColor: option.isShowSort && '#1890ffc9',
+            color: option.isShowSort && '#FFF',
         },
     ];
 
@@ -130,11 +131,14 @@ const Category = () => {
             {React.useMemo(() => {
                 return (
                     <BasicPopup
-                        collection="CATEGORY"
+                        collection='CATEGORY'
                         type={action.type}
                         row={action.payload}
                         open={action.open}
-                        onClose={() => dispatchAction({ type: "" })}
+                        onClose={() => {
+                            setReload(!reload);
+                            dispatchAction({ type: '' });
+                        }}
                     />
                 );
             }, [action.open])}

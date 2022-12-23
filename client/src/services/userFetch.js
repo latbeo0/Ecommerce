@@ -43,6 +43,7 @@ export const fetchGetAllUser = async (token) => {
     }
 };
 export const fetchAddNewUser = async (user, token) => {
+    console.log(user, token)
     try {
         return await baseRequest.post('/api/user/create-new', user, {
             headers: { Authorization: token },

@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
+const counter = require("./counterModel");
 
 const CollectionSchema = new mongoose.Schema(
   {
-    collectCode: { type: String, required: true, unique: true },
+    collectCode: { type: String, unique: true },
     collectName: { type: String, required: true },
     collectDescription: { type: String },
   },
@@ -20,7 +21,7 @@ CollectionSchema.pre("save", function (next) {
       var str = "" + counter.seq;
       var pad = "0000";
       var ans = pad.substring(0, pad.length - str.length) + str;
-      model.cateCode = `CLT${new Date().getMonth() + 1}${new Date().getFullYear()}${ans}`;
+      model.collectCode = `CLT${new Date().getMonth() + 1}${new Date().getFullYear()}${ans}`;
       next();
     }
   );
