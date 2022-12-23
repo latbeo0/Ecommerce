@@ -38,7 +38,7 @@ const Collection = () => {
     isShowSearchBar: false,
     isShowSelect: false,
   });
-  const [isOpen, setOpen] = useState(false);
+  const [reload, setReload] = useState(false);
   const [action, dispatchAction] = React.useReducer(actionReducer, {
     type: "",
     payload: null,
@@ -63,6 +63,7 @@ const Collection = () => {
               id: item._id,
               collectCode: item.collectCode,
               collectName: item.collectName,
+              collectDescription: item.collectDescription
             });
           });
           setRows(tempArr);
@@ -72,7 +73,7 @@ const Collection = () => {
         });
     };
     fetchData();
-  }, []);
+  }, [reload]);
   const ListButtonCustomize = [
     {
       menuName: !option.isShowSelect ? "Show select box" : "Hide select box",
@@ -127,7 +128,9 @@ const Collection = () => {
             type={action.type}
             row={action.payload}
             open={action.open}
-            onClose={() => dispatchAction({ type: "" })}
+            onClose={() => {
+              setReload(!reload)
+              dispatchAction({ type: "" })}}
           />
         );
       }, [action.open])}

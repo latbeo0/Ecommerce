@@ -161,7 +161,6 @@ const Dashboard = () => {
         setData1(response?.data?.products?.length);
       });
       fetchGetOrderByDate(filter, currentUser.access_token).then((response) => {
-        console.log(response?.data?.orders);
         setData3(response?.data?.orders?.length);
         let customerArr = [];
         response.data.orders.forEach((order, index) => {
@@ -196,7 +195,6 @@ const Dashboard = () => {
             });
           }
         });
-        console.log(customerArr);
         setData2(customerArr);
 
         let tempArr = [];

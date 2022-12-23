@@ -7,13 +7,16 @@ import * as data from "./data";
 // import PopupEdit from "../../../../components/CMS/Sale/PopupEdit";
 import { fetchGetAllSale } from "../../../../services/saleFetch";
 import BasicPopup from "./../../../../components/CMS/BasicPopup/BasicPopup";
-import Toolbar from './../../../../components/CMS/Toolbar/Toolbar';
-import { selectUser } from './../../../../redux/userSlice';
-import { useSelector } from 'react-redux';
+import Toolbar from "./../../../../components/CMS/Toolbar/Toolbar";
+import { selectUser } from "./../../../../redux/userSlice";
+import { useSelector } from "react-redux";
 
 const defaultColumnWidths = [
   { columnName: "saleCode", width: 200 },
-  { columnName: "saleName", width: 300 },
+  { columnName: "saleName", width: 200 },
+  { columnName: "discount", width: 200 },
+  { columnName: "startDate", width: 400 },
+  { columnName: "endDate", width: 400 },
   { columnName: "saleDescription", width: 400 },
 ];
 const actionReducer = (state, action) => {
@@ -46,13 +49,15 @@ const Sale = () => {
     payload: null,
     open: false,
   });
-  const [isOpen, setOpen] = useState(false);
-  const [saleDetail, setSaleDetail] = useState();
+  const [reload, setReload] = React.useState(false);
   const [selection, setSelection] = React.useState([]);
   const [rows, setRows] = useState([]);
   const [columns, setColumns] = useState([
     { name: "saleCode", title: "Code" },
     { name: "saleName", title: "Sale" },
+    { name: "discount", title: "Discount" },
+    { name: "startDate", title: "From" },
+    { name: "endDate", title: "To" },
     { name: "saleDescription", title: "Description" },
   ]);
 
@@ -66,6 +71,10 @@ const Sale = () => {
               id: item._id,
               saleCode: item.saleCode,
               saleName: item.saleName,
+              saleDescription: item.saleDescription,
+              discount: item.discount?.toString(),
+              startDate: item?.startDate,
+              endDate: item?.endDate,
             });
           });
           setRows(tempArr);
@@ -75,7 +84,7 @@ const Sale = () => {
         });
     };
     fetchData();
-  }, []);
+  }, [reload]);
 
   const ListButtonCustomize = [
     {
@@ -84,7 +93,7 @@ const Sale = () => {
         setOption({ ...option, isShowSelect: !option.isShowSelect });
       },
       backgroundColor: option.isShowSelect && "#1890ffc9",
-      color: option.isShowSelect && "#FFF"
+      color: option.isShowSelect && "#FFF",
     },
     {
       menuName: !option.isShowSearchBar ? "Show search bar" : "Hide search bar",
@@ -92,8 +101,7 @@ const Sale = () => {
         setOption({ ...option, isShowSearchBar: !option.isShowSearchBar });
       },
       backgroundColor: option.isShowSearchBar && "#1890ffc9",
-      color: option.isShowSearchBar && "#FFF"
-
+      color: option.isShowSearchBar && "#FFF",
     },
     {
       menuName: !option.isShowGroup ? "Show grouping" : "Hide grouping",
@@ -101,8 +109,7 @@ const Sale = () => {
         setOption({ ...option, isShowGroup: !option.isShowGroup });
       },
       backgroundColor: option.isShowGroup && "#1890ffc9",
-      color: option.isShowGroup && "#FFF"
-
+      color: option.isShowGroup && "#FFF",
     },
     {
       menuName: !option.isShowSort ? "Show sorting" : "Hide sorting",
@@ -110,8 +117,7 @@ const Sale = () => {
         setOption({ ...option, isShowSort: !option.isShowSort });
       },
       backgroundColor: option.isShowSort && "#1890ffc9",
-      color: option.isShowSort && "#FFF"
-
+      color: option.isShowSort && "#FFF",
     },
   ];
   const handleRowChange = (index) => {
@@ -131,12 +137,15 @@ const Sale = () => {
             type={action.type}
             row={action.payload}
             open={action.open}
-            onClose={() => dispatchAction({ type: "" })}
+            onClose={() => {
+              setReload(!reload);
+              dispatchAction({ type: "" });
+            }}
           />
         );
       }, [action.open])}
 
-     <SaleHeader>
+      <SaleHeader>
         <SaleTitle>Sale</SaleTitle>
       </SaleHeader>
       <Toolbar

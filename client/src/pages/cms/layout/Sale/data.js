@@ -42,16 +42,16 @@ export const ListButton = [
         disabled: true,
         level: 1,
     },
-    {
-        key: "B4",
-        ariaLabel: "Filter",
-        size: "medium",
-        type: "FILTER",
-        fontSize: "inherit",
-        icon : <FilterAltIcon/>,
-        disabled: false,
-        level: 3
-    },
+    // {
+    //     key: "B4",
+    //     ariaLabel: "Filter",
+    //     size: "medium",
+    //     type: "FILTER",
+    //     fontSize: "inherit",
+    //     icon : <FilterAltIcon/>,
+    //     disabled: false,
+    //     level: 3
+    // },
 ]
 export const ListButtonCustomize = [];
 

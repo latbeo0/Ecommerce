@@ -23,7 +23,7 @@ const actionReducer = (state, action) => {
     case "DELETE":
       return state;
     case "FILTER":
-      return state;;
+      return state;
     default:
       return { ...state, type: "", payload: null, open: false };
   }
@@ -41,7 +41,7 @@ const Category = () => {
     payload: null,
     open: false,
   });
-  
+
   const [selection, setSelection] = React.useState([]);
   const [rows, setRows] = useState([]);
   const [columns, setColumns] = useState([
@@ -49,7 +49,7 @@ const Category = () => {
     { name: "cateName", title: "Category" },
     { name: "cateDescription", title: "Description" },
   ]);
-
+  const [reload, setReload] = React.useState(false);
   React.useEffect(() => {
     const fetchData = async () => {
       await fetchGetAllCategory()
@@ -60,6 +60,7 @@ const Category = () => {
               id: item._id,
               cateCode: item.cateCode,
               cateName: item.cateName,
+              cateDescription: item.cateDescription,
             });
           });
           setRows(tempArr);
@@ -69,7 +70,7 @@ const Category = () => {
         });
     };
     fetchData();
-  }, []);
+  }, [reload]);
   const ListButtonCustomize = [
     {
       menuName: !option.isShowSelect ? "Show select box" : "Hide select box",
@@ -77,7 +78,7 @@ const Category = () => {
         setOption({ ...option, isShowSelect: !option.isShowSelect });
       },
       backgroundColor: option.isShowSelect && "#1890ffc9",
-      color: option.isShowSelect && "#FFF"
+      color: option.isShowSelect && "#FFF",
     },
     {
       menuName: !option.isShowSearchBar ? "Show search bar" : "Hide search bar",
@@ -85,8 +86,7 @@ const Category = () => {
         setOption({ ...option, isShowSearchBar: !option.isShowSearchBar });
       },
       backgroundColor: option.isShowSearchBar && "#1890ffc9",
-      color: option.isShowSearchBar && "#FFF"
-
+      color: option.isShowSearchBar && "#FFF",
     },
     {
       menuName: !option.isShowGroup ? "Show grouping" : "Hide grouping",
@@ -94,8 +94,7 @@ const Category = () => {
         setOption({ ...option, isShowGroup: !option.isShowGroup });
       },
       backgroundColor: option.isShowGroup && "#1890ffc9",
-      color: option.isShowGroup && "#FFF"
-
+      color: option.isShowGroup && "#FFF",
     },
     {
       menuName: !option.isShowSort ? "Show sorting" : "Hide sorting",
@@ -103,11 +102,10 @@ const Category = () => {
         setOption({ ...option, isShowSort: !option.isShowSort });
       },
       backgroundColor: option.isShowSort && "#1890ffc9",
-      color: option.isShowSort && "#FFF"
-
+      color: option.isShowSort && "#FFF",
     },
   ];
-  
+
   const handleRowChange = (index) => {
     if (!option.isShowSelect) {
       let rowSelected = [];
@@ -125,7 +123,10 @@ const Category = () => {
             type={action.type}
             row={action.payload}
             open={action.open}
-            onClose={() => dispatchAction({ type: "" })}
+            onClose={() => {
+              setReload(!reload);
+              dispatchAction({ type: "" });
+            }}
           />
         );
       }, [action.open])}

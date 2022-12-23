@@ -42,6 +42,7 @@ export const fetchGetAllUser = async (token) => {
     }
 };
 export const fetchAddNewUser = async (user, token) => {
+    console.log(user, token)
     try {
         return await baseRequest.post("/api/user/create-new", user,  {
             headers: { Authorization: token },
@@ -51,7 +52,6 @@ export const fetchAddNewUser = async (user, token) => {
     }
 };
 export const fetchUpdateUser = async (user, id, token) => {
-    console.log(user)
     try {
         return await baseRequest.put(`/api/user/update/${id}`, user, {
             headers: { Authorization: token },

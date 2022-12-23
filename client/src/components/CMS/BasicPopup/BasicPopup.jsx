@@ -29,6 +29,7 @@ import {
   fetchAddNewMaterial,
   fetchUpdateMaterial,
 } from "../../../services/materialFetch";
+import BasicDateTimePicker from "./../../Basic/DateTimePicker/DateTimePicker";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -47,15 +48,16 @@ const collectionState = {
 };
 const saleState = {
   saleName: "",
-  discount: "",
-  startDate: new Date(),
-  endDate: new Date(),
+  discount: 0,
+  startDate: null,
+  endDate: null,
   saleDescription: "",
 };
 const materialState = {
   materialName: "",
   materialDescription: "",
 };
+
 const BasicPopup = ({ type, open, row, onClose, onSubmit, collection }) => {
   const { currentUser } = useSelector(selectUser);
 
@@ -194,61 +196,140 @@ const BasicPopup = ({ type, open, row, onClose, onSubmit, collection }) => {
       open={open}
       onClose={onClose}
       aria-labelledby="form-dialog-title"
-      maxWidth="lg"
-      fullwidths
+      fullWidth
+      maxWidth={"sm"}
       TransitionComponent={Transition}
     >
       <DialogTitle id="form-dialog-title">
         {collection ? collection.toUpperCase() : "UNKNOWN"}
       </DialogTitle>
       <DialogContent>
-        <MuiGrid>
-          <FormGroup> </FormGroup>
-        </MuiGrid>
-        <MuiGrid container spacing={6}>
-          <MuiGrid item xs={12}>
-            <FormGroup>
-              {data &&
-                Object.entries(data).map(([key, value]) => {
-                  return (
-                    <TextField
-                      key={key}
-                      margin="normal"
-                      name={key}
-                      label={key.toUpperCase()}
-                      value={data[key] || ""}
-                      onChange={handleChangeInput}
-                      sx={{ minWidth: 200 }}
-                    />
-                  );
-                })}
-              {/* <TextField
-                margin="normal"
-                name="code"
-                label="Code"
-                value={data.code || ""}
-                onChange={handleChangeInput}
-                sx={{ minWidth: 200 }}
-              />
-              <TextField
-                margin="normal"
-                value={data.name || ""}
-                onChange={handleChangeInput}
-                label="Name"
-                name="name"
-                sx={{ minWidth: 200 }}
-              />
-              <TextField
-                margin="normal"
-                value={data.description || ""}
-                onChange={handleChangeInput}
-                label="Description"
-                name="description"
-                sx={{ minWidth: 200 }}
-              /> */}
-            </FormGroup>
+        {collection?.toUpperCase() === "SALE" ? (
+          <MuiGrid container spacing={6}>
+            <MuiGrid item xs={12}>
+              <FormGroup>
+                <TextField
+                  margin="normal"
+                  name="saleName"
+                  label="Sale Name"
+                  value={data?.saleName ? data?.saleName : ""}
+                  onChange={handleChangeInput}
+                  sx={{ minWidth: 200 }}
+                />
+              </FormGroup>
+              <FormGroup>
+                <TextField
+                  margin="normal"
+                  name="discount"
+                  label="Discount"
+                  value={data?.discount ? data?.discount : ""}
+                  onChange={handleChangeInput}
+                  sx={{ minWidth: 200 }}
+                  type="number"
+                />
+              </FormGroup>
+              <FormGroup>
+                <BasicDateTimePicker
+                  margin="normal"
+                  name="startDate"
+                  label="From"
+                  value={data?.startDate ? data?.startDate : null}
+                  onChange={handleChangeInput}
+                  sx={{ minWidth: 200 }}
+                />
+              </FormGroup>
+              <FormGroup>
+                <BasicDateTimePicker
+                  margin="normal"
+                  name="endDate"
+                  label="To"
+                  value={data?.endDate ? data?.endDate : null}
+                  onChange={handleChangeInput}
+                  sx={{ minWidth: 200 }}
+                />
+              </FormGroup>
+              <FormGroup>
+                <TextField
+                  margin="normal"
+                  name="saleDescription"
+                  label="Description"
+                  value={data?.saleDescription ? data?.saleDescription : ""}
+                  onChange={handleChangeInput}
+                  sx={{ minWidth: 200 }}
+                />
+              </FormGroup>
+            </MuiGrid>
           </MuiGrid>
-        </MuiGrid>
+        ) : collection?.toUpperCase() === "CATEGORY" ? (
+          <MuiGrid container spacing={6}>
+            <MuiGrid item xs={12}>
+              <FormGroup>
+                <TextField
+                  margin="normal"
+                  value={data?.cateName ? data.cateName : ""}
+                  onChange={handleChangeInput}
+                  label="Category name"
+                  name="cateName"
+                  sx={{ minWidth: 200 }}
+                />
+                <TextField
+                  margin="normal"
+                  value={data?.cateDescription ? data.cateDescription : ""}
+                  onChange={handleChangeInput}
+                  label="Description"
+                  name="cateDescription"
+                  sx={{ minWidth: 200 }}
+                />
+              </FormGroup>
+            </MuiGrid>
+          </MuiGrid>
+        ) : collection?.toUpperCase() === "COLLECTION" ? (
+          <MuiGrid container spacing={6}>
+            <MuiGrid item xs={12}>
+              <FormGroup>
+                <TextField
+                  margin="normal"
+                  value={data?.collectName ? data.collectName : ""}
+                  onChange={handleChangeInput}
+                  label="Collection name"
+                  name="collectName"
+                  sx={{ minWidth: 200 }}
+                />
+                <TextField
+                  margin="normal"
+                  value={data?.collectDescription ? data.collectDescription : ""}
+                  onChange={handleChangeInput}
+                  label="Description"
+                  name="collectDescription"
+                  sx={{ minWidth: 200 }}
+                />
+              </FormGroup>
+            </MuiGrid>
+          </MuiGrid>
+        ) : (
+          <MuiGrid container spacing={6}>
+            <MuiGrid item xs={12}>
+              <FormGroup>
+                <TextField
+                  margin="normal"
+                  value={data?.materialName ? data.materialName : ""}
+                  onChange={handleChangeInput}
+                  label="Material name"
+                  name="materialName"
+                  sx={{ minWidth: 200 }}
+                />
+                <TextField
+                  margin="normal"
+                  value={data?.materialDescription ? data.materialDescription : ""}
+                  onChange={handleChangeInput}
+                  label="Description"
+                  name="materialDescription"
+                  sx={{ minWidth: 200 }}
+                />
+              </FormGroup>
+            </MuiGrid>
+          </MuiGrid>
+        )}
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="secondary">

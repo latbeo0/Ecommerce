@@ -7,9 +7,9 @@ import * as data from "./data";
 // import PopupEdit from "../../../../components/CMS/Material/PopupEdit";
 import { fetchGetAllMaterial } from "../../../../services/materialFetch";
 import BasicPopup from "../../../../components/CMS/BasicPopup/BasicPopup";
-import Toolbar from '../../../../components/CMS/Toolbar/Toolbar';
-import { selectUser } from '../../../../redux/userSlice';
-import { useSelector } from 'react-redux';
+import Toolbar from "../../../../components/CMS/Toolbar/Toolbar";
+import { selectUser } from "../../../../redux/userSlice";
+import { useSelector } from "react-redux";
 
 const defaultColumnWidths = [
   { columnName: "materialCode", width: 200 },
@@ -46,7 +46,7 @@ const Material = () => {
     payload: null,
     open: false,
   });
-  const [isOpen, setOpen] = useState(false);
+  const [reload, setReload] = useState(false);
   const [materialDetail, setMaterialDetail] = useState();
   const [selection, setSelection] = React.useState([]);
   const [rows, setRows] = useState([]);
@@ -66,6 +66,7 @@ const Material = () => {
               id: item._id,
               materialCode: item.materialCode,
               materialName: item.materialName,
+              materialDescription: item.materialDescription,
             });
           });
           setRows(tempArr);
@@ -75,7 +76,7 @@ const Material = () => {
         });
     };
     fetchData();
-  }, []);
+  }, [reload]);
 
   const ListButtonCustomize = [
     {
@@ -84,7 +85,7 @@ const Material = () => {
         setOption({ ...option, isShowSelect: !option.isShowSelect });
       },
       backgroundColor: option.isShowSelect && "#1890ffc9",
-      color: option.isShowSelect && "#FFF"
+      color: option.isShowSelect && "#FFF",
     },
     {
       menuName: !option.isShowSearchBar ? "Show search bar" : "Hide search bar",
@@ -92,8 +93,7 @@ const Material = () => {
         setOption({ ...option, isShowSearchBar: !option.isShowSearchBar });
       },
       backgroundColor: option.isShowSearchBar && "#1890ffc9",
-      color: option.isShowSearchBar && "#FFF"
-
+      color: option.isShowSearchBar && "#FFF",
     },
     {
       menuName: !option.isShowGroup ? "Show grouping" : "Hide grouping",
@@ -101,8 +101,7 @@ const Material = () => {
         setOption({ ...option, isShowGroup: !option.isShowGroup });
       },
       backgroundColor: option.isShowGroup && "#1890ffc9",
-      color: option.isShowGroup && "#FFF"
-
+      color: option.isShowGroup && "#FFF",
     },
     {
       menuName: !option.isShowSort ? "Show sorting" : "Hide sorting",
@@ -110,8 +109,7 @@ const Material = () => {
         setOption({ ...option, isShowSort: !option.isShowSort });
       },
       backgroundColor: option.isShowSort && "#1890ffc9",
-      color: option.isShowSort && "#FFF"
-
+      color: option.isShowSort && "#FFF",
     },
   ];
   const handleRowChange = (index) => {
@@ -131,12 +129,15 @@ const Material = () => {
             type={action.type}
             row={action.payload}
             open={action.open}
-            onClose={() => dispatchAction({ type: "" })}
+            onClose={() => {
+              setReload(!reload)
+              dispatchAction({ type: "" });
+            }}
           />
         );
       }, [action.open])}
 
-     <MaterialHeader>
+      <MaterialHeader>
         <MaterialTitle>Material</MaterialTitle>
       </MaterialHeader>
       <Toolbar
