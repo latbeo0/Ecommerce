@@ -1,8 +1,8 @@
-import { baseRequest } from "./apiFetch";
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { baseRequest } from './apiFetch';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export const fetchAddToCart = createAsyncThunk(
-    "cart/addToCart",
+    'cart/addToCart',
     async (args) => {
         try {
             const { user, product, size, count, isSelected } = args;
@@ -30,7 +30,7 @@ export const fetchAddToCart = createAsyncThunk(
 );
 
 export const fetchIncreaseNumber = createAsyncThunk(
-    "cart/fetchIncreaseNumber",
+    'cart/fetchIncreaseNumber',
     async (args) => {
         try {
             const { user, product, quantity } = args;
@@ -56,7 +56,7 @@ export const fetchIncreaseNumber = createAsyncThunk(
 );
 
 export const fetchDecreaseNumber = createAsyncThunk(
-    "cart/fetchDecreaseNumber",
+    'cart/fetchDecreaseNumber',
     async (args) => {
         try {
             const { user, product, quantity } = args;
@@ -82,7 +82,7 @@ export const fetchDecreaseNumber = createAsyncThunk(
 );
 
 export const fetchRemoveItem = createAsyncThunk(
-    "cart/fetchRemoveItem",
+    'cart/fetchRemoveItem',
     async (args) => {
         try {
             const { user, product } = args;
@@ -107,7 +107,7 @@ export const fetchRemoveItem = createAsyncThunk(
 );
 
 export const fetchSelectItem = createAsyncThunk(
-    "cart/fetchSelectItem",
+    'cart/fetchSelectItem',
     async (args) => {
         try {
             const { user, product, isSelected } = args;
@@ -133,7 +133,7 @@ export const fetchSelectItem = createAsyncThunk(
 );
 
 export const fetchUnSelectAllItem = createAsyncThunk(
-    "cart/fetchUnSelectAllItem",
+    'cart/fetchUnSelectAllItem',
     async (args) => {
         const { user } = args;
 
@@ -150,7 +150,7 @@ export const fetchUnSelectAllItem = createAsyncThunk(
 );
 
 export const fetchSelectAllItem = createAsyncThunk(
-    "cart/fetchSelectAllItem",
+    'cart/fetchSelectAllItem',
     async (args) => {
         const { user } = args;
 
@@ -167,7 +167,7 @@ export const fetchSelectAllItem = createAsyncThunk(
 );
 
 export const fetchClearCart = createAsyncThunk(
-    "cart/fetchClearCart",
+    'cart/fetchClearCart',
     async (args) => {
         try {
             const { user } = args;
@@ -183,7 +183,7 @@ export const fetchClearCart = createAsyncThunk(
 );
 
 export const fetchGetCart = createAsyncThunk(
-    "cart/fetchGetCart",
+    'cart/fetchGetCart',
     async (args) => {
         try {
             const { user } = args;

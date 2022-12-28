@@ -1,5 +1,6 @@
 const Users = require('../models/userModel');
 const Product = require('../models/productModel');
+const Comment = require('../models/commentModel');
 const AddressShipping = require('../models/addressShippingModel');
 const sendMail = require('./sendMail');
 const { createAccessToken } = require('./createToken');
@@ -139,12 +140,25 @@ const userCtrl = {
                 const { productName, productDescription, stateCode, saleCode } =
                     productMaster;
 
+                const comments = await Comment.find({
+                    productId: product._id.toString(),
+                });
+
+                let point = 0;
+                for (const comment of comments) {
+                    point += comment.rating;
+                }
+                if (comments.length > 0) {
+                    point /= comments.length;
+                }
+
                 const handle = {
                     ...product._doc,
                     productName,
                     productDescription,
                     stateCode,
                     saleCode,
+                    point,
                 };
 
                 listProducts.push(handle);

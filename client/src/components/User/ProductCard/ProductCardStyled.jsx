@@ -80,6 +80,7 @@ const Content = styled.div`
 const Header = styled.div``;
 const Title = styled.h1`
     font-size: 1rem;
+    line-height: 20px;
 `;
 const StarsContainer = styled.div`
     display: flex;

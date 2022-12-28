@@ -70,7 +70,10 @@ const Product = () => {
 
     const listSize = currentProduct.product?.colors
         .find((item) => !item.id)
-        ?.details.map((item) => item.size);
+        ?.details.map((item) => ({
+            size: item.size,
+            disabled: Number(item.quantity) === 0 ? true : false,
+        }));
 
     const quantityBySelectedSize = currentProduct.product?.colors
         .find((item) => !item.id)
@@ -188,6 +191,17 @@ const Product = () => {
     };
 
     const handleAddToCart = () => {
+        if (!currentProduct.product.isStock) {
+            return toast.error('Product is not in stock', {
+                position: 'top-right',
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        }
         if (selectSize === null) {
             return toast.error('Please choose the right size and quantity', {
                 position: 'top-right',
@@ -331,13 +345,17 @@ const Product = () => {
                             {listSize.map((item) => (
                                 <Size
                                     key={item}
-                                    value={item}
+                                    value={item.size}
                                     onClick={(e) => handleSelectSize(e)}
                                     selected={
-                                        Number(selectSize) === Number(item)
+                                        Number(selectSize) === Number(item.size)
+                                    }
+                                    disabled={
+                                        item.disabled ||
+                                        !currentProduct.product.isStock
                                     }
                                 >
-                                    {item}
+                                    {item.size}
                                 </Size>
                             ))}
                         </SizeContainer>
@@ -402,12 +420,16 @@ const Product = () => {
                     Reviews
                 </Title>
                 <Wrapper>
-                    {listReviews.map((item) => (
-                        <CommentItem
-                            key={item.user + item.comment}
-                            item={item}
-                        />
-                    ))}
+                    {listReviews.length === 0 ? (
+                        <div>This product don't have any reviews</div>
+                    ) : (
+                        listReviews.map((item) => (
+                            <CommentItem
+                                key={item.user + item.comment}
+                                item={item}
+                            />
+                        ))
+                    )}
                 </Wrapper>
             </ReviewContainer>
         </Container>
