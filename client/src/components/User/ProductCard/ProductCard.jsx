@@ -128,13 +128,22 @@ const ProductCard = (props) => {
             <Link to={`/products/${_id}`}>
                 <Wrapper>
                     <ImageContainer>
+                        {isStock ? null : (
+                            <Modal style={{ display: 'block' }}>
+                                <ButtonsContainer>
+                                    Not in stock
+                                </ButtonsContainer>
+                            </Modal>
+                        )}
                         <Image alt='img' src={primaryImages[0].img} />
-                        <Modal>
-                            <ButtonsContainer>
-                                <BiSearch />
-                                <BsCart />
-                            </ButtonsContainer>
-                        </Modal>
+                        {isStock && (
+                            <Modal>
+                                <ButtonsContainer>
+                                    <BiSearch />
+                                    <BsCart />
+                                </ButtonsContainer>
+                            </Modal>
+                        )}
                     </ImageContainer>
                     <Content>
                         <Header>

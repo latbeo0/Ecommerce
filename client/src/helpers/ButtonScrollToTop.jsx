@@ -1,11 +1,11 @@
-import React from "react";
-import styled from "styled-components";
-import { MdKeyboardArrowUp } from "react-icons/md";
+import React from 'react';
+import styled from 'styled-components';
+import { MdKeyboardArrowUp } from 'react-icons/md';
 
 const Container = styled.button`
     position: fixed;
-    bottom: 1rem;
-    right: 1rem;
+    bottom: 2rem;
+    right: 5.5rem;
     padding: 0.5rem;
     color: var(--white-color);
     background: linear-gradient(var(--primary-color), var(--secondary-color));

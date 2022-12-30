@@ -147,41 +147,54 @@ const productCtrl = {
             for (const product of listProductsTemp) {
                 const productMaster = await ProductMaster.findOne({
                     _id: product.productMasterId,
-                });
-                // .populate({
-                //     path: 'vCollection',
-                //     select: 'collectName -collectCode',
-                // })
-                // .populate({
-                //     path: 'vCategory',
-                //     select: 'cateName -cateCode',
-                // })
-                // .populate({
-                //     path: 'vMaterial',
-                //     select: 'materialName -materialCode',
-                // });
+                })
+                    .populate({
+                        path: 'vCollection',
+                        select: 'collectName -collectCode',
+                    })
+                    .populate({
+                        path: 'vCategory',
+                        select: 'cateName -cateCode',
+                    })
+                    .populate({
+                        path: 'vMaterial',
+                        select: 'materialName -materialCode',
+                    });
 
                 const {
                     productName,
                     productDescription,
-                    // vCategory,
-                    // vCollection,
-                    // vMaterial,
+                    vCategory,
+                    vCollection,
+                    vMaterial,
                     gender,
                 } = productMaster;
 
-                // const categories = vCategory[0].cateName;
-                // const collections = vCollection[0].collectName;
-                // const materials = vMaterial[0].materialName;
+                const categories = vCategory[0].cateName;
+                const collections = vCollection[0].collectName;
+                const materials = vMaterial[0].materialName;
+
+                const comments = await Comment.find({
+                    productId: product._id.toString(),
+                });
+
+                let point = 0;
+                for (const comment of comments) {
+                    point += comment.rating;
+                }
+                if (comments.length > 0) {
+                    point /= comments.length;
+                }
 
                 const handle = {
                     ...product._doc,
                     productName,
                     productDescription,
-                    // categories,
-                    // collections,
-                    // materials,
+                    categories,
+                    collections,
+                    materials,
                     gender,
+                    point,
                 };
 
                 listProducts.push(handle);

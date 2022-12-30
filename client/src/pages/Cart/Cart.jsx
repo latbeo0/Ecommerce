@@ -150,7 +150,11 @@ const Cart = () => {
     useEffect(() => {
         const fetchCartOfUser = async () => {
             try {
-                await dispatch(fetchGetCart({ user: currentUser })).unwrap();
+                if (currentUser) {
+                    await dispatch(
+                        fetchGetCart({ user: currentUser })
+                    ).unwrap();
+                }
             } catch (error) {
                 console.log('/App/fetchCart');
             }

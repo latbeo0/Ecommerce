@@ -125,8 +125,12 @@ const Size = styled.button`
             ? '1px solid var(--primary-color)'
             : '1px solid var(--gray-color-light)'};
     background: ${(props) =>
-        props.selected ? 'var(--secondary-color)' : 'transparent'};
+        props.selected || props.disabled
+            ? 'var(--secondary-color)'
+            : 'transparent'};
     cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
+    /* background: ${(props) =>
+        props.disabled ? 'var(--secondary-color)' : 'transparent'}; */
 
     &:hover {
         border: ${(props) =>
