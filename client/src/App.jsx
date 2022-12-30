@@ -196,14 +196,14 @@ const App = () => {
         };
         fetchMaterials();
     }, [dispatch]);
-
+    
     return (
         <>
             <ToastContainer />
             <BrowserRouter>
                 <ScrollToTop />
                 <Routes>
-                    {user?.currentUser && user.currentUser.level < 3 ? (
+                    {user?.currentUser && user.currentUser.vRole[0].level < 4 ? (
                         <Route path='/*' index element={<AdminRouter />} />
                     ) : (
                         <>

@@ -65,7 +65,6 @@ const verifyTokenAndAuthorization = (req, res, next) => {
 };
 
 const verifyTokenAndAdmin = (req, res, next) => {
-  console.log(req.user)
   try {
     verifyToken(req, res, () => {
       if (req.user.roleLevel === 1) {

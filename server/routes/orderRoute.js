@@ -171,5 +171,10 @@ router.post(
     verifyTokenAndSalePerson,
     orderCtrl.getOrderByDate
 );
+router.put(
+    '/approve:id',
+    verifyTokenAndSalePerson,
+    orderCtrl.approveOrderById
+);
 
 module.exports = router;

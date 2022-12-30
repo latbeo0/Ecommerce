@@ -2,6 +2,7 @@ import { baseRequest } from './apiFetch';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { fetchClearOrder } from './orderFetch';
 import { fetchClearCart } from './cartFetch';
+import { clearDefaultMenu } from "../redux/menuSlice";
 
 // export const fetchGetAccessToken = async () => {
 //     return await baseRequest.post('/api/user/refresh_token', null);
@@ -43,7 +44,6 @@ export const fetchGetAllUser = async (token) => {
     }
 };
 export const fetchAddNewUser = async (user, token) => {
-    console.log(user, token)
     try {
         return await baseRequest.post('/api/user/create-new', user, {
             headers: { Authorization: token },
@@ -71,7 +71,7 @@ export const fetchLogout = createAsyncThunk('user/logout', async (args) => {
 
         await dispatch(fetchClearOrder()).unwrap();
         await dispatch(fetchClearCart({ user: null })).unwrap();
-
+        await dispatch(clearDefaultMenu());
         await baseRequest.get('/api/user/logout', null);
     } catch (error) {
         throw new Error(error.response.data.msg);

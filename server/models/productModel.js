@@ -33,6 +33,11 @@ ProductSchema.virtual('vSale', {
     localField: 'saleCode',
     foreignField: 'saleCode',
 });
+ProductSchema.virtual('vMaterial', {
+  ref: MaterialModel,
+  localField: 'materialCode',
+  foreignField: 'materialCode',
+});
 
 
 ProductSchema.set('toObject', { virtuals: true });

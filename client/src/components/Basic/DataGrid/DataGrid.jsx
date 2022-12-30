@@ -35,6 +35,7 @@ import {
     ImagesTypeProvider,
     CurrencyTypeProvider,
     ColorTypeProvider,
+    AvatarTypeProvider
 } from "./DataGridProvider";
 import "./DataGrid.css";
 
@@ -52,6 +53,8 @@ const DataGrid = ({
     onSelectionChange = () => {},
     // onCommitChanges = () => {},
 }) => {
+    const [avatarColumn] = React.useState(["avatar"]);
+
     const [colorColumn] = React.useState(["color"]);
     const [colorsColumn] = React.useState(["colors"]);
 
@@ -69,6 +72,7 @@ const DataGrid = ({
                 <ImagesTypeProvider for={imageColumn} />
                 <ColorsTypeProvider for={colorsColumn} />
                 <ColorTypeProvider for={colorColumn} />
+                <AvatarTypeProvider for={avatarColumn} />
 
                 <FilteringState />
                 <SortingState />

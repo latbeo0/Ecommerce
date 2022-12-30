@@ -10,9 +10,6 @@ import BasicPopup from '../../../../components/CMS/BasicPopup/BasicPopup';
 import Toolbar from '../../../../components/CMS/Toolbar/Toolbar';
 import { selectUser } from '../../../../redux/userSlice';
 import { useSelector } from 'react-redux';
-import Toolbar from '../../../../components/CMS/Toolbar/Toolbar';
-import { selectUser } from '../../../../redux/userSlice';
-import { useSelector } from 'react-redux';
 
 const defaultColumnWidths = [
     { columnName: 'materialCode', width: 200 },

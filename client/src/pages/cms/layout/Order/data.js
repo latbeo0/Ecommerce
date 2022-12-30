@@ -15,7 +15,7 @@ export const ListButton = [
         type: "VIEWDETAIL",
         fontSize: "inherit",
         icon: <VisibilityIcon />,
-        disabled: false,
+        disabled: true,
         level: 2,
     },
 ];

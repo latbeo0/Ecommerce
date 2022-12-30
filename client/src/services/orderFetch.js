@@ -59,7 +59,24 @@ export const fetchGetAllOrder = async (token) => {
         throw err;
     }
 };
-
+export const fetchApproveOrder = async (id, token) => {
+    try {
+        return await baseRequest.put(`/api/order/approve${id}`, null, {
+            headers: { Authorization: token },
+        });
+    } catch (err) {
+        throw err;
+    }
+};
+export const fetchGetAllOrderById = async (id, token) => {
+    try {
+        return await baseRequest.get(`/api/order/find${id}`, {
+            headers: { Authorization: token },
+        });
+    } catch (err) {
+        throw err;
+    }
+};
 export const fetchGetAllOrder1 = createAsyncThunk(
     'order/fetchGetOrders',
     async (args) => {

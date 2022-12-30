@@ -12,6 +12,8 @@ import colorReducer from "./colorSlice";
 import sizeReducer from "./sizeSlice";
 import orderReducer from "./orderSlice";
 import materialReducer from "./materialSlice";
+import menuReducer from "./menuSlice";
+
 import {
     persistStore,
     persistReducer,
@@ -28,7 +30,7 @@ const persistConfig = {
     key: "root",
     version: 1,
     storage,
-    whitelist: ["auth"],
+    whitelist: ["auth", "menu"],
 };
 
 const rootReducer = combineReducers({
@@ -45,6 +47,7 @@ const rootReducer = combineReducers({
     sizes: sizeReducer,
     orders: orderReducer,
     materials: materialReducer,
+    menu: menuReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

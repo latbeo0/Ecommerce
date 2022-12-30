@@ -106,10 +106,11 @@ const User = () => {
                                                         item.address?.ward
                                                 ),
                                             };
-                                        }),
+                                       }),
                                 };
                                 tempArr.push({
                                     id: item._id,
+                                    avatar: item.avatar,
                                     firstName: item.firstName,
                                     lastName: item.lastName,
                                     gender: item.gender,
@@ -132,6 +133,7 @@ const User = () => {
                                     address: item.address,
                                     email: item.email,
                                     phone: item.phone,
+                                    password: item.password,
                                     roleCode: item.roleCode,
                                     roleName: item.vRole[0]?.roleName,
                                     isActive: item.isActive,
@@ -150,6 +152,7 @@ const User = () => {
                     } else {
                         tempArr.push({
                             id: item._id,
+                            avatar: item.avatar,
                             firstName: item.firstName,
                             lastName: item.lastName,
                             gender: item.gender,
@@ -163,6 +166,7 @@ const User = () => {
                             address: item.address,
                             email: item.email,
                             phone: item.phone,
+                            password: item.password,
                             roleCode: item.roleCode,
                             roleName: item.vRole[0]?.roleName,
                             isActive: item.isActive,
@@ -257,44 +261,6 @@ const User = () => {
             color: option.isShowSort && "#FFF",
         },
     ];
-
-    const convertAddress = (cityCode, districtCode, wardCode, other) => {
-        // let address = "Unknown";
-        const address = fetchCityByCode(cityCode, 3).then((response) => {
-            return {
-                ...response.data,
-                districts: response.data.districts
-                    .filter(
-                        (districtFiltered) =>
-                            districtFiltered.code === districtCode
-                    )
-                    .map((district) => {
-                        return {
-                            ...district,
-                            wards: district.wards.filter(
-                                (wardFiltered) => wardFiltered.code === wardCode
-                            ),
-                        };
-                    }),
-            };
-        });
-        // .then((response) => {
-        //   return {
-        //     ...response.data,
-        //     districts: response.data.districts
-        //       .filter((districtFiltered) => districtFiltered.code === districtCode)
-        //       .map((district) => {
-        //         return {
-        //           ...district,
-        //           wards: district.wards.filter(
-        //             (wardFiltered) => wardFiltered.code === wardCode
-        //           ),
-        //         };
-        //       }),
-        //   };
-        // });
-        return address ? address.data.name : "Unknown";
-    };
 
     const handleRowChange = (index) => {
         if (!option.isShowSelect) {
