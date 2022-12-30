@@ -1,70 +1,71 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import DataGrid from "../../../../components/Basic/DataGrid";
-import Stack from "@mui/material/Stack";
-import { ProductHeader, ProductTitle, ProductToolbar } from "./ProductStyle";
-import * as data from "./data";
-import PopupEdit from "../../../../components/CMS/Product/PopupEdit";
-import { fetchGetAllProductMaster } from "../../../../services/productFetch";
-import Button from "@mui/material/Button";
-import Toolbar from "../../../../components/CMS/Toolbar/Toolbar";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import DataGrid from '../../../../components/Basic/DataGrid';
+import Stack from '@mui/material/Stack';
+import { ProductHeader, ProductTitle, ProductToolbar } from './ProductStyle';
+import * as data from './data';
+import PopupEdit from '../../../../components/CMS/Product/PopupEdit';
+import { fetchGetAllProductMaster } from '../../../../services/productFetch';
+import Button from '@mui/material/Button';
+import Toolbar from '../../../../components/CMS/Toolbar/Toolbar';
 
 const defaultColumnWidths = [
-    { columnName: "productName", width: 300 },
-    { columnName: "gender", width: 130 },
-    { columnName: "productDescription", width: 450 },
-    { columnName: "cateName", width: 200 },
-    { columnName: "collectName", width: 200 },
-    { columnName: "colors", width: 250 },
-    { columnName: "quantity", width: 150 },
-    { columnName: "stock", width: 150 },
+    { columnName: 'productName', width: 300 },
+    { columnName: 'gender', width: 130 },
+    { columnName: 'productDescription', width: 450 },
+    { columnName: 'cateName', width: 200 },
+    { columnName: 'collectName', width: 200 },
+    { columnName: 'colors', width: 250 },
+    { columnName: 'quantity', width: 150 },
+    { columnName: 'stock', width: 150 },
 ];
 const tableColumnExtensions = [
-    { columnName: "quantity", align: "right" },
-    { columnName: "cateName", align: "center" },
-    { columnName: "collectName", align: "center" },
-    { columnName: "colors", align: "center" },
-    { columnName: "stock", align: "center" },
+    { columnName: 'quantity', align: 'right' },
+    { columnName: 'cateName', align: 'center' },
+    { columnName: 'collectName', align: 'center' },
+    { columnName: 'colors', align: 'center' },
+    { columnName: 'stock', align: 'center' },
 ];
 
 const actionReducer = (state, action) => {
     switch (action.type) {
-        case "ADD":
-            return { ...state, type: "ADD", payload: "", open: true };
-        case "UPDATE":
+        case 'ADD':
+            return { ...state, type: 'ADD', payload: '', open: true };
+        case 'UPDATE':
             return {
                 ...state,
-                type: "UPDATE",
+                type: 'UPDATE',
                 payload: action.payload,
                 open: true,
             };
-        case "DELETE":
+        case 'DELETE':
             return state;
-        case "FILTER":
+        case 'FILTER':
             return state;
-        case "OPTION":
+        case 'OPTION':
             return state;
         default:
-            return { ...state, type: "", payload: null, open: false };
+            return { ...state, type: '', payload: null, open: false };
     }
 };
 const Product = () => {
     const navigate = useNavigate();
     const [selection, setSelection] = React.useState([]);
+    const [reload, setReload] = React.useState(false);
     const [rows, setRows] = useState([]);
     const [columns, setColumns] = useState([
-        { name: "productName", title: "Product" },
-        { name: "gender", title: "Gender" },
-        { name: "productDescription", title: "Description" },
-        { name: "cateName", title: "Category" },
-        { name: "collectName", title: "Collection" },
-        { name: "colors", title: "Colors" },
-        { name: "quantity", title: "Quantity" },
-        { name: "stock", title: "Stock" },
+        { name: 'productName', title: 'Product' },
+        { name: 'gender', title: 'Gender' },
+        { name: 'productDescription', title: 'Description' },
+        { name: 'cateName', title: 'Category' },
+        { name: 'collectName', title: 'Collection' },
+        { name: 'colors', title: 'Colors' },
+        { name: 'quantity', title: 'Quantity' },
+        { name: 'stock', title: 'Stock' },
     ]);
 
     const [action, dispatchAction] = React.useReducer(actionReducer, {
-        type: "",
+        type: '',
         payload: null,
         open: false,
     });
@@ -109,47 +110,47 @@ const Product = () => {
                 });
         };
         fetchData();
-    }, []);
+    }, [reload]);
 
     const ListButtonCustomize = [
         {
             menuName: !option.isShowSelect
-                ? "Show select box"
-                : "Hide select box",
+                ? 'Show select box'
+                : 'Hide select box',
             onClick: () => {
                 setOption({ ...option, isShowSelect: !option.isShowSelect });
             },
-            backgroundColor: option.isShowSelect && "#1890ffc9",
-            color: option.isShowSelect && "#FFF",
+            backgroundColor: option.isShowSelect && '#1890ffc9',
+            color: option.isShowSelect && '#FFF',
         },
         {
             menuName: !option.isShowSearchBar
-                ? "Show search bar"
-                : "Hide search bar",
+                ? 'Show search bar'
+                : 'Hide search bar',
             onClick: () => {
                 setOption({
                     ...option,
                     isShowSearchBar: !option.isShowSearchBar,
                 });
             },
-            backgroundColor: option.isShowSearchBar && "#1890ffc9",
-            color: option.isShowSearchBar && "#FFF",
+            backgroundColor: option.isShowSearchBar && '#1890ffc9',
+            color: option.isShowSearchBar && '#FFF',
         },
         {
-            menuName: !option.isShowGroup ? "Show grouping" : "Hide grouping",
+            menuName: !option.isShowGroup ? 'Show grouping' : 'Hide grouping',
             onClick: () => {
                 setOption({ ...option, isShowGroup: !option.isShowGroup });
             },
-            backgroundColor: option.isShowGroup && "#1890ffc9",
-            color: option.isShowGroup && "#FFF",
+            backgroundColor: option.isShowGroup && '#1890ffc9',
+            color: option.isShowGroup && '#FFF',
         },
         {
-            menuName: !option.isShowSort ? "Show sorting" : "Hide sorting",
+            menuName: !option.isShowSort ? 'Show sorting' : 'Hide sorting',
             onClick: () => {
                 setOption({ ...option, isShowSort: !option.isShowSort });
             },
-            backgroundColor: option.isShowSort && "#1890ffc9",
-            color: option.isShowSort && "#FFF",
+            backgroundColor: option.isShowSort && '#1890ffc9',
+            color: option.isShowSort && '#FFF',
         },
     ];
 
@@ -169,7 +170,10 @@ const Product = () => {
                         type={action.type}
                         row={action.payload}
                         open={action.open}
-                        onClose={() => dispatchAction({ type: "" })}
+                        onClose={() => {
+                            setReload(!reload);
+                            dispatchAction({ type: '' });
+                        }}
                     />
                 );
             }, [action.open])}
@@ -182,7 +186,7 @@ const Product = () => {
                 listButton={data.ListButton}
                 listButtonCustom={ListButtonCustomize}
                 onClickItem={(button, buttonType) => {
-                    buttonType === "DETAIL"
+                    buttonType === 'DETAIL'
                         ? navigate(
                               `detail${
                                   rows[selection[selection.length - 1]].id

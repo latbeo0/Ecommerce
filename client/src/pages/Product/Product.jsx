@@ -285,7 +285,7 @@ const Product = () => {
                         <StateProduct>
                             Tình trạng:{' '}
                             <strong style={{ fontWeight: 'bold' }}>
-                                {currentProduct.product?.stateCode}
+                                {currentProduct.product?.state}
                             </strong>
                         </StateProduct>
                     </HeaderInformationContainer>

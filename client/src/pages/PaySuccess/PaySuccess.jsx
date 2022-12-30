@@ -51,7 +51,7 @@ const PaySuccess = () => {
                     </GroupItem>
                     <GroupItem>
                         <Name>Transaction ID:</Name>
-                        <Value>{userId}</Value>
+                        <Value>{orderCode}</Value>
                     </GroupItem>
                 </Body>
                 <Footer>

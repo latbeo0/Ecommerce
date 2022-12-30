@@ -1,50 +1,50 @@
-import React from "react";
-import DataGrid from "../../../../components/Basic/DataGrid";
-import Stack from "@mui/material/Stack";
-import IconButton from "@mui/material/IconButton";
-import { UserHeader, UserTitle } from "./UserStyle";
-import * as data from "./data";
-import { fetchGetAllUser } from "../../../../services/userFetch";
-import PopupEdit from "../../../../components/CMS/User/PopupEdit";
-import { fetchCityByCode } from "../../../../services/regionFetch";
-import Toolbar from "./../../../../components/CMS/Toolbar/Toolbar";
-import { useSelector } from "react-redux";
-import { selectUser } from "./../../../../redux/userSlice";
-import { useParams } from "react-router-dom";
+import React from 'react';
+import DataGrid from '../../../../components/Basic/DataGrid';
+import Stack from '@mui/material/Stack';
+import IconButton from '@mui/material/IconButton';
+import { UserHeader, UserTitle } from './UserStyle';
+import * as data from './data';
+import { fetchGetAllUser } from '../../../../services/userFetch';
+import PopupEdit from '../../../../components/CMS/User/PopupEdit';
+import { fetchCityByCode } from '../../../../services/regionFetch';
+import Toolbar from './../../../../components/CMS/Toolbar/Toolbar';
+import { useSelector } from 'react-redux';
+import { selectUser } from './../../../../redux/userSlice';
+import { useParams } from 'react-router-dom';
 
 const defaultColumnWidths = [
-    { columnName: "avatar", width: 100 },
-    { columnName: "firstName", width: 200 },
-    { columnName: "lastName", width: 200 },
-    { columnName: "gender", width: 100 },
-    { columnName: "birthDateString", width: 250 },
-    { columnName: "addressString", width: 450 },
-    { columnName: "email", width: 250 },
+    { columnName: 'avatar', width: 100 },
+    { columnName: 'firstName', width: 200 },
+    { columnName: 'lastName', width: 200 },
+    { columnName: 'gender', width: 100 },
+    { columnName: 'birthDateString', width: 250 },
+    { columnName: 'addressString', width: 450 },
+    { columnName: 'email', width: 250 },
     // { columnName: "newPrice", width: 180 },
-    { columnName: "phone", width: 200 },
-    { columnName: "roleName", width: 100 },
-    { columnName: "isActiveString", width: 100 },
-    { columnName: "createdAtConvert", width: 250 },
+    { columnName: 'phone', width: 200 },
+    { columnName: 'roleName', width: 100 },
+    { columnName: 'isActiveString', width: 100 },
+    { columnName: 'createdAtConvert', width: 250 },
 ];
 const actionReducer = (state, action) => {
     switch (action.type) {
-        case "ADD":
-            return { ...state, type: "ADD", payload: "", open: true };
-        case "UPDATE":
+        case 'ADD':
+            return { ...state, type: 'ADD', payload: '', open: true };
+        case 'UPDATE':
             return {
                 ...state,
-                type: "UPDATE",
+                type: 'UPDATE',
                 payload: action.payload,
                 open: true,
             };
-        case "DELETE":
+        case 'DELETE':
             return state;
-        case "FILTER":
+        case 'FILTER':
             return state;
-        case "OPTION":
+        case 'OPTION':
             return state;
         default:
-            return { ...state, type: "", payload: null, open: false };
+            return { ...state, type: '', payload: null, open: false };
     }
 };
 const User = () => {
@@ -53,18 +53,19 @@ const User = () => {
 
     const [rows, setRows] = React.useState([]);
     const [selection, setSelection] = React.useState([]);
+    const [reload, setReload] = React.useState(false);
     const [columns] = React.useState([
-        { name: "avatar", title: "Avatar" },
-        { name: "firstName", title: "First name" },
-        { name: "lastName", title: "Last name" },
-        { name: "gender", title: "Gender" },
-        { name: "birthDateString", title: "Birthday" },
-        { name: "addressString", title: "Address" },
-        { name: "email", title: "Email (Account)" },
-        { name: "phone", title: "Phone" },
-        { name: "roleName", title: "Role" },
-        { name: "isActiveString", title: "Active" },
-        { name: "createdAtConvert", title: "Created At" },
+        { name: 'avatar', title: 'Avatar' },
+        { name: 'firstName', title: 'First name' },
+        { name: 'lastName', title: 'Last name' },
+        { name: 'gender', title: 'Gender' },
+        { name: 'birthDateString', title: 'Birthday' },
+        { name: 'addressString', title: 'Address' },
+        { name: 'email', title: 'Email (Account)' },
+        { name: 'phone', title: 'Phone' },
+        { name: 'roleName', title: 'Role' },
+        { name: 'isActiveString', title: 'Active' },
+        { name: 'createdAtConvert', title: 'Created At' },
     ]);
 
     const [option, setOption] = React.useState({
@@ -76,7 +77,7 @@ const User = () => {
     });
 
     const [action, dispatchAction] = React.useReducer(actionReducer, {
-        type: "",
+        type: '',
         payload: null,
         open: false,
     });
@@ -106,7 +107,7 @@ const User = () => {
                                                         item.address?.ward
                                                 ),
                                             };
-                                       }),
+                                        }),
                                 };
                                 tempArr.push({
                                     id: item._id,
@@ -116,20 +117,20 @@ const User = () => {
                                     gender: item.gender,
                                     birthDateString:
                                         item.birthDate &&
-                                        item.birthDate.toLocaleString("vi-VN", {
-                                            timeZone: "UTC",
+                                        item.birthDate.toLocaleString('vi-VN', {
+                                            timeZone: 'UTC',
                                         }),
                                     birthDate: item.birthDate,
                                     addressString: item.address
                                         ? `${
                                               adr.districts[0].wards[0].name &&
                                               adr.districts[0].wards[0].name +
-                                                  ", "
+                                                  ', '
                                           }${
                                               adr.districts[0].name &&
-                                              adr.districts[0].name + ", "
+                                              adr.districts[0].name + ', '
                                           }${adr.name && adr.name}`
-                                        : "Unknown",
+                                        : 'Unknown',
                                     address: item.address,
                                     email: item.email,
                                     phone: item.phone,
@@ -138,12 +139,12 @@ const User = () => {
                                     roleName: item.vRole[0]?.roleName,
                                     isActive: item.isActive,
                                     isActiveString: item.isActive
-                                        ? "Enable"
-                                        : "Disable",
+                                        ? 'Enable'
+                                        : 'Disable',
                                     createdAt: item.createdAt,
                                     createdAtConvert:
-                                        item.createdAt.toLocaleString("vi-VN", {
-                                            timeZone: "UTC",
+                                        item.createdAt.toLocaleString('vi-VN', {
+                                            timeZone: 'UTC',
                                         }),
                                 });
                                 setRows(tempArr.slice());
@@ -158,11 +159,11 @@ const User = () => {
                             gender: item.gender,
                             birthDateString:
                                 item.birthDate &&
-                                item.birthDate.toLocaleString("vi-VN", {
-                                    timeZone: "UTC",
+                                item.birthDate.toLocaleString('vi-VN', {
+                                    timeZone: 'UTC',
                                 }),
                             birthDate: item.birthDate,
-                            addressString: "Unknown",
+                            addressString: 'Unknown',
                             address: item.address,
                             email: item.email,
                             phone: item.phone,
@@ -171,13 +172,13 @@ const User = () => {
                             roleName: item.vRole[0]?.roleName,
                             isActive: item.isActive,
                             isActiveString: item.isActive
-                                ? "Enable"
-                                : "Disable",
+                                ? 'Enable'
+                                : 'Disable',
                             createdAt: item.createdAt,
                             createdAtConvert: item.createdAt.toLocaleString(
-                                "vi-VN",
+                                'vi-VN',
                                 {
-                                    timeZone: "UTC",
+                                    timeZone: 'UTC',
                                 }
                             ),
                         });
@@ -219,46 +220,46 @@ const User = () => {
             .catch((err) => {
                 throw err;
             });
-    }, []);
+    }, [reload]);
     const ListButtonCustomize = [
         {
             menuName: !option.isShowSelect
-                ? "Show select box"
-                : "Hide select box",
+                ? 'Show select box'
+                : 'Hide select box',
             onClick: () => {
                 setOption({ ...option, isShowSelect: !option.isShowSelect });
             },
-            backgroundColor: option.isShowSelect && "#1890ffc9",
-            color: option.isShowSelect && "#FFF",
+            backgroundColor: option.isShowSelect && '#1890ffc9',
+            color: option.isShowSelect && '#FFF',
         },
         {
             menuName: !option.isShowSearchBar
-                ? "Show search bar"
-                : "Hide search bar",
+                ? 'Show search bar'
+                : 'Hide search bar',
             onClick: () => {
                 setOption({
                     ...option,
                     isShowSearchBar: !option.isShowSearchBar,
                 });
             },
-            backgroundColor: option.isShowSearchBar && "#1890ffc9",
-            color: option.isShowSearchBar && "#FFF",
+            backgroundColor: option.isShowSearchBar && '#1890ffc9',
+            color: option.isShowSearchBar && '#FFF',
         },
         {
-            menuName: !option.isShowGroup ? "Show grouping" : "Hide grouping",
+            menuName: !option.isShowGroup ? 'Show grouping' : 'Hide grouping',
             onClick: () => {
                 setOption({ ...option, isShowGroup: !option.isShowGroup });
             },
-            backgroundColor: option.isShowGroup && "#1890ffc9",
-            color: option.isShowGroup && "#FFF",
+            backgroundColor: option.isShowGroup && '#1890ffc9',
+            color: option.isShowGroup && '#FFF',
         },
         {
-            menuName: !option.isShowSort ? "Show sorting" : "Hide sorting",
+            menuName: !option.isShowSort ? 'Show sorting' : 'Hide sorting',
             onClick: () => {
                 setOption({ ...option, isShowSort: !option.isShowSort });
             },
-            backgroundColor: option.isShowSort && "#1890ffc9",
-            color: option.isShowSort && "#FFF",
+            backgroundColor: option.isShowSort && '#1890ffc9',
+            color: option.isShowSort && '#FFF',
         },
     ];
 
@@ -277,7 +278,10 @@ const User = () => {
                         type={action.type}
                         row={action.payload}
                         open={action.open}
-                        onClose={() => dispatchAction({ type: "" })}
+                        onClose={() => {
+                            setReload(!reload);
+                            dispatchAction({ type: '' });
+                        }}
                     />
                 );
             }, [action.open])}

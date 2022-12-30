@@ -1,50 +1,50 @@
-import React, { useState } from "react";
-import DataGrid from "../../../../../components/Basic/DataGrid";
-import Stack from "@mui/material/Stack";
-import IconButton from "@mui/material/IconButton";
+import React, { useState } from 'react';
+import DataGrid from '../../../../../components/Basic/DataGrid';
+import Stack from '@mui/material/Stack';
+import IconButton from '@mui/material/IconButton';
 // import { ProductHeader, ProductTitle } from "./DetailStyle";
-import * as data from "./data";
-import PopupEdit from "../../../../../components/CMS/Product/Detail/PopupEdit";
-import { fetchGetProductByIdMaster } from "../../../../../services/productFetch";
-import { DetailHeader, DetailTitle } from "./DetailStyle";
-import { useParams } from "react-router-dom";
-import Toolbar from "./../../../../../components/CMS/Toolbar/Toolbar";
+import * as data from './data';
+import PopupEdit from '../../../../../components/CMS/Product/Detail/PopupEdit';
+import { fetchGetProductByIdMaster } from '../../../../../services/productFetch';
+import { DetailHeader, DetailTitle } from './DetailStyle';
+import { useParams } from 'react-router-dom';
+import Toolbar from './../../../../../components/CMS/Toolbar/Toolbar';
 
 const defaultColumnWidths = [
-    { columnName: "primaryImages", width: 250 },
-    { columnName: "color", width: 150 },
-    { columnName: "saleName", width: 150 },
-    { columnName: "stateName", width: 150 },
-    { columnName: "price", width: 150 },
-    { columnName: "quantity", width: 150 },
-    { columnName: "stock", width: 150 },
+    { columnName: 'primaryImages', width: 250 },
+    { columnName: 'color', width: 150 },
+    { columnName: 'saleName', width: 150 },
+    { columnName: 'stateName', width: 150 },
+    { columnName: 'price', width: 150 },
+    { columnName: 'quantity', width: 150 },
+    { columnName: 'stock', width: 150 },
 ];
 const tableColumnExtensions = [
-    { columnName: "stateName", align: "center" },
-    { columnName: "quantity", align: "right" },
-    { columnName: "price", align: "right" },
-    { columnName: "color", align: "center" },
-    { columnName: "stock", align: "center" },
+    { columnName: 'stateName', align: 'center' },
+    { columnName: 'quantity', align: 'right' },
+    { columnName: 'price', align: 'right' },
+    { columnName: 'color', align: 'center' },
+    { columnName: 'stock', align: 'center' },
 ];
 const actionReducer = (state, action) => {
     switch (action.type) {
-        case "ADD":
-            return { ...state, type: "ADD", payload: "", open: true };
-        case "UPDATE":
+        case 'ADD':
+            return { ...state, type: 'ADD', payload: '', open: true };
+        case 'UPDATE':
             return {
                 ...state,
-                type: "UPDATE",
+                type: 'UPDATE',
                 payload: action.payload,
                 open: true,
             };
-        case "DELETE":
+        case 'DELETE':
             return state;
-        case "FILTER":
+        case 'FILTER':
             return state;
-        case "OPTION":
+        case 'OPTION':
             return state;
         default:
-            return { ...state, type: "", payload: null, open: false };
+            return { ...state, type: '', payload: null, open: false };
     }
 };
 const Detail = () => {
@@ -58,20 +58,21 @@ const Detail = () => {
     });
     const [isOpen, setOpen] = useState(false);
     const [productDetail, setProductDetail] = useState();
+    const [reload, setReload] = React.useState(false);
     const [selection, setSelection] = React.useState([]);
     const [rows, setRows] = useState([]);
     const [columns, setColumns] = useState([
-        { name: "primaryImages", title: "Photo" },
-        { name: "color", title: "Color" },
-        { name: "saleName", title: "Sale" },
-        { name: "stateName", title: "State" },
-        { name: "price", title: "Price" },
-        { name: "quantity", title: "Quantity" },
-        { name: "stock", title: "Stock" },
+        { name: 'primaryImages', title: 'Photo' },
+        { name: 'color', title: 'Color' },
+        { name: 'saleName', title: 'Sale' },
+        { name: 'stateName', title: 'State' },
+        { name: 'price', title: 'Price' },
+        { name: 'quantity', title: 'Quantity' },
+        { name: 'stock', title: 'Stock' },
     ]);
 
     const [action, dispatchAction] = React.useReducer(actionReducer, {
-        type: "",
+        type: '',
         payload: null,
         open: false,
     });
@@ -87,42 +88,42 @@ const Detail = () => {
     const ListButtonCustomize = [
         {
             menuName: !option.isShowSelect
-                ? "Show select box"
-                : "Hide select box",
+                ? 'Show select box'
+                : 'Hide select box',
             onClick: () => {
                 setOption({ ...option, isShowSelect: !option.isShowSelect });
             },
-            backgroundColor: option.isShowSelect && "#1890ffc9",
-            color: option.isShowSelect && "#FFF",
+            backgroundColor: option.isShowSelect && '#1890ffc9',
+            color: option.isShowSelect && '#FFF',
         },
         {
             menuName: !option.isShowSearchBar
-                ? "Show search bar"
-                : "Hide search bar",
+                ? 'Show search bar'
+                : 'Hide search bar',
             onClick: () => {
                 setOption({
                     ...option,
                     isShowSearchBar: !option.isShowSearchBar,
                 });
             },
-            backgroundColor: option.isShowSearchBar && "#1890ffc9",
-            color: option.isShowSearchBar && "#FFF",
+            backgroundColor: option.isShowSearchBar && '#1890ffc9',
+            color: option.isShowSearchBar && '#FFF',
         },
         {
-            menuName: !option.isShowGroup ? "Show grouping" : "Hide grouping",
+            menuName: !option.isShowGroup ? 'Show grouping' : 'Hide grouping',
             onClick: () => {
                 setOption({ ...option, isShowGroup: !option.isShowGroup });
             },
-            backgroundColor: option.isShowGroup && "#1890ffc9",
-            color: option.isShowGroup && "#FFF",
+            backgroundColor: option.isShowGroup && '#1890ffc9',
+            color: option.isShowGroup && '#FFF',
         },
         {
-            menuName: !option.isShowSort ? "Show sorting" : "Hide sorting",
+            menuName: !option.isShowSort ? 'Show sorting' : 'Hide sorting',
             onClick: () => {
                 setOption({ ...option, isShowSort: !option.isShowSort });
             },
-            backgroundColor: option.isShowSort && "#1890ffc9",
-            color: option.isShowSort && "#FFF",
+            backgroundColor: option.isShowSort && '#1890ffc9',
+            color: option.isShowSort && '#FFF',
         },
     ];
     React.useEffect(() => {
@@ -145,7 +146,7 @@ const Detail = () => {
                                 item?.color?.details
                             ).toString(),
                             isStock: item.isStock,
-                            stock: item.isStock ? "In" : "Out",
+                            stock: item.isStock ? 'In' : 'Out',
                         });
                     });
                     setRows(tempArr);
@@ -155,7 +156,7 @@ const Detail = () => {
                 });
         };
         fetchData();
-    }, []);
+    }, [reload]);
 
     const handleRowChange = (index) => {
         if (!option.isShowSelect) {
@@ -173,7 +174,10 @@ const Detail = () => {
                         master={id}
                         row={action.payload}
                         open={action.open}
-                        onClose={() => dispatchAction({ type: "" })}
+                        onClose={() => {
+                            setReload(!reload);
+                            dispatchAction({ type: '' });
+                        }}
                     />
                 );
             }, [action.open])}

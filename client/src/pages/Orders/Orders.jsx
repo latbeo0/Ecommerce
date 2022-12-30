@@ -1,5 +1,5 @@
-import React from "react";
-import BreadCrumb from "../../components/Basic/BreadCrumb";
+import React from 'react';
+import BreadCrumb from '../../components/Basic/BreadCrumb';
 import {
     Container,
     Content,
@@ -15,13 +15,13 @@ import {
     RowHeaderTable,
     ItemHeaderTable,
     BodyTable,
-} from "./OrdersStyled";
-import { useDispatch, useSelector } from "react-redux";
-import { selectOrders } from "./../../redux/orderSlice";
-import OrderItem from "../../components/User/OrderItem";
-import { useState } from "react";
-import { fetchOrderByCode } from "../../services/orderFetch";
-import img from "../../assets/img/questions_jpg_lofQZuuf-e1602569646116.jpg";
+} from './OrdersStyled';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectOrders } from './../../redux/orderSlice';
+import OrderItem from '../../components/User/OrderItem';
+import { useState } from 'react';
+import { fetchOrderByCode } from '../../services/orderFetch';
+import img from '../../assets/img/questions_jpg_lofQZuuf-e1602569646116.jpg';
 
 const Orders = () => {
     const dispatch = useDispatch();
@@ -29,7 +29,7 @@ const Orders = () => {
     const { listOrders } = useSelector(selectOrders);
 
     const [orders, setOrders] = useState([]);
-    const [search, setSearch] = useState("");
+    const [search, setSearch] = useState('');
 
     const handleChangeInput = (e) => {
         const { name, value } = e.target;
@@ -39,7 +39,7 @@ const Orders = () => {
     const handleSearchByCode = async () => {
         try {
             const res = await fetchOrderByCode(search);
-            const temp = res.data.orders.filter(
+            const temp = res?.data?.orders?.filter(
                 (item) => item.orderCode === search
             );
             setOrders((prev) => [...prev, ...temp]);
@@ -54,13 +54,13 @@ const Orders = () => {
             <Content>
                 <WrapperInputs>
                     <Header>Find your order</Header>
-                    <div style={{ display: "flex" }}>
+                    <div style={{ display: 'flex' }}>
                         <NavbarSearch>
                             <SearchInput
-                                placeholder="Enter Order Code"
-                                type="text"
-                                id="orderCode"
-                                name="orderCode"
+                                placeholder='Enter Order Code'
+                                type='text'
+                                id='orderCode'
+                                name='orderCode'
                                 value={search}
                                 onChange={handleChangeInput}
                             />
@@ -85,15 +85,15 @@ const Orders = () => {
                                 </RowHeaderTable>
                             </HeaderTable>
                             <BodyTable>
-                                {orders.length > 0 ? (
-                                    orders.map((order) => (
+                                {orders?.length > 0 ? (
+                                    orders?.map((order) => (
                                         <OrderItem
                                             order={order}
                                             key={order._id}
                                         />
                                     ))
-                                ) : listOrders.length > 0 ? (
-                                    listOrders.map((order) => (
+                                ) : listOrders?.length > 0 ? (
+                                    listOrders?.map((order) => (
                                         <OrderItem
                                             order={order}
                                             key={order._id}
@@ -102,17 +102,17 @@ const Orders = () => {
                                 ) : (
                                     <tr>
                                         <td
-                                            colSpan="5"
+                                            colSpan='5'
                                             style={{
-                                                textAlign: "center",
-                                                fontSize: "1rem",
+                                                textAlign: 'center',
+                                                fontSize: '1rem',
                                             }}
                                         >
                                             You don't any order yet
                                             <img
                                                 src={img}
-                                                alt="img"
-                                                style={{ margin: "auto" }}
+                                                alt='img'
+                                                style={{ margin: 'auto' }}
                                             />
                                         </td>
                                     </tr>

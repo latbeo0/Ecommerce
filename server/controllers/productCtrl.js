@@ -459,8 +459,12 @@ const productCtrl = {
     },
     getProductById: async (req, res) => {
         try {
-            const product = await Product.findById(req.params.id);
+            const product = await Product.findById(req.params.id).populate({
+                path: 'vState',
+                select: 'stateName -stateCode',
+            });
 
+            const { vState } = product;
             const { color, ...othersProduct } = product._doc;
 
             const products = await Product.find({
@@ -480,12 +484,15 @@ const productCtrl = {
             const { productName, productDescription, collectCode } =
                 productMaster;
 
+            const state = vState[0].stateName;
+
             res.status(200).json({
                 ...othersProduct,
                 colors: [color, ...productChildren],
                 productName,
                 productDescription,
                 collectCode,
+                state,
             });
         } catch (err) {
             return res.status(500).json({ msg: err.message });
